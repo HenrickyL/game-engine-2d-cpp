@@ -8,6 +8,7 @@
 #include <windows.h>    // inclui funções do windows
 #include <windowsx.h>   // inclui extensões do windows
 #include <string>       // inclui a classe string
+#include "Colors.h"
 using std::string;      // permite usar o tipo string sem std::
 
 // ---------------------------------------------------------------------------------
@@ -61,7 +62,7 @@ public:
     void Color(int r, int g, int b);                        // define a cor de fundo da janela
 
     void HideCursor(bool hide);                             // habilita ou desabilita a exbição do cursor
-    void Print(string text, int x, int y, COLORREF color);  // mostra texto na janela	
+    void Print(string text, int x, int y, COLORREF color = C_BLACK);  // mostra texto na janela	
     void Close();                                           // fecha a janela e sai do jogo
     void Clear();											// limpa a área cliente
     bool Create();                                          // cria a janela com os valores dos atributos	
