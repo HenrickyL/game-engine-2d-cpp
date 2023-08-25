@@ -5,7 +5,7 @@
 #include "Resources.h"
 #include "Window.h"
 #include "Input.h"
-#include "App.h"
+#include "Game.h"
 #include "Engine.h"
 #include "Error.h"
 

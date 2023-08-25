@@ -1,16 +1,16 @@
-#ifndef DXUT_APP_H
-#define DXUT_APP_H
+#ifndef DXUT_GAME_H
+#define DXUT_GAME_H
 
 #include "Window.h"
 #include "Input.h"
 
-class App {
+class Game {
 protected:
 	static Window* window;						// janela
 	static Input* input;						// entrada
 public:
-	App();										// construtor
-	virtual ~App();								// destrutor
+	Game();										// construtor
+	virtual ~Game();								// destrutor
 
 	// Estes métodos são puramente virtuais, isto é, devem ser 
 		// implementados em todas as classes derivas de App.

@@ -5,7 +5,7 @@
 #include "Window.h"						// janela da aplicação
 #include "Input.h"						// dispositivo de entrada
 #include "Timer.h"						// medidor de tempo
-#include "App.h"						// aplicação gráfica
+#include "Game.h"						// aplicação gráfica
 
 // ---------------------------------------------------------------------------------
 
@@ -21,13 +21,13 @@ private:
 public:
 	static Window* window;				// janela da aplicação
 	static Input* input;				// dispositivos de entrada da aplicação
-	static App* app;					// aplicação a ser executada
+	static Game* app;					// aplicação a ser executada
 	static float frameTime;				// tempo do quadro atual
 
 	Engine();							// construtor
 	~Engine();							// destrutor
 
-	int Start(App* application);		// inicia o execução da aplicação
+	int Start(Game* application);		// inicia o execução da aplicação
 
 	static void Pause();                // pausa o motor
 	static void Resume();               // reinicia o motor

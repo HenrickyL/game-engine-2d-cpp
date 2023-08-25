@@ -1,13 +1,13 @@
-#include "App.h"
+#include "Game.h"
 #include "Engine.h"
 // -------------------------------------------------------------------------------
 // Inicialização de membros estáticos da classe
 
-Window* App::window = nullptr;		// ponteiro para a janela
-Input* App::input = nullptr;		// ponteiro para a entrada
+Window* Game::window = nullptr;		// ponteiro para a janela
+Input* Game::input = nullptr;		// ponteiro para a entrada
 
 // -------------------------------------------------------------------------------
-App::App()
+Game::Game()
 {
 	if (!window)
 	{
@@ -20,7 +20,7 @@ App::App()
 
 // -------------------------------------------------------------------------------
 
-App::~App()
+Game::~Game()
 {
 }
 

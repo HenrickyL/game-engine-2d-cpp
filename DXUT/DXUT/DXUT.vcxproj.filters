@@ -16,13 +16,13 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Application">
+    <Filter Include="Game">
       <UniqueIdentifier>{b9a71635-0ccf-4edb-8295-9d8ccc805213}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Header Files">
+    <Filter Include="Game\Header Files">
       <UniqueIdentifier>{8f93e6ee-7422-4d51-bfdd-6f55311703ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Source Files">
+    <Filter Include="Game\Source Files">
       <UniqueIdentifier>{0cd83752-6aca-499c-9dee-580805678c39}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -35,12 +35,12 @@
     </ClCompile>
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="WinApp.cpp">
-      <Filter>Application\Source Files</Filter>
+      <Filter>Game\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>DXUT\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="App.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>DXUT\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
@@ -75,11 +75,11 @@
     <ClInclude Include="Engine.h">
       <Filter>DXUT\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="App.h">
+    <ClInclude Include="Game.h">
       <Filter>DXUT\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WinApp.h">
-      <Filter>Application\Header Files</Filter>
+      <Filter>Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>DXUT\Header Files</Filter>

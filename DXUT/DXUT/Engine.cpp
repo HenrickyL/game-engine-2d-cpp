@@ -8,7 +8,7 @@ using std::stringstream;
 Graphics*	Engine::graphics = nullptr;		// dispositivo gráfico
 Window*		Engine::window = nullptr;		// janela da aplicação
 Input*		Engine::input = nullptr;		// dispositivos de entrada
-App*		Engine::app = nullptr;			// apontadador da aplicação
+Game*		Engine::app = nullptr;			// apontadador da aplicação
 float		Engine::frameTime = 0.0f;		// tempo do quadro atual
 bool		Engine::paused = false;			// estado do motor
 Timer		Engine::timer;					// medidor de tempo
@@ -28,7 +28,7 @@ Engine::~Engine()
 	delete window;
 }
 // ------------------------------------------------------------------------------
-int Engine::Start(App* application)
+int Engine::Start(Game* application)
 {
 	app = application;
 

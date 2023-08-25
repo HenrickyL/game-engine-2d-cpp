@@ -1,11 +1,11 @@
 #ifndef DXUT_WINAPP_H
 #define DXUT_WINAPP_H
 
-#include "App.h"
+#include "Game.h"
 #include <sstream>
 using std::stringstream;
 
-class WinApp : public App
+class WinApp : public Game
 {
 private:
 	stringstream textSize;
