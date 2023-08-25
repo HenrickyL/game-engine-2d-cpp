@@ -12,6 +12,7 @@ Graphics*	Engine::graphics = nullptr;		// dispositivo gráfico
 float		Engine::frameTime = 0.0f;		// tempo do quadro atual
 Input*		Engine::input = nullptr;		// dispositivos de entrada
 bool		Engine::paused = false;			// estado do motor
+bool		Engine::onGraphics = true;			// estado do motor
 Timer		Engine::timer;					// medidor de tempo
 // ------------------------------------------------------------------------------
 Engine::Engine()
@@ -104,14 +105,20 @@ int Engine::Loop()
 				// atualização da aplicação 
 				app->Update();
 
-				// limpa a tela para o próximo quadro
-				graphics->Clear();
+				if (onGraphics) {
+					// limpa a tela para o próximo quadro
+					graphics->Clear();
 
-				// desenho da aplicação
-				app->Draw();
+					// desenho da aplicação
+					app->Draw();
 
-				// apresenta o jogo na tela (troca backbuffer/frontbuffer)
-				graphics->Present();
+					// apresenta o jogo na tela (troca backbuffer/frontbuffer)
+					graphics->Present();
+				}
+				else {
+					app->Draw();
+				}
+
 			}
 			else {
 				app->OnPause();
@@ -178,7 +185,6 @@ LRESULT CALLBACK Engine::EngineProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 {
 	// janela precisa ser repintada
 	if (msg == WM_PAINT) {
-
 	}
 	return CallWindowProc(Input::InputProc, hWnd, msg, wParam, lParam);
 }

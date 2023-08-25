@@ -19,7 +19,6 @@ void WinApp::Update()
 
 void WinApp::Draw()
 {
-
 }
 
 // ------------------------------------------------------------------------------
@@ -27,3 +26,6 @@ void WinApp::Draw()
 void WinApp::Finalize()
 {
 }
+
+
+//SetPixel(GetDC(window->Id()), 20, 20, RGB(255, 0, 0));

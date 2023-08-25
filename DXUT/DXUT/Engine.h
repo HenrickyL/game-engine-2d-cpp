@@ -14,6 +14,8 @@ private:
 	static Graphics* graphics;          // dispositivo gráfico
 	static Timer timer;					// medidor de tempo
 	static bool paused;                 // estado do aplicação
+	static bool onGraphics;                 // Desabilitar Graphics
+
 
 	float FrameTime();					// calcula o tempo do quadro
 	int Loop();							// laço principal do motor
@@ -26,6 +28,10 @@ public:
 
 	Engine();							// construtor
 	~Engine();							// destrutor
+
+	void DisableGraphics();
+	void EnableGraphics();
+
 
 	int Start(Game* level);		// inicia o execução da aplicação
 
@@ -42,4 +48,8 @@ inline void Engine::Pause()
 
 inline void Engine::Resume()
 { 	paused = false; timer.Start();}
+inline void Engine::DisableGraphics()
+{	onGraphics = false;}
+inline void Engine::EnableGraphics()
+{	onGraphics = true;}
 #endif
