@@ -1,15 +1,16 @@
 #include "Engine.h"
 #include <windows.h>
 #include <sstream>
+#include "Error.h"
 using std::stringstream;
 
 // ------------------------------------------------------------------------------
 // Inicialização de variáveis estáticas da classe
-Graphics*	Engine::graphics = nullptr;		// dispositivo gráfico
-Window*		Engine::window = nullptr;		// janela da aplicação
-Input*		Engine::input = nullptr;		// dispositivos de entrada
 Game*		Engine::app = nullptr;			// apontadador da aplicação
+Window*		Engine::window = nullptr;		// janela da aplicação
+Graphics*	Engine::graphics = nullptr;		// dispositivo gráfico
 float		Engine::frameTime = 0.0f;		// tempo do quadro atual
+Input*		Engine::input = nullptr;		// dispositivos de entrada
 bool		Engine::paused = false;			// estado do motor
 Timer		Engine::timer;					// medidor de tempo
 // ------------------------------------------------------------------------------
@@ -28,11 +29,11 @@ Engine::~Engine()
 	delete window;
 }
 // ------------------------------------------------------------------------------
-int Engine::Start(Game* application)
+int Engine::Start(Game* level)
 {
-	app = application;
+	app = level;
 
-	// cria janela da aplicação
+	// cria janela do jogo
 	window->Create();
 
 	// inicializa dispositivos de entrada (deve ser feito após criação da janela)
@@ -166,9 +167,9 @@ float Engine::FrameTime()
 LRESULT CALLBACK Engine::EngineProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	// janela precisa ser repintada
-	if (msg == WM_PAINT)
-		app->Display();
+	if (msg == WM_PAINT) {
 
+	}
 	return CallWindowProc(Input::InputProc, hWnd, msg, wParam, lParam);
 }
 

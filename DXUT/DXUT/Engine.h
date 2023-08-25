@@ -19,15 +19,15 @@ private:
 	int Loop();							// laço principal do motor
 
 public:
-	static Window* window;				// janela da aplicação
-	static Input* input;				// dispositivos de entrada da aplicação
-	static Game* app;					// aplicação a ser executada
-	static float frameTime;				// tempo do quadro atual
+	static Game		* app;					// aplicação a ser executada
+	static Window	* window;				// janela da aplicação
+	static Input	* input;				// dispositivos de entrada da aplicação
+	static float	  frameTime;			// tempo do quadro atual
 
 	Engine();							// construtor
 	~Engine();							// destrutor
 
-	int Start(Game* application);		// inicia o execução da aplicação
+	int Start(Game* level);		// inicia o execução da aplicação
 
 	static void Pause();                // pausa o motor
 	static void Resume();               // reinicia o motor

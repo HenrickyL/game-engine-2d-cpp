@@ -62,7 +62,7 @@ public:
     void Print(string text, int x, int y, COLORREF color);  // mostra texto na janela	
     void Close();                                           // fecha a janela e sai do jogo
     void Clear();											// limpa a área cliente
-    bool Create();                                          // cria a janela com os valores dos atributos	
+    void Create();                                          // cria a janela com os valores dos atributos	
 
     void InFocus(void(*func)());							// altera função executada ao ganhar foco
     void LostFocus(void(*func)());							// altera função executada na perda de foco

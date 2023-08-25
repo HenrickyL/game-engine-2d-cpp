@@ -5,6 +5,7 @@
 
 Window* Game::window = nullptr;		// ponteiro para a janela
 Input* Game::input = nullptr;		// ponteiro para a entrada
+float& Game::gameTime = Engine::frameTime;    // tempo do último quadro
 
 // -------------------------------------------------------------------------------
 Game::Game()
@@ -22,6 +23,13 @@ Game::Game()
 
 Game::~Game()
 {
+}
+
+// -------------------------------------------------------------------------------
+
+void Game::OnPause()
+{
+	Sleep(10);
 }
 
 // --

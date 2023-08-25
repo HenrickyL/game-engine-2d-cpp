@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Error.h"
 
 // -------------------------------------------------------------------------------
 // inicialização de membros estáticos da classe
@@ -78,7 +79,7 @@ void Window::Print(string text, int x, int y, COLORREF color)
 
 // -------------------------------------------------------------------------------
 
-bool Window::Create()
+void Window::Create()
 {
     // identificador da aplicação
     HINSTANCE appId = GetModuleHandle(NULL);
@@ -100,7 +101,7 @@ bool Window::Create()
 
     // registrando classe "AppWindow"
     if (!RegisterClassEx(&wndClass))
-        return false;
+        ThrowIfFailed(E_REGISTERWINDOWCLASSFAILED);
 
     // criando uma janela baseada na classe "AppWindow" 
     windowId = CreateWindowEx(
@@ -150,8 +151,9 @@ bool Window::Create()
     // pega tamanho da área cliente
     GetClientRect(windowId, &windowRect);
 
-    // retorna estado da inicialização (bem sucedida ou não)
-    return (windowId ? true : false);
+    if (FAILED(windowId)) {
+        ThrowIfFailed(E_WINDOWCREATEFAILED);
+    }
 }
 
 
