@@ -1,323 +1,245 @@
 #include "Graphics.h"
-#include "Error.h"
-#include <sstream>
-using std::wstringstream;
+
+// -------------------------------------------------------------------------------
+// Inicialização de membros estáticos da classe
+
+ID3D11Device* Graphics::device = nullptr;                  // dispositivo gráfico
+ID3D11DeviceContext* Graphics::context = nullptr;          // contexto do dispositivo gráfico 
+D3D11_VIEWPORT Graphics::viewport = { 0 };                  // viewport
 
 // ------------------------------------------------------------------------------
 
 Graphics::Graphics()
 {
-	factory = nullptr;
-	device = nullptr;
-	commandQueue = nullptr;
-	commandList = nullptr;
-	commandListAlloc = nullptr;
-	fence = nullptr;
-	currentFence = 0;
+    // inicializa variáveis membro
+    swapChain = nullptr;                    // ponteiro para swap chain 
+    renderTargetView = nullptr;                    // render target view
+    blendState = nullptr;                    // mistura de cores
+    featureLevel = D3D_FEATURE_LEVEL_11_0;     // versão do Direct3D
+
+    bgColor[0] = 0.0f;                       // Red
+    bgColor[1] = 0.0f;                       // Green
+    bgColor[2] = 0.0f;                       // Blue
+    bgColor[3] = 0.0f;                       // Alpha (0 = transparente)
+
+    vSync = false;                      // vertical sync desligado
 }
 
 // ------------------------------------------------------------------------------
 
 Graphics::~Graphics()
 {
-	// espera GPU finalizar comandos na fila
-	WaitCommandQueue();
+    // libera blend state
+    if (blendState)
+    {
+        blendState->Release();
+        blendState = nullptr;
+    }
 
-	// libera barreira
-	if (fence)
-		fence->Release();
+    // libera render-target
+    if (renderTargetView)
+    {
+        renderTargetView->Release();
+        renderTargetView = nullptr;
+    }
 
-	// libera lista de comandos
-	if (commandList)
-		commandList->Release();
+    // libera swap chain
+    if (swapChain)
+    {
+        // Direct3D é incapaz de fechar quando em tela cheia
+        swapChain->SetFullscreenState(false, NULL);
+        swapChain->Release();
+        swapChain = nullptr;
+    }
 
-	// libera alocador de comandos
-	if (commandListAlloc)
-		commandListAlloc->Release();
+    // libera contexto do dispositivo gráfico
+    if (context)
+    {
+        // restaura ao estado original
+        context->ClearState();
+        context->Release();
+        context = nullptr;
+    }
 
-	// libera fila de comandos
-	if (commandQueue)
-		commandQueue->Release();
-
-	// libera dispositivo gráfico
-	if (device)
-		device->Release();
-
-	// libera interface principal
-	if (factory)
-		factory->Release();
+    // libera dispositivo gráfico
+    if (device)
+    {
+        device->Release();
+        device = nullptr;
+    }
 }
-
-// ------------------------------------------------------------------------------
-
-void Graphics::LogHardwareInfo()
-{
-	const uint BytesinMegaByte = 1048576U;
-
-	// --------------------------------------
-	// Adaptador de vídeo (placa de vídeo)
-	// --------------------------------------
-	IDXGIAdapter* adapter = nullptr;
-	if (factory->EnumAdapters(0, &adapter) != DXGI_ERROR_NOT_FOUND)
-	{
-		DXGI_ADAPTER_DESC desc;
-		adapter->GetDesc(&desc);
-
-		wstringstream text;
-		text << L"---> Placa de vídeo: " << desc.Description << L"\n";
-		OutputDebugStringW(text.str().c_str());
-	}
-
-	IDXGIAdapter4* adapter4 = nullptr;
-	if (SUCCEEDED(adapter->QueryInterface(IID_PPV_ARGS(&adapter4))))
-	{
-		DXGI_QUERY_VIDEO_MEMORY_INFO memInfo;
-		adapter4->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &memInfo);
-
-		wstringstream text;
-		text << L"---> Memória de vídeo (livre): " << memInfo.Budget / BytesinMegaByte << L"MB\n";
-		text << L"---> Memória de vídeo (usada): " << memInfo.CurrentUsage / BytesinMegaByte << L"MB\n";
-		OutputDebugStringW(text.str().c_str());
-
-		adapter4->Release();
-	}
-
-	// -----------------------------------------
-	// Feature Level máximo suportado pela GPU
-	// -----------------------------------------
-	D3D_FEATURE_LEVEL featureLevels[9] =
-	{
-		D3D_FEATURE_LEVEL_12_1,
-		D3D_FEATURE_LEVEL_12_0,
-		D3D_FEATURE_LEVEL_11_1,
-		D3D_FEATURE_LEVEL_11_0,
-		D3D_FEATURE_LEVEL_10_1,
-		D3D_FEATURE_LEVEL_10_0,
-		D3D_FEATURE_LEVEL_9_3,
-		D3D_FEATURE_LEVEL_9_2,
-		D3D_FEATURE_LEVEL_9_1
-	};
-
-	D3D12_FEATURE_DATA_FEATURE_LEVELS featureLevelsInfo;
-	featureLevelsInfo.NumFeatureLevels = 9;
-	featureLevelsInfo.pFeatureLevelsRequested = featureLevels;
-
-	device->CheckFeatureSupport(
-		D3D12_FEATURE_FEATURE_LEVELS,
-		&featureLevelsInfo,
-		sizeof(featureLevelsInfo));
-
-	// bloco de instruções
-	{
-		wstringstream text;
-		text << L"---> Feature Level: ";
-		switch (featureLevelsInfo.MaxSupportedFeatureLevel)
-		{
-		case D3D_FEATURE_LEVEL_12_1: text << L"12_1\n"; break;
-		case D3D_FEATURE_LEVEL_12_0: text << L"12_0\n"; break;
-		case D3D_FEATURE_LEVEL_11_1: text << L"11_1\n"; break;
-		case D3D_FEATURE_LEVEL_11_0: text << L"11_0\n"; break;
-		case D3D_FEATURE_LEVEL_10_1: text << L"10_1\n"; break;
-		case D3D_FEATURE_LEVEL_10_0: text << L"10_0\n"; break;
-		case D3D_FEATURE_LEVEL_9_3:  text << L"9_3\n";  break;
-		case D3D_FEATURE_LEVEL_9_2:  text << L"9_2\n";  break;
-		case D3D_FEATURE_LEVEL_9_1:  text << L"9_1\n";  break;
-		}
-		OutputDebugStringW(text.str().c_str());
-	}
-
-	// -----------------------------------------
-	// Saída de vídeo (monitor)
-	// -----------------------------------------
-
-	IDXGIOutput* output = nullptr;
-	if (adapter->EnumOutputs(0, &output) != DXGI_ERROR_NOT_FOUND)
-	{
-		DXGI_OUTPUT_DESC desc;
-		output->GetDesc(&desc);
-
-		wstringstream text;
-		text << L"---> Monitor: " << desc.DeviceName << L"\n";
-		OutputDebugStringW(text.str().c_str());
-	}
-
-	// ------------------------------------------
-	// Modo de vídeo (resolução)
-	// ------------------------------------------
-
-	// pega as dimensões da tela
-	uint dpi = GetDpiForSystem();
-	uint screenWidth = GetSystemMetricsForDpi(SM_CXSCREEN, dpi);
-	uint screenHeight = GetSystemMetricsForDpi(SM_CYSCREEN, dpi);
-
-	// pega a frequencia de atualização da tela
-	DEVMODE devMode = { 0 };
-	devMode.dmSize = sizeof(DEVMODE);
-	EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &devMode);
-	uint refresh = devMode.dmDisplayFrequency;
-
-	wstringstream text;
-	text << L"---> Resolução: " << screenWidth << L"x" << screenHeight << L" " << refresh << L" Hz\n";
-	OutputDebugStringW(text.str().c_str());
-	// ------------------------------------------
-	// Modos de vídeo suportados pelo monitor
-	// ------------------------------------------
-	if (output)
-	{
-		UINT numModes = 0;
-		DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM; // Formato do modo de exibição (pode variar)
-
-		// Obtém o número de modos de exibição suportados
-		output->GetDisplayModeList(format, 0, &numModes, nullptr);
-
-		DXGI_MODE_DESC* modeList = new DXGI_MODE_DESC[numModes];
-		output->GetDisplayModeList(format, 0, &numModes, modeList);
-
-		wstringstream text;
-		text << L"Resoluções suportadas:\n";
-		for (UINT i = 0; i < numModes; ++i)
-		{
-			text << L"---> " << modeList[i].Width << L"x" << modeList[i].Height << L" " << modeList[i].RefreshRate.Numerator / modeList[i].RefreshRate.Denominator << L" Hz\n";
-		}
-		OutputDebugStringW(text.str().c_str());
-
-		delete[] modeList;
-	}
-	// ------------------------------------------
-
-	// libera interfaces DXGI utilizadas
-	if (adapter) adapter->Release();
-	if (output) output->Release();
-}
-
 
 // -----------------------------------------------------------------------------
 
-void Graphics::Initialize(Window* window)
+bool Graphics::Initialize(Window* window)
 {
-	// ---------------------------------------------------
-	// Cria a infraestrutura DXGI e o dispositivo D3D
-	// ---------------------------------------------------
+    // -------------------------------
+    // Dispositivo Direct3D
+    // -------------------------------
 
-	uint factoryFlags = 0;
+    uint createDeviceFlags = 0;
 
 #ifdef _DEBUG
-	// habilita a camada de depuração do DXGI
-	factoryFlags = DXGI_CREATE_FACTORY_DEBUG;
-
-	// habilita a camada de depuração do D3D12
-	ID3D12Debug* debugController;
-	ThrowIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)));
-	debugController->EnableDebugLayer();
+    // exibe mensagens de erro do Direct3D em modo de depuração
+    createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-	// cria objeto para infraestrutura gráfica do DirectX (DXGI)
-	ThrowIfFailed(CreateDXGIFactory2(factoryFlags, IID_PPV_ARGS(&factory)));
+    // cria objeto para acessar dispositivo Direct3D
+    if FAILED(
+        D3D11CreateDevice(
+            NULL,                           // adaptador de vídeo (NULL = adaptador padrão)
+            D3D_DRIVER_TYPE_HARDWARE,       // tipo de driver D3D (Hardware, Reference ou Software)
+            NULL,                           // ponteiro para rasterizador em software
+            createDeviceFlags,              // modo de depuração ou modo normal
+            NULL,                           // featureLevels do Direct3D (NULL = maior suportada)
+            0,                              // tamanho do vetor featureLevels
+            D3D11_SDK_VERSION,              // versão do SDK do Direct3D
+            &device,                        // guarda o dispositivo D3D criado
+            &featureLevel,                  // versão do Direct3D utilizada
+            &context))                      // contexto do dispositivo D3D
+    {
+        // sistema não suporta dispositivo D3D11
+        // fazendo a criação de um WARP Device que 
+        // implementa um rasterizador em software
+        if FAILED(D3D11CreateDevice(NULL, D3D_DRIVER_TYPE_WARP,
+            NULL, createDeviceFlags, NULL, 0, D3D11_SDK_VERSION,
+            &device, &featureLevel, &context))
+            return false;
 
-	// cria objeto para dispositivo gráfico
-	if FAILED(D3D12CreateDevice(
-		nullptr,                                // adaptador de vídeo (nullptr = adaptador padrão)
-		D3D_FEATURE_LEVEL_11_0,                 // versão mínima dos recursos do Direct3D
-		IID_PPV_ARGS(&device)))                 // guarda o dispositivo D3D criado
-	{
-		// tenta criar um dispositivo WARP 
-		IDXGIAdapter* warp;
-		ThrowIfFailed(factory->EnumWarpAdapter(IID_PPV_ARGS(&warp)));
+        OutputDebugString("---> Usando Adaptador WARP: não há suporte ao D3D11\n");
+    }
 
-		// cria objeto D3D usando dispositivo WARP
-		ThrowIfFailed(D3D12CreateDevice(
-			warp,                               // adaptador de vídeo WARP (software)
-			D3D_FEATURE_LEVEL_11_0,             // versão mínima dos recursos do Direct3D
-			IID_PPV_ARGS(&device)));            // guarda o dispositivo D3D criado
+    // -------------------------------
+    // Cor de Fundo do Direct3D
+    // -------------------------------
 
-		// libera objeto não mais necessário
-		warp->Release();
+    // ajusta a cor de fundo do backbuffer
+    // para a mesma cor de fundo da janela
+    COLORREF color = window->Color();
 
-		// informa uso de um disposito WARP:
-		// implementa as funcionalidades do 
-		// D3D12 em software (lento)
-		OutputDebugString("---> Usando Adaptador WARP: não há suporte ao D3D12\n");
-	}
+    bgColor[0] = GetRValue(color) / 255.0f;     // Red
+    bgColor[1] = GetGValue(color) / 255.0f;     // Green
+    bgColor[2] = GetBValue(color) / 255.0f;     // Blue
+    bgColor[3] = 1.0f;                        // Alpha (1 = cor sólida)
 
-	// exibe informações do hardware gráfico no Output do Visual Studio
-#ifdef _DEBUG
-	LogHardwareInfo();
-#endif 
+    // -------------------------------
+    // Interfaces DXGI
+    // -------------------------------
 
-	// ---------------------------------------------------
-	// Cria fila, lista e alocador de commandos
-	// ---------------------------------------------------
+    // cria objeto para a infraestrutura gráfica
+    IDXGIDevice* dxgiDevice = nullptr;
+    if FAILED(device->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice))
+        return false;
 
-	// cria fila de comandos da GPU
-	D3D12_COMMAND_QUEUE_DESC queueDesc = {};
-	queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-	queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	ThrowIfFailed(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&commandQueue)));
+    // cria objeto para adaptador de vídeo (placa gráfica)
+    IDXGIAdapter* dxgiAdapter = nullptr;
+    if FAILED(dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&dxgiAdapter))
+        return false;
 
-	// cria o alocador de comandos
-	ThrowIfFailed(device->CreateCommandAllocator(
-		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		IID_PPV_ARGS(&commandListAlloc)));
+    // cria objeto para a fábrica DXGI
+    IDXGIFactory* dxgiFactory = nullptr;
+    if FAILED(dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&dxgiFactory))
+        return false;
 
-	// cria a lista de comandos
-	ThrowIfFailed(device->CreateCommandList(
-		0,										// usando apenas uma GPU
-		D3D12_COMMAND_LIST_TYPE_DIRECT,			// não herda estado na GPU
-		commandListAlloc,						// alocador de comandos
-		nullptr,								// estado inicial do pipeline
-		IID_PPV_ARGS(&commandList)));			// objeto lista de comandos
+    // -------------------------------
+    // Swap Chain 
+    // -------------------------------
 
-	// ---------------------------------------------------
-	// Cria cerca para sincronizar CPU/GPU
-	// ---------------------------------------------------
+    // descrição de uma swap chain
+    DXGI_SWAP_CHAIN_DESC swapDesc = { 0 };
+    swapDesc.BufferDesc.Width = uint(window->Width());          // largura do backbuffer
+    swapDesc.BufferDesc.Height = uint(window->Height());        // altura do backbuffer
+    swapDesc.BufferDesc.RefreshRate.Numerator = 60;             // taxa de atualização em hertz 
+    swapDesc.BufferDesc.RefreshRate.Denominator = 1;            // numerador é um inteiro e não um racional
+    swapDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;    // formato de cores RGBA 8 bits
+    swapDesc.SampleDesc.Count = 1;                              // amostras por pixel (antialiasing)
+    swapDesc.SampleDesc.Quality = 0;                            // nível de qualidade da imagem
+    swapDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;     // utilize superfície como RENDER-TARGET
+    swapDesc.BufferCount = 2;                                   // número de buffers (front + back)
+    swapDesc.OutputWindow = window->Id();                       // identificador da janela
+    swapDesc.Windowed = (window->Mode() != FULLSCREEN);         // modo janela ou tela cheia
+    swapDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;        // descarta superfície após apresentação
+    swapDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;    // muda a resolução do monitor em tela cheia
 
-	ThrowIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
+    // cria uma swap chain
+    if FAILED(dxgiFactory->CreateSwapChain(device, &swapDesc, &swapChain))
+        return false;
 
-}
+    // impede a DXGI de monitorar ALT-ENTER e alternar entre windowed/fullscreen
+    if FAILED(dxgiFactory->MakeWindowAssociation(window->Id(), DXGI_MWA_NO_ALT_ENTER))
+        return false;
 
-// ------------------------------------------------------------------------------
+    // -------------------------------
+    // Render Target
+    // -------------------------------
 
-bool Graphics::WaitCommandQueue()
-{
-	// avança o valor da cerca para marcar novos comandos a partir desse ponto
-	currentFence++;
+    // pega a superfície backbuffer de uma swapchain
+    ID3D11Texture2D* backBuffer = nullptr;
+    if FAILED(swapChain->GetBuffer(0, __uuidof(backBuffer), (void**)(&backBuffer)))
+        return false;
 
-	// adiciona uma instrução na fila de comandos para inserir uma nova barreira
-	// GPU vai finalizar todos os comandos em curso antes de processar esse sinal
-	if (FAILED(commandQueue->Signal(fence, currentFence)))
-		return false;
+    // cria uma render-target view do backbuffer
+    if FAILED(device->CreateRenderTargetView(backBuffer, NULL, &renderTargetView))
+        return false;
 
-	// espera a GPU completar todos os comandos anteriores
-	if (fence->GetCompletedValue() < currentFence)
-	{
-		HANDLE eventHandle = CreateEventEx(NULL, NULL, NULL, EVENT_ALL_ACCESS);
+    // liga uma render-target ao estágio output-merger
+    context->OMSetRenderTargets(1, &renderTargetView, nullptr);
 
-		if (eventHandle)
-		{
-			// aciona evento quando a GPU atingir a barreira atual  
-			if (FAILED(fence->SetEventOnCompletion(currentFence, eventHandle)))
-				return false;
+    // -------------------------------
+    // Viewport / Rasterizer
+    // -------------------------------
 
-			// espera até o evento ser acionado
-			WaitForSingleObject(eventHandle, INFINITE);
-			CloseHandle(eventHandle);
-		}
-	}
+    // configura uma viewport
+    viewport.TopLeftX = 0;
+    viewport.TopLeftY = 0;
+    viewport.Width = float(window->Width());
+    viewport.Height = float(window->Height());
+    viewport.MinDepth = 0.0f;
+    viewport.MaxDepth = 1.0f;
 
-	return true;
-}
+    // liga a viewport ao estágio de rasterização
+    context->RSSetViewports(1, &viewport);
 
-// -----------------------------------------------------------------------------
+    // ---------------------------------------------
+    // Blend State
+    // ---------------------------------------------
 
-void Graphics::SubmitCommands()
-{
-	// submete os comandos gravados na lista para execução na GPU
-	commandList->Close();
-	ID3D12CommandList* cmdsLists[] = { commandList };
-	commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+    // Equação de mistura de cores (blending):
+    // finalColor = SrcColor * SrcBlend <OP> DestColor * DestBlend
 
-	// espera até a GPU completar a execução dos comandos
-	WaitCommandQueue();
+    // Combinando superfícies transparentes (Alpha Blending)
+    // finalColor = SrcColor * ScrAlpha + DestColor * (1-SrcAlpha)
+
+    D3D11_BLEND_DESC blendDesc = { 0 };
+    blendDesc.AlphaToCoverageEnable = false;                                // destaca a silhueta dos sprites
+    blendDesc.IndependentBlendEnable = false;                               // usa mesma mistura para todos os render targets
+    blendDesc.RenderTarget[0].BlendEnable = true;                           // habilita o blending
+    blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;             // fator de mistura da fonte 
+    blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;        // destino da mistura RGB é o alpha invertido 
+    blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;                 // operação de adição na mistura de cores
+    blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;              // fonte da mistura Alpha é o alpha do pixel shader
+    blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;            // destino da mistura Alpha é o alpha invertido
+    blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;            // operação de adição na mistura de cores
+    blendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0F;                 // componentes de cada pixel que podem ser sobrescritos
+
+    // cria a blend state
+    if FAILED(device->CreateBlendState(&blendDesc, &blendState))
+        return false;
+
+    // liga a blend state ao estágio Output-Merger
+    context->OMSetBlendState(blendState, nullptr, 0xffffffff);
+
+    // -------------------------------
+    // Libera interfaces DXGI
+    // -------------------------------
+
+    dxgiDevice->Release();
+    dxgiAdapter->Release();
+    dxgiFactory->Release();
+    backBuffer->Release();
+
+    // inicialização bem sucedida
+    return true;
 }
 
 // -----------------------------------------------------------------------------

@@ -40,7 +40,11 @@ int Engine::Start(Game* level)
 	input = new Input();
 
 	// inicializa dispositivo gráfico
-	graphics->Initialize(window);
+	if (!graphics->Initialize(window))
+	{
+		MessageBox(window->Id(), "Falha na inicialização do dispositivo gráfico", "Engine", MB_OK);
+		return EXIT_FAILURE;
+	}
 
 	// altera a window procedure da janela ativa para EngineProc
 	SetWindowLongPtr(window->Id(), GWLP_WNDPROC, (LONG_PTR)EngineProc);
@@ -100,8 +104,14 @@ int Engine::Loop()
 				// atualização da aplicação 
 				app->Update();
 
+				// limpa a tela para o próximo quadro
+				graphics->Clear();
+
 				// desenho da aplicação
 				app->Draw();
+
+				// apresenta o jogo na tela (troca backbuffer/frontbuffer)
+				graphics->Present();
 			}
 			else {
 				app->OnPause();

@@ -4,38 +4,58 @@
 // --------------------------------------------------------------------------------
 // Inclusões
 
-#include <dxgi1_6.h>    // infraestrutura gráfica do DirectX
-#include <d3d12.h>      // principais funções do Direct3D
-#include "Window.h"     // cria e configura uma janela do Windows
-#include "Types.h"      // tipos específicos da engine
+#include <dxgi.h>            // infraestrutura gráfica do DirectX
+#include <d3d11.h>           // principais funções do Direct3D
+#include "Window.h"          // cria e configura uma janela do Windows
+#include "Types.h"           // tipos específicos da engine
 
 // --------------------------------------------------------------------------------
 
 class Graphics
 {
 private:
-    // pipeline
-    ID3D12Device4* device;                    // dispositivo gráfico
-    IDXGIFactory6* factory;                   // interface principal da DXGI
-
-    ID3D12CommandQueue* commandQueue;              // fila de comandos da GPU
-    ID3D12GraphicsCommandList* commandList;               // lista de comandos a submeter para GPU
-    ID3D12CommandAllocator* commandListAlloc;          // memória utilizada pela lista de comandos
-
-    // sincronização                         
-    ID3D12Fence* fence;						// barreira para sincronizar CPU/GPU
-    ullong                       currentFence;				// contador de barreiras
-
-    void LogHardwareInfo();									// mostra informações do hardware
-    bool WaitCommandQueue();								// espera execução da fila de comandos
-    void SubmitCommands();									// submete para execução os comandos pendentes
+    IDXGISwapChain* swapChain;                 // swap chain             
+    ID3D11RenderTargetView* renderTargetView;          // render target view do backbuffer
+    ID3D11BlendState* blendState;                // configuração da mistura de cores
+    D3D_FEATURE_LEVEL            featureLevel;              // nível de recursos D3D suportados pelo hardware
+    float                        bgColor[4];                // cor de fundo do backbuffer
+    bool                         vSync;                     // vertical sync 
 
 public:
-    Graphics();												// constructor
-    ~Graphics();											// destructor
+    Graphics();                                             // constructor
+    ~Graphics();                                            // destructor
 
-    void Initialize(Window* window);						// inicializa o Direct3D
+    static ID3D11Device* device;                    // dispositivo gráfico
+    static ID3D11DeviceContext* context;                   // contexto do dispositivo gráfico
+    static D3D11_VIEWPORT        viewport;                  // viewport
+
+    void VSync(bool state);                                 // liga/desliga vertical sync
+    void Clear();                                           // limpa o backbuffer com a cor de fundo
+    void Present();                                         // apresenta desenho na tela
+    bool Initialize(Window* window);                       // inicializa o Direct3D
 };
+
+// --------------------------------------------------------------------------------
+// Métodos Inline
+
+// liga/desliga vertical sync
+inline void Graphics::VSync(bool state)
+{
+    vSync = state;
+}
+
+// limpa o bacbuffer para o próximo quadro
+inline void Graphics::Clear()
+{
+    context->ClearRenderTargetView(renderTargetView, bgColor);
+}
+
+// apresenta desenho na tela (troca backbuffer com frontbuffer)
+inline void Graphics::Present()
+{
+    swapChain->Present(vSync, NULL);
+    context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+}
 
 // --------------------------------------------------------------------------------
 

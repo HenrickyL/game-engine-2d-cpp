@@ -18,6 +18,7 @@ enum WindowModes { FULLSCREEN, WINDOWED };
 // ---------------------------------------------------------------------------------
 class Window {
 private:
+    HINSTANCE   hInstance;                                  // identificador da aplicação
     HDC			windowHdc;									// contexto do dispositivo
     RECT		windowRect;									// área cliente da janela
     HWND		windowId;                                   // identificador da janela
@@ -42,6 +43,7 @@ public:
     Window();                                               // construtor
     ~Window();												// destrutor
 
+    HINSTANCE AppId();                                      // retorna o identificador da aplicação
     HWND Id() const;                                        // retorna o identificador da janela
     int Width() const;                                      // retorna a largura atual da janela
     int Height() const;                                     // retorna a altura atual da janela
@@ -62,7 +64,7 @@ public:
     void Print(string text, int x, int y, COLORREF color);  // mostra texto na janela	
     void Close();                                           // fecha a janela e sai do jogo
     void Clear();											// limpa a área cliente
-    void Create();                                          // cria a janela com os valores dos atributos	
+    bool Create();                                          // cria a janela com os valores dos atributos	
 
     void InFocus(void(*func)());							// altera função executada ao ganhar foco
     void LostFocus(void(*func)());							// altera função executada na perda de foco
@@ -74,6 +76,9 @@ public:
 // ---------------------------------------------------------------------------------
 
 // Inline Member Functions
+// retorna identificador da aplicação
+inline HINSTANCE Window::AppId()
+{    return hInstance;}
 // retorna o identificador da janela do jogo
 inline HWND Window::Id() const
 {  return windowId; }

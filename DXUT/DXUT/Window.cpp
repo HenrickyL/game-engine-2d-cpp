@@ -1,5 +1,4 @@
 #include "Window.h"
-#include "Error.h"
 
 // -------------------------------------------------------------------------------
 // inicialização de membros estáticos da classe
@@ -11,6 +10,7 @@ void (*Window::lostFocus)() = nullptr;						// nenhuma ação ao perder foco
 
 Window::Window()
 {
+    hInstance       = GetModuleHandle(NULL);                // identificador da aplicação
     windowId	    = 0;									// id nulo porque a janela ainda não existe
 	windowWidth		= GetSystemMetrics(SM_CXSCREEN);		// a janela ocupa toda a tela (tela cheia)
 	windowHeight	= GetSystemMetrics(SM_CYSCREEN);		// a janela ocupa toda a tela (tela cheia)
@@ -79,7 +79,7 @@ void Window::Print(string text, int x, int y, COLORREF color)
 
 // -------------------------------------------------------------------------------
 
-void Window::Create()
+bool Window::Create()
 {
     // identificador da aplicação
     HINSTANCE appId = GetModuleHandle(NULL);
@@ -92,6 +92,7 @@ void Window::Create()
     wndClass.cbClsExtra     = 0;
     wndClass.cbWndExtra     = 0;
     wndClass.hInstance      = appId;
+    wndClass.hInstance = hInstance;
     wndClass.hIcon          = windowIcon;
     wndClass.hCursor        = windowCursor;
     wndClass.hbrBackground  = (HBRUSH)CreateSolidBrush(windowColor);
@@ -101,7 +102,7 @@ void Window::Create()
 
     // registrando classe "AppWindow"
     if (!RegisterClassEx(&wndClass))
-        ThrowIfFailed(E_REGISTERWINDOWCLASSFAILED);
+        return false;
 
     // criando uma janela baseada na classe "AppWindow" 
     windowId = CreateWindowEx(
@@ -151,9 +152,8 @@ void Window::Create()
     // pega tamanho da área cliente
     GetClientRect(windowId, &windowRect);
 
-    if (FAILED(windowId)) {
-        ThrowIfFailed(E_WINDOWCREATEFAILED);
-    }
+    // retorna estado da inicialização (bem sucedida ou não)
+    return (windowId ? true : false);
 }
 
 
