@@ -142,7 +142,11 @@ inline void Window::Close()
 
 // limpa a área cliente
 inline void Window::Clear()
-{    FillRect(windowHdc, &windowRect, CreateSolidBrush(Color()));}
+{    
+    //FillRect(windowHdc, &windowRect, CreateSolidBrush(Color()));
+    InvalidateRect(Id(), NULL, TRUE);
+}
+
 
 // ---------------------------------------------------------------------------------
 
