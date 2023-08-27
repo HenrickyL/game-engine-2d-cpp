@@ -118,7 +118,6 @@ int Engine::Loop()
 				else {
 					app->Draw();
 				}
-
 			}
 			else {
 				app->OnPause();

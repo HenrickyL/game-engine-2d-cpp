@@ -44,10 +44,10 @@ public:
 
 //inline functions
 inline void Engine::Pause()
-{	paused = true; timer.Stop();}
+{	paused = true; timer.Stop(); app->OnPause();}
 
 inline void Engine::Resume()
-{ 	paused = false; timer.Start();}
+{	paused = false; timer.Start(); app->OnResume();}
 inline void Engine::DisableGraphics()
 {	onGraphics = false;}
 inline void Engine::EnableGraphics()

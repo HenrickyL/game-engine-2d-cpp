@@ -3,20 +3,13 @@
 // -------------------------------------------------------------------------------
 // Inicialização de membros estáticos da classe
 
-Window* Game::window = nullptr;		// ponteiro para a janela
-Input* Game::input = nullptr;		// ponteiro para a entrada
-float& Game::gameTime = Engine::frameTime;    // tempo do último quadro
+Window* & Game::window = Engine::window;		// ponteiro para a janela
+Input* Game::input = Engine::input;					// ponteiro para a entrada
+float& Game::gameTime = Engine::frameTime;		// tempo do último quadro
 
 // -------------------------------------------------------------------------------
 Game::Game()
 {
-	if (!window)
-	{
-		// ATENÇÃO: assume que a instância da engine é  
-		// criada antes da instância da aplicação
-		window = Engine::window;
-		input = Engine::input;
-	}
 }
 
 // -------------------------------------------------------------------------------
@@ -29,7 +22,12 @@ Game::~Game()
 
 void Game::OnPause()
 {
+	MessageBox(nullptr, "Paused", "GameStatus", MB_OK);
 	Sleep(10);
+}
+
+void Game::OnResume()
+{
 }
 
 // --

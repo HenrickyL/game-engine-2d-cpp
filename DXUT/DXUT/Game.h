@@ -6,12 +6,12 @@
 
 class Game {
 protected:
-	static Window* window;						// janela
+	static Window* & window;					// janela
 	static Input* input;						// entrada
-	static float& gameTime;                  // tempo do último quadro
+	static float& gameTime;						// tempo do último quadro
 public:
 	Game();										// construtor
-	virtual ~Game();								// destrutor
+	virtual ~Game();							// destrutor
 
 
 	// Métodos que podem ser sobrescritos para implementar 
@@ -19,6 +19,8 @@ public:
 	// uma implementação padrão.
 
 	virtual void OnPause();                     // pausa do jogo
+	virtual void OnResume();                    // retoma do jogo
+
 
 	// Estes métodos são puramente virtuais, isto é, devem ser 
 		// implementados em todas as classes derivas de App.
