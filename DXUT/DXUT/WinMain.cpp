@@ -11,7 +11,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 	try {
 		// cria motor e configura a janela
-		Engine* engine = new Engine();
+		Engine* engine = Engine::Instance();
 		// configura a janela
 		engine->window->Mode(WINDOWED);
 		engine->window->Size(1024, 600);
@@ -19,7 +19,6 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->Title("Aplicação Windows");
 		engine->window->Icon(IDI_ICON);
 		engine->window->Cursor(IDC_CURSOR);	
-		engine->DisableGraphics();
 
 		// aplicação pausa/resume ao perder/ganhar o foco
 		engine->window->LostFocus(Engine::Pause);

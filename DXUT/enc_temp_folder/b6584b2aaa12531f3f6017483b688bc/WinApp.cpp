@@ -4,7 +4,7 @@
 
 void WinApp::Init()
 {
-	//Engine::Instance()->DisableGraphics();
+	Engine::Instance()->DisableGraphics();
 }
 
 // ------------------------------------------------------------------------------
@@ -22,6 +22,7 @@ void WinApp::Update()
 
 void WinApp::Draw()
 {
+	SetPixel(GetDC(window->Id()), 20, 20, RGB(255, 0, 0));
 }
 
 // ------------------------------------------------------------------------------

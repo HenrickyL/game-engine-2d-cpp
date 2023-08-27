@@ -9,6 +9,7 @@ using std::stringstream;
 Game*		Engine::app = nullptr;			// apontadador da aplicação
 Window*		Engine::window = nullptr;		// janela da aplicação
 Graphics*	Engine::graphics = nullptr;		// dispositivo gráfico
+Engine*		Engine::instance = nullptr;		// dispositivo gráfico
 float		Engine::frameTime = 0.0f;		// tempo do quadro atual
 Input*		Engine::input = nullptr;		// dispositivos de entrada
 bool		Engine::paused = false;			// estado do motor
@@ -20,6 +21,15 @@ Engine::Engine()
 	window = new Window();
 	graphics = new Graphics();
 }
+// ------------------------------------------------------------------------------
+
+ Engine* Engine::Instance() {
+	if (Engine::instance == nullptr) {
+		Engine::instance = new Engine();
+	}
+	return Engine::instance;
+}
+
 // ------------------------------------------------------------------------------
 
 Engine::~Engine()

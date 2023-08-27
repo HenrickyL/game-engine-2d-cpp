@@ -15,10 +15,13 @@ private:
 	static Timer timer;					// medidor de tempo
 	static bool paused;                 // estado do aplicação
 	static bool onGraphics;                 // Desabilitar Graphics
+	static Engine* instance;
 
 
 	float FrameTime();					// calcula o tempo do quadro
 	int Loop();							// laço principal do motor
+
+	Engine();							// construtor
 
 public:
 	static Game		* app;					// aplicação a ser executada
@@ -26,11 +29,12 @@ public:
 	static Input	* input;				// dispositivos de entrada da aplicação
 	static float	  frameTime;			// tempo do quadro atual
 
-	Engine();							// construtor
+	static Engine* Instance();
 	~Engine();							// destrutor
 
 	void DisableGraphics();
 	void EnableGraphics();
+	Engine* & GetInstance();
 
 
 	int Start(Game* level);		// inicia o execução da aplicação
