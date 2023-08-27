@@ -11,14 +11,6 @@ private:
 	stringstream textSize;
 	stringstream textMode;
 	stringstream textMouse;
-	COLORREF color = RGB(255, 0, 0);
-	bool isRight = true;
-	float tax = 0.05;
-	float increase = 1;
-	bool isActivate = false;
-	float R = 20;
-	float RDefaut = 20;
-
 
 	int lastX, lastY;
 
