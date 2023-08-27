@@ -4,7 +4,8 @@
 enum InputKeys {
 	BACKSPACE = 0x08,
 	TAB = 0x09,
-	ENTER = 0x0D
+	ENTER = 0x0D,
+	KEY_X = 0x58
 };
 
 #endif

@@ -18,7 +18,8 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->Color(0, 122, 204);
 		engine->window->Title("Aplicação Windows");
 		engine->window->Icon(IDI_ICON);
-		engine->window->Cursor(IDC_CURSOR);
+		engine->window->Cursor(IDC_CURSOR);	
+		engine->DisableGraphics();
 
 		// aplicação pausa/resume ao perder/ganhar o foco
 		engine->window->LostFocus(Engine::Pause);
