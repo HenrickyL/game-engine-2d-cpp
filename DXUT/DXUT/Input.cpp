@@ -151,7 +151,14 @@ LRESULT CALLBACK Input::InputProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_RBUTTONUP:
 		keys[VK_RBUTTON] = false;
 		return 0;
+	//desabilitar Alt+f4
+	/*case WM_SYSKEYDOWN:
+		if (wParam == VK_F4) {
+			return 0;
+		}
+		break;*/
 	}
+
 
 	return CallWindowProc(Window::WinProc, hWnd, msg, wParam, lParam);
 }
