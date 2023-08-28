@@ -9,10 +9,9 @@
 
 // ---------------------------------------------------------------------------------
 
-class Engine{
+class Engine{ //singleton
 private:
 	static Graphics* graphics;          // dispositivo gráfico
-	static Timer timer;					// medidor de tempo
 	static bool paused;                 // estado do aplicação
 	static bool onGraphics;                 // Desabilitar Graphics
 	static Engine* instance;
@@ -27,6 +26,7 @@ public:
 	static Game		* app;					// aplicação a ser executada
 	static Window	* window;				// janela da aplicação
 	static Input	* input;				// dispositivos de entrada da aplicação
+	static Timer	* timer;				// medidor de tempo
 	static float	  frameTime;			// tempo do quadro atual
 
 	static Engine* Instance();
@@ -48,10 +48,10 @@ public:
 
 //inline functions
 inline void Engine::Pause()
-{	paused = true; timer.Stop(); app->OnPause();}
+{	paused = true; timer->Stop(); app->OnPause();}
 
 inline void Engine::Resume()
-{	paused = false; timer.Start(); app->OnResume();}
+{	paused = false; timer->Start(); app->OnResume();}
 inline void Engine::DisableGraphics()
 {	onGraphics = false;}
 inline void Engine::EnableGraphics()

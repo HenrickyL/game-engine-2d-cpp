@@ -6,18 +6,19 @@ using std::stringstream;
 
 // ------------------------------------------------------------------------------
 // Inicialização de variáveis estáticas da classe
-Game*		Engine::app = nullptr;			// apontadador da aplicação
-Window*		Engine::window = nullptr;		// janela da aplicação
-Graphics*	Engine::graphics = nullptr;		// dispositivo gráfico
-Engine*		Engine::instance = nullptr;		// dispositivo gráfico
-float		Engine::frameTime = 0.0f;		// tempo do quadro atual
-Input*		Engine::input = nullptr;		// dispositivos de entrada
-bool		Engine::paused = false;			// estado do motor
-bool		Engine::onGraphics = true;			// estado do motor
-Timer		Engine::timer;					// medidor de tempo
+Game*		Engine::app			= nullptr;			// apontadador da aplicação
+Window*		Engine::window		= nullptr;			// janela da aplicação
+Timer*		Engine::timer		= nullptr;			// medidor de tempo
+Graphics*	Engine::graphics	= nullptr;			// dispositivo gráfico
+Engine*		Engine::instance	= nullptr;			// dispositivo gráfico
+float		Engine::frameTime	= 0.0f;				// tempo do quadro atual
+Input*		Engine::input		= nullptr;			// dispositivos de entrada
+bool		Engine::paused		= false;			// estado do motor
+bool		Engine::onGraphics	= true;				// estado do motor
 // ------------------------------------------------------------------------------
 Engine::Engine()
 {
+	timer = Timer::Intance();
 	window = new Window();
 	graphics = new Graphics();
 }
@@ -37,6 +38,7 @@ Engine::~Engine()
 	delete app;
 	delete graphics;
 	delete input;
+	delete timer;
 	delete window;
 }
 // ------------------------------------------------------------------------------
@@ -76,7 +78,7 @@ int Engine::Start(Game* level)
 int Engine::Loop()
 {
 	// inicia contagem de tempo
-	timer.Start();
+	timer->Start();
 
 	// mensagens do Windows
 	MSG msg = { 0 };
@@ -156,7 +158,7 @@ float Engine::FrameTime()
 #endif
 
 	// tempo do frame atual
-	frameTime = timer.Reset();
+	frameTime = timer->Reset();
 
 #ifdef _DEBUG
 	// ----- START DEBUG ----------

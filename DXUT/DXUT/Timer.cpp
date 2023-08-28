@@ -1,5 +1,11 @@
 #include "Timer.h"
 #include "types.h"
+
+
+
+Timer* Timer::instance = nullptr;
+
+
 // ------------------------------------------------------------------------------
 Timer::Timer()
 {
@@ -14,6 +20,14 @@ Timer::Timer()
 	stoped = false;
 }
 
+// ------------------------------------------------------------------------------
+
+Timer* Timer::Intance() {
+	if (Timer::instance == nullptr) {
+		Timer::instance = new Timer();
+	}
+	return Timer::instance;
+}
 // ------------------------------------------------------------------------------
 
 void Timer::Start()
@@ -42,6 +56,9 @@ void Timer::Start()
 		// inicia contagem do tempo
 		QueryPerformanceCounter(&start);
 	}
+}
+// ------------------------------------------------------------------------------
+Timer::~Timer() {
 }
 
 // ------------------------------------------------------------------------------

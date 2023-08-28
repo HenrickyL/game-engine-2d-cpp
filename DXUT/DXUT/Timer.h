@@ -3,15 +3,20 @@
 
 #include <windows.h>			// acesso ao contador de alta precisão do Windows
 
-class Timer
+class Timer //Singleton
 {
 private:
 	LARGE_INTEGER start, end;	// valores de início e fim do contador
 	LARGE_INTEGER freq;			// frequência do contador
 	bool stoped;				// estado da contagem
+	static Timer* instance;			// instance
+
+
+	Timer();					// construtor
 
 public:
-	Timer();					// construtor
+	static Timer* Intance();
+	~Timer();					// destrutor
 
 	void  Start();				// inicia/retoma contagem do tempo
 	void  Stop();				// para contagem do tempo

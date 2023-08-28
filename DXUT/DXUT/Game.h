@@ -3,12 +3,15 @@
 
 #include "Window.h"
 #include "Input.h"
+#include "Timer.h"
+
 
 class Game {
 protected:
-	static Window* & window;					// janela
-	static Input* input;						// entrada
-	static float& gameTime;						// tempo do último quadro
+	static Window	* & window;					// janela
+	static Timer	* timer;					//tempo
+	static Input	* input;					// entrada
+	static float	& gameTime;					// tempo do último quadro
 public:
 	Game();										// construtor
 	virtual ~Game();							// destrutor
