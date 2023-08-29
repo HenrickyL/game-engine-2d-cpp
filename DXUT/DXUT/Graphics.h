@@ -8,8 +8,9 @@
 #include <d3d11.h>           // principais funções do Direct3D
 #include "Window.h"          // cria e configura uma janela do Windows
 #include "Types.h"           // tipos específicos da engine
-
+#include "GraphicsFPS.h"
 // --------------------------------------------------------------------------------
+
 
 class Graphics
 {
@@ -22,6 +23,7 @@ private:
     float                        bgColor[4];                // cor de fundo do backbuffer
     bool                         vSync;                     // vertical sync 
     float   viewportWidth, viewportHeight;
+    FPSType currentFPS;
 
 public:
     Graphics(Window* window);                                             // constructor
@@ -36,17 +38,20 @@ public:
     void Present();                                         // apresenta desenho na tela
     bool Initialize();                       // inicializa o Direct3D
 
-
+    //Viewport dimension
     void SetViewportWidth(float width);
     void SetViewportHeight(float height);
     float ViewportWidth() const;
     float ViewportHeight() const;
-
+    //fps
+    void SetFPS(FPSType fps);
+    FPSType FPS() const;
 
 };
 
 // --------------------------------------------------------------------------------
 // Métodos Inline
+//Viewport Dimension
 inline void Graphics::SetViewportWidth(float width) {
     this->viewportWidth = width;
 }
@@ -62,7 +67,13 @@ inline float Graphics::ViewportWidth() const{
 inline float Graphics::ViewportHeight() const {
     return this->viewportHeight;
 }
-
+//fps
+inline FPSType Graphics::FPS() const {
+    return currentFPS;
+}
+inline void Graphics::SetFPS(FPSType fps) {
+    currentFPS = fps;
+}
 
 // liga/desliga vertical sync
 inline void Graphics::VSync(bool state)
@@ -79,10 +90,16 @@ inline void Graphics::Clear()
 // apresenta desenho na tela (troca backbuffer com frontbuffer)
 inline void Graphics::Present()
 {
-    swapChain->Present(vSync, NULL);
+    int syncInterval = currentFPS;
+    if (vSync) {
+        int syncInterval = vSync;
+    }
+    swapChain->Present(currentFPS, NULL);
     context->OMSetRenderTargets(1, &renderTargetView, nullptr);
 }
 
 // --------------------------------------------------------------------------------
+
+
 
 #endif

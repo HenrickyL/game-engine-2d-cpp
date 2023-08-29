@@ -52,6 +52,9 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicsFPS.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXUT.h">

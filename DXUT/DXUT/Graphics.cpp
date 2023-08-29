@@ -12,6 +12,7 @@ D3D11_VIEWPORT Graphics::viewport = { 0 };                  // viewport
 Graphics::Graphics(Window* window)
 {
     this->window = window;
+    currentFPS = FPS_MAX;
     // inicializa variáveis membro
     swapChain = nullptr;                    // ponteiro para swap chain 
     renderTargetView = nullptr;                    // render target view
