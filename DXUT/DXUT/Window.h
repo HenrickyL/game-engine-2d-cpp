@@ -14,7 +14,7 @@ using std::string;      // permite usar o tipo string sem std::
 // ---------------------------------------------------------------------------------
 // Global constants and enumerations
 
-enum WindowModes { FULLSCREEN, WINDOWED };
+enum WindowModes { FULLSCREEN, WINDOWED, BORDERLESS};
 
 // ---------------------------------------------------------------------------------
 class Window {
