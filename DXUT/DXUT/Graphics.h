@@ -14,15 +14,17 @@
 class Graphics
 {
 private:
+    Window* window;
     IDXGISwapChain* swapChain;                 // swap chain             
     ID3D11RenderTargetView* renderTargetView;          // render target view do backbuffer
     ID3D11BlendState* blendState;                // configuração da mistura de cores
     D3D_FEATURE_LEVEL            featureLevel;              // nível de recursos D3D suportados pelo hardware
     float                        bgColor[4];                // cor de fundo do backbuffer
     bool                         vSync;                     // vertical sync 
+    float   viewportWidth, viewportHeight;
 
 public:
-    Graphics();                                             // constructor
+    Graphics(Window* window);                                             // constructor
     ~Graphics();                                            // destructor
 
     static ID3D11Device* device;                    // dispositivo gráfico
@@ -32,11 +34,35 @@ public:
     void VSync(bool state);                                 // liga/desliga vertical sync
     void Clear();                                           // limpa o backbuffer com a cor de fundo
     void Present();                                         // apresenta desenho na tela
-    bool Initialize(Window* window);                       // inicializa o Direct3D
+    bool Initialize();                       // inicializa o Direct3D
+
+
+    void SetViewportWidth(float width);
+    void SetViewportHeight(float height);
+    float ViewportWidth() const;
+    float ViewportHeight() const;
+
+
 };
 
 // --------------------------------------------------------------------------------
 // Métodos Inline
+inline void Graphics::SetViewportWidth(float width) {
+    this->viewportWidth = width;
+}
+
+inline void Graphics::SetViewportHeight(float height) {
+    this->viewportHeight = height;
+}
+
+inline float Graphics::ViewportWidth() const{
+    return this->viewportWidth;
+}
+
+inline float Graphics::ViewportHeight() const {
+    return this->viewportHeight;
+}
+
 
 // liga/desliga vertical sync
 inline void Graphics::VSync(bool state)

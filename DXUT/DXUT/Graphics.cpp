@@ -9,8 +9,9 @@ D3D11_VIEWPORT Graphics::viewport = { 0 };                  // viewport
 
 // ------------------------------------------------------------------------------
 
-Graphics::Graphics()
+Graphics::Graphics(Window* window)
 {
+    this->window = window;
     // inicializa variáveis membro
     swapChain = nullptr;                    // ponteiro para swap chain 
     renderTargetView = nullptr;                    // render target view
@@ -23,6 +24,9 @@ Graphics::Graphics()
     bgColor[3] = 0.0f;                       // Alpha (0 = transparente)
 
     vSync = false;                      // vertical sync desligado
+
+    viewportHeight = float(window->Height());
+    viewportWidth = float(window->Width());
 }
 
 // ------------------------------------------------------------------------------
@@ -71,7 +75,7 @@ Graphics::~Graphics()
 
 // -----------------------------------------------------------------------------
 
-bool Graphics::Initialize(Window* window)
+bool Graphics::Initialize()
 {
     // -------------------------------
     // Dispositivo Direct3D
@@ -192,8 +196,8 @@ bool Graphics::Initialize(Window* window)
     // configura uma viewport
     viewport.TopLeftX = 0;
     viewport.TopLeftY = 0;
-    viewport.Width = float(window->Width());
-    viewport.Height = float(window->Height());
+    viewport.Width =  viewportWidth;
+    viewport.Height = viewportHeight;
     viewport.MinDepth = 0.0f;
     viewport.MaxDepth = 1.0f;
 

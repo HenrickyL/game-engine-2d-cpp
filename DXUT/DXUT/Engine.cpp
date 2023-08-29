@@ -20,7 +20,7 @@ Engine::Engine()
 {
 	timer = Timer::Intance();
 	window = new Window();
-	graphics = new Graphics();
+	graphics = new Graphics(window);
 }
 // ------------------------------------------------------------------------------
 
@@ -53,7 +53,7 @@ int Engine::Start(Game* level)
 	input = new Input();
 
 	// inicializa dispositivo gráfico
-	if (!graphics->Initialize(window))
+	if (!graphics->Initialize())
 	{
 		MessageBox(window->Id(), "Falha na inicialização do dispositivo gráfico", "Engine", MB_OK);
 		return EXIT_FAILURE;
