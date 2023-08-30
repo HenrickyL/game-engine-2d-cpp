@@ -9,7 +9,7 @@
 class Game {
 protected:
 	static Window	* & window;					// janela
-	static Timer	* timer;					//tempo
+	static Timer	timer;					//tempo
 	static Input	* input;					// entrada
 	static float	& gameTime;					// tempo do último quadro
 public:

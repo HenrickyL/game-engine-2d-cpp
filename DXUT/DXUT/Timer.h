@@ -9,14 +9,10 @@ private:
 	LARGE_INTEGER start, end;	// valores de início e fim do contador
 	LARGE_INTEGER freq;			// frequência do contador
 	bool stoped;				// estado da contagem
-	static Timer* instance;			// instance
 
-
-	Timer();					// construtor
 
 public:
-	static Timer* Intance();
-	~Timer();					// destrutor
+	Timer();					// construtor
 
 	void  Start();				// inicia/retoma contagem do tempo
 	void  Stop();				// para contagem do tempo

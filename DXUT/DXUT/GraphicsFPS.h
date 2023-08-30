@@ -3,8 +3,8 @@
 
 enum FPSType {
 	FPS_MAX = 0,
-	FPS_60 = 1,
-	FPS_30 = 2
+	FPS_MONITOR = 1,
+	FPS_HALF_MONITOR = 2
 };
 
 #endif

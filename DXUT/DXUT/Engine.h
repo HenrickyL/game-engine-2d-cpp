@@ -11,6 +11,7 @@
 
 class Engine{ //singleton
 private:
+	static Timer timer;                 // medidor de tempo
 	static Graphics* graphics;          // dispositivo gráfico
 	static bool paused;                 // estado do aplicação
 	static bool onGraphics;                 // Desabilitar Graphics
@@ -26,7 +27,6 @@ public:
 	static Game		* app;					// aplicação a ser executada
 	static Window	* window;				// janela da aplicação
 	static Input	* input;				// dispositivos de entrada da aplicação
-	static Timer	* timer;				// medidor de tempo
 	static float	  frameTime;			// tempo do quadro atual
 
 	static Engine* Instance();
@@ -34,6 +34,10 @@ public:
 
 	void DisableGraphics();
 	void EnableGraphics();
+	//fps
+	void SetGraphicsFPS(FPSType fps);
+	FPSType GraphicsFPS() const;
+
 	Engine* & GetInstance();
 
 
@@ -48,12 +52,20 @@ public:
 
 //inline functions
 inline void Engine::Pause()
-{	paused = true; timer->Stop(); app->OnPause();}
+{
+	paused = true; timer.Stop(); app->OnPause();
+}
 
 inline void Engine::Resume()
-{	paused = false; timer->Start(); app->OnResume();}
+{	paused = false; timer.Start(); app->OnResume();}
 inline void Engine::DisableGraphics()
 {	onGraphics = false;}
 inline void Engine::EnableGraphics()
 {	onGraphics = true;}
+
+//fps
+inline void Engine::SetGraphicsFPS(FPSType fps) 
+{this->graphics->SetFPS(fps);}
+inline FPSType Engine::GraphicsFPS() const 
+{return graphics->FPS();}
 #endif
