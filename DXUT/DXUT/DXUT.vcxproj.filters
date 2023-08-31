@@ -25,6 +25,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="AI">
+      <UniqueIdentifier>{df8bd937-7716-442a-90b9-ef95898c982e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Header Files">
+      <UniqueIdentifier>{fd9475f8-671b-4610-87a3-96d7a4edb715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Source Files">
+      <UniqueIdentifier>{d5d45816-3777-4d13-82ee-b39bfc60bed5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Header Files\Agent">
+      <UniqueIdentifier>{c7175058-27f8-4c1f-a478-1fc5cb8aaf9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Header Files\Search">
+      <UniqueIdentifier>{fe337606-febc-4b90-9c04-0fe555c5d719}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -95,6 +110,27 @@
     </ClInclude>
     <ClInclude Include="Colors.h">
       <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>AI\Header Files\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.h">
+      <Filter>AI\Header Files\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>AI\Header Files\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="Perception.h">
+      <Filter>AI\Header Files\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>AI\Header Files\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>AI\Header Files\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>AI\Header Files\Search</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

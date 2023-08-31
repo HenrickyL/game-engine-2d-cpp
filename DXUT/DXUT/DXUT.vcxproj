@@ -141,7 +141,10 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
+    <ClInclude Include="Agent.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />
     <ClInclude Include="Engine.h" />
@@ -149,8 +152,12 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputKeys.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Perception.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Transition.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="Window.h" />
