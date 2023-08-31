@@ -70,6 +70,18 @@
     <ClCompile Include="GraphicsFPS.h">
       <Filter>Engine\Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>AI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>AI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>AI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Transition.cpp">
+      <Filter>AI\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXUT.h">
@@ -131,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>AI\Header Files\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT_IA.h">
+      <Filter>AI\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
-#ifndef DXUT_DirectX_Utility_H
-#define DXUT_DirectX_Utility_H
+#ifndef DXUT_H
+#define DXUT_H
 
 #include "Types.h"
 #include "Resources.h"
@@ -9,4 +9,5 @@
 #include "Engine.h"
 #include "Error.h"
 
+#include "DXUT_IA.h"
 #endif

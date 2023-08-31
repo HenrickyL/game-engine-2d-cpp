@@ -129,13 +129,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="GraphicsFPS.h" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Transition.cpp" />
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -144,6 +148,7 @@
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="DXUT_IA.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />

@@ -2,12 +2,15 @@
 
 #ifndef DXUT_AI_ENVIRONMENT_H
 #define DXUT_AI_ENVIRONMENT_H
-
+#include<vector>
+//------------------------------------------
 class Agent;
-
+//------------------------------------------
 class Environment {
 private:
-	Agent* agents;
+	std::vector<Agent>* agents;
 public:
+	Environment();
+	~Environment();
 };
 #endif
