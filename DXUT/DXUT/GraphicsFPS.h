@@ -1,0 +1,10 @@
+#ifndef DXUT_GRAPHICS_FPS_H
+#define DXUT_GRAPHICS_FPS_H
+
+enum FPSType {
+	FPS_MAX = 0,
+	FPS_MONITOR = 1,
+	FPS_HALF_MONITOR = 2
+};
+
+#endif
