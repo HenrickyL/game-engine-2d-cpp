@@ -164,12 +164,12 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
     <ClInclude Include="SubjectNotification.h" />
-    <ClInclude Include="Observer.h" />
+    <ClInclude Include="IObserver.h" />
     <ClInclude Include="Perception.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Sensor.h" />
     <ClInclude Include="IState.h" />
-    <ClInclude Include="Subject.h" />
+    <ClInclude Include="ISubject.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="ITransition.h" />
     <ClInclude Include="types.h" />

@@ -4,7 +4,7 @@
 #include "SubjectNotification.h"
 //------------------------------------------
 template<class T>
-class Observer {
+class IObserver {
 public:
 	virtual void Notify(SubjectNotification* notification)=0;
 };

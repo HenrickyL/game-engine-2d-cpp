@@ -5,16 +5,16 @@
 #include "SubjectNotification.h"
 //------------------------------------------
 template<class T>
-class Observer;
+class IObserver;
 //------------------------------------------
 template<class T>
-class Subject {
+class ISubject {
 protected:
-	std::vector<Observer<T>*>* observers;
+	std::vector<IObserver<T>*>* observers;
 
 public:
-	virtual void Attach(Observer<T>* observer) = 0;
-	virtual void Detach(Observer<T>* observer) = 0;
+	virtual void Attach(IObserver<T>* observer) = 0;
+	virtual void Detach(IObserver<T>* observer) = 0;
 	virtual void NotifyObservers(SubjectNotification* notification) = 0;
 };
 #endif

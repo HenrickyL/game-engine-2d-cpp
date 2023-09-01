@@ -168,10 +168,10 @@
     <ClInclude Include="Sensor.h">
       <Filter>AI\Header Files\Agent</Filter>
     </ClInclude>
-    <ClInclude Include="Subject.h">
+    <ClInclude Include="ISubject.h">
       <Filter>Utils\Header Files\ObserverPattern</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
+    <ClInclude Include="IObserver.h">
       <Filter>Utils\Header Files\ObserverPattern</Filter>
     </ClInclude>
     <ClInclude Include="SubjectNotification.h">

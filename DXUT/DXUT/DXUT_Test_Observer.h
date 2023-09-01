@@ -43,7 +43,7 @@ public:
 };
 // Define Observers
 
-class Hero : public Observer<PerceptionNotification>
+class Hero : public IObserver<PerceptionNotification>
 {
 	void Notify(SubjectNotification* notification) override
 	{
@@ -54,7 +54,7 @@ class Hero : public Observer<PerceptionNotification>
 		}
 	}
 };
-class Enemy : public Observer<PerceptionNotification>
+class Enemy : public IObserver<PerceptionNotification>
 {
 	void Notify(SubjectNotification* notification) override
 	{
@@ -66,19 +66,19 @@ class Enemy : public Observer<PerceptionNotification>
 	}
 };
 
-class Fase : public Subject<PerceptionNotification>{
+class Fase : public ISubject<PerceptionNotification>{
 
 public:
 	Fase()
 	{
-		observers = new std::vector<Observer<PerceptionNotification>*>();
+		observers = new std::vector<IObserver<PerceptionNotification>*>();
 	}
 
-	void Attach(Observer<PerceptionNotification>* observer) override
+	void Attach(IObserver<PerceptionNotification>* observer) override
 	{
 		observers->push_back(observer);
 	}
-	void Detach(Observer<PerceptionNotification>* observer) override
+	void Detach(IObserver<PerceptionNotification>* observer) override
 	{
 		for (auto it = observers->begin(); it != observers->end(); ++it) {
 			if (*it == observer) {
@@ -96,3 +96,24 @@ public:
 	
 };
 #endif
+
+
+//See * pSee = new See();
+//Hear* pHear = new Hear();
+//
+//
+//Hero* h = new Hero();
+//Enemy* e = new Enemy();
+//
+//Fase* f = new Fase();
+//f->Attach(h);
+//f->Attach(e);
+//f->NotifyObservers(pSee);
+//f->Detach(e);
+//f->NotifyObservers(pHear);
+//f->NotifyObservers(pSee);
+//f->Attach(e);
+//f->NotifyObservers(pSee);
+//f->NotifyObservers(pHear);
+//
+//delete pSee, pHear, h, e, f;

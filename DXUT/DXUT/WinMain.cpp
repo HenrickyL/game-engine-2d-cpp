@@ -1,6 +1,7 @@
 #include "DXUT.h"
 #include "WinApp.h"
 #include <sstream>
+
 using std::stringstream;
 
 // ------------------------------------------------------------------------------
@@ -10,6 +11,8 @@ using std::stringstream;
 
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
+
+	
 
 	try {
 		// cria motor e configura a janela
