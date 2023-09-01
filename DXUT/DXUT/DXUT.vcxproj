@@ -161,8 +161,9 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputKeys.h" />
     <ClInclude Include="Instance.h" />
-    <ClInclude Include="Node.h" />
+    <ClInclude Include="INode.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
+    <ClInclude Include="SearchMethods.h" />
     <ClInclude Include="SubjectNotification.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="Perception.h" />

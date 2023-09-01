@@ -159,7 +159,7 @@
     <ClInclude Include="ITransition.h">
       <Filter>AI\Header Files\Search</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h">
+    <ClInclude Include="INode.h">
       <Filter>AI\Header Files\Search</Filter>
     </ClInclude>
     <ClInclude Include="DXUT_IA.h">
@@ -188,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="DXUT_Test_Observer.h">
       <Filter>Tests\UseCase</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchMethods.h">
+      <Filter>AI\Header Files\Search</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
