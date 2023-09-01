@@ -52,6 +52,12 @@
     <Filter Include="Utils\Source Files">
       <UniqueIdentifier>{4a88bea4-04b9-4548-b59d-7abe68ecee6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{8fc42efd-2f39-4d78-a421-4dd64c174e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\UseCase">
+      <UniqueIdentifier>{05d42d10-893e-4060-b32a-74558e109e33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -93,9 +99,6 @@
     </ClCompile>
     <ClCompile Include="ITransition.cpp">
       <Filter>AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Subject.cpp">
-      <Filter>Utils\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,9 +168,6 @@
     <ClInclude Include="Sensor.h">
       <Filter>AI\Header Files\Agent</Filter>
     </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>AI\Header Files\Agent</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Utils\Header Files\ObserverPattern</Filter>
     </ClInclude>
@@ -182,6 +182,12 @@
     </ClInclude>
     <ClInclude Include="DXUT_Observer.h">
       <Filter>Utils\Header Files\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Instance.h">
+      <Filter>Utils\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT_Test_Observer.h">
+      <Filter>Tests\UseCase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

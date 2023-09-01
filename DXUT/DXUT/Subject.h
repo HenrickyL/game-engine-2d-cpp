@@ -3,20 +3,18 @@
 //------------------------------------------
 #include<vector>
 #include "SubjectNotification.h"
-
 //------------------------------------------
+template<class T>
 class Observer;
 //------------------------------------------
-
+template<class T>
 class Subject {
 protected:
-	std::vector<Observer*>* observers;
+	std::vector<Observer<T>*>* observers;
 
 public:
-	Subject();
-
-	void Attach(Observer* observer);
-	void Detach(Observer* observer);
-	void NotifyObservers(SubjectNotification* notification);
+	virtual void Attach(Observer<T>* observer) = 0;
+	virtual void Detach(Observer<T>* observer) = 0;
+	virtual void NotifyObservers(SubjectNotification* notification) = 0;
 };
 #endif
