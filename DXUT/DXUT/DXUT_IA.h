@@ -6,6 +6,6 @@
 #include "Action.h"
 #include "Perception.h"
 #include "Node.h"
-#include "State.h"
-#include "Transition.h"
+#include "IState.h"
+#include "ITransition.h"
 #endif

@@ -1,8 +1,8 @@
-#include "Transition.h"
+#include "ITransition.h"
 //------------------------------------------
-#include "State.h"
+#include "IState.h"
 //------------------------------------------
 
-Transition::Transition(State*& state, float _cost) {
+ITransition::ITransition(IState*& state, float _cost) {
 	this->target = state;
 }

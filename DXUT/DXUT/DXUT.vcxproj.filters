@@ -88,10 +88,10 @@
     <ClCompile Include="Environment.cpp">
       <Filter>AI\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="State.cpp">
+    <ClCompile Include="IState.cpp">
       <Filter>AI\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Transition.cpp">
+    <ClCompile Include="ITransition.cpp">
       <Filter>AI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
@@ -150,10 +150,10 @@
     <ClInclude Include="Perception.h">
       <Filter>AI\Header Files\Agent</Filter>
     </ClInclude>
-    <ClInclude Include="State.h">
+    <ClInclude Include="IState.h">
       <Filter>AI\Header Files\Search</Filter>
     </ClInclude>
-    <ClInclude Include="Transition.h">
+    <ClInclude Include="ITransition.h">
       <Filter>AI\Header Files\Search</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">

@@ -137,10 +137,10 @@
     <ClCompile Include="GraphicsFPS.h" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="State.cpp" />
+    <ClCompile Include="IState.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Transition.cpp" />
+    <ClCompile Include="ITransition.cpp" />
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -167,10 +167,10 @@
     <ClInclude Include="Perception.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Sensor.h" />
-    <ClInclude Include="State.h" />
+    <ClInclude Include="IState.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="Transition.h" />
+    <ClInclude Include="ITransition.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="Window.h" />

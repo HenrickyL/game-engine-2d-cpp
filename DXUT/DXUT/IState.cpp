@@ -1,18 +1,18 @@
-#include "State.h"
+#include "IState.h"
 //------------------------------------------
-#include "Transition.h"
+#include "ITransition.h"
 //------------------------------------------
-State::State() {
-	edges = new std::vector<Transition*>();
+IState::IState() {
+	edges = new std::vector<ITransition*>();
 }
 //------------------------------------------
-State::~State() {
+IState::~IState() {
 	DeleteEdges();
 }
 //------------------------------------------
-void State::DeleteEdges() {
+void IState::DeleteEdges() {
 	for (int i = 0; i < edges->size(); i++) {
-		Transition* e =edges->at(i);
+		ITransition* e =edges->at(i);
 		delete e;
 	}
 	delete edges;
