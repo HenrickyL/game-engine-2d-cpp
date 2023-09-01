@@ -7,13 +7,12 @@ using std::stringstream;
 //                                  WinMain                                      
 // ------------------------------------------------------------------------------
 
+
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 
 
 	try {
-		Timer t;
-		t.Start();
 		// cria motor e configura a janela
 		Engine* engine = Engine::Instance();
 		// configura a janela
@@ -27,11 +26,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		// aplicação pausa/resume ao perder/ganhar o foco
 		engine->window->LostFocus(Engine::Pause);
 		engine->window->InFocus(Engine::Resume);
-
-		float trancorrido = t.Elapsed();
-		stringstream s;
-		s << "Transcorrido: " << trancorrido << "s\n";
-		OutputDebugString(s.str().c_str());
+	
 		// cria e executa a aplicação
 		int exitCode = engine->Start(new WinApp());
 
@@ -44,3 +39,4 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		return 0;
 	}
 }
+//OutputDebugString(s.str().c_str());

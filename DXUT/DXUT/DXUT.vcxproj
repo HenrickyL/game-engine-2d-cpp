@@ -138,6 +138,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transition.cpp" />
     <ClCompile Include="WinApp.cpp" />
@@ -149,6 +150,9 @@
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="DXUT_IA.h" />
+    <ClInclude Include="DXUT_Observer.h" />
+    <ClInclude Include="DXUT_Utils.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />
@@ -158,9 +162,13 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputKeys.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="SubjectNotification.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="Perception.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="Sensor.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="Subject.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transition.h" />
     <ClInclude Include="types.h" />

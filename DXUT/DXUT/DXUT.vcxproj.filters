@@ -40,6 +40,18 @@
     <Filter Include="AI\Header Files\Search">
       <UniqueIdentifier>{fe337606-febc-4b90-9c04-0fe555c5d719}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{5cb98b2d-0372-4795-8ce4-5529b86f656a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Header Files">
+      <UniqueIdentifier>{4a1ac122-33f6-4802-a196-ab124e1f5319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Header Files\ObserverPattern">
+      <UniqueIdentifier>{0912e7fb-44c5-46f0-9bd7-722017f5bb02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Source Files">
+      <UniqueIdentifier>{4a88bea4-04b9-4548-b59d-7abe68ecee6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -81,6 +93,9 @@
     </ClCompile>
     <ClCompile Include="Transition.cpp">
       <Filter>AI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Utils\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +161,27 @@
     </ClInclude>
     <ClInclude Include="DXUT_IA.h">
       <Filter>AI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sensor.h">
+      <Filter>AI\Header Files\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>AI\Header Files\Agent</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Utils\Header Files\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Utils\Header Files\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="SubjectNotification.h">
+      <Filter>Utils\Header Files\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT_Utils.h">
+      <Filter>Utils\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT_Observer.h">
+      <Filter>Utils\Header Files\ObserverPattern</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
