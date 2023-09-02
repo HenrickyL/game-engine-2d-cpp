@@ -6,16 +6,14 @@
 void WinApp::Init()
 {
 	//Engine::Instance()->DisableGraphics();
+    // inicializa objetos do jogo
+    img = new Image("Resources/Logo.png");
+
+    logo1 = new Sprite(img);
+    logo2 = new Sprite(img);
     backg = new Sprite("Resources/Background.jpg");
-    shank = new Sprite("Resources/Shank.png");
 
-    logoImg = new Image("Resources/Logo.png");
-    logo1 = new Sprite(logoImg);
-    logo2 = new Sprite(logoImg);
-
-    x = 80.0f;
-    y = 90.0f;
-
+    shank = new Shank();
 }
 
 // ------------------------------------------------------------------------------
@@ -28,24 +26,11 @@ void WinApp::InputVerifyExit()
 }
 // ------------------------------------------------------------------------------
 
-void WinApp::InputCharacter()
-{
-    // desloca personagem
-    if (input->KeyDown(VK_LEFT))
-        x -= 50.0f * gameTime;
-    if (input->KeyDown(VK_RIGHT))
-        x += 50.0f * gameTime;
-    if (input->KeyDown(VK_UP))
-        y -= 50.0f * gameTime;
-    if (input->KeyDown(VK_DOWN))
-        y += 50.0f * gameTime;
-}
-// ------------------------------------------------------------------------------
-
 void WinApp::Update()
 {
     InputVerifyExit();
-    InputCharacter();
+
+    shank->Update();
 }
 
 
@@ -54,23 +39,22 @@ void WinApp::Update()
 void WinApp::Draw()
 {
     backg->Draw(0.0f, 0.0f, Layer::BACK);
-    shank->Draw(x, y);
     logo1->Draw(40.0f, 60.0f, Layer::UPPER);
     logo2->Draw(400.0f, 450.0f, Layer::LOWER);
+    shank->Draw();
 }
 
 // ------------------------------------------------------------------------------
 
 void WinApp::Finalize()
 {
-    // remove sprites da memória
+    // remove objetos da memória
+    delete img;
     delete backg;
-    delete shank;
     delete logo1;
     delete logo2;
 
-    // remove imagem da memória
-    delete logoImg;
+    delete shank;
 }
 
 

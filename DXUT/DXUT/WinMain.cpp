@@ -20,8 +20,8 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->Size(800, 600);
 		engine->window->Color(0, 0,0);
 		engine->window->Title("Sprite Demo");
-		//engine->window->Icon(IDI_ICON);
-		engine->window->Cursor(IDC_CURSOR);	
+		engine->window->Icon(IDI_ICON);
+		//engine->window->Cursor(IDC_CURSOR);	
 		engine->SetGraphicsFPS(FPS_MONITOR);
 		// aplicação pausa/resume ao perder/ganhar o foco
 		engine->window->LostFocus(Engine::Pause);
