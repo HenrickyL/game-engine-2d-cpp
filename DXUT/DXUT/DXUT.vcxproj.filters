@@ -67,6 +67,9 @@
     <Filter Include="Engine\Shader Files">
       <UniqueIdentifier>{dbae34c1-6b27-4a39-99df-0c2a23792a22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\Utils\Header Files\Direction">
+      <UniqueIdentifier>{63b66fdc-c5b0-4639-8976-9843d96849e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -126,6 +129,12 @@
     </ClCompile>
     <ClCompile Include="Frogger.cpp">
       <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionConverter.cpp">
+      <Filter>Modules\Utils\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -201,7 +210,7 @@
     <ClInclude Include="DXUT_Utils.h">
       <Filter>Modules\Utils\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DXUT_Observer.h">
+    <ClInclude Include="DXUT_Utils_Observer.h">
       <Filter>Modules\Utils\Header Files\ObserverPattern</Filter>
     </ClInclude>
     <ClInclude Include="Instance.h">
@@ -242,6 +251,9 @@
     </ClInclude>
     <ClInclude Include="Frogger.h">
       <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT_Utils_Direction_.h">
+      <Filter>Modules\Utils\Header Files\Direction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -44,10 +44,10 @@ public:
     bool Initialize(Window* window, Graphics* graphics);  // inicializa o renderizador
     void Draw(SpriteData* sprite);                         // adiciona _sprite na lista
     void Render();                                          // envia sprites para desenho
-    void SetFillMode(FillModeEnum value);
+    void SetFillMode(const FillModeEnum value);
 };
 
-inline void Renderer::SetFillMode(FillModeEnum mode)
+inline void Renderer::SetFillMode(const FillModeEnum mode)
 {
     _fillMode = mode;
 }

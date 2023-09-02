@@ -5,6 +5,7 @@ Frogger::Frogger()
     _sprite = new Sprite("Resources/frog.png");
 	initX = window->CenterX() - _sprite->Width() / 2.0f;
 	initY = 545.0f;
+	_sprite->SetAnchor(_sprite->Width() / 2, _sprite->Height() / 2);
 	Reset();
 }
 
@@ -64,5 +65,12 @@ void Frogger::Update()
 		Reset();
 	}
 	InputCharacter();
+
+	if(input->KeyPress(SPACE))
+	{
+		rotation = (Direction)((rotation + 1)%8);
+		_sprite->SetRotation(rotation);
+
+	}
 	
 }

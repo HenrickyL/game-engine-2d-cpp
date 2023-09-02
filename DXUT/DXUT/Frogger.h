@@ -2,6 +2,7 @@
 #define _FROGGER_FROGGER_H_
 // ---------------------------------------------------------------------------------
 #include "DXUT_2D.h"
+#include "DXUT_Utils_Direction_.h"
 
 class Frogger: public Object
 {
@@ -11,6 +12,8 @@ private:
     float _jumpDistance = 40.0f;
 
     float initX, initY;
+
+    Direction rotation = N;
 
 
     void InputCharacter();
@@ -25,7 +28,6 @@ public:
     int Height() const;
     bool IsValidPosition(float newX, float newY);
     void Reset();
-
 };
 // ---------------------------------------------------------------------------------
 // Funções Membro Inline
@@ -38,4 +40,5 @@ inline int Frogger::Width() const
 
 inline int Frogger::Height() const
 {    return _sprite->Height();}
+
 #endif

@@ -24,9 +24,10 @@ private:
 
     Sprite* background = nullptr;                // imagem de fundo
     Frogger* frogger = nullptr;                // sapo
-    //Obstacle* obj = nullptr;                // um obstáculo do jogo
 
-    //list<Obstacle*> objects;                      // lista de obstáculos em movimento
+    Obstacle* obj = nullptr;                // um obstáculo do jogo
+
+    list<Obstacle*> objects;                      // lista de obstáculos em movimento
 
 	void InputVerifyExit();
 
