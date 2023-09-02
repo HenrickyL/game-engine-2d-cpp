@@ -26,17 +26,17 @@ struct Layer
 class Sprite
 {
 private:
-    SpriteData sprite;              // dados do sprite 
+    SpriteData sprite;              // dados do _sprite 
     bool localImage;                // imagem local ou externa
     const Image* image;            // ponteiro para uma imagem
 
 public:
-    Sprite(string filename);        // constroi sprite a partir de um arquivo
-    Sprite(const Image* img);      // constroi sprite a partir de imagem existente
-    ~Sprite();                      // destrutor do sprite
+    Sprite(string filename);        // constroi _sprite a partir de um arquivo
+    Sprite(const Image* img);      // constroi _sprite a partir de imagem existente
+    ~Sprite();                      // destrutor do _sprite
 
-    int Width();                    // largura do sprite
-    int Height();                   // altura do sprite
+    int Width();                    // largura do _sprite
+    int Height();                   // altura do _sprite
 
     // desenha imagem na posição (x,y) e profundidade (z)
     void Draw(float x, float y, float z = Layer::MIDDLE);
@@ -45,13 +45,13 @@ public:
 // ---------------------------------------------------------------------------------
 // Funções Inline
 
-// retorna a largura do sprite
+// retorna a largura do _sprite
 inline int Sprite::Width()
 {
     return image->Width();
 }
 
-// retorna a altura do sprite
+// retorna a altura do _sprite
 inline int Sprite::Height()
 {
     return image->Height();

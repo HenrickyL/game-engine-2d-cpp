@@ -29,8 +29,8 @@ private:
 
     static const uint MinBatchSize = 128;                   // tamanho mínimo do lote de sprites
     static const uint MaxBatchSize = 4096;                  // tamanho máximo do lote de sprites - Max 2^15
-    static const uint VerticesPerSprite = 4;                // número de vértices por sprite
-    static const uint IndicesPerSprite = 6;                 // número de índices por sprite
+    static const uint VerticesPerSprite = 4;                // número de vértices por _sprite
+    static const uint IndicesPerSprite = 6;                 // número de índices por _sprite
 
     vector<SpriteData*> spriteVector;                       // vetor de sprites
 
@@ -42,7 +42,7 @@ public:
     ~Renderer();                                            // destrutor
 
     bool Initialize(Window* window, Graphics* graphics);  // inicializa o renderizador
-    void Draw(SpriteData* sprite);                         // adiciona sprite na lista
+    void Draw(SpriteData* sprite);                         // adiciona _sprite na lista
     void Render();                                          // envia sprites para desenho
     void SetFillMode(FillModeEnum value);
 };

@@ -3,17 +3,33 @@
 //#include <string>
 //#include "Engine.h"
 
+
+WinApp::WinApp()
+{
+    window->Size(800, 600);
+    window->Title("Frogger");
+}
+
 void WinApp::Init()
 {
 	//Engine::Instance()->DisableGraphics();
     // inicializa objetos do jogo
-    img = new Image("Resources/Logo.png");
+     // carrega imagens do jogo
+    woodSmall = new Image("Resources/woodSmall.png");
+    woodBig = new Image("Resources/woodBig.png");
+    turtleSmall = new Image("Resources/turtlesSmall.png");
+    turtleBig = new Image("Resources/turtlesBig.png");
+    truck = new Image("Resources/truck.png");
+    car1 = new Image("Resources/car1.png");
+    car2 = new Image("Resources/car2.png");
+    car3 = new Image("Resources/car3.png");
+    car4 = new Image("Resources/car4.png");
 
-    logo1 = new Sprite(img);
-    logo2 = new Sprite(img);
-    backg = new Sprite("Resources/Background.jpg");
+    // inicializa sprites do jogo
+    background = new Sprite("Resources/Track.jpg");
 
-    shank = new Shank();
+    frogger = new Frogger();
+
 }
 
 // ------------------------------------------------------------------------------
@@ -30,7 +46,8 @@ void WinApp::Update()
 {
     InputVerifyExit();
 
-    shank->Update();
+    // atualiza posição do sapo
+    frogger->Update();
 }
 
 
@@ -38,10 +55,11 @@ void WinApp::Update()
 
 void WinApp::Draw()
 {
-    backg->Draw(0.0f, 0.0f, Layer::BACK);
-    logo1->Draw(40.0f, 60.0f, Layer::UPPER);
-    logo2->Draw(400.0f, 450.0f, Layer::LOWER);
-    shank->Draw();
+    // desenha pano de fundo
+    background->Draw(0.0f, 0.0f, Layer::BACK);
+
+    // desenha sapo
+    frogger->Draw();
 }
 
 // ------------------------------------------------------------------------------
@@ -49,12 +67,23 @@ void WinApp::Draw()
 void WinApp::Finalize()
 {
     // remove objetos da memória
-    delete img;
-    delete backg;
-    delete logo1;
-    delete logo2;
+    delete background;
+    delete frogger;
 
-    delete shank;
+    //// remove obstáculos
+    //for (auto obj : objects)
+    //    delete obj;
+
+    // descarrega imagens da memória
+    delete woodSmall;
+    delete woodBig;
+    delete turtleSmall;
+    delete turtleBig;
+    delete truck;
+    delete car1;
+    delete car2;
+    delete car3;
+    delete car4;
 }
 
 
