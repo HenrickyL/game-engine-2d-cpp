@@ -64,6 +64,9 @@
     <Filter Include="Modules\Docs">
       <UniqueIdentifier>{2be4a46d-5c44-4b16-a12e-f0335b604ab9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Shader Files">
+      <UniqueIdentifier>{dbae34c1-6b27-4a39-99df-0c2a23792a22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -106,6 +109,18 @@
     <ClCompile Include="ITransition.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXUT.h">
@@ -115,9 +130,6 @@
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="types.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Resources.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
@@ -198,6 +210,21 @@
     <ClInclude Include="SearchMethods.h">
       <Filter>Modules\AI\Header Files\Search</Filter>
     </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
@@ -211,5 +238,13 @@
     <None Include="Sensor&amp;Effect.md">
       <Filter>Modules\Docs</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Pixel.hlsl">
+      <Filter>Engine\Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex.hlsl">
+      <Filter>Engine\Shader Files</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

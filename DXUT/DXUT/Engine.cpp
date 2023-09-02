@@ -6,7 +6,7 @@ using std::stringstream;
 
 // ------------------------------------------------------------------------------
 // Inicialização de variáveis estáticas da classe
-Game*		Engine::app			= nullptr;			// apontadador da aplicação
+Game*		Engine::game			= nullptr;			// apontadador da aplicação
 Window*		Engine::window		= nullptr;			// janela da aplicação
 Graphics*	Engine::graphics	= nullptr;			// dispositivo gráfico
 Engine*		Engine::instance	= nullptr;			// dispositivo gráfico
@@ -14,12 +14,14 @@ float		Engine::frameTime	= 0.0f;				// tempo do quadro atual
 Input*		Engine::input		= nullptr;			// dispositivos de entrada
 bool		Engine::paused		= false;			// estado do motor
 bool		Engine::onGraphics	= true;				// estado do motor
+Renderer*	Engine::renderer	= nullptr;     // renderizador de sprites 
 Timer		Engine::timer;                      // medidor de tempo
 // ------------------------------------------------------------------------------
 Engine::Engine()
 {
 	window = new Window();
 	graphics = new Graphics(window);
+	renderer = new Renderer();
 }
 // ------------------------------------------------------------------------------
 
@@ -34,7 +36,8 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-	delete app;
+	delete game;
+	delete renderer;
 	delete graphics;
 	delete input;
 	delete window;
@@ -42,7 +45,7 @@ Engine::~Engine()
 // ------------------------------------------------------------------------------
 int Engine::Start(Game* level)
 {
-	app = level;
+	game = level;
 
 	// cria janela do jogo
 	window->Create();
@@ -54,6 +57,13 @@ int Engine::Start(Game* level)
 	if (!graphics->Initialize())
 	{
 		MessageBox(window->Id(), "Falha na inicialização do dispositivo gráfico", "Engine", MB_OK);
+		return EXIT_FAILURE;
+	}
+
+	// inicializa renderizador de sprites
+	if (!renderer->Initialize(window, graphics))
+	{
+		MessageBox(window->Id(), "Falha na criação do renderizador", "Engine", MB_OK);
 		return EXIT_FAILURE;
 	}
 
@@ -82,7 +92,7 @@ int Engine::Loop()
 	MSG msg = { 0 };
 
 	// inicialização da aplicação
-	app->Init();
+	game->Init();
 
 	// laço principal
 	do
@@ -113,31 +123,34 @@ int Engine::Loop()
 				frameTime = FrameTime();
 
 				// atualização da aplicação 
-				app->Update();
+				game->Update();
 
 				if (onGraphics) {
 					// limpa a tela para o próximo quadro
 					graphics->Clear();
 
 					// desenho da aplicação
-					app->Draw();
+					game->Draw();
+
+					// renderiza sprites
+					renderer->Render();
 
 					// apresenta o jogo na tela (troca backbuffer/frontbuffer)
 					graphics->Present();
 				}
 				else {
-					app->Draw();
+					game->Draw();
 				}
 			}
 			else {
-				app->OnPause();
+				game->OnPause();
 			}
 		}
 
 	} while (msg.message != WM_QUIT);
 
 	// finalização do aplicação
-	app->Finalize();
+	game->Finalize();
 
 	// encerra aplicação
 	return int(msg.wParam);

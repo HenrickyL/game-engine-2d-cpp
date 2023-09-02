@@ -17,10 +17,10 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		Engine* engine = Engine::Instance();
 		// configura a janela
 		engine->window->Mode(WINDOWED);
-		engine->window->Size(1024, 600);
-		engine->window->Color(0, 80,120);
-		engine->window->Title("Aplicação Windows");
-		engine->window->Icon(IDI_ICON);
+		engine->window->Size(800, 600);
+		engine->window->Color(0, 0,0);
+		engine->window->Title("Sprite Demo");
+		//engine->window->Icon(IDI_ICON);
 		engine->window->Cursor(IDC_CURSOR);	
 		engine->SetGraphicsFPS(FPS_MONITOR);
 		// aplicação pausa/resume ao perder/ganhar o foco
