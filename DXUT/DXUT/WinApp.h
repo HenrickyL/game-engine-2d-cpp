@@ -2,13 +2,22 @@
 #define DXUT_WINAPP_H
 
 #include "Game.h"
-#include <sstream>
+#include "DXUT_2D.h"
+#include "Shank.h"
+
 using std::stringstream;
 
 class WinApp : public Game
 {
 private:
-	int lastX, lastY;
+	Image	* img	= nullptr;        // imagem do logotipo
+	Sprite	* backg = nullptr;        // sprite para fundo da cena
+	Sprite	* logo1 = nullptr;        // sprite do logotipo
+	Sprite	* logo2 = nullptr;        // sprite do logotipo
+	Shank	* shank = nullptr;        // objeto do personagem shank
+
+
+	void InputVerifyExit();
 
 public:
 	void Init();

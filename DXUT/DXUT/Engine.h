@@ -6,13 +6,13 @@
 #include "Input.h"						// dispositivo de entrada
 #include "Timer.h"						// medidor de tempo
 #include "Game.h"						// aplicação gráfica
+#include "Renderer.h"                    // renderizador de sprites
 
 // ---------------------------------------------------------------------------------
 
 class Engine{ //singleton
 private:
 	static Timer timer;                 // medidor de tempo
-	static Graphics* graphics;          // dispositivo gráfico
 	static bool paused;                 // estado do aplicação
 	static bool onGraphics;                 // Desabilitar Graphics
 	static Engine* instance;
@@ -24,9 +24,11 @@ private:
 	Engine();							// construtor
 
 public:
-	static Game		* app;					// aplicação a ser executada
+	static Game		* game;					// aplicação a ser executada
 	static Window	* window;				// janela da aplicação
 	static Input	* input;				// dispositivos de entrada da aplicação
+	static Graphics	* graphics;          // dispositivo gráfico
+	static Renderer	* renderer;          // renderizador de sprites
 	static float	  frameTime;			// tempo do quadro atual
 
 	static Engine* Instance();
@@ -53,11 +55,11 @@ public:
 //inline functions
 inline void Engine::Pause()
 {
-	paused = true; timer.Stop(); app->OnPause();
+	paused = true; timer.Stop(); game->OnPause();
 }
 
 inline void Engine::Resume()
-{	paused = false; timer.Start(); app->OnResume();}
+{	paused = false; timer.Start(); game->OnResume();}
 inline void Engine::DisableGraphics()
 {	onGraphics = false;}
 inline void Engine::EnableGraphics()
