@@ -45,7 +45,6 @@ public:
     void Draw(SpriteData* sprite);                         // adiciona sprite na lista
     void Render();                                          // envia sprites para desenho
     void SetFillMode(FillModeEnum value);
-    FillModeEnum FillMode() const;
 };
 
 inline void Renderer::SetFillMode(FillModeEnum mode)
