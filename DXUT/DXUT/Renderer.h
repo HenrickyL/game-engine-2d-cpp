@@ -6,23 +6,29 @@
 #include "Sprite.h"
 #include <vector>
 using std::vector;
+enum FillModeEnum
+{
+    WIREFRAME = 2,
+    SOLID = 3
+};
 
 // ---------------------------------------------------------------------------------
 class Renderer
 {
 private:
-    ID3D11InputLayout* inputLayout;                 // input layout
-    ID3D11VertexShader* vertexShader;                // vertex shader
-    ID3D11PixelShader* pixelShader;                 // pixel shader
-    ID3D11RasterizerState* rasterState;                 // estado do rasterizador
-    ID3D11SamplerState* sampler;                     // estado do amostrador de textura
-    ID3D11Buffer* vertexBuffer;                // buffer de vértices
-    ID3D11Buffer* indexBuffer;                 // buffer de índices
-    ID3D11Buffer* constantBuffer;              // buffer para o shader
-    uint                       vertexBufferPosition;        // posição atual do vertex buffer
+    ID3D11InputLayout*      inputLayout;                 // input layout
+    ID3D11VertexShader*     vertexShader;                // vertex shader
+    ID3D11PixelShader*      pixelShader;                 // pixel shader
+    ID3D11RasterizerState*  rasterState;                 // estado do rasterizador
+    ID3D11SamplerState*     sampler;                     // estado do amostrador de textura
+    ID3D11Buffer*           vertexBuffer;                // buffer de vértices
+    ID3D11Buffer*           indexBuffer;                 // buffer de índices
+    ID3D11Buffer*           constantBuffer;              // buffer para o shader
+    uint                    vertexBufferPosition;        // posição atual do vertex buffer
+    FillModeEnum            _fillMode = SOLID;
 
     static const uint MinBatchSize = 128;                   // tamanho mínimo do lote de sprites
-    static const uint MaxBatchSize = 4096;                  // tamanho máximo do lote de sprites    
+    static const uint MaxBatchSize = 4096;                  // tamanho máximo do lote de sprites - Max 2^15
     static const uint VerticesPerSprite = 4;                // número de vértices por sprite
     static const uint IndicesPerSprite = 6;                 // número de índices por sprite
 
@@ -37,6 +43,14 @@ public:
 
     bool Initialize(Window* window, Graphics* graphics);  // inicializa o renderizador
     void Draw(SpriteData* sprite);                         // adiciona sprite na lista
-    void Render();                                          // envia sprites para desenho    
+    void Render();                                          // envia sprites para desenho
+    void SetFillMode(FillModeEnum value);
+    FillModeEnum FillMode() const;
 };
+
+inline void Renderer::SetFillMode(FillModeEnum mode)
+{
+    _fillMode = mode;
+}
+
 #endif

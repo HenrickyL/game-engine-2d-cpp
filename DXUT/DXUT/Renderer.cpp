@@ -139,7 +139,7 @@ bool Renderer::Initialize(Window* window, Graphics* graphics)
     //-------------------------------
 
     D3D11_RASTERIZER_DESC rasterDesc = {};
-    rasterDesc.FillMode = D3D11_FILL_SOLID;
+    rasterDesc.FillMode = (D3D11_FILL_MODE)_fillMode;
     //rasterDesc.FillMode = D3D11_FILL_WIREFRAME;
     rasterDesc.CullMode = D3D11_CULL_NONE;
     rasterDesc.DepthClipEnable = true;

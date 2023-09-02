@@ -26,7 +26,6 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		// aplicação pausa/resume ao perder/ganhar o foco
 		engine->window->LostFocus(Engine::Pause);
 		engine->window->InFocus(Engine::Resume);
-	
 		// cria e executa a aplicação
 		int exitCode = engine->Start(new WinApp());
 
