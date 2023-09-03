@@ -70,6 +70,9 @@
     <Filter Include="Modules\Utils\Header Files\Direction">
       <UniqueIdentifier>{63b66fdc-c5b0-4639-8976-9843d96849e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Header Files\Utility">
+      <UniqueIdentifier>{d8200e85-abe1-4963-b075-dbc86bd2b3a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -96,9 +99,6 @@
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
       <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsFPS.h">
-      <Filter>Engine\Header Files</Filter>
     </ClCompile>
     <ClCompile Include="Agent.cpp">
       <Filter>Modules\AI\Source Files</Filter>
@@ -130,18 +130,15 @@
     <ClCompile Include="DirectionConverter.cpp">
       <Filter>Modules\Utils\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicsFPS.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="types.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Input.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputKeys.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
@@ -156,13 +153,7 @@
     <ClInclude Include="Timer.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Error.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Colors.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Action.h">
@@ -243,6 +234,18 @@
     <ClInclude Include="DXUT_Utils_Direction_.h">
       <Filter>Modules\Utils\Header Files\Direction</Filter>
     </ClInclude>
+    <ClInclude Include="Colors.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Error.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="InputKeys.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
@@ -250,11 +253,11 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TypeErrors.h">
-      <Filter>Engine\Header Files</Filter>
-    </None>
     <None Include="Sensor&amp;Effect.md">
       <Filter>Modules\Docs</Filter>
+    </None>
+    <None Include="TypeErrors.h">
+      <Filter>Engine\Header Files\Utility</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
