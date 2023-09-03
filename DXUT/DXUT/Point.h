@@ -1,5 +1,5 @@
-#ifndef DXUT_FLOAT3_H
-#define DXUT_FLOAT3_H
+#ifndef DXUT_POINT_H
+#define DXUT_POINT_H
 // ---------------------------------------------------------------------------------
 class Point
 {
