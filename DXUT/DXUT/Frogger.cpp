@@ -29,18 +29,22 @@ void Frogger::InputCharacter()
 	if(input->KeyPress(VK_UP) && IsValidPosition(x, y-_jumpDistance))
 	{
 		Translate(0.0f, -_jumpDistance);
+		_sprite->SetRotation(N);
 	}
 	else if (input->KeyPress(VK_DOWN) && IsValidPosition(x, y + _jumpDistance))
 	{
 		Translate(0.0f, _jumpDistance);
+		_sprite->SetRotation(S);
 	}
 	else if (input->KeyPress(VK_LEFT) && IsValidPosition(x-_jumpDistance, y))
 	{
 		Translate(-_jumpDistance, 0);
+		_sprite->SetRotation(W);
 	}
 	else if (input->KeyPress(VK_RIGHT) && IsValidPosition(x + _jumpDistance, y))
 	{
 		Translate(_jumpDistance, 0);
+		_sprite->SetRotation(E);
 	}
 
 
@@ -73,4 +77,15 @@ void Frogger::Update()
 
 	}
 	
+}
+
+
+void Frogger::InWatter() {
+	_sprite->SetImage("Resources/frog_watter.png");
+}
+void Frogger::InFloor() {
+	_sprite->SetImage("Resources/frog.png");
+}
+void Frogger::IsDie() {
+	_sprite->SetImage("Resources/frog_die.png");
 }

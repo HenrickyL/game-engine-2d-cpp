@@ -32,14 +32,14 @@ class Sprite
 private:
     SpriteData sprite;              // dados do _sprite 
     bool localImage;                // imagem local ou externa
-    const Image* image;            // ponteiro para uma imagem
+    Image* image;            // ponteiro para uma imagem
 
     const float scaleDefault = 1.0f,
 		rotationDefault = 0.0f;
 
 public:
     Sprite(string filename);        // constroi _sprite a partir de um arquivo
-    Sprite(const Image* img);      // constroi _sprite a partir de imagem existente
+    Sprite(Image* img);      // constroi _sprite a partir de imagem existente
     ~Sprite();                      // destrutor do _sprite
 
     int Width();                    // largura do _sprite
@@ -55,6 +55,9 @@ public:
     void SetRotation(float rotation);
     void SetScale(float scale);
     void SetAnchor(float x, float y);
+    void SetImage(Image* img);
+    void SetImage(const std::string _filename);
+
 
     float Rotation() const;
     float Scale() const;
@@ -68,13 +71,13 @@ public:
 // retorna a largura do _sprite
 inline int Sprite::Width()
 {
-    return image->Width();
+    return image->Width() * sprite.scale;
 }
 
 // retorna a altura do _sprite
 inline int Sprite::Height()
 {
-    return image->Height();
+    return image->Height() * sprite.scale;
 }
 
 // ---------------------------------------------------------------------------------

@@ -51,6 +51,9 @@ public:
     float Speed() const;
     void SetSpeed(const float speed);
 
+    float X();
+    float Y();
+
 };
 
 
@@ -61,6 +64,15 @@ inline float Object::Speed() const
 {    return _speed;}
 inline void Object::SetSpeed(const float speed)
 {    _speed = speed;}
+
+inline float Object::X()
+{
+    return x;
+}
+inline float Object::Y()
+{
+    return y;
+}
 // -----------------------------------------------------------------------------
 
 // move o objeto por (deltaX, deltaY, deltaZ)

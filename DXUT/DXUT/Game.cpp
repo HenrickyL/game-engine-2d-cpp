@@ -8,6 +8,7 @@ Input		*Game::input = Engine::input;				// ponteiro para a entrada
 Renderer	*Game::renderer = Engine::renderer;				// ponteiro para a entrada
 Timer		Game::timer;                      // medidor de tempo
 
+
 float& Game::gameTime = Engine::frameTime;		// tempo do último quadro
 
 // -------------------------------------------------------------------------------
@@ -26,10 +27,12 @@ Game::~Game()
 void Game::OnPause()
 {
 	Sleep(10);
+	
 }
 
 void Game::OnResume()
 {
+
 }
 
 // --

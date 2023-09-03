@@ -28,12 +28,19 @@ public:
     int Height() const;
     bool IsValidPosition(float newX, float newY);
     void Reset();
+    float Jump() const;
+    void InWatter();
+    void InFloor();
+    void IsDie();
 };
 // ---------------------------------------------------------------------------------
 // Funções Membro Inline
-
+inline float Frogger::Jump() const
+{
+    return _jumpDistance;
+}
 inline void Frogger::Draw()
-{    _sprite->Draw(x, y, z);}
+{    _sprite->Draw(x, y, Layer::MIDDLE);}
 
 inline int Frogger::Width() const
 {    return _sprite->Width();}

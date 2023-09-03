@@ -24,7 +24,7 @@ Sprite::Sprite(string filename)
 
 // ---------------------------------------------------------------------------------
 
-Sprite::Sprite(const Image* img)
+Sprite::Sprite(Image* img)
 {
     // aponta para imagem externa
     image = img;
@@ -66,9 +66,30 @@ void Sprite::Draw(float x, float y, float z)
     sprite.x = x - sprite.xAnchor;
     sprite.y = y + sprite.yAnchor;
     sprite.depth = z;
+    
 
     // adiciona o sprite na lista de desenho
     Engine::renderer->Draw(&sprite);
 }
 
 // ---------------------------------------------------------------------------------
+
+void Sprite::SetImage(Image* img)
+{
+    if (img->Filename() != image->Filename()) {
+        image = img;
+        sprite.texture = image->View();
+        sprite.width = image->Width();
+        sprite.height = image->Height();
+    }
+    
+}
+void Sprite::SetImage(const std::string _filename)
+{
+    if (_filename != image->Filename()) {
+        image = new Image(_filename);
+        sprite.texture = image->View();
+        sprite.width = image->Width();
+        sprite.height = image->Height();
+    }
+}

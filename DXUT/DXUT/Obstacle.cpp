@@ -2,7 +2,7 @@
 // ---------------------------------------------------------------------------------
 Obstacle::Obstacle(Image* img, float speed)
 {
-    sprite = new Sprite(img);
+    _sprite = new Sprite(img);
     SetSpeed(speed);
 }
 
@@ -10,7 +10,7 @@ Obstacle::Obstacle(Image* img, float speed)
 
 Obstacle::~Obstacle()
 {
-    delete sprite;
+    delete _sprite;
 }
 // ---------------------------------------------------------------------------------
 void Obstacle::Update()
@@ -19,6 +19,19 @@ void Obstacle::Update()
     Translate(-Speed() * gameTime, 0.0f);
 
     // passa objeto de um lado da tela para o outro
-    if (int(x) + sprite->Width() < 0)
-        MoveTo(float(window->Width() + sprite->Width()), y);
+    if (int(x) + _sprite->Width() < 0)
+        MoveTo(float(window->Width() + _sprite->Width()), y);
+}
+// ---------------------------------------------------------------------------------
+
+void Obstacle::SetInitialPosition(float x, float y)
+{
+    initX = x; initY = y;
+    Reset();
+}
+
+
+void Obstacle::Reset()
+{
+    MoveTo(initX, initY);
 }

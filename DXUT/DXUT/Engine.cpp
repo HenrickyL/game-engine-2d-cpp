@@ -143,7 +143,13 @@ int Engine::Loop()
 				}
 			}
 			else {
+
 				game->OnPause();
+
+				// renderiza sprites
+				renderer->Render();
+				// apresenta o jogo na tela (troca backbuffer/frontbuffer)
+				graphics->Present();
 			}
 		}
 

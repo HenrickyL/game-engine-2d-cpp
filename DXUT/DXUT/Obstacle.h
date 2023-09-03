@@ -11,8 +11,8 @@
 class Obstacle : public Object
 {
 private:
-    Sprite* sprite;
-    
+    Sprite* _sprite;
+    float initX = 0, initY = 0;
 
 public:
     Obstacle(Image* img, float speed);
@@ -20,13 +20,27 @@ public:
 
     void Update();
     void Draw();
+
+    int Width() const;
+    int Height() const;
+
+    void SetInitialPosition(float x, float y);
+    void Reset();
 };
 
 // ---------------------------------------------------------------------------------
 // Funções Membro Inline
+inline int Obstacle::Width() const
+{
+    return _sprite->Width();
+}
 
+inline int Obstacle::Height() const
+{
+    return _sprite->Height();
+}
 inline void Obstacle::Draw()
-{    sprite->Draw(x, y, z);}
+{    _sprite->Draw(x, y, Layer::UPPER);}
 // ---------------------------------------------------------------------------------
 
 #endif

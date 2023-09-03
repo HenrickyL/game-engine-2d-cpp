@@ -12,17 +12,27 @@ using std::stringstream;
 class WinApp : public Game
 {
 private:
-    Image* woodSmall = nullptr;                // pequeno tronco de madeira
-    Image* woodBig = nullptr;                // grande tronco de madeira
-    Image* turtleSmall = nullptr;                // pequena fila de tartarugas
-    Image* turtleBig = nullptr;                // grande fila de tartarugas
-    Image* truck = nullptr;                // caminhão tanque
-    Image* car1 = nullptr;                // carro de passeio azul
-    Image* car2 = nullptr;                // carro de passeio branco
-    Image* car3 = nullptr;                // carro de passeio amarelo
-    Image* car4 = nullptr;                // carro de passeio vermelho
+    bool gameEnd = false;
+    bool gameWin = false;
+    bool swapTerrain = false;
+
+    Image* woodSmall    = nullptr;                // pequeno tronco de madeira
+    Image* woodBig      = nullptr;                // grande tronco de madeira
+    Image* turtleSmall  = nullptr;                // pequena fila de tartarugas
+    Image* turtleBig    = nullptr;                // grande fila de tartarugas
+    Image* truck        = nullptr;                // caminhão tanque
+    Image* car1         = nullptr;                // carro de passeio azul
+    Image* car2         = nullptr;                // carro de passeio branco
+    Image* car3         = nullptr;                // carro de passeio amarelo
+    Image* car4         = nullptr;                // carro de passeio vermelho
+
 
     Sprite* background = nullptr;                // imagem de fundo
+    Sprite* win = nullptr;                
+    Sprite* lose = nullptr;    
+    Sprite* Pause = nullptr;
+
+
     Frogger* frogger = nullptr;                // sapo
 
     Obstacle* obj = nullptr;                // um obstáculo do jogo
@@ -30,6 +40,11 @@ private:
     list<Obstacle*> objects;                      // lista de obstáculos em movimento
 
 	void InputVerifyExit();
+    bool IsCollide(Frogger* frog, Obstacle* obst);
+
+
+    void OnPause();                     // pausa do jogo
+
 
 public:
     WinApp();
