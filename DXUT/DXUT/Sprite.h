@@ -3,6 +3,8 @@
 // ---------------------------------------------------------------------------------
 #include "Image.h"
 #include "DXUT_Utils_Direction_.h"
+#include "Layer.h"
+
 // ---------------------------------------------------------------------------------
 struct SpriteData
 {
@@ -17,14 +19,7 @@ struct SpriteData
     ID3D11ShaderResourceView* texture;
 };
 // ---------------------------------------------------------------------------------
-struct Layer
-{
-    static const float FRONT;
-    static const float UPPER;
-    static const float MIDDLE;
-    static const float LOWER;
-    static const float BACK;
-};
+
 
 // ---------------------------------------------------------------------------------
 class Sprite

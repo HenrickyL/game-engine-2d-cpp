@@ -133,6 +133,9 @@
     <ClCompile Include="GraphicsFPS.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -244,6 +247,12 @@
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="types.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
