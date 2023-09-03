@@ -4,13 +4,16 @@
 #include "Window.h"
 #include "Input.h"
 #include "Timer.h"
+#include "Renderer.h"
 
 
 class Game {
 protected:
-	static Window	* & window;					// janela
-	static Timer	timer;					//tempo
+	static Window	*& window;					// janela
+	static Timer	timer;						//tempo
 	static Input	* input;					// entrada
+	static Renderer	* renderer;					// entrada
+
 	static float	& gameTime;					// tempo do último quadro
 public:
 	Game();										// construtor

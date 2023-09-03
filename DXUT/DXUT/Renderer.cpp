@@ -318,11 +318,15 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
             float rotation = sprites[i]->rotation;
             float layerDepth = sprites[i]->depth;
 
+            ///TODO: Melhorar o sistema de ancoragem
+            float xAnchor = sprites[i]->xAnchor;
+            float yAnchor = sprites[i]->yAnchor;
+
             // carrega informações do sprite em registros SIMD
             XMVECTOR source = XMVectorSet(0, 0, 1, 1);
             XMVECTOR destination = XMVectorPermute<0, 1, 4, 4>(XMLoadFloat2(&positionxy), XMLoadFloat(&scale));
             XMVECTOR color = XMVectorSet(1, 1, 1, 1);
-            XMVECTOR originRotationDepth = XMVectorSet(center.x, center.y, rotation, layerDepth);
+            XMVECTOR originRotationDepth = XMVectorSet(center.x + xAnchor, center.y + yAnchor, rotation, layerDepth);
 
             // extrai os tamanhos de origem e destino em vetores separados
             XMVECTOR sourceSize = XMVectorSwizzle<2, 3, 2, 3>(source);

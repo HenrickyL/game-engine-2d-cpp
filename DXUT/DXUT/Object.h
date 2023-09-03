@@ -9,13 +9,13 @@
 
 class Object
 {
-public:
+protected:
     static Window*& window;        // janela do jogo
     static Input*& input;        // janela do jogo 
     static float& gameTime;      // tempo do último quadro
 
 	float x, y, z;                  // coordenadas do objeto 
-    float _speed;
+    float _speed = 1.0f;
 
 public:
     Object();                       // construtor padrão
@@ -49,7 +49,10 @@ public:
     virtual void Draw() = 0;
 
     float Speed() const;
-    void Speed(const float speed);
+    void SetSpeed(const float speed);
+
+    float X();
+    float Y();
 
 };
 
@@ -59,8 +62,17 @@ public:
 
 inline float Object::Speed() const
 {    return _speed;}
-inline void Object::Speed(const float speed)
+inline void Object::SetSpeed(const float speed)
 {    _speed = speed;}
+
+inline float Object::X()
+{
+    return x;
+}
+inline float Object::Y()
+{
+    return y;
+}
 // -----------------------------------------------------------------------------
 
 // move o objeto por (deltaX, deltaY, deltaZ)

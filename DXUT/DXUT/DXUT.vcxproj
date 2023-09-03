@@ -131,7 +131,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="Frogger.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Error.cpp" />
@@ -141,8 +143,8 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="IState.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Shank.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -155,11 +157,13 @@
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="DXUT_Utils_Direction_.h" />
     <ClInclude Include="DXUT_2D.h" />
     <ClInclude Include="DXUT_IA.h" />
-    <ClInclude Include="DXUT_Observer.h" />
+    <ClInclude Include="DXUT_Utils_Observer.h" />
     <ClInclude Include="DXUT_Utils.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="Frogger.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />
     <ClInclude Include="Engine.h" />
@@ -172,9 +176,9 @@
     <ClInclude Include="INode.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SearchMethods.h" />
-    <ClInclude Include="Shank.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SubjectNotification.h" />
     <ClInclude Include="IObserver.h" />
