@@ -133,7 +133,6 @@
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="Environment.cpp" />
-    <ClCompile Include="Frogger.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Error.cpp" />
@@ -143,7 +142,6 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="IState.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -163,7 +161,6 @@
     <ClInclude Include="DXUT_Utils_Observer.h" />
     <ClInclude Include="DXUT_Utils.h" />
     <ClInclude Include="Environment.h" />
-    <ClInclude Include="Frogger.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />
     <ClInclude Include="Engine.h" />
@@ -176,7 +173,6 @@
     <ClInclude Include="INode.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SearchMethods.h" />
     <ClInclude Include="Sprite.h" />

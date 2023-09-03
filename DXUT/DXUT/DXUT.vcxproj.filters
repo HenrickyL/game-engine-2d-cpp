@@ -127,12 +127,6 @@
     <ClCompile Include="Object.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Frogger.cpp">
-      <Filter>Game\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Obstacle.cpp">
-      <Filter>Game\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DirectionConverter.cpp">
       <Filter>Modules\Utils\Source Files</Filter>
     </ClCompile>
@@ -245,12 +239,6 @@
     </ClInclude>
     <ClInclude Include="DXUT_2D.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Obstacle.h">
-      <Filter>Game\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Frogger.h">
-      <Filter>Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DXUT_Utils_Direction_.h">
       <Filter>Modules\Utils\Header Files\Direction</Filter>
