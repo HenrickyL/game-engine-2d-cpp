@@ -4,21 +4,52 @@
 // -------------------------------------------------------------------------------
 // Inicialização de variáveis estáticas da classe
 
-Window	*& Object::window	= Engine::window;           // ponteiro para a janela
-Input	*& Object::input	= Engine::input;        // tempo do último quadro
-float	& Object::gameTime	= Engine::frameTime;        // tempo do último quadro
+Window	*&Object::window	= Engine::window;           // ponteiro para a janela
+Input	*&Object::input		= Engine::input;        // tempo do último quadro
+float	&Object::gameTime	= Engine::frameTime;        // tempo do último quadro
 
 
 // -------------------------------------------------------------------------------
 
-Object::Object() : x(0.0f), y(0.0f), z(0.5f)
+Object::Object()
 {
 }
 
 // -------------------------------------------------------------------------------
 
-Object::~Object()
+//Object::~Object()
+//{
+//	delete _position;
+//	delete _sprite;
+//}
+
+// -------------------------------------------------------------------------------
+
+void Object::SetSprite(Sprite* sprite)
 {
+	if(_sprite != sprite)
+	{
+		_sprite = sprite;
+		_sprite->SetPosition(_position);
+	}
 }
 
 // -------------------------------------------------------------------------------
+
+void Object::Translate(const Point delta)
+{
+	_position->Translate(delta);
+	_sprite->SetPosition(_position);
+}
+
+void Object::MoveTo(Point* position)
+{
+	_position->MoveTo(position);
+	_sprite->SetPosition(_position);
+};
+
+void Object::MoveTo(Point position)
+{
+	_position->MoveTo(position);
+	_sprite->SetPosition(_position);
+};

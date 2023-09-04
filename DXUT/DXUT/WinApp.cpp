@@ -6,6 +6,7 @@
 //#include "Engine.h"
 
 
+
 WinApp::WinApp()
 {
     window->Size(800, 600);
@@ -16,8 +17,9 @@ void WinApp::Init()
 {
 	//Engine::Instance()->DisableGraphics();
     _pause = new Sprite("Resources/pause_screen.png");
-    _pause->SetScale(0.6);
-}
+    _pause->SetScale(0.6f);
+    _pause->SetPosition(window->Center());
+;}
 
 // ------------------------------------------------------------------------------
 
@@ -26,12 +28,13 @@ void WinApp::InputVerifyExit()
     // sai com o pressionamento da tecla ESC
     if (input->KeyPress(VK_ESCAPE))
         window->Close();
+
 }
 // ------------------------------------------------------------------------------
 
 void WinApp::Update()
 {
-
+    InputVerifyExit();
 }
 
 
@@ -39,7 +42,6 @@ void WinApp::Update()
 
 void WinApp::Draw()
 {
-
 }
 
 // ------------------------------------------------------------------------------
@@ -54,5 +56,5 @@ void WinApp::Finalize()
 
 
 void WinApp::OnPause() {
-    _pause->Draw(window->CenterX() - _pause->Width() / 2, window->CenterY() - _pause->Height() / 2, Layer::FRONT);
+    _pause->Draw();
 }
