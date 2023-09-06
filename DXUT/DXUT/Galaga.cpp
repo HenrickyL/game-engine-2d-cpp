@@ -25,7 +25,7 @@ void Galaga::Init()
     //Aloca imagens
     alien1Img = new Image("Resources/Alien1.png");
     playerImg = new Image("Resources/Nave.png");
-
+    missileImg = new Image("Resources/Missile.png");
 
     // ------------------------------
     // cria cena do jogo
@@ -48,7 +48,7 @@ void Galaga::Init()
 
     //-------------------------------
     //criar player
-    Player* player = new Player(playerImg);
+    Player* player = new Player(playerImg, missileImg);
     player->MoveTo(Point(window->Center().X(), window->Height() - 50.f));
     scene->Add(player);
 
@@ -105,6 +105,8 @@ void Galaga::Finalize()
     delete pause;
     //delete imgs
     delete alien1Img;
+    delete playerImg;
+    delete missileImg;
     // apaga sprites
     delete backg;
     delete title;

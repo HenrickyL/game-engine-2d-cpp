@@ -22,7 +22,7 @@ Alien::~Alien()
 void Alien::Update()
 {
     // desloca alien
-    this->Translate(_speed*gameTime);
+    this->Translate(_speed * gameTime);
 
     // alien saindo pela esquerda
     if (_speed <=> Vector::Left &&_position->X() + _sprite->HalfWidth() < 0)

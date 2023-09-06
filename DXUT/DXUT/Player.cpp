@@ -1,10 +1,14 @@
 #include "Player.h"
 // ---------------------------------------------------------------------------------
+#include "Galaga.h"
+#include "Missile.h"
+// ---------------------------------------------------------------------------------
 
-Player::Player(Image* img)
+Player::Player(Image* imgPlayer, Image* missileImg)
 {
 	_position = new Point();
-	this->SetSprite(new Sprite(img));
+	_missile = missileImg;
+	this->SetSprite(new Sprite(imgPlayer));
 	this->SetSpeed(Vector::Right * 160.0f);
 	_sprite->SetLayer(Layer::MIDDLE);
 }
@@ -34,6 +38,14 @@ void Player::Update()
 
 		if (_position->X() + _sprite->HalfWidth() <= window->Width())
 			this->Translate(_speed * gameTime);
+	}
+
+	if(input->KeyPress(SPACE))
+	{
+		Missile* m = new Missile(_missile);
+		Point p = Point(_position->X(), _position->Y() - _sprite->HalfHeight());
+		m->MoveTo(p);
+		Galaga::scene->Add(m);
 	}
 }
 

@@ -14,6 +14,8 @@ private:
 
 	Image* alien1Img = nullptr;
 	Image* playerImg = nullptr;
+	Image* missileImg = nullptr;
+
 
 	void OnPause();
 	void InputVerifyExit();

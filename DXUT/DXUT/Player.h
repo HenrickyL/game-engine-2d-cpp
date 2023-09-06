@@ -9,8 +9,10 @@
 
 class Player : public Object
 {
+private :
+    Image* _missile;
 public:
-    Player(Image* img);
+    Player(Image* imgPlayer, Image* missileImg);
     ~Player();
 
     void Update();

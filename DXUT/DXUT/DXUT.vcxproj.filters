@@ -166,6 +166,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Develop\Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>Develop\Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
