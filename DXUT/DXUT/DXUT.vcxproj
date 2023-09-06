@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="Alien.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Galaga.cpp" />

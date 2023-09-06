@@ -22,8 +22,8 @@ protected:
     Sprite  *_sprite    = nullptr;
     float   _speed      = 1.0f;
 
-    Object();                       // construtor padrão
 public:
+    Object();                       // construtor padrão
     //virtual ~Object();              // destrutor virtual
 
     // ------------------------

@@ -1,5 +1,6 @@
 #include "Galaga.h"
-
+// ------------------------------------------------------------------------------
+#include "Alien.h"
 // ------------------------------------------------------------------------------
 // Inicialização de membros estáticos da classe
 
@@ -18,6 +19,10 @@ void Galaga::Init()
     pause = new Sprite("Resources/pause_screen.png");
     pause->SetScale(0.6f);
     pause->SetPosition(window->Center());
+    //-------------------------------
+    //Aloca imagens
+    alien1Img = new Image("Resources/Alien1.png");
+
 
     // ------------------------------
     // cria cena do jogo
@@ -36,7 +41,16 @@ void Galaga::Init()
     center.SetY(30 + title->HalfHeight());
     title->SetPosition(center);
 
-    ;
+    //-------------------------------
+    //criar alien
+    float offset = 80;
+    float posY = 260;
+
+    Alien* alien;
+    alien = new Alien(alien1Img);
+    alien->MoveTo(Point(200, posY));
+    scene->Add(alien);
+
 }
 
 // ------------------------------------------------------------------------------
@@ -78,6 +92,8 @@ void Galaga::Draw()
 void Galaga::Finalize()
 {
     delete pause;
+    //delete imgs
+    delete alien1Img;
     // apaga sprites
     delete backg;
     delete title;

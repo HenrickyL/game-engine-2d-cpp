@@ -23,10 +23,8 @@ public:
 	Point Translate(const Point delta);
 	void MoveTo(const Point position);
 
-	Point operator+(const Point& other) const;
-	Point* operator+(Point* other) const;
-
-
+	Point	operator+(const Point& other) const;
+	Point	operator*(const float value) const;
 };
 // ---------------------------------------------------------------------------------
 //inline
@@ -44,9 +42,8 @@ inline Point Point::operator+(const Point& other) const
 	return Point(_x + other._x, _y + other._y, _z + other._z);
 }
 
-inline Point* Point::operator+(Point* other) const
-{
-	return new Point(_x + other->_x, _y + other->_y, _z + other->_z);
+inline Point Point::operator*(const float value) const {
+	return Point(_x * value, _y * value, _z * value);
 }
 
 #endif

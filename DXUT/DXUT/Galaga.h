@@ -12,6 +12,8 @@ private:
 	Sprite* backg = nullptr;
 	Sprite* title = nullptr;
 
+	Image* alien1Img = nullptr;
+
 	void OnPause();
 	void InputVerifyExit();
 
