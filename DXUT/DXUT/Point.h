@@ -20,7 +20,7 @@ public:
 	void SetZ(const float value);
 
 	float Distance(Point* p);
-	void Translate(const Point delta);
+	Point Translate(const Point delta);
 	void MoveTo(const Point position);
 
 	Point operator+(const Point& other) const;

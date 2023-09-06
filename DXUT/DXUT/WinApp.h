@@ -8,12 +8,16 @@ using std::stringstream;
 class WinApp : public Game
 {
 private:
-    Sprite* _pause = nullptr;
+    Sprite* pause = nullptr;
+	Sprite* backg = nullptr;
+	Sprite* title = nullptr;
 
     void OnPause();                     // pausa do jogo
 	void InputVerifyExit();
 
 public:
+	static Scene* scene;
+
     WinApp();
 	void Init();
 	void Update();

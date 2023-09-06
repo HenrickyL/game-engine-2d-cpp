@@ -65,6 +65,8 @@ public:
     float   Scale() const;
     float   Width() const;                    // largura do _sprite
     float   Height() const;                   // altura do sprite
+    float   HalfWidth() const;
+    float   HalfHeight() const;
     Point*  Position() const;
 
 
@@ -73,9 +75,11 @@ public:
 // ---------------------------------------------------------------------------------
 // Funções Inline
 
-inline float      Sprite::Width() const { return image->Width() * sprite.scale;}
-inline float      Sprite::Height() const { return image->Height() * sprite.scale;}
-inline Point*    Sprite::Position() const { return _position; }
+inline float    Sprite::Width() const { return image->Width() * sprite.scale;}
+inline float    Sprite::Height() const { return image->Height() * sprite.scale;}
+inline Point*   Sprite::Position() const { return _position; }
+inline float    Sprite::HalfWidth() const { return Width() / 2.0f; }
+inline float    Sprite::HalfHeight() const { return Height() / 2.0f; }
 
 // ---------------------------------------------------------------------------------
 

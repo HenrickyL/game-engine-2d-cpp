@@ -4,5 +4,6 @@
 #include "Image.h"
 #include "Sprite.h"
 #include "Object.h"
+#include "Scene.h"
 
 #endif

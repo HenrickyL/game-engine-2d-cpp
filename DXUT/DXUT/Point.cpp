@@ -32,18 +32,19 @@ float Point::Distance(Point* p)
 	return std::sqrt(difX * difX + difY * difY + difZ * difZ);
 }
 // ---------------------------------------------------------------------------------
-void Point::Translate(const Point delta)
+Point Point::Translate(const Point delta)
 {
 	_x += delta._x;
 	_y += delta._y;
 	_z += delta._z;
+	return Point(_x, _y, _z);
 }
 // ---------------------------------------------------------------------------------
 
 void Point::MoveTo(const Point position)
 {
 	_x = position._x;
-	_y = position. _y;
+	_y = position._y;
 	_z = position._z;
 }
 // ---------------------------------------------------------------------------------
