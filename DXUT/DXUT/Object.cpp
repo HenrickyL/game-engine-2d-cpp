@@ -25,6 +25,15 @@ Object::Object()
 
 // -------------------------------------------------------------------------------
 
+void Object::Draw()
+{
+	if(_sprite != nullptr)
+		_sprite->Draw();
+}
+
+
+// -------------------------------------------------------------------------------
+
 void Object::SetSprite(Sprite* sprite)
 {
 	if(_sprite != sprite)

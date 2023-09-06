@@ -144,6 +144,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="IState.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />

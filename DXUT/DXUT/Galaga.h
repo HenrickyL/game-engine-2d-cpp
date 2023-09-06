@@ -13,6 +13,7 @@ private:
 	Sprite* title = nullptr;
 
 	Image* alien1Img = nullptr;
+	Image* playerImg = nullptr;
 
 	void OnPause();
 	void InputVerifyExit();

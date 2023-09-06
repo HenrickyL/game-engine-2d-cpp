@@ -50,7 +50,7 @@ public:
     virtual void Update() = 0;
 
     // desenha o objeto na tela
-    virtual void Draw() = 0;
+    virtual void Draw();
 
     // -----------------------------------------------------------------------------
 

@@ -1,6 +1,8 @@
 #include "Galaga.h"
 // ------------------------------------------------------------------------------
 #include "Alien.h"
+#include "Player.h"
+
 // ------------------------------------------------------------------------------
 // Inicialização de membros estáticos da classe
 
@@ -22,6 +24,7 @@ void Galaga::Init()
     //-------------------------------
     //Aloca imagens
     alien1Img = new Image("Resources/Alien1.png");
+    playerImg = new Image("Resources/Nave.png");
 
 
     // ------------------------------
@@ -40,6 +43,14 @@ void Galaga::Init()
     title->SetLayer(Layer::FRONT);
     center.SetY(30 + title->HalfHeight());
     title->SetPosition(center);
+
+
+
+    //-------------------------------
+    //criar player
+    Player* player = new Player(playerImg);
+    player->MoveTo(Point(window->Center().X(), window->Height() - 50.f));
+    scene->Add(player);
 
     //-------------------------------
     //criar alien
