@@ -22,10 +22,7 @@ Alien::~Alien()
 void Alien::Update()
 {
     // desloca alien
-    //Vector direction = Vector::Right + _speed ;//(_speed * gameTime);
     this->Translate(_speed*gameTime);
-    // mantêm os alienígenas dentro da janela
-    // tamanho das imagens é 28x30
 
     // alien saindo pela esquerda
     if (_speed <=> Vector::Left &&_position->X() + _sprite->HalfWidth() < 0)
