@@ -28,11 +28,11 @@ void Alien::Update()
     // tamanho das imagens é 28x30
 
     // alien saindo pela esquerda
-    if (_position->X() + _sprite->HalfWidth() < 0)
+    if (_speed < 0 && _position->X() + _sprite->HalfWidth() < 0)
         this->MoveTo(Point(window->Width(), _position->Y()));
 
     // alien saindo pela direita
-    if (_position->X() > window->Width() + _sprite->HalfWidth())
+    if (_speed>=0 && _position->X() > window->Width() + _sprite->HalfWidth())
         this->MoveTo(Point(-_sprite->Width(), _position->Y()));
 }
 
