@@ -5,5 +5,7 @@
 #include "Sprite.h"
 #include "Object.h"
 #include "Scene.h"
+#include "Point.h"
+#include "Vector.h"
 
 #endif

@@ -6,6 +6,7 @@
 #include "Input.h"                 // janela usada para o jogo
 #include "Point.h"
 #include "Sprite.h"
+#include "Vector.h"
 
 // -----------------------------------------------------------------------------
 
@@ -20,7 +21,7 @@ protected:
 
 	Point   *_position  = nullptr;                  // coordenadas do objeto
     Sprite  *_sprite    = nullptr;
-    float   _speed      = 1.0f;
+    Vector   _speed      = Vector::Right;
 
 public:
     Object();                       // construtor padrão
@@ -53,12 +54,12 @@ public:
 
     // -----------------------------------------------------------------------------
 
-    float Speed() const;
+    Vector Speed() const;
     Point Position() const;
 
     // -----------------------------------------------------------------------------
 
-    void SetSpeed(const float speed);
+    void SetSpeed(const Vector speed);
     void SetSprite(Sprite* sprite);
 
 
@@ -68,8 +69,8 @@ public:
 // -----------------------------------------------------------------------------
 // Métodos Inline
 
-inline float Object::Speed() const { return _speed;}
-inline void Object::SetSpeed(const float speed){ _speed = speed;}
+inline Vector Object::Speed() const { return _speed;}
+inline void Object::SetSpeed(const Vector speed){ _speed = speed;}
 inline Point Object::Position() const { return *_position; }
 
 // -----------------------------------------------------------------------------

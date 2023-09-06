@@ -1,6 +1,7 @@
 #include "Point.h"
 // ---------------------------------------------------------------------------------
 #include "cmath"
+#include "Vector.h"
 // ---------------------------------------------------------------------------------
 
 Point::Point() : _x(0), _y(0), _z(0) {}
@@ -48,3 +49,15 @@ void Point::MoveTo(const Point position)
 	_z = position._z;
 }
 // ---------------------------------------------------------------------------------
+Point Point::operator+(const Point& other) const
+{
+	return Point(_x + other._x, _y + other._y, _z + other._z);
+}
+
+Point Point::operator*(const float value) const {
+	return Point(_x * value, _y * value, _z * value);
+}
+Vector	Point::operator-(const Point& other) const
+{
+	return Vector(_x - other._x, _y - other._y, _z - other._z);
+}

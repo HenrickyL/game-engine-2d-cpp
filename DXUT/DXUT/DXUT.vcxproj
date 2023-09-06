@@ -152,6 +152,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="ITransition.cpp" />
+    <ClCompile Include="Vector.cpp" />
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="ITransition.h" />
     <ClInclude Include="types.h" />
+    <ClInclude Include="Vector.h" />
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
