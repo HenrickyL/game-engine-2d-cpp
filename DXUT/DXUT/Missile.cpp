@@ -6,7 +6,7 @@
 
 Missile::Missile(Image* img)
 {
-	_position = new Point();
+	_position = new Position();
 	SetSprite(new Sprite(img));
 	SetSpeed(Vector::Up * 250.0f);
 	_sprite->SetLayer(Layer::UPPER);

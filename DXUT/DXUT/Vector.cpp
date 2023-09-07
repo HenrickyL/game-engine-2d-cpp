@@ -1,7 +1,8 @@
 #include  "Vector.h"
 // ---------------------------------------------------------------------------------
-#include "Point.h"
+#include "Position.h"
 #include <cmath>
+#include "Error.h"
 // ---------------------------------------------------------------------------------
 Vector Vector::Forward = Vector(0,0,1);
 Vector Vector::Backward = Vector(0,0,-1);

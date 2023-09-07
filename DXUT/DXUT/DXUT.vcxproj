@@ -146,7 +146,7 @@
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Position.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene.h" />
@@ -175,6 +175,7 @@
     <ClInclude Include="DXUT.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Error.h" />
+    <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Input.h" />
@@ -185,7 +186,7 @@
     <ClInclude Include="Missile.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Point.h" />
+    <ClInclude Include="Position.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SearchMethods.h" />
     <ClInclude Include="Sprite.h" />
@@ -199,7 +200,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="ITransition.h" />
-    <ClInclude Include="types.h" />
+    <ClInclude Include="Types.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="Window.h" />

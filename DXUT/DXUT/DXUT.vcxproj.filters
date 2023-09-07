@@ -85,6 +85,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Engine\Header Files\Geometries">
+      <UniqueIdentifier>{5d96b57c-9786-49e8-a5ce-86b7bab5f54d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -145,7 +148,7 @@
     <ClCompile Include="GraphicsFPS.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="Point.cpp">
+    <ClCompile Include="Position.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene.h">
@@ -276,10 +279,7 @@
     <ClInclude Include="InputKeys.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="types.h">
-      <Filter>Engine\Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Point.h">
+    <ClInclude Include="Types.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Alien.h">
@@ -298,6 +298,12 @@
       <Filter>Develop\Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>

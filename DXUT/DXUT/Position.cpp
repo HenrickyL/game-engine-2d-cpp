@@ -1,15 +1,15 @@
-#include "Point.h"
+#include "Position.h"
 // ---------------------------------------------------------------------------------
 #include "cmath"
 #include "Vector.h"
 // ---------------------------------------------------------------------------------
 
-Point::Point() : _x(0), _y(0), _z(0) {}
+Position::Position() : _x(0), _y(0), _z(0) {}
 // ---------------------------------------------------------------------------------
 
-Point::Point(float x, float y, float z): _x(x), _y(y), _z(z) {}
+Position::Position(float x, float y, float z): _x(x), _y(y), _z(z) {}
 // ---------------------------------------------------------------------------------
-Point::Point(Point* p)
+Position::Position(Position* p)
 {
 	_x = p->_x;
 	_y = p->_y;
@@ -17,14 +17,14 @@ Point::Point(Point* p)
 }
 // ---------------------------------------------------------------------------------
 
-Point::~Point()
+Position::~Position()
 {
 	
 }
 // ---------------------------------------------------------------------------------
 
 
-float Point::Distance(Point* p)
+float Position::Distance(Position* p)
 {
 	float difX = p->X() - this->X();
 	float difY = p->Y() - this->Y();
@@ -33,31 +33,30 @@ float Point::Distance(Point* p)
 	return std::sqrt(difX * difX + difY * difY + difZ * difZ);
 }
 // ---------------------------------------------------------------------------------
-Point Point::Translate(const Point delta)
+void Position::Translate(const Vector& delta)
 {
-	_x += delta._x;
-	_y += delta._y;
-	_z += delta._z;
-	return Point(_x, _y, _z);
+	_x += delta.X();
+	_y += delta.Y();
+	_z += delta.Z();
 }
 // ---------------------------------------------------------------------------------
 
-void Point::MoveTo(const Point position)
+void Position::MoveTo(const Position& position)
 {
 	_x = position._x;
 	_y = position._y;
 	_z = position._z;
 }
 // ---------------------------------------------------------------------------------
-Point Point::operator+(const Point& other) const
+Position Position::operator+(const Position& other) const
 {
-	return Point(_x + other._x, _y + other._y, _z + other._z);
+	return Position(_x + other._x, _y + other._y, _z + other._z);
 }
 
-Point Point::operator*(const float value) const {
-	return Point(_x * value, _y * value, _z * value);
+Position Position::operator*(const float value) const {
+	return Position(_x * value, _y * value, _z * value);
 }
-Vector	Point::operator-(const Point& other) const
+Vector	Position::operator-(const Position& other) const
 {
 	return Vector(_x -other._x, _y - other._y, _z - other._z);
 }

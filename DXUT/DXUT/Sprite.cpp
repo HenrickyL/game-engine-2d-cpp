@@ -14,7 +14,7 @@ Sprite::Sprite(string filename)
     // carrega imagem
     image = new Image(filename);
     localImage = true;
-    _position = new Point();
+    _position = new Position();
     sprite.position = _position;
     // configura registro sprite
     ResetSprite();
@@ -27,7 +27,7 @@ Sprite::Sprite(Image* img)
     // aponta para imagem externa
     image = img;
     localImage = false;
-    _position = new Point();
+    _position = new Position();
     sprite.position = _position;
 
     // configura registro sprite
@@ -92,7 +92,7 @@ void Sprite::SetImage(const std::string _filename)
 
 // ---------------------------------------------------------------------------------
 
-void Sprite::SetPosition(const Point p)
+void Sprite::SetPosition(const Position& p)
 {
     _position->MoveTo(p);
 }

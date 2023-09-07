@@ -1,10 +1,9 @@
 #ifndef DXUT_VECTOR_H
 #define DXUT_VECTOR_H
 // ---------------------------------------------------------------------------------
-#include "Error.h"
-#include "Point.h"
+#include "Position.h"
 // ---------------------------------------------------------------------------------
-class Vector : public Point
+class Vector : public Position
 {
 public:
 	static Vector Forward;
@@ -30,9 +29,5 @@ public:
 	bool	operator<=>(const Vector& other) const; // equal direction
 
 };
-
-
-
-
 
 #endif

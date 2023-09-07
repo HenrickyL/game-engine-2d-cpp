@@ -37,7 +37,7 @@ void Galaga::Init()
 
     // ------------------------------
     // cria sprite do fundo e título
-    Point center = window->Center();
+    Position center = window->Center();
 
     backg = new Sprite("Resources/space.png");
     backg->SetLayer(Layer::BACK);
@@ -53,7 +53,7 @@ void Galaga::Init()
     //-------------------------------
     //criar player
     Player* player = new Player(playerImg, missileImg);
-    player->MoveTo(Point(window->Center().X(), window->Height() - 50.f));
+    player->MoveTo(Position(window->Center().X(), window->Height() - 50.f));
     scene->Add(player);
 
     //-------------------------------
@@ -78,12 +78,12 @@ void Galaga::Init()
             if (col % 2 == 0) {
                 speed = 80.0f;
                 alien->SetSpeed(Vector::Right * speed);
-                alien->MoveTo(Point(posX, posY));
+                alien->MoveTo(Position(posX, posY));
             }
             else {
                 speed = 80.0f;
                 alien->SetSpeed(Vector::Left * speed);
-                alien->MoveTo(Point(window->Width()- posX, posY));
+                alien->MoveTo(Position(window->Width()- posX, posY));
 
             }
             scene->Add(alien);

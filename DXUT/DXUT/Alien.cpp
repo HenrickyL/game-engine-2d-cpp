@@ -4,7 +4,7 @@
 
 Alien::Alien(Image* img)
 {
-    _position = new Point();
+    _position = new Position();
     this->SetSprite(new Sprite(img));
     this->SetSpeed(Vector::Right * _speedScalar);
 }
@@ -26,11 +26,11 @@ void Alien::Update()
 
     // alien saindo pela esquerda
     if (_speed <=> Vector::Left &&_position->X() + _sprite->HalfWidth() < 0)
-        this->MoveTo(Point(window->Width(), _position->Y()));
+        this->MoveTo(Position(window->Width(), _position->Y()));
 
     // alien saindo pela direita
     if (_speed <=> Vector::Right && _position->X() > window->Width() + _sprite->HalfWidth())
-        this->MoveTo(Point(-_sprite->Width(), _position->Y()));
+        this->MoveTo(Position(-_sprite->Width(), _position->Y()));
 }
 
 // ---------------------------------------------------------------------------------

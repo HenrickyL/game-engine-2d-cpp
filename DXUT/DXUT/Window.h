@@ -9,7 +9,7 @@
 #include <windowsx.h>   // inclui extensões do windows
 #include <string>       // inclui a classe string
 #include "Colors.h"
-#include "Point.h"
+#include "Position.h"
 using std::string;      // permite usar o tipo string sem std::
 
 // ---------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ private:
     int			windowMode;                                 // modo tela cheia, em janela ou sem borda
     int			windowPosX;                                 // posição inicial da janela no eixo x
     int			windowPosY;                                 // posição inicial da janela no eixo y
-    Point       center;
+    Position       center;
 
     //function reference
     static void (*inFocus)();								// executar quando a janela ganhar de volta o foco
@@ -51,7 +51,7 @@ public:
     int Height() const;                                     // retorna a altura atual da janela
     int Mode() const;                                       // retorna o modo atual da janela (FULLSCREEN/WINDOWED)
 
-    Point Center() const;
+    Position Center() const;
 
     string Title() const;                                   // retorna título da janela
     COLORREF Color() const;                                 // retorna a cor de fundo da janela
@@ -106,7 +106,7 @@ inline string Window::Title() const
 inline COLORREF Window::Color() const
 {  return windowColor;}
 
-inline Point Window::Center() const
+inline Position Window::Center() const
 {
     return center;
 }

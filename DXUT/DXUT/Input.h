@@ -10,7 +10,7 @@ private:
 	static bool ctrl[256];				// controle da liberação de teclas
 	static string text;					// armazenamento para os caracteres digitados
 
-	static Point*	mousePosition;
+	static Position*	mousePosition;
 	static short	mouseWheel;			// valor da roda do mouse
 public:
 	Input();							// construtor
@@ -22,7 +22,7 @@ public:
 
 	int   MouseX() const;						// retorna posição x do mouse
 	int   MouseY() const;						// retorna posição y do mouse
-	Point MousePosition() const;
+	Position MousePosition() const;
 
 	short MouseWheel();					// retorna rotação da roda do mouse
 
@@ -51,7 +51,7 @@ inline int Input::MouseX() const
 // retorna a posição do mouse no eixo y
 inline int Input::MouseY() const
 {	return mousePosition->Y();}
-inline Point Input::MousePosition() const { return Point(Input::mousePosition); }
+inline Position Input::MousePosition() const { return Position(Input::mousePosition); }
 
 // retorna conteúdo do texto lido
 inline const char* Input::Text()

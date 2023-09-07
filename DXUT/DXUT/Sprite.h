@@ -3,13 +3,13 @@
 // ---------------------------------------------------------------------------------
 #include "Image.h"
 #include "DXUT_Utils_Direction_.h"
-#include "Point.h"
+#include "Position.h"
 
 
 // ---------------------------------------------------------------------------------
 struct SpriteData
 {
-    Point* position;
+    Position* position;
     float scale;
     float depth;
     float rotation;
@@ -33,7 +33,7 @@ class Sprite
 {
 private:
     SpriteData sprite;              // dados do _sprite
-    Point* _position;
+    Position* _position;
     bool localImage;                // imagem local ou externa
     Image* image;                   // ponteiro para uma imagem
 
@@ -57,7 +57,7 @@ public:
     void    SetScale(float scale);
     void    SetImage(Image* img);
     void    SetImage(const std::string _filename);
-    void    SetPosition(const Point p);
+    void    SetPosition(const Position& p);
     void    SetLayer(float layer);
 
 
@@ -67,7 +67,7 @@ public:
     float   Height() const;                   // altura do sprite
     float   HalfWidth() const;
     float   HalfHeight() const;
-    Point*  Position() const;
+    Position*  GetPosition() const;
 
 
 };
@@ -77,7 +77,7 @@ public:
 
 inline float    Sprite::Width() const { return image->Width() * sprite.scale;}
 inline float    Sprite::Height() const { return image->Height() * sprite.scale;}
-inline Point*   Sprite::Position() const { return _position; }
+inline Position*   Sprite::GetPosition() const { return _position; }
 inline float    Sprite::HalfWidth() const { return Width() / 2.0f; }
 inline float    Sprite::HalfHeight() const { return Height() / 2.0f; }
 

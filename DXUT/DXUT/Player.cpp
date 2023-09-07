@@ -6,7 +6,7 @@
 
 Player::Player(Image* imgPlayer, Image* missileImg)
 {
-	_position = new Point();
+	_position = new Position();
 	_missile = missileImg;
 	this->SetSprite(new Sprite(imgPlayer));
 	this->SetSpeed(Vector::Right * 160.0f);
@@ -43,7 +43,7 @@ void Player::Update()
 	if(input->KeyPress(SPACE))
 	{
 		Missile* m = new Missile(_missile);
-		Point p = Point(_position->X(), _position->Y() - _sprite->HalfHeight());
+		Position p = Position(_position->X(), _position->Y() - _sprite->HalfHeight());
 		m->MoveTo(p);
 		Galaga::scene->Add(m);
 	}

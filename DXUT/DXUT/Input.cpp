@@ -6,14 +6,14 @@
 bool Input::keys[256] = { 0 };							// estado do teclado/mouse
 bool Input::ctrl[256] = { 0 };							// controle de liberação das teclas
 string Input::text; 									// guarda caracteres digitados
-Point*	Input::mousePosition = nullptr;
+Position*	Input::mousePosition = nullptr;
 short	Input::mouseWheel = 0;							// valor da roda do mouse
 
 // -------------------------------------------------------------------------------
 
 Input::Input()
 {
-	mousePosition = new Point();
+	mousePosition = new Position();
 	// ATENÇÂO: supõe que a janela já foi criada com uma chamada a window->Create();
 	// altera a window procedure da janela ativa para InputProc
 	SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Input::InputProc);

@@ -45,19 +45,19 @@ void Object::SetSprite(Sprite* sprite)
 
 // -------------------------------------------------------------------------------
 
-void Object::Translate(const Point delta)
+void Object::Translate(const Vector& delta)
 {
 	_position->Translate(delta);
 	_sprite->SetPosition(_position);
 }
 
-void Object::MoveTo(Point* position)
+void Object::MoveTo(Position* position)
 {
 	_position->MoveTo(position);
 	_sprite->SetPosition(_position);
 };
 
-void Object::MoveTo(Point position)
+void Object::MoveTo(Position position)
 {
 	_position->MoveTo(position);
 	_sprite->SetPosition(_position);

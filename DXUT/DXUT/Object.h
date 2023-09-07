@@ -4,7 +4,7 @@
 // -----------------------------------------------------------------------------
 #include "Window.h"                 // janela usada para o jogo
 #include "Input.h"                 // janela usada para o jogo
-#include "Point.h"
+#include "Position.h"
 #include "Sprite.h"
 #include "Vector.h"
 
@@ -19,7 +19,7 @@ protected:
 
     // -----------------------------------------------------------------------------
 
-	Point   *_position  = nullptr;                  // coordenadas do objeto
+	Position   *_position  = nullptr;                  // coordenadas do objeto
     Sprite  *_sprite    = nullptr;
     Vector   _speed      = Vector::Right;
 
@@ -35,11 +35,11 @@ public:
     // ponteiro para a classe base
 
     // move o objeto por (deltaX, deltaY, deltaZ)
-    virtual void Translate(const Point delta);
+    virtual void Translate(const Vector& delta);
 
     // move o objeto para as coordenadas (x,y,z) indicadas
-    virtual void MoveTo(Point* position);
-    virtual void MoveTo(Point position);
+    virtual void MoveTo(Position* position);
+    virtual void MoveTo(Position position);
 
     // ------------------------
     // funções virtuais puras    
@@ -55,7 +55,7 @@ public:
     // -----------------------------------------------------------------------------
 
     Vector Speed() const;
-    Point Position() const;
+    Position GetPosition() const;
 
     // -----------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ public:
 
 inline Vector Object::Speed() const { return _speed;}
 inline void Object::SetSpeed(const Vector speed){ _speed = speed;}
-inline Point Object::Position() const { return *_position; }
+inline Position Object::GetPosition() const { return *_position; }
 
 // -----------------------------------------------------------------------------
 
