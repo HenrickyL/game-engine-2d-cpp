@@ -111,7 +111,7 @@ LRESULT CALLBACK Input::InputProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		// movimento do mouse
 	case WM_MOUSEMOVE:
 		mousePosition->SetX((int)GET_X_LPARAM(lParam));
-		mousePosition->SetX((int)GET_Y_LPARAM(lParam));
+		mousePosition->SetY((int)GET_Y_LPARAM(lParam));
 		return 0;
 
 		// movimento da roda do mouse

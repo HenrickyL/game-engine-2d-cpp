@@ -16,7 +16,7 @@ public:
 	static Vector Zero;
 
 
-	Vector(float x, float y, float z);
+	Vector(float x, float y, float z=0);
 
 	float Magnitude() const;
 	Vector Unit() const;

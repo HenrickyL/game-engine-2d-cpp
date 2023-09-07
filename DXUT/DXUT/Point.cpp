@@ -59,5 +59,5 @@ Point Point::operator*(const float value) const {
 }
 Vector	Point::operator-(const Point& other) const
 {
-	return Vector(_x - other._x, _y - other._y, _z - other._z);
+	return Vector(_x -other._x, _y - other._y, _z - other._z);
 }
