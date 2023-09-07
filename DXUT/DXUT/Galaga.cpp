@@ -24,6 +24,10 @@ void Galaga::Init()
     //-------------------------------
     //Aloca imagens
     alien1Img = new Image("Resources/Alien1.png");
+    alien2Img = new Image("Resources/Alien2.png");
+    alien3Img = new Image("Resources/Alien3.png");
+    alien4Img = new Image("Resources/Alien4.png");
+    Image* list[] = { alien1Img , alien2Img, alien3Img, alien4Img };
     playerImg = new Image("Resources/Nave.png");
     missileImg = new Image("Resources/Missile.png");
 
@@ -58,9 +62,35 @@ void Galaga::Init()
     float posY = 260;
 
     Alien* alien;
-    alien = new Alien(alien1Img);
-    alien->MoveTo(Point(200, posY));
-    scene->Add(alien);
+    bool invert = false;
+    float speed = 80.0f;
+
+    for(int row=0; row< 4; row++)
+    {
+        for (int col = 0; col < 4; col++) {
+            Image* img = list[col];
+            alien = new Alien(img);
+            float posX = col * offset;
+            if (row % 2 == 1) {
+                posX += offset / 2.0f; 
+            }
+           
+            if (col % 2 == 0) {
+                speed = 80.0f;
+                alien->SetSpeed(Vector::Right * speed);
+                alien->MoveTo(Point(posX, posY));
+            }
+            else {
+                speed = 80.0f;
+                alien->SetSpeed(Vector::Left * speed);
+                alien->MoveTo(Point(window->Width()- posX, posY));
+
+            }
+            scene->Add(alien);
+        }
+        posY += 80;
+    }
+   
 
 }
 
@@ -105,6 +135,9 @@ void Galaga::Finalize()
     delete pause;
     //delete imgs
     delete alien1Img;
+    delete alien2Img;
+    delete alien3Img;
+    delete alien4Img;
     delete playerImg;
     delete missileImg;
     // apaga sprites

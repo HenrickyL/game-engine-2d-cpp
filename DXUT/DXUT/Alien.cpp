@@ -6,7 +6,7 @@ Alien::Alien(Image* img)
 {
     _position = new Point();
     this->SetSprite(new Sprite(img));
-    this->SetSpeed(Vector::Right * 80.0f);
+    this->SetSpeed(Vector::Right * _speedScalar);
 }
 
 // ---------------------------------------------------------------------------------
@@ -34,3 +34,8 @@ void Alien::Update()
 }
 
 // ---------------------------------------------------------------------------------
+
+void Alien::SetDirection(const Vector& direction)
+{
+    this->SetDirection(direction * _speedScalar);
+}

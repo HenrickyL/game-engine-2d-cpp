@@ -13,6 +13,10 @@ private:
 	Sprite* title = nullptr;
 
 	Image* alien1Img = nullptr;
+	Image* alien2Img = nullptr;
+	Image* alien3Img = nullptr;
+	Image* alien4Img = nullptr;
+
 	Image* playerImg = nullptr;
 	Image* missileImg = nullptr;
 

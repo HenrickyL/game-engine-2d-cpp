@@ -10,7 +10,6 @@ Missile::Missile(Image* img)
 	SetSprite(new Sprite(img));
 	SetSpeed(Vector::Up * 250.0f);
 	_sprite->SetLayer(Layer::UPPER);
-
 }
 // ---------------------------------------------------------------------------------
 

@@ -7,11 +7,15 @@
 
 class Alien : public Object
 {
+private:
+    float _speedScalar = 80.0f;
 public:
     Alien(Image* img);
     ~Alien();
 
     void Update();
+
+    void SetDirection(const Vector& direction);
 };
 
 // ---------------------------------------------------------------------------------
