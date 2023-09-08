@@ -15,7 +15,13 @@ Sprite::Sprite(string filename)
     image = new Image(filename);
     localImage = true;
     _position = new Position();
-    sprite.position = _position;
+    if (sprite.position) {
+        sprite.position->MoveTo(_position);
+    }
+    else {
+        sprite.position = _position;
+
+    }
     // configura registro sprite
     ResetSprite();
 }

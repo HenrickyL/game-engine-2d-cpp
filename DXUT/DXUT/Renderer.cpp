@@ -33,6 +33,24 @@ Renderer::Renderer()
 
 Renderer::~Renderer()
 {
+    // ----------------------------------------
+    // Pixel Ploting
+    // ----------------------------------------
+
+    // libera visualização da textura de plotagem de pixels
+    if (pixelPlotView)
+    {
+        pixelPlotView->Release();
+        pixelPlotView = nullptr;
+    }
+
+    // libera textura de plotagem de pixels
+    if (pixelPlotTexture)
+    {
+        pixelPlotTexture->Release();
+        pixelPlotTexture = nullptr;
+    }
+    // ----------------------------------------
     if (constantBuffer)
     {
         constantBuffer->Release();
@@ -89,7 +107,8 @@ bool Renderer::Initialize(Window* window, Graphics* graphics)
     //-------------------------------
     // Vertex Shader
     //-------------------------------
-
+    _window = window;
+    _graphics = graphics;
     // carrega bytecode do vertex shader (HLSL)
     ID3DBlob* vShader = nullptr;
     if FAILED(D3DReadFileToBlob(L"Shaders/Vertex.cso", &vShader))
@@ -301,6 +320,8 @@ bool Renderer::Initialize(Window* window, Graphics* graphics)
 
     if (pixelPlotSprite.position)
         pixelPlotSprite.position->MoveTo(Position(0, 0));
+    else
+        pixelPlotSprite.position = new Position();
     pixelPlotSprite.scale = 1.0f;
     pixelPlotSprite.depth = 0.0f;
     pixelPlotSprite.rotation = 0.0f;
@@ -733,8 +754,8 @@ int Renderer::ClipLine(int& x1, int& y1, int& x2, int& y2)
     // this function clips the sent line using the clipping region defined below
     int min_clip_x = 0;
     int min_clip_y = 0;
-    int max_clip_x = window->Width() - 1;
-    int max_clip_y = window->Height() - 1;
+    int max_clip_x = _window->Width() - 1;
+    int max_clip_y = _window->Height() - 1;
 
     // internal clipping codes
 #define CLIP_CODE_C  0x0000
@@ -996,7 +1017,7 @@ void Renderer::BeginPixels()
 {
     // trava a textura para plotagem de pixels
     D3D11_MAPPED_SUBRESOURCE mappedTex;
-    graphics->context->Map(pixelPlotTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedTex);
+    _graphics->context->Map(pixelPlotTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedTex);
 
     // formato de tela usando 32 bits por pixel
     // ----------------------------------------
@@ -1013,7 +1034,7 @@ void Renderer::BeginPixels()
 
     // limpa a textura para o próximo desenho
     // 0xff000000 = valor 32bits codificado com Alpha transparente
-    memset(videoMemory, 0xff000000, mappedTex.RowPitch * window->Height());
+    memset(videoMemory, 0xff000000, mappedTex.RowPitch * _window->Height());
 }
 // -----------------------------------------------------------------------------
 
@@ -1046,8 +1067,8 @@ void Renderer::Draw(Geometry* shape, ulong color)
 
 void Renderer::Draw(Point* point, ulong color)
 {
-    if (point->X() >= 0 && point->X() < window->Width())
-        if (point->Y() >= 0 && point->Y() < window->Height())
+    if (point->X() >= 0 && point->X() < _window->Width())
+        if (point->Y() >= 0 && point->Y() < _window->Height())
             PlotPixel(int(point->X()), int(point->Y()), color);
 }
 
@@ -1171,7 +1192,7 @@ void Renderer::Draw(Mixed* mul, ulong color)
 void Renderer::EndPixels()
 {
     // destrava a textura de plotagem de pixels
-    graphics->context->Unmap(pixelPlotTexture, 0);
+    _graphics->context->Unmap(pixelPlotTexture, 0);
 
     // adiciona o sprite na lista de desenho
     Draw(&pixelPlotSprite);
