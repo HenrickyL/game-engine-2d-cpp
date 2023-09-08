@@ -2,14 +2,11 @@
 #include "Engine.h"
 // -------------------------------------------------------------------------------
 // Inicialização de membros estáticos das classes
-
-// valores de profundidade predefinidos
-const float Layer::FRONT = 0.00f;
-const float Layer::UPPER = 0.25f;
-const float Layer::MIDDLE = 0.50f;
-const float Layer::LOWER = 0.75f;
-const float Layer::BACK = 0.99f;
-
+const float Layer::FRONT    = 0.00f;
+const float Layer::UPPER    = 0.25f;
+const float Layer::MIDDLE   = 0.50f;
+const float Layer::LOWER    = 0.75f;
+const float Layer::BACK     = 0.99f;
 // ---------------------------------------------------------------------------------
 
 Sprite::Sprite(string filename)
@@ -17,7 +14,14 @@ Sprite::Sprite(string filename)
     // carrega imagem
     image = new Image(filename);
     localImage = true;
+    _position = new Position();
+    if (sprite.position) {
+        sprite.position->MoveTo(_position);
+    }
+    else {
+        sprite.position = _position;
 
+    }
     // configura registro sprite
     ResetSprite();
 }
@@ -29,6 +33,8 @@ Sprite::Sprite(Image* img)
     // aponta para imagem externa
     image = img;
     localImage = false;
+    _position = new Position();
+    sprite.position = _position;
 
     // configura registro sprite
     ResetSprite();
@@ -39,6 +45,7 @@ Sprite::Sprite(Image* img)
 
 Sprite::~Sprite()
 {
+    delete _position;
     if (localImage)
         delete image;
 }
@@ -51,23 +58,16 @@ void Sprite::ResetSprite()
     sprite.texture = image->View();
     sprite.width = image->Width();
     sprite.height = image->Height();
-    sprite.x = 0;
-    sprite.y = 0;
     sprite.scale = scaleDefault;
     sprite.depth = Layer::MIDDLE;
     sprite.rotation = rotationDefault;
-    sprite.xAnchor = 0; // Defina o âncora X no meio (50%) da largura.
-    sprite.yAnchor = 0; // Defina o âncora Y no meio (50%) da altura.
+    sprite.anchorX = Width() / 2;
+    sprite.anchorY = Height() / 2;
 }
 
 
-void Sprite::Draw(float x, float y, float z)
+void Sprite::Draw()
 {
-    sprite.x = x - sprite.xAnchor;
-    sprite.y = y + sprite.yAnchor;
-    sprite.depth = z;
-    
-
     // adiciona o sprite na lista de desenho
     Engine::renderer->Draw(&sprite);
 }
@@ -82,8 +82,10 @@ void Sprite::SetImage(Image* img)
         sprite.width = image->Width();
         sprite.height = image->Height();
     }
-    
 }
+
+// ---------------------------------------------------------------------------------
+
 void Sprite::SetImage(const std::string _filename)
 {
     if (_filename != image->Filename()) {
@@ -93,3 +95,27 @@ void Sprite::SetImage(const std::string _filename)
         sprite.height = image->Height();
     }
 }
+
+// ---------------------------------------------------------------------------------
+
+void Sprite::SetPosition(const Position& p)
+{
+    _position->MoveTo(p);
+}
+// ---------------------------------------------------------------------------------
+
+Rect*  Sprite::GetRect() const 
+{ 
+    float Ax = _position->X() - HalfWidth();
+    float Ay = _position->Y() - HalfHeight();
+    float Bx = _position->X() + HalfHeight();
+    float By = _position->Y() + HalfHeight();
+    return new Rect(Position(Ax, Ay), Position(Bx, By));
+}
+
+Circle*  Sprite::GetCircle() const 
+{
+    float r = (HalfHeight() + HalfWidth()) / 2;
+    return new Circle(r);
+}
+

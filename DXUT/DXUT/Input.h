@@ -10,9 +10,8 @@ private:
 	static bool ctrl[256];				// controle da liberação de teclas
 	static string text;					// armazenamento para os caracteres digitados
 
-	static int	 mouseX;			    // posição do mouse eixo x
-	static int	 mouseY;				// posição do mouse eixo y
-	static short mouseWheel;			// valor da roda do mouse
+	static Position*	mousePosition;
+	static short	mouseWheel;			// valor da roda do mouse
 public:
 	Input();							// construtor
 	~Input();							// destrutor
@@ -21,8 +20,10 @@ public:
 	bool KeyUp(int vkcode);			    // retorna se tecla está liberada
 	bool KeyPress(int vkcode);		    // novo pressionamento somente após liberação		
 
-	int   MouseX();						// retorna posição x do mouse
-	int   MouseY();						// retorna posição y do mouse
+	int   MouseX() const;						// retorna posição x do mouse
+	int   MouseY() const;						// retorna posição y do mouse
+	Position MousePosition() const;
+
 	short MouseWheel();					// retorna rotação da roda do mouse
 
 	void  Read();						// armazena texto digitado até o próximo ENTER ou TAB
@@ -44,12 +45,13 @@ inline bool Input::KeyUp(int vkcode)
 {	return !(keys[vkcode]);}
 
 // retorna a posição do mouse no eixo x
-inline int Input::MouseX()
-{	return mouseX;}
+inline int Input::MouseX() const
+{	return mousePosition->X();}
 
 // retorna a posição do mouse no eixo y
-inline int Input::MouseY()
-{	return mouseY;}
+inline int Input::MouseY() const
+{	return mousePosition->Y();}
+inline Position Input::MousePosition() const { return Position(Input::mousePosition); }
 
 // retorna conteúdo do texto lido
 inline const char* Input::Text()

@@ -23,6 +23,7 @@ private:
 	string error_message;
 public:
 	Error();
+	Error(HRESULT hr);
 	Error(HRESULT hr, const string& func, const string& file, int line);
 	string ToString() const;
 };
@@ -33,7 +34,9 @@ const map<HRESULT, const char*> errorMessages = {
 	{ E_FAIL, "Erro geral" },
 	{ E_INVALIDARG, "Argumento inválido" },
 	{E_WINDOWCREATEFAILED, "Window creation failed"},
-	{E_REGISTERWINDOWCLASSFAILED, "Register Window Failed"}
+	{E_REGISTERWINDOWCLASSFAILED, "Register Window Failed"},
+	{E_DIVISION_BY_ZERO, "Division by zero"}
+
 	// Adicione mais códigos e mensagens conforme necessário
 };
 // ---------------------------------------------------------------------------------

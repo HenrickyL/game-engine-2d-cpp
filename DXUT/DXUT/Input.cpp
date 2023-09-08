@@ -6,15 +6,14 @@
 bool Input::keys[256] = { 0 };							// estado do teclado/mouse
 bool Input::ctrl[256] = { 0 };							// controle de liberação das teclas
 string Input::text; 									// guarda caracteres digitados
-
-int	  Input::mouseX = 0;								// posição do mouse no eixo x
-int	  Input::mouseY = 0;								// posição do mouse no eixo y
-short Input::mouseWheel = 0;							// valor da roda do mouse
+Position*	Input::mousePosition = nullptr;
+short	Input::mouseWheel = 0;							// valor da roda do mouse
 
 // -------------------------------------------------------------------------------
 
 Input::Input()
 {
+	mousePosition = new Position();
 	// ATENÇÂO: supõe que a janela já foi criada com uma chamada a window->Create();
 	// altera a window procedure da janela ativa para InputProc
 	SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Input::InputProc);
@@ -23,6 +22,7 @@ Input::Input()
 
 Input::~Input()
 {
+	delete mousePosition;
 	// volta a usar a Window Procedure da classe Window
 	SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Window::WinProc);
 }
@@ -110,8 +110,8 @@ LRESULT CALLBACK Input::InputProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 		// movimento do mouse
 	case WM_MOUSEMOVE:
-		mouseX = GET_X_LPARAM(lParam);
-		mouseY = GET_Y_LPARAM(lParam);
+		mousePosition->SetX((int)GET_X_LPARAM(lParam));
+		mousePosition->SetY((int)GET_Y_LPARAM(lParam));
 		return 0;
 
 		// movimento da roda do mouse

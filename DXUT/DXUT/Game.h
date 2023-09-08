@@ -15,6 +15,8 @@ protected:
 	static Renderer	* renderer;					// entrada
 
 	static float	& gameTime;					// tempo do último quadro
+
+	Sprite* _sptPause = nullptr;
 public:
 	Game();										// construtor
 	virtual ~Game();							// destrutor

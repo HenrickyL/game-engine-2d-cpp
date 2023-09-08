@@ -27,6 +27,21 @@ Error::Error(HRESULT hr, const string& func, const string& file, int line)
 }
 
 // -------------------------------------------------------------------------------
+Error::Error(HRESULT hr)
+{
+    hres_code = hr;
+
+    auto it = errorMessages.find(hr);
+    if (it != errorMessages.end())
+    {
+        error_message = it->second;
+    }
+    else
+    {
+        error_message = "Unknown error";
+    }
+}
+// -------------------------------------------------------------------------------
 
 string Error::ToString() const
 {

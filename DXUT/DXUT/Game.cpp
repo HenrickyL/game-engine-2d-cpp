@@ -26,7 +26,7 @@ Game::~Game()
 
 void Game::OnPause()
 {
-	Sleep(10);
+	Sleep(50);
 	
 }
 

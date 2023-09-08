@@ -3,15 +3,16 @@
 // ---------------------------------------------------------------------------------
 #include "Image.h"
 #include "DXUT_Utils_Direction_.h"
+#include "Position.h"
+#include "Geometry.h"
 // ---------------------------------------------------------------------------------
 struct SpriteData
 {
-    float x, y;
+    Position* position;
     float scale;
     float depth;
     float rotation;
-    float xAnchor;
-    float yAnchor;
+    float anchorX = 0, anchorY = 0;
     uint  width;
     uint  height;
     ID3D11ShaderResourceView* texture;
@@ -30,37 +31,45 @@ struct Layer
 class Sprite
 {
 private:
-    SpriteData sprite;              // dados do _sprite 
+    SpriteData sprite;              // dados do _sprite
+    Position* _position;
     bool localImage;                // imagem local ou externa
-    Image* image;            // ponteiro para uma imagem
+    Image* image;                   // ponteiro para uma imagem
 
     const float scaleDefault = 1.0f,
-		rotationDefault = 0.0f;
+				rotationDefault = 0.0f;
 
 public:
     Sprite(string filename);        // constroi _sprite a partir de um arquivo
-    Sprite(Image* img);      // constroi _sprite a partir de imagem existente
+    Sprite(Image* img);             // constroi _sprite a partir de imagem existente
     ~Sprite();                      // destrutor do _sprite
 
-    int Width();                    // largura do _sprite
-    int Height();                   // altura do _sprite
-
     // desenha imagem na posição (x,y) e profundidade (z)
-    void Draw(float x, float y, float z = Layer::MIDDLE);
+    void    Draw();
 
     // ---------------------------------------------------------------------------------
-    void ResetSprite();
 
-    void SetRotation(Direction rotation);
-    void SetRotation(float rotation);
-    void SetScale(float scale);
-    void SetAnchor(float x, float y);
-    void SetImage(Image* img);
-    void SetImage(const std::string _filename);
+    void    ResetSprite();
+
+    void    SetRotation(Direction rotation);
+    void    SetRotation(float rotation);
+    void    SetScale(float scale);
+    void    SetImage(Image* img);
+    void    SetImage(const std::string _filename);
+    void    SetPosition(const Position& p);
+    void    SetLayer(float layer);
 
 
-    float Rotation() const;
-    float Scale() const;
+    float   Rotation() const;
+    float   Scale() const;
+    float   Width() const;                    // largura do _sprite
+    float   Height() const;                   // altura do sprite
+    float   HalfWidth() const;
+    float   HalfHeight() const;
+    Rect*    GetRect() const;
+    Circle*  GetCircle() const;
+
+    Position*  GetPosition() const;
 
 
 };
@@ -68,49 +77,26 @@ public:
 // ---------------------------------------------------------------------------------
 // Funções Inline
 
-// retorna a largura do _sprite
-inline int Sprite::Width()
-{
-    return image->Width() * sprite.scale;
-}
-
-// retorna a altura do _sprite
-inline int Sprite::Height()
-{
-    return image->Height() * sprite.scale;
-}
+inline float    Sprite::Width() const { return image->Width() * sprite.scale;}
+inline float    Sprite::Height() const { return image->Height() * sprite.scale;}
+inline Position*   Sprite::GetPosition() const { return _position; }
+inline float    Sprite::HalfWidth() const { return Width() / 2.0f; }
+inline float    Sprite::HalfHeight() const { return Height() / 2.0f; }
 
 // ---------------------------------------------------------------------------------
-inline void Sprite::SetRotation(Direction rotation)
-{
-    sprite.rotation = DirectionConverter::GetRadians(rotation);
-}
 
-inline void Sprite::SetRotation(float rotation)
-{
-    sprite.rotation = rotation;
-}
+inline void Sprite::SetRotation(Direction rotation) { sprite.rotation = DirectionConverter::GetRadians(rotation); }
 
-inline void Sprite::SetScale(float scale)
-{
-    sprite.scale = scale;
-}
+inline void Sprite::SetRotation(float rotation) { sprite.rotation = rotation;}
 
-inline float Sprite::Rotation() const
-{
-    return sprite.rotation;
-}
+inline void Sprite::SetScale(float scale) { sprite.scale = scale; }
 
-inline float Sprite::Scale() const
-{
-    return sprite.scale;
-}
+inline void Sprite::SetLayer(float layer) { sprite.depth = layer; }
 
-inline void Sprite::SetAnchor(float x, float y)
-{
-    sprite.xAnchor = x;
-    sprite.yAnchor = y;
-}
+// ---------------------------------------------------------------------------------
 
+inline float Sprite::Rotation() const { return sprite.rotation;}
+
+inline float Sprite::Scale() const { return sprite.scale;}
 
 #endif

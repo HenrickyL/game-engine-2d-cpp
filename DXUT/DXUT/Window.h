@@ -9,6 +9,7 @@
 #include <windowsx.h>   // inclui extensões do windows
 #include <string>       // inclui a classe string
 #include "Colors.h"
+#include "Position.h"
 using std::string;      // permite usar o tipo string sem std::
 
 // ---------------------------------------------------------------------------------
@@ -33,12 +34,12 @@ private:
     int			windowMode;                                 // modo tela cheia, em janela ou sem borda
     int			windowPosX;                                 // posição inicial da janela no eixo x
     int			windowPosY;                                 // posição inicial da janela no eixo y
-    int			windowCenterX;                              // centro da janela no eixo x
-    int			windowCenterY;                              // centro da janela no eixo y
+    Position       center;
 
     //function reference
     static void (*inFocus)();								// executar quando a janela ganhar de volta o foco
     static void (*lostFocus)();								// executar quando a janela perder o foco
+
 
 public:
     Window();                                               // construtor
@@ -49,8 +50,9 @@ public:
     int Width() const;                                      // retorna a largura atual da janela
     int Height() const;                                     // retorna a altura atual da janela
     int Mode() const;                                       // retorna o modo atual da janela (FULLSCREEN/WINDOWED)
-    int CenterX() const;                                    // retorna o centro da janela no eixo x
-    int CenterY() const;                                    // retorna o centro da janela no eixo y
+
+    Position Center() const;
+
     string Title() const;                                   // retorna título da janela
     COLORREF Color() const;                                 // retorna a cor de fundo da janela
 
@@ -95,13 +97,6 @@ inline int Window::Height() const
 inline int Window::Mode() const
 {  return windowMode;}
 
-// retorna o centro da janela no eixo horizontal
-inline int Window::CenterX() const
-{  return windowCenterX;}
-
-// retorna o centro da janela no eixo vertical
-inline int Window::CenterY() const
-{  return windowCenterY;}
 
 // retorna título da janela
 inline string Window::Title() const
@@ -110,6 +105,12 @@ inline string Window::Title() const
 // retorna a cor de fundo da janela
 inline COLORREF Window::Color() const
 {  return windowColor;}
+
+inline Position Window::Center() const
+{
+    return center;
+}
+
 
 // ----------------------------------------------------------
 

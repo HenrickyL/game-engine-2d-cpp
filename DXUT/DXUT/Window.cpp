@@ -22,8 +22,7 @@ Window::Window()
 	windowMode		= FULLSCREEN;							// modo padrão é tela cheia
 	windowPosX		= 0;									// posição inicial da janela no eixo x
 	windowPosY		= 0;									// posição inicial da janela no eixo y
-	windowCenterX   = windowWidth/2;						// centro da janela no eixo x
-	windowCenterY	= windowHeight/2;						// centro da janela no eixo y
+    center          = Position(windowWidth / 2.0f, windowHeight / 2.0f);
 	windowHdc		= { 0 };								// contexto do dispositivo
 	windowRect		= { 0, 0, 0, 0 };						// área cliente da janela
 }
@@ -54,8 +53,7 @@ void Window::Size(int width, int height)
     windowHeight = height;
 
     // calcula a posição do centro da janela
-    windowCenterX = windowWidth / 2;
-    windowCenterY = windowHeight / 2;
+    center = Position(windowWidth / 2.0f, windowHeight / 2.0f);
 
     // ajusta a posição da janela para o centro da tela
     windowPosX = (GetSystemMetrics(SM_CXSCREEN) / 2) - (windowWidth / 2);

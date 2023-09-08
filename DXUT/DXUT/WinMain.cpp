@@ -1,5 +1,5 @@
 #include "DXUT.h"
-#include "WinApp.h"
+#include "Galaga.h"
 #include <sstream>
 
 using std::stringstream;
@@ -27,7 +27,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->LostFocus(Engine::Pause);
 		engine->window->InFocus(Engine::Resume);
 		// cria e executa a aplicação
-		int exitCode = engine->Start(new WinApp());
+		int exitCode = engine->Start(new Galaga());
 
 		// finaliza execução
 		delete engine;
