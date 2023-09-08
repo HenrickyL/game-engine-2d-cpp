@@ -11,12 +11,15 @@ Player::Player(Image* imgPlayer, Image* missileImg)
 	this->SetSprite(new Sprite(imgPlayer));
 	this->SetSpeed(Vector::Right * 160.0f);
 	_sprite->SetLayer(Layer::MIDDLE);
+	type = PLAYER;
+	BBox(_sprite->GetRect());
 }
 // ---------------------------------------------------------------------------------
 Player::~Player()
 {
 	delete _position;
 	delete _sprite;
+	delete _bbox;
 }
 // ---------------------------------------------------------------------------------
 

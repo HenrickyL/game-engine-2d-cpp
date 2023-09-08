@@ -16,6 +16,7 @@ public:
     void Update();
 
     void SetDirection(const Vector& direction);
+    void OnCollision(Object* obj) override;
 };
 
 // ---------------------------------------------------------------------------------

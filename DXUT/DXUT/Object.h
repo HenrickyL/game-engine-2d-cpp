@@ -14,7 +14,6 @@
 class Object
 {
 private :
-    Geometry* bbox;             // bounding box do objeto
 protected:
     static Window*& window;        // janela do jogo
     static Input*& input;        // janela do jogo 
@@ -25,10 +24,11 @@ protected:
     uint type;                                          // tipo do objeto
     Sprite  *_sprite    = nullptr;
     Vector   _speed      = Vector::Right;
+    Geometry* _bbox;                                 // bounding box do objeto
 
 public:
     Object();                       // construtor padrão
-    //virtual ~Object() =0;              // destrutor virtual
+    ~Object();                      // destrutor virtual
 
     // ------------------------
     // funções virtuais    
@@ -89,7 +89,7 @@ inline Position Object::GetPosition() const { return *_position; }
 // retorna tipo do objeto
 inline uint Object::Type() const { return type;}
 // retorna a bounding box do objeto
-inline Geometry* Object::BBox() const{ return bbox;}
+inline Geometry* Object::BBox() const{ return _bbox;}
 // -----------------------------------------------------------------------------
 
 #endif

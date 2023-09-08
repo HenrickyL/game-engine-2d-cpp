@@ -96,3 +96,20 @@ void Sprite::SetPosition(const Position& p)
 {
     _position->MoveTo(p);
 }
+// ---------------------------------------------------------------------------------
+
+Rect*  Sprite::GetRect() const 
+{ 
+    float Ax = _position->X() - HalfWidth();
+    float Ay = _position->Y() - HalfHeight();
+    float Bx = _position->X() + HalfHeight();
+    float By = _position->Y() + HalfHeight();
+    return new Rect(Position(Ax, Ay), Position(Bx, By));
+}
+
+Circle*  Sprite::GetCircle() const 
+{
+    float r = (HalfHeight() + HalfWidth()) / 2;
+    return new Circle(r);
+}
+

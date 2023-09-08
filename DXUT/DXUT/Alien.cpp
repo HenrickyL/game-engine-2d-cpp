@@ -1,5 +1,5 @@
 #include "Alien.h"
-
+#include "Galaga.h"
 // ---------------------------------------------------------------------------------
 
 Alien::Alien(Image* img)
@@ -7,6 +7,8 @@ Alien::Alien(Image* img)
     _position = new Position();
     this->SetSprite(new Sprite(img));
     this->SetSpeed(Vector::Right * _speedScalar);
+    type = ALIEN;
+    BBox(_sprite->GetRect());
 }
 
 // ---------------------------------------------------------------------------------
@@ -15,6 +17,7 @@ Alien::~Alien()
 {
     delete _position;
     delete _sprite;
+    delete _bbox;
 }
 
 // ---------------------------------------------------------------------------------
@@ -38,4 +41,11 @@ void Alien::Update()
 void Alien::SetDirection(const Vector& direction)
 {
     this->SetDirection(direction * _speedScalar);
+}
+
+
+void Alien::OnCollision(Object* obj) {
+    if (obj->Type() == MISSILE) {
+        Galaga::scene->Delete(obj, MOVING);
+    }
 }

@@ -36,7 +36,7 @@ void Scene::Add(Object* obj, ObjectGroup type)
 
 // ---------------------------------------------------------------------------------
 
-void Scene::Remove(Object* obj, int type)
+void Scene::Remove(Object* obj, ObjectGroup type)
 {
     // remove objeto da cena
     if (type == STATIC)
@@ -58,7 +58,7 @@ void Scene::Remove()
 
 // ---------------------------------------------------------------------------------
 
-void Scene::Delete(Object* obj, int type)
+void Scene::Delete(Object* obj, ObjectGroup type)
 {
     toDelete.push_back(ObjectDel{ obj, type });
 }

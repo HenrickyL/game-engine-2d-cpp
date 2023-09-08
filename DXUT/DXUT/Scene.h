@@ -57,9 +57,9 @@ public:
     ~Scene();                                   // destrutor da cena
 
     void Add(Object* obj, ObjectGroup type);           // adiciona objeto na lista STATIC ou MOVING da cena
-    void Remove(Object* obj, int type);         // remove objeto da cena sem deletar
+    void Remove(Object* obj, ObjectGroup type);         // remove objeto da cena sem deletar
     void Remove();                              // remove objeto sendo processado na cena sem deletar
-    void Delete(Object* obj, int type);        // deleta objeto da lista indicada (STATIC ou MOVING)
+    void Delete(Object* obj, ObjectGroup type);        // deleta objeto da lista indicada (STATIC ou MOVING)
     void Delete();                              // deleta o objeto cujo Update/Draw está sendo executado
     uint Size();                                // retorna a quantidade de objetos na cena
 

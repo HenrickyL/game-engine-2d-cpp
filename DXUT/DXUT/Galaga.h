@@ -5,6 +5,14 @@
 #include "DXUT_2D.h"
 using std::stringstream;
 
+enum ObjTypes
+{
+	PLAYER,
+	MISSILE,
+	ALIEN
+};
+
+
 class Galaga : public Game
 {
 private:

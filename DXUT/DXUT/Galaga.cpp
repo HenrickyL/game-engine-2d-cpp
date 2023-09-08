@@ -111,6 +111,9 @@ void Galaga::Update()
 
     // atualiza objetos da cena
     scene->Update();
+
+    // detecção e resolução de colisão
+    scene->CollisionDetection();
 }
 
 

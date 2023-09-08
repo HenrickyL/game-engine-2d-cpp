@@ -7,9 +7,10 @@ class Missile : public Object
 {
 public:
     Missile(Image* img);
-    ~Missile();
+    //~Missile();
 
     void Update() override;
+    void OnCollision(Object* obj) override;
 };
  
 

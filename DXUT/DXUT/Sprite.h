@@ -4,8 +4,7 @@
 #include "Image.h"
 #include "DXUT_Utils_Direction_.h"
 #include "Position.h"
-
-
+#include "Geometry.h"
 // ---------------------------------------------------------------------------------
 struct SpriteData
 {
@@ -67,6 +66,9 @@ public:
     float   Height() const;                   // altura do sprite
     float   HalfWidth() const;
     float   HalfHeight() const;
+    Rect*    GetRect() const;
+    Circle*  GetCircle() const;
+
     Position*  GetPosition() const;
 
 

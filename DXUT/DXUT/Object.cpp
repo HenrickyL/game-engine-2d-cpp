@@ -16,18 +16,25 @@ Object::Object()
 	//tipo do objeto
 	type = 0;
 	// bounding box do objeto
-	bbox = nullptr;
+	_bbox = nullptr;
+}
+
+Object::~Object()
+{
+	if(_position) delete _position;
+	if(_sprite) delete _sprite;
+	if(_bbox) delete _bbox;
 }
 
 // -------------------------------------------------------------------------------
 
 void Object::BBox(Geometry* bb)
 {
-	if (bbox)
-		delete bbox;
+	if (_bbox)
+		delete _bbox;
 
-	bbox = bb;
-	bbox->Translate(Vector(_position->X(), _position->Y()));
+	_bbox = bb;
+	_bbox->Translate(Vector(_position->X(), _position->Y()));
 }
 // -------------------------------------------------------------------------------
 
@@ -56,8 +63,8 @@ void Object::Translate(const Vector& delta)
 	_position->Translate(delta);
 	if(_sprite)
 		_sprite->SetPosition(_position);
-	if (bbox)
-		bbox->Translate(delta);
+	if (_bbox)
+		_bbox->Translate(delta);
 }
 
 void Object::MoveTo(Position* position)
@@ -72,8 +79,8 @@ void Object::MoveTo(Position position)
 	_position->MoveTo(position);
 	if (_sprite)
 		_sprite->SetPosition(_position);
-	if (bbox)
-		bbox->MoveTo(position);
+	if (_bbox)
+		_bbox->MoveTo(position);
 };
 // -------------------------------------------------------------------------------
 void Object::OnCollision(Object* obj)

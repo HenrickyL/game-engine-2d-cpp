@@ -10,14 +10,16 @@ Missile::Missile(Image* img)
 	SetSprite(new Sprite(img));
 	SetSpeed(Vector::Up * 250.0f);
 	_sprite->SetLayer(Layer::UPPER);
+	type = MISSILE;
+	BBox(new Point(_position));
 }
 // ---------------------------------------------------------------------------------
 
-Missile::~Missile()
-{
-	delete _sprite;
-	delete _position;
-}
+//Missile::~Missile()
+//{
+//	delete _sprite;
+//	delete _position;
+//}
 // ---------------------------------------------------------------------------------
 
 void Missile::Update()
@@ -29,3 +31,9 @@ void Missile::Update()
 	}
 }
 // ---------------------------------------------------------------------------------
+
+void Missile::OnCollision(Object* obj) {
+	if (obj->Type() == ALIEN) {
+		Galaga::scene->Delete(obj, STATIC);
+	}
+}
