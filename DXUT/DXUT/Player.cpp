@@ -45,7 +45,7 @@ void Player::Update()
 		Missile* m = new Missile(_missile);
 		Position p = Position(_position->X(), _position->Y() - _sprite->HalfHeight());
 		m->MoveTo(p);
-		Galaga::scene->Add(m);
+		Galaga::scene->Add(m, MOVING);
 	}
 }
 

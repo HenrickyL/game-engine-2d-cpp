@@ -54,7 +54,7 @@ void Galaga::Init()
     //criar player
     Player* player = new Player(playerImg, missileImg);
     player->MoveTo(Position(window->Center().X(), window->Height() - 50.f));
-    scene->Add(player);
+    scene->Add(player, MOVING);
 
     //-------------------------------
     //criar alien
@@ -86,7 +86,7 @@ void Galaga::Init()
                 alien->MoveTo(Position(window->Width()- posX, posY));
 
             }
-            scene->Add(alien);
+            scene->Add(alien, STATIC);
         }
         posY += 80;
     }

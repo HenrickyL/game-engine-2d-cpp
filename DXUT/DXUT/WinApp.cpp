@@ -6,6 +6,7 @@
 
 //Engine::Instance()->DisableGraphics();
 //SetPixel(GetDC(window->Id()), 20, 20, RGB(255, 0, 0));
+//OutputDebugString(s.str().c_str());
 
 
 WinApp::WinApp()

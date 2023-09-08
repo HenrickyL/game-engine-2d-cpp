@@ -23,9 +23,9 @@ Missile::~Missile()
 void Missile::Update()
 {
 	Translate(_speed * gameTime);
-	if(_position->Y() < 0)
+	if(_position->Y() < 0 || _position->Y() > window->Height())
 	{
-		Galaga::scene->Remove();
+		Galaga::scene->Delete();
 	}
 }
 // ---------------------------------------------------------------------------------
