@@ -22,7 +22,7 @@ public:
 	void		SetY(const float value);
 	void		SetZ(const float value);
 
-	float		Distance(Position* p);
+	float		Distance(const Position& p) const;
 	void		Translate(const Vector& delta);
 	void		MoveTo(const Position& position);
 

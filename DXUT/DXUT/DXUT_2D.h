@@ -7,5 +7,6 @@
 #include "Scene.h"
 #include "Position.h"
 #include "Vector.h"
+#include "Geometry.h"
 
 #endif

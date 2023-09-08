@@ -24,11 +24,11 @@ Position::~Position()
 // ---------------------------------------------------------------------------------
 
 
-float Position::Distance(Position* p)
+float Position::Distance(const Position& p) const
 {
-	float difX = p->X() - this->X();
-	float difY = p->Y() - this->Y();
-	float difZ = p->Z() - this->Z();
+	float difX = p.X() - this->X();
+	float difY = p.Y() - this->Y();
+	float difZ = p.Z() - this->Z();
 
 	return std::sqrt(difX * difX + difY * difY + difZ * difZ);
 }

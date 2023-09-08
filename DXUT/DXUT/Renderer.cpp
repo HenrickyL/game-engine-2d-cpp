@@ -6,15 +6,6 @@ using namespace DirectX;
 
 // ---------------------------------------------------------------------------------
 
-struct Vertex
-{
-    XMFLOAT3 pos;
-    XMFLOAT4 color;
-    XMFLOAT2 tex;
-};
-
-// ---------------------------------------------------------------------------------
-
 Renderer::Renderer()
 {
     inputLayout = nullptr;
@@ -27,6 +18,15 @@ Renderer::Renderer()
     constantBuffer = nullptr;
 
     vertexBufferPosition = 0;
+
+    // ----------------------------------------
+    // Pixel Ploting
+    // ----------------------------------------
+    pixelPlotTexture = nullptr;
+    pixelPlotView = nullptr;
+    ZeroMemory(&pixelPlotSprite, sizeof(pixelPlotSprite));
+    videoMemoryPitch = 0;
+    videoMemory = nullptr;
 }
 
 // ---------------------------------------------------------------------------------
@@ -473,6 +473,660 @@ void Renderer::Render()
 void Renderer::Draw(SpriteData* sprite)
 {
     spriteVector.push_back(sprite);
+}
+
+// ---------------------------------------------------------------------------------
+
+void Renderer::DrawLine(int a1, int b1, int a2, int b2, ulong color)
+{
+    // Symmetric Double Step Line Algorithm by Xialon Wu
+    // It's 3 to 4 times faster than the standard Bressenham's algorithm
+    // Implementation by Brian Wyvill from "Graphics Gems", Academic Press, 1990
+
+    int dx, dy, incr1, incr2, D, x, y, xend, c, pixels_left;
+    int x1, y1;
+    int sign_x, sign_y, step, reverse, i;
+
+    dx = (a2 - a1) * (sign_x = ((a2 - a1) < 0 ? -1 : 1));
+    dy = (b2 - b1) * (sign_y = ((b2 - b1) < 0 ? -1 : 1));
+
+    /* decide increment sign by the slope sign */
+    if (sign_x == sign_y)
+        step = 1;
+    else
+        step = -1;
+
+    /* chooses axis of greatest movement (make dx) */
+    if (dy > dx)
+    {
+        // operator ^= obtain the bitwise exclusive OR of the first and second operands; 
+        // store the result in the object specified by the first operand
+        a1 ^= b1; b1 ^= a1; a1 ^= b1;
+        a2 ^= b2; b2 ^= a2; a2 ^= b2;
+        dx ^= dy; dy ^= dx; dx ^= dy;
+        reverse = 1;
+    }
+    else
+        reverse = 0;
+
+    /* note error check for dx==0 should be included here */
+    /* start from the smaller coordinate */
+    if (a1 > a2)
+    {
+        x = a2;
+        y = b2;
+        x1 = a1;
+        y1 = b1;
+    }
+    else
+    {
+        x = a1;
+        y = b1;
+        x1 = a2;
+        y1 = b2;
+    }
+
+    /* Note dx=n implies 0 - n or (dx+1) pixels to be set
+    * Go round loop dx/4 times then plot last 0,1,2 or 3 pixels
+    *  In fact (dx-1)/4 as 2 pixels are already plotted */
+    xend = (dx - 1) / 4;
+    pixels_left = (dx - 1) % 4;    /* number of pixels left over at the end */
+    PlotLine(x, y, reverse, color);
+    if (pixels_left < 0)
+        return;    /* plot only one pixel for zero
+                * length vectors */
+    PlotLine(x1, y1, reverse, color);    /* plot first two points */
+    incr2 = 4 * dy - 2 * dx;
+    if (incr2 < 0) {    /* slope less than 1/2 */
+        c = 2 * dy;
+        incr1 = 2 * c;
+        D = incr1 - dx;
+
+        for (i = 0; i < xend; i++) {    /* plotting loop */
+            ++x;
+            --x1;
+            if (D < 0) {
+                /* pattern 1 forwards */
+                PlotLine(x, y, reverse, color);
+                PlotLine(++x, y, reverse, color);
+                /* pattern 1 backwards */
+                PlotLine(x1, y1, reverse, color);
+                PlotLine(--x1, y1, reverse, color);
+                D += incr1;
+            }
+            else {
+                if (D < c) {
+                    /* pattern 2 forwards */
+                    PlotLine(x, y, reverse, color);
+                    PlotLine(++x, y += step, reverse, color);
+                    /* pattern 2 backwards */
+                    PlotLine(x1, y1, reverse, color);
+                    PlotLine(--x1, y1 -= step, reverse, color);
+                }
+                else {
+                    /* pattern 3 forwards */
+                    PlotLine(x, y += step, reverse, color);
+                    PlotLine(++x, y, reverse, color);
+                    /* pattern 3 backwards */
+                    PlotLine(x1, y1 -= step, reverse, color);
+                    PlotLine(--x1, y1, reverse, color);
+                }
+                D += incr2;
+            }
+        }        /* end for */
+        /* plot last pattern */
+        if (pixels_left) {
+            if (D < 0) {
+                PlotLine(++x, y, reverse, color);    /* pattern 1 */
+                if (pixels_left > 1)
+                    PlotLine(++x, y, reverse, color);
+                if (pixels_left > 2)
+                    PlotLine(--x1, y1, reverse, color);
+            }
+            else {
+                if (D < c) {
+                    PlotLine(++x, y, reverse, color);    /* pattern 2  */
+                    if (pixels_left > 1)
+                        PlotLine(++x, y += step, reverse, color);
+                    if (pixels_left > 2)
+                        PlotLine(--x1, y1, reverse, color);
+                }
+                else {
+                    /* pattern 3 */
+                    PlotLine(++x, y += step, reverse, color);
+                    if (pixels_left > 1)
+                        PlotLine(++x, y, reverse, color);
+                    if (pixels_left > 2)
+                        PlotLine(--x1, y1 -= step, reverse, color);
+                }
+            }
+        }        /* end if pixels_left */
+    }
+    /* end slope < 1/2 */
+    else {            /* slope greater than 1/2 */
+        c = 2 * (dy - dx);
+        incr1 = 2 * c;
+        D = incr1 + dx;
+        for (i = 0; i < xend; i++) {
+            ++x;
+            --x1;
+            if (D > 0) {
+                /* pattern 4 forwards */
+                PlotLine(x, y += step, reverse, color);
+                PlotLine(++x, y += step, reverse, color);
+                /* pattern 4 backwards */
+                PlotLine(x1, y1 -= step, reverse, color);
+                PlotLine(--x1, y1 -= step, reverse, color);
+                D += incr1;
+            }
+            else {
+                if (D < c) {
+                    /* pattern 2 forwards */
+                    PlotLine(x, y, reverse, color);
+                    PlotLine(++x, y += step, reverse, color);
+
+                    /* pattern 2 backwards */
+                    PlotLine(x1, y1, reverse, color);
+                    PlotLine(--x1, y1 -= step, reverse, color);
+                }
+                else {
+                    /* pattern 3 forwards */
+                    PlotLine(x, y += step, reverse, color);
+                    PlotLine(++x, y, reverse, color);
+                    /* pattern 3 backwards */
+                    PlotLine(x1, y1 -= step, reverse, color);
+                    PlotLine(--x1, y1, reverse, color);
+                }
+                D += incr2;
+            }
+        }        /* end for */
+        /* plot last pattern */
+        if (pixels_left) {
+            if (D > 0) {
+                PlotLine(++x, y += step, reverse, color);    /* pattern 4 */
+                if (pixels_left > 1)
+                    PlotLine(++x, y += step, reverse, color);
+                if (pixels_left > 2)
+                    PlotLine(--x1, y1 -= step, reverse, color);
+            }
+            else {
+                if (D < c) {
+                    PlotLine(++x, y, reverse, color);    /* pattern 2  */
+                    if (pixels_left > 1)
+                        PlotLine(++x, y += step, reverse, color);
+                    if (pixels_left > 2)
+                        PlotLine(--x1, y1, reverse, color);
+                }
+                else {
+                    /* pattern 3 */
+                    PlotLine(++x, y += step, reverse, color);
+                    if (pixels_left > 1)
+                        PlotLine(++x, y, reverse, color);
+                    if (pixels_left > 2) {
+                        if (D > c) /* step 3 */
+                            PlotLine(--x1, y1 -= step, reverse, color);
+                        else /* step 2 */
+                            PlotLine(--x1, y1, reverse, color);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+int Renderer::ClipLine(int& x1, int& y1, int& x2, int& y2)
+{
+
+    // Clipping Line Algorithm 
+    // Implementation by André LaMothe from "Tricks of The Windows Game Programming Gurus", SAMS, 2002
+
+    // this function clips the sent line using the clipping region defined below
+    int min_clip_x = 0;
+    int min_clip_y = 0;
+    int max_clip_x = window->Width() - 1;
+    int max_clip_y = window->Height() - 1;
+
+    // internal clipping codes
+#define CLIP_CODE_C  0x0000
+#define CLIP_CODE_N  0x0008
+#define CLIP_CODE_S  0x0004
+#define CLIP_CODE_E  0x0002
+#define CLIP_CODE_W  0x0001
+
+#define CLIP_CODE_NE 0x000a
+#define CLIP_CODE_SE 0x0006
+#define CLIP_CODE_NW 0x0009 
+#define CLIP_CODE_SW 0x0005
+
+    int xc1 = x1,
+        yc1 = y1,
+        xc2 = x2,
+        yc2 = y2;
+
+    int p1_code = 0,
+        p2_code = 0;
+
+    // determine codes for p1 and p2
+    if (y1 < min_clip_y)
+        p1_code |= CLIP_CODE_N;
+    else
+        if (y1 > max_clip_y)
+            p1_code |= CLIP_CODE_S;
+
+    if (x1 < min_clip_x)
+        p1_code |= CLIP_CODE_W;
+    else
+        if (x1 > max_clip_x)
+            p1_code |= CLIP_CODE_E;
+
+    if (y2 < min_clip_y)
+        p2_code |= CLIP_CODE_N;
+    else
+        if (y2 > max_clip_y)
+            p2_code |= CLIP_CODE_S;
+
+    if (x2 < min_clip_x)
+        p2_code |= CLIP_CODE_W;
+    else
+        if (x2 > max_clip_x)
+            p2_code |= CLIP_CODE_E;
+
+    // try and trivially reject
+    if ((p1_code & p2_code))
+        return 0;
+
+    // test for totally visible, if so leave points untouched
+    if (p1_code == 0 && p2_code == 0)
+        return 1;
+
+    // determine end clip point for p1
+    switch (p1_code)
+    {
+    case CLIP_CODE_C: break;
+
+    case CLIP_CODE_N:
+    {
+        yc1 = min_clip_y;
+        xc1 = int(x1 + 0.5 + (min_clip_y - y1) * (x2 - x1) / (y2 - y1));
+    } break;
+    case CLIP_CODE_S:
+    {
+        yc1 = max_clip_y;
+        xc1 = int(x1 + 0.5 + (max_clip_y - y1) * (x2 - x1) / (y2 - y1));
+    } break;
+
+    case CLIP_CODE_W:
+    {
+        xc1 = min_clip_x;
+        yc1 = int(y1 + 0.5 + (min_clip_x - x1) * (y2 - y1) / (x2 - x1));
+    } break;
+
+    case CLIP_CODE_E:
+    {
+        xc1 = max_clip_x;
+        yc1 = int(y1 + 0.5 + (max_clip_x - x1) * (y2 - y1) / (x2 - x1));
+    } break;
+
+    // these cases are more complex, must compute 2 intersections
+    case CLIP_CODE_NE:
+    {
+        // north hline intersection
+        yc1 = min_clip_y;
+        xc1 = int(x1 + 0.5 + (min_clip_y - y1) * (x2 - x1) / (y2 - y1));
+
+        // test if intersection is valid, of so then done, else compute next
+        if (xc1 < min_clip_x || xc1 > max_clip_x)
+        {
+            // east vline intersection
+            xc1 = max_clip_x;
+            yc1 = int(y1 + 0.5 + (max_clip_x - x1) * (y2 - y1) / (x2 - x1));
+        } // end if
+    } break;
+
+    case CLIP_CODE_SE:
+    {
+        // south hline intersection
+        yc1 = max_clip_y;
+        xc1 = int(x1 + 0.5 + (max_clip_y - y1) * (x2 - x1) / (y2 - y1));
+
+        // test if intersection is valid, of so then done, else compute next
+        if (xc1 < min_clip_x || xc1 > max_clip_x)
+        {
+            // east vline intersection
+            xc1 = max_clip_x;
+            yc1 = int(y1 + 0.5 + (max_clip_x - x1) * (y2 - y1) / (x2 - x1));
+        } // end if
+    } break;
+
+    case CLIP_CODE_NW:
+    {
+        // north hline intersection
+        yc1 = min_clip_y;
+        xc1 = int(x1 + 0.5 + (min_clip_y - y1) * (x2 - x1) / (y2 - y1));
+
+        // test if intersection is valid, of so then done, else compute next
+        if (xc1 < min_clip_x || xc1 > max_clip_x)
+        {
+            xc1 = min_clip_x;
+            yc1 = int(y1 + 0.5 + (min_clip_x - x1) * (y2 - y1) / (x2 - x1));
+        } // end if
+    } break;
+
+    case CLIP_CODE_SW:
+    {
+        // south hline intersection
+        yc1 = max_clip_y;
+        xc1 = int(x1 + 0.5 + (max_clip_y - y1) * (x2 - x1) / (y2 - y1));
+
+        // test if intersection is valid, of so then done, else compute next
+        if (xc1 < min_clip_x || xc1 > max_clip_x)
+        {
+            xc1 = min_clip_x;
+            yc1 = int(y1 + 0.5 + (min_clip_x - x1) * (y2 - y1) / (x2 - x1));
+        } // end if
+    } break;
+
+    default:break;
+    } // end switch
+
+    // determine clip point for p2
+    switch (p2_code)
+    {
+    case CLIP_CODE_C: break;
+
+    case CLIP_CODE_N:
+    {
+        yc2 = min_clip_y;
+        xc2 = x2 + (min_clip_y - y2) * (x1 - x2) / (y1 - y2);
+    } break;
+
+    case CLIP_CODE_S:
+    {
+        yc2 = max_clip_y;
+        xc2 = x2 + (max_clip_y - y2) * (x1 - x2) / (y1 - y2);
+    } break;
+
+    case CLIP_CODE_W:
+    {
+        xc2 = min_clip_x;
+        yc2 = y2 + (min_clip_x - x2) * (y1 - y2) / (x1 - x2);
+    } break;
+
+    case CLIP_CODE_E:
+    {
+        xc2 = max_clip_x;
+        yc2 = y2 + (max_clip_x - x2) * (y1 - y2) / (x1 - x2);
+    } break;
+
+    // these cases are more complex, must compute 2 intersections
+    case CLIP_CODE_NE:
+    {
+        // north hline intersection
+        yc2 = min_clip_y;
+        xc2 = int(x2 + 0.5 + (min_clip_y - y2) * (x1 - x2) / (y1 - y2));
+
+        // test if intersection is valid, of so then done, else compute next
+        if (xc2 < min_clip_x || xc2 > max_clip_x)
+        {
+            // east vline intersection
+            xc2 = max_clip_x;
+            yc2 = int(y2 + 0.5 + (max_clip_x - x2) * (y1 - y2) / (x1 - x2));
+        } // end if
+    } break;
+
+    case CLIP_CODE_SE:
+    {
+        // south hline intersection
+        yc2 = max_clip_y;
+        xc2 = int(x2 + 0.5 + (max_clip_y - y2) * (x1 - x2) / (y1 - y2));
+
+        // test if intersection is valid, of so then done, else compute next
+        if (xc2 < min_clip_x || xc2 > max_clip_x)
+        {
+            // east vline intersection
+            xc2 = max_clip_x;
+            yc2 = int(y2 + 0.5 + (max_clip_x - x2) * (y1 - y2) / (x1 - x2));
+        } // end if
+    } break;
+
+    case CLIP_CODE_NW:
+    {
+        // north hline intersection
+        yc2 = min_clip_y;
+        xc2 = int(x2 + 0.5 + (min_clip_y - y2) * (x1 - x2) / (y1 - y2));
+
+        // test if intersection is valid, of so then done, else compute next
+        if (xc2 < min_clip_x || xc2 > max_clip_x)
+        {
+            xc2 = min_clip_x;
+            yc2 = int(y2 + 0.5 + (min_clip_x - x2) * (y1 - y2) / (x1 - x2));
+        } // end if
+
+    } break;
+
+    case CLIP_CODE_SW:
+    {
+        // south hline intersection
+        yc2 = max_clip_y;
+        xc2 = int(x2 + 0.5 + (max_clip_y - y2) * (x1 - x2) / (y1 - y2));
+
+        // test if intersection is valid, of so then done, else compute next
+        if (xc2 < min_clip_x || xc2 > max_clip_x)
+        {
+            xc2 = min_clip_x;
+            yc2 = int(y2 + 0.5 + (min_clip_x - x2) * (y1 - y2) / (x1 - x2));
+        } // end if
+
+    } break;
+
+    default:break;
+
+    } // end switch
+
+    // do bounds check
+    if ((xc1 < min_clip_x) || (xc1 > max_clip_x) ||
+        (yc1 < min_clip_y) || (yc1 > max_clip_y) ||
+        (xc2 < min_clip_x) || (xc2 > max_clip_x) ||
+        (yc2 < min_clip_y) || (yc2 > max_clip_y))
+    {
+        return 0;
+    }
+
+    // store vars back
+    x1 = xc1;
+    y1 = yc1;
+    x2 = xc2;
+    y2 = yc2;
+
+    return 1;
+}
+
+// -----------------------------------------------------------------------------
+void Renderer::BeginPixels()
+{
+    // trava a textura para plotagem de pixels
+    D3D11_MAPPED_SUBRESOURCE mappedTex;
+    graphics->context->Map(pixelPlotTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedTex);
+
+    // formato de tela usando 32 bits por pixel
+    // ----------------------------------------
+    // A memória de vídeo é dividida em blocos de 4 bytes (32 bits por pixel)
+    // O pitch é a largura de uma linha da memória de vídeo. O valor do pitch
+    // é dado em bytes e portanto será igual a quantidade de pixels * 4 bytes 
+    // por pixel. Para obter a quantidade de pixels em cada linha da memória 
+    // de vídeo devemos dividir o valor do pitch por 4. É exatamente o que a 
+    // operação de deslocamente de bits (>>) está fazendo.
+
+    // define o ponteiro para a memória de vídeo e o pitch da memória
+    videoMemoryPitch = mappedTex.RowPitch >> 2;
+    videoMemory = (ulong*)mappedTex.pData;
+
+    // limpa a textura para o próximo desenho
+    // 0xff000000 = valor 32bits codificado com Alpha transparente
+    memset(videoMemory, 0xff000000, mappedTex.RowPitch * window->Height());
+}
+// -----------------------------------------------------------------------------
+
+void Renderer::Draw(Geometry* shape, ulong color)
+{
+    switch (shape->Type())
+    {
+    case POINT_T:
+        Draw((Point*)shape, color);
+        break;
+    case LINE_T:
+        Draw((Line*)shape, color);
+        break;
+    case RECTANGLE_T:
+        Draw((Rect*)shape, color);
+        break;
+    case CIRCLE_T:
+        Draw((Circle*)shape, color);
+        break;
+    case POLYGON_T:
+        Draw((Poly*)shape, color);
+        break;
+    case MIXED_T:
+        Draw((Mixed*)shape, color);
+        break;
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+void Renderer::Draw(Point* point, ulong color)
+{
+    if (point->X() >= 0 && point->X() < window->Width())
+        if (point->Y() >= 0 && point->Y() < window->Height())
+            PlotPixel(int(point->X()), int(point->Y()), color);
+}
+
+// -----------------------------------------------------------------------------
+
+void Renderer::Draw(Line* line, ulong color)
+{
+    int x1 = int(line->A().X());
+    int y1 = int(line->A().Y());
+    int x2 = int(line->B().X());
+    int y2 = int(line->B().Y());
+
+    // desenha apenas a parte visível da linha
+    if (ClipLine(x1, y1, x2, y2))
+        DrawLine(x1, y1, x2, y2, color);
+}
+// -----------------------------------------------------------------------------
+
+void Renderer::Draw(Rect* rect, ulong color)
+{
+    Line top(Position(rect->Left(), rect->Top()), Position(rect->Right(), rect->Top()));
+    Line left(Position(rect->Left(), rect->Top() + 1), Position(rect->Left(), rect->Bottom()));
+    Line right(Position(rect->Right(), rect->Top() + 1), Position(rect->Right(), rect->Bottom()));
+    Line bottom(Position(rect->Left() + 1, rect->Bottom()), Position(rect->Right() - 1, rect->Bottom()));
+
+    Draw(&top, color);
+    Draw(&left, color);
+    Draw(&right, color);
+    Draw(&bottom, color);
+}
+
+// -----------------------------------------------------------------------------
+
+void Renderer::Draw(Circle* circ, ulong color)
+{
+    // Bresenham's circle algorithm
+
+    int xpos = int(circ->CenterX());
+    int ypos = int(circ->CenterY());
+
+    int r = int(circ->radius);
+
+    int p = 3 - (2 * r);
+    int x = 0;
+    int y = r;
+
+    Point a(xpos, ypos + r); Draw(&a, color);
+    Point b(xpos, ypos - r); Draw(&b, color);
+    Point c(xpos, ypos + r); Draw(&c, color);
+    Point d(xpos, ypos - r); Draw(&d, color);
+    Point e(xpos + r, ypos); Draw(&e, color);
+    Point f(xpos + r, ypos); Draw(&f, color);
+    Point g(xpos - r, ypos); Draw(&g, color);
+    Point h(xpos - r, ypos); Draw(&h, color);
+
+    //for(x=1; x <= int(radius/sqrt(2.0f)); x++)
+    while (++x < y)
+    {
+        if (p < 0)
+            p = p + (4 * x) + 6;
+        else
+        {
+            p = p + 4 * (x - y) + 10;
+            y = y - 1;
+        }
+
+        a.MoveTo(Position((xpos + x), (ypos + y))); Draw(&a, color);
+        b.MoveTo(Position((xpos + x), (ypos - y))); Draw(&b, color);
+        c.MoveTo(Position((xpos - x), (ypos + y))); Draw(&c, color);
+        d.MoveTo(Position((xpos - x), (ypos - y))); Draw(&d, color);
+        e.MoveTo(Position((xpos + y), (ypos + x))); Draw(&e, color);
+        f.MoveTo(Position((xpos + y), (ypos - x))); Draw(&f, color);
+        g.MoveTo(Position((xpos - y), (ypos + x))); Draw(&g, color);
+        h.MoveTo(Position((xpos - y), (ypos - x))); Draw(&h, color);
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+void Renderer::Draw(Poly* pol, ulong color)
+{
+    // this function draws a Poly
+    float x1, y1, x2, y2;
+    uint i;
+
+    // loop through and draw a line from vertices 1 to n-1
+    for (i = 0; i < pol->vertexCount - 1; ++i)
+    {
+        // draw line from ith to ith+1 vertex
+        x1 = pol->vertexList[i].X() + pol->X();
+        y1 = pol->vertexList[i].Y() + pol->Y();
+        x2 = pol->vertexList[i + 1].X() + pol->X();
+        y2 = pol->vertexList[i + 1].Y() + pol->Y();
+
+        // draw a line clipping to viewport
+        Line line(Position(x1, y1), Position(x2, y2));
+        Draw(&line, color);
+    }
+
+    // now close up polygon
+    // draw line from first to last vertex
+    x1 = pol->vertexList[0].X() + pol->X();
+    y1 = pol->vertexList[0].Y() + pol->Y();
+    x2 = pol->vertexList[i].X() + pol->X();
+    y2 = pol->vertexList[i].Y() + pol->Y();
+
+    // draw a line clipping to viewport
+    Line line(Position(x1, y1), Position(x2, y2));
+    Draw(&line, color);
+}
+
+// -----------------------------------------------------------------------------
+
+void Renderer::Draw(Mixed* mul, ulong color)
+{
+    for (auto i : mul->shapes)
+        Draw(i, color);
+}
+// -----------------------------------------------------------------------------
+
+void Renderer::EndPixels()
+{
+    // destrava a textura de plotagem de pixels
+    graphics->context->Unmap(pixelPlotTexture, 0);
+
+    // adiciona o sprite na lista de desenho
+    Draw(&pixelPlotSprite);
 }
 
 // ---------------------------------------------------------------------------------

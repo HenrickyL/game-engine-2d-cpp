@@ -13,16 +13,22 @@ float	&Object::gameTime	= Engine::frameTime;        // tempo do último quadro
 
 Object::Object()
 {
+	//tipo do objeto
+	type = 0;
+	// bounding box do objeto
+	bbox = nullptr;
 }
 
 // -------------------------------------------------------------------------------
 
-//Object::~Object()
-//{
-//	delete _position;
-//	delete _sprite;
-//}
+void Object::BBox(Geometry* bb)
+{
+	if (bbox)
+		delete bbox;
 
+	bbox = bb;
+	bbox->Translate(Vector(_position->X(), _position->Y()));
+}
 // -------------------------------------------------------------------------------
 
 void Object::Draw()
@@ -48,17 +54,28 @@ void Object::SetSprite(Sprite* sprite)
 void Object::Translate(const Vector& delta)
 {
 	_position->Translate(delta);
-	_sprite->SetPosition(_position);
+	if(_sprite)
+		_sprite->SetPosition(_position);
+	if (bbox)
+		bbox->Translate(delta);
 }
 
 void Object::MoveTo(Position* position)
 {
 	_position->MoveTo(position);
-	_sprite->SetPosition(_position);
+	if (_sprite)
+		_sprite->SetPosition(_position);
 };
 
 void Object::MoveTo(Position position)
 {
 	_position->MoveTo(position);
-	_sprite->SetPosition(_position);
+	if (_sprite)
+		_sprite->SetPosition(_position);
+	if (bbox)
+		bbox->MoveTo(position);
 };
+// -------------------------------------------------------------------------------
+void Object::OnCollision(Object* obj)
+{
+}

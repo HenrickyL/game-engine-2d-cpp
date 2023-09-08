@@ -7,19 +7,22 @@
 #include "Position.h"
 #include "Sprite.h"
 #include "Vector.h"
+#include "Geometry.h"
 
 // -----------------------------------------------------------------------------
 
 class Object
 {
+private :
+    Geometry* bbox;             // bounding box do objeto
 protected:
     static Window*& window;        // janela do jogo
     static Input*& input;        // janela do jogo 
     static float& gameTime;      // tempo do último quadro
 
     // -----------------------------------------------------------------------------
-
-	Position   *_position  = nullptr;                  // coordenadas do objeto
+    Position* _position = nullptr;                   // coordenadas do objeto
+    uint type;                                          // tipo do objeto
     Sprite  *_sprite    = nullptr;
     Vector   _speed      = Vector::Right;
 
@@ -46,11 +49,14 @@ public:
     // ------------------------     
     // devem ser obrigatoriamente sobrescritas na classe derivada
 
-    // atualiza estado do objeto
+    // atualiza estado do objeto - pura
     virtual void Update() = 0;
 
     // desenha o objeto na tela
     virtual void Draw();
+
+    // faz a resolução de colisão do objeto
+    virtual void OnCollision(Object* obj);
 
     // -----------------------------------------------------------------------------
 
@@ -62,6 +68,13 @@ public:
     void SetSpeed(const Vector speed);
     void SetSprite(Sprite* sprite);
 
+    // retorna tipo do objeto
+    virtual uint Type() const;
+    // muda a bounding box do objeto
+    virtual void BBox(Geometry* bb);
+
+    // retorna a bounding box do objeto
+    virtual Geometry* BBox() const;
 
 };
 
@@ -73,6 +86,10 @@ inline Vector Object::Speed() const { return _speed;}
 inline void Object::SetSpeed(const Vector speed){ _speed = speed;}
 inline Position Object::GetPosition() const { return *_position; }
 
+// retorna tipo do objeto
+inline uint Object::Type() const { return type;}
+// retorna a bounding box do objeto
+inline Geometry* Object::BBox() const{ return bbox;}
 // -----------------------------------------------------------------------------
 
 #endif
