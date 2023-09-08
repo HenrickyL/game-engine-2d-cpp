@@ -16,6 +16,8 @@ enum ObjTypes
 class Galaga : public Game
 {
 private:
+	bool viewScene = true;
+	bool viewBBox = false;
 	Sprite* pause = nullptr;
 	Sprite* backg = nullptr;
 	Sprite* title = nullptr;

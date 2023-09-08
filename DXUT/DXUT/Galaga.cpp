@@ -108,6 +108,14 @@ void Galaga::InputVerifyExit()
 void Galaga::Update()
 {
     InputVerifyExit();
+    //BoundingBox
+    if (input->KeyPress(KEY_B)) {
+        viewBBox = !viewBBox;
+    }
+    //Scene
+    if (input->KeyPress(KEY_S)) {
+        viewScene = !viewScene;
+    }
 
     // atualiza objetos da cena
     scene->Update();
@@ -121,14 +129,21 @@ void Galaga::Update()
 
 void Galaga::Draw()
 {
-    // desenha pano de fundo
-    backg->Draw();
+    if (viewScene) {
+        // desenha pano de fundo
+        backg->Draw();
 
-    // desenha título do jogo
-    title->Draw();
+        // desenha título do jogo
+        title->Draw();
 
-    // desenha cena
-    scene->Draw();
+        // desenha cena
+        scene->Draw();
+    }
+
+    if (viewBBox) {
+        scene->DrawBBox();
+    }
+    
 }
 
 // ------------------------------------------------------------------------------

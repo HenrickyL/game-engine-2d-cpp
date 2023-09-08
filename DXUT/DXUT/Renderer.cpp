@@ -259,6 +259,54 @@ bool Renderer::Initialize(Window* window, Graphics* graphics)
     graphics->context->PSSetSamplers(0, 1, &sampler);
     graphics->context->RSSetState(rasterState);
 
+
+    // ---------------------------------------------
+    // Textura de Plotagem de Pixels
+    // ---------------------------------------------
+
+    // descreve uma textura a ser preenchida manualmente
+    D3D11_TEXTURE2D_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+
+    desc.Width = int(window->Width());                // largura da textura
+    desc.Height = int(window->Height());            // altura da textura
+    desc.MipLevels = 1;                                // usa apenas um nível
+    desc.ArraySize = 1;                                // cria apenas uma textura
+    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;        // formato RGBA de 32 bits
+    desc.SampleDesc.Count = 1;                        // uma amostra por pixel (sem antialiasing)
+    desc.Usage = D3D11_USAGE_DYNAMIC;                // alocada em RAM para acesso rápido via CPU
+    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;    // será acessada por um shader
+    desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // CPU pode escrever na textura
+
+    // cria textura a ser preenchida com pixels
+    if FAILED(graphics->device->CreateTexture2D(&desc, nullptr, &pixelPlotTexture))
+        return false;
+
+    // configura visualização para a textura de pixels
+    D3D11_SHADER_RESOURCE_VIEW_DESC pixelPlotDesc;
+    ZeroMemory(&pixelPlotDesc, sizeof(pixelPlotDesc));
+
+    pixelPlotDesc.Format = desc.Format;
+    pixelPlotDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    pixelPlotDesc.Texture2D.MipLevels = desc.MipLevels;
+    pixelPlotDesc.Texture2D.MostDetailedMip = desc.MipLevels - 1;
+
+    // cria uma visualização para a textura de pixels
+    if FAILED(graphics->device->CreateShaderResourceView((ID3D11Resource*)pixelPlotTexture, &pixelPlotDesc, &pixelPlotView))
+        return false;
+
+    // ---------------------------------------------
+    // Sprite 
+    // ---------------------------------------------
+
+    if (pixelPlotSprite.position)
+        pixelPlotSprite.position->MoveTo(Position(0, 0));
+    pixelPlotSprite.scale = 1.0f;
+    pixelPlotSprite.depth = 0.0f;
+    pixelPlotSprite.rotation = 0.0f;
+    pixelPlotSprite.width = window->Width();
+    pixelPlotSprite.height = window->Height();
+    pixelPlotSprite.texture = pixelPlotView;
     // inicialização bem sucedida
     return true;
 }
