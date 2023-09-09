@@ -76,17 +76,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Develop\Games">
+    <Filter Include="Develop\Game">
       <UniqueIdentifier>{f14da2e0-07e4-4277-9f45-128a67579b2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Develop\Games\Galaga">
-      <UniqueIdentifier>{d33d3356-b4a7-4aaf-9607-3b1027bb0a6c}</UniqueIdentifier>
+    <Filter Include="Develop\Game\Header Files">
+      <UniqueIdentifier>{ed5691cd-21ae-43bc-b315-4b71683a698d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Develop\Games\Galaga\Header Files">
-      <UniqueIdentifier>{f1599941-7d84-4787-aa17-849610c2e237}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Develop\Games\Galaga\Source Files">
-      <UniqueIdentifier>{7f6c3cbd-0927-4348-a56a-c3bff3a2b892}</UniqueIdentifier>
+    <Filter Include="Develop\Game\Source Files">
+      <UniqueIdentifier>{f74de58e-812e-4def-afdc-2dc4baddbc51}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -157,23 +154,14 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Galaga.cpp">
-      <Filter>Develop\Games\Galaga\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Alien.cpp">
-      <Filter>Develop\Games\Galaga\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Vector.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Develop\Games\Galaga\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Missile.cpp">
-      <Filter>Develop\Games\Galaga\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Geometry.cpp">
       <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Breakout.cpp">
+      <Filter>Develop\Game\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -285,20 +273,8 @@
     <ClInclude Include="Types.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Alien.h">
-      <Filter>Develop\Games\Galaga\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Missile.h">
-      <Filter>Develop\Games\Galaga\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Develop\Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Develop\Games\Galaga\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Galaga.h">
-      <Filter>Develop\Games\Galaga\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Engine\Header Files\Utility</Filter>
@@ -308,6 +284,9 @@
     </ClInclude>
     <ClInclude Include="Position.h">
       <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Breakout.h">
+      <Filter>Develop\Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -131,10 +131,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
-    <ClCompile Include="Alien.cpp" />
+    <ClCompile Include="Breakout.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="Environment.cpp" />
-    <ClCompile Include="Galaga.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Error.cpp" />
@@ -144,9 +143,7 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="IState.cpp" />
-    <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -163,7 +160,7 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
-    <ClInclude Include="Alien.h" />
+    <ClInclude Include="Breakout.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="DXUT_Utils_Direction_.h" />
     <ClInclude Include="DXUT_2D.h" />
@@ -171,7 +168,6 @@
     <ClInclude Include="DXUT_Utils_Observer.h" />
     <ClInclude Include="DXUT_Utils.h" />
     <ClInclude Include="Environment.h" />
-    <ClInclude Include="Galaga.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />
     <ClInclude Include="Engine.h" />
@@ -184,9 +180,7 @@
     <ClInclude Include="Instance.h" />
     <ClInclude Include="INode.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
-    <ClInclude Include="Missile.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SearchMethods.h" />
