@@ -61,6 +61,7 @@ void Sprite::ResetSprite()
     sprite.scale = scaleDefault;
     sprite.depth = Layer::MIDDLE;
     sprite.rotation = rotationDefault;
+    sprite.opacity = 1.0f;
     sprite.anchorX = Width() / 2;
     sprite.anchorY = Height() / 2;
 }

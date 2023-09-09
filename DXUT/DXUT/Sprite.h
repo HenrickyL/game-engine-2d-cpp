@@ -13,6 +13,7 @@ struct SpriteData
     float depth;
     float rotation;
     float anchorX = 0, anchorY = 0;
+    float opacity = 1.0f;
     uint  width;
     uint  height;
     ID3D11ShaderResourceView* texture;
@@ -58,6 +59,7 @@ public:
     void    SetImage(const std::string _filename);
     void    SetPosition(const Position& p);
     void    SetLayer(float layer);
+    void    SetOpacity(float value);
 
 
     float   Rotation() const;
@@ -92,6 +94,8 @@ inline void Sprite::SetRotation(float rotation) { sprite.rotation = rotation;}
 inline void Sprite::SetScale(float scale) { sprite.scale = scale; }
 
 inline void Sprite::SetLayer(float layer) { sprite.depth = layer; }
+
+inline void Sprite::SetOpacity(float value) { sprite.opacity = max(0.0f, min(1.0f, value)); }
 
 // ---------------------------------------------------------------------------------
 

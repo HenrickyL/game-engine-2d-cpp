@@ -389,12 +389,13 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
             ///TODO: See Anchor ist ok
             float anchorX = sprites[i]->anchorX;
             float anchorY = sprites[i]->anchorY;
-
+            float opacity = sprites[i]->opacity;
 
             // carrega informações do sprite em registros SIMD
             XMVECTOR source = XMVectorSet(0, 0, 1, 1);
             XMVECTOR destination = XMVectorPermute<0, 1, 4, 4>(XMLoadFloat2(&positionxy), XMLoadFloat(&scale));
-            XMVECTOR color = XMVectorSet(1, 1, 1, 1);
+            XMVECTOR color = XMVectorSet(1, 1, 1, opacity);
+            ///AAAAA
             XMVECTOR originRotationDepth = XMVectorSet(center.x + anchorX, center.y + anchorY, rotation, layerDepth);
 
             // extrai os tamanhos de origem e destino em vetores separados
