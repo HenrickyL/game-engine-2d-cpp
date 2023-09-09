@@ -37,14 +37,15 @@ void Breakout::Init()
 
     // ---------------------------
     // cria jogador
-    Player* player = new Player();
+    playerImg = new Image("Resources/Player.png");
+    Player* player = new Player(playerImg);
     scene->Add(player, MOVING);
 
     // ---------------------------
     // cria bola
 
-    Ball* ball = new Ball(player);
-    scene->Add(ball, MOVING);
+   /* Ball* ball = new Ball(player);
+    scene->Add(ball, MOVING);*/
 
 
 }
@@ -104,7 +105,11 @@ void Breakout::Finalize()
 {
     delete pause;
     //delete imgs
-   
+    delete tile1;
+    delete tile2;
+    delete tile3;
+    delete tile4;
+    delete playerImg;
     // apaga sprites
     delete backg;
     // apaga cena do jogo

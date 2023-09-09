@@ -62,6 +62,10 @@ public:
 
     Vector Speed() const;
     Position GetPosition() const;
+    virtual float Left() const;
+    virtual float Right() const;
+    virtual float Top() const;
+    virtual float Down() const;
 
     // -----------------------------------------------------------------------------
 
@@ -90,6 +94,12 @@ inline Position Object::GetPosition() const { return *_position; }
 inline uint Object::Type() const { return type;}
 // retorna a bounding box do objeto
 inline Geometry* Object::BBox() const{ return _bbox;}
+
+//
+inline  float Object::Left() const { return _sprite ? _position->X() - _sprite->HalfWidth() : _position->X(); }
+inline  float Object::Right() const { return _sprite ? _position->X() + _sprite->HalfWidth() : _position->X(); }
+inline  float Object::Top() const   { return _sprite ? _position->X() - _sprite->HalfWidth() : _position->Y(); }
+inline  float Object::Down() const  { return _sprite ? _position->X() + _sprite->HalfWidth() : _position->Y(); }
 // -----------------------------------------------------------------------------
 
 #endif

@@ -163,6 +163,9 @@
     <ClCompile Include="Breakout.cpp">
       <Filter>Develop\Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Develop\Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -286,6 +289,12 @@
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Breakout.h">
+      <Filter>Develop\Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Develop\Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
       <Filter>Develop\Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

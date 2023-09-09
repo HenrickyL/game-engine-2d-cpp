@@ -144,6 +144,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="IState.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="Breakout.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="DXUT_Utils_Direction_.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="INode.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SearchMethods.h" />
