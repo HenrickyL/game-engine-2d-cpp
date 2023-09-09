@@ -28,6 +28,24 @@ void Breakout::Init()
     scene = new Scene();
     // --------------------------
 
+    // carregar imagens
+    tile1 = new Image("Resources/Tile1.png");
+    tile2 = new Image("Resources/Tile2.png");
+    tile3 = new Image("Resources/Tile3.png");
+    tile4 = new Image("Resources/Tile4.png");
+    tile5 = new Image("Resources/Tile5.png");
+
+    // ---------------------------
+    // cria jogador
+    Player* player = new Player();
+    scene->Add(player, MOVING);
+
+    // ---------------------------
+    // cria bola
+
+    Ball* ball = new Ball(player);
+    scene->Add(ball, MOVING);
+
 
 }
 
