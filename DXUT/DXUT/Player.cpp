@@ -12,7 +12,6 @@ Player::Player(Image* img)
     _sprite->SetLayer(Layer::MIDDLE);
 
     // tamanho do player é 100x20
-    BBox(_sprite->GetRect());
 
     // centraliza o jogador
     const Position loc(window->Center().X(), window->Height() - 30.0f);
@@ -22,7 +21,7 @@ Player::Player(Image* img)
     // tipo do objeto
     type = PLAYER;
     _sprite->SetFilterColor(Vector(1, 0, 0));
-
+    BBox(_sprite->GetRect());
 }
 
 // ---------------------------------------------------------------------------------

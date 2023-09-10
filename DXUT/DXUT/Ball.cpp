@@ -9,16 +9,16 @@ Ball::Ball(Player* p, Image* img) {
     _sprite->SetLayer(Layer::MIDDLE);
 
     // tamanho do player é 100x20
-    BBox(_sprite->GetRect());
 
     // centraliza o jogador
     player = p;
     MoveTo(Position(
         p->GetPosition().X(),
         p->Top()-_sprite->HalfHeight()));
-    
     // tipo do objeto
     type = BALL;
+    BBox(_sprite->GetRect());
+
 }
 // ---------------------------------------------------------------------------------
 
