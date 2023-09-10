@@ -1,6 +1,8 @@
 ﻿#include "Breakout.h"
 // ------------------------------------------------------------------------------
 #include "Player.h"
+#include "Ball.h"
+
 
 // ------------------------------------------------------------------------------
 // Inicializa��o de membros est�ticos da classe
@@ -43,9 +45,9 @@ void Breakout::Init()
 
     // ---------------------------
     // cria bola
-
-   /* Ball* ball = new Ball(player);
-    scene->Add(ball, MOVING);*/
+    ballImg = new Image("Resources/Ball.png");
+    Ball* ball = new Ball(player, ballImg);
+    scene->Add(ball, MOVING);
 
 
 }
@@ -88,7 +90,6 @@ void Breakout::Draw()
     if (viewScene) {
         // desenha pano de fundo
         backg->Draw();
-
         // desenha cena
         scene->Draw();
     }
@@ -110,6 +111,7 @@ void Breakout::Finalize()
     delete tile3;
     delete tile4;
     delete playerImg;
+    delete ballImg;
     // apaga sprites
     delete backg;
     // apaga cena do jogo

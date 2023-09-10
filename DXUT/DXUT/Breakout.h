@@ -29,6 +29,7 @@ private:
 	// --------------------------
 
 	Image* playerImg = nullptr;
+	Image* ballImg = nullptr;
 
 
 	void OnPause();

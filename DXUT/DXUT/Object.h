@@ -98,8 +98,8 @@ inline Geometry* Object::BBox() const{ return _bbox;}
 //
 inline  float Object::Left() const { return _sprite ? _position->X() - _sprite->HalfWidth() : _position->X(); }
 inline  float Object::Right() const { return _sprite ? _position->X() + _sprite->HalfWidth() : _position->X(); }
-inline  float Object::Top() const   { return _sprite ? _position->X() - _sprite->HalfWidth() : _position->Y(); }
-inline  float Object::Down() const  { return _sprite ? _position->X() + _sprite->HalfWidth() : _position->Y(); }
+inline  float Object::Top() const   { return _sprite ? _position->Y() - _sprite->HalfWidth() : _position->Y(); }
+inline  float Object::Down() const  { return _sprite ? _position->Y() + _sprite->HalfWidth() : _position->Y(); }
 // -----------------------------------------------------------------------------
 
 #endif
