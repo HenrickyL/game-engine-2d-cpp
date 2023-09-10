@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
+#include "Colors.h"
 using namespace DirectX;
 
 // ---------------------------------------------------------------------------------
@@ -389,12 +390,12 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
             ///TODO: See Anchor ist ok
             float anchorX = sprites[i]->anchorX;
             float anchorY = sprites[i]->anchorY;
-            float opacity = sprites[i]->opacity;
+            Color filterColor = sprites[i]->color;
 
             // carrega informações do sprite em registros SIMD
             XMVECTOR source = XMVectorSet(0, 0, 1, 1);
             XMVECTOR destination = XMVectorPermute<0, 1, 4, 4>(XMLoadFloat2(&positionxy), XMLoadFloat(&scale));
-            XMVECTOR color = XMVectorSet(1, 1, 1, opacity);
+            XMVECTOR color = XMVectorSet(filterColor.R, filterColor.G , filterColor.B, filterColor.A);
             ///AAAAA
             XMVECTOR originRotationDepth = XMVectorSet(center.x + anchorX, center.y + anchorY, rotation, layerDepth);
 

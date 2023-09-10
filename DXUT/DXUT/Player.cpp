@@ -21,6 +21,7 @@ Player::Player(Image* img)
     state = STOPED;
     // tipo do objeto
     type = PLAYER;
+    _sprite->SetFilterColor(Vector(1, 0, 0));
 
 }
 

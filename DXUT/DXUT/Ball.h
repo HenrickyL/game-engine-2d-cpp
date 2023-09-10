@@ -5,6 +5,8 @@
 #include "Player.h"
 // ---------------------------------------------------------------------------------
 class Ball : public Object {
+private:
+	Player* player = nullptr;
 	float _speedMagnitude = 300;
 public:
 	Ball(Player* p, Image* img);                   // construtor

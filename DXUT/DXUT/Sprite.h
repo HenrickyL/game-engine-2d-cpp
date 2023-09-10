@@ -5,6 +5,7 @@
 #include "DXUT_Utils_Direction_.h"
 #include "Position.h"
 #include "Geometry.h"
+#include "Colors.h"
 // ---------------------------------------------------------------------------------
 struct SpriteData
 {
@@ -13,7 +14,7 @@ struct SpriteData
     float depth;
     float rotation;
     float anchorX = 0, anchorY = 0;
-    float opacity = 1.0f;
+    Color color;
     uint  width;
     uint  height;
     ID3D11ShaderResourceView* texture;
@@ -60,6 +61,7 @@ public:
     void    SetPosition(const Position& p);
     void    SetLayer(float layer);
     void    SetOpacity(float value);
+    void    SetFilterColor(Color color);
 
 
     float   Rotation() const;
@@ -68,34 +70,31 @@ public:
     float   Height() const;                   // altura do sprite
     float   HalfWidth() const;
     float   HalfHeight() const;
-    Rect*    GetRect() const;
-    Circle*  GetCircle() const;
-
+    Rect*   GetRect() const;
+    Circle* GetCircle() const;
+    Color   GetFilterColor() const;
     Position*  GetPosition() const;
-
 
 };
 
 // ---------------------------------------------------------------------------------
 // Funções Inline
 
-inline float    Sprite::Width() const { return image->Width() * sprite.scale;}
-inline float    Sprite::Height() const { return image->Height() * sprite.scale;}
-inline Position*   Sprite::GetPosition() const { return _position; }
-inline float    Sprite::HalfWidth() const { return Width() / 2.0f; }
-inline float    Sprite::HalfHeight() const { return Height() / 2.0f; }
+inline float        Sprite::Width() const { return image->Width() * sprite.scale;}
+inline float        Sprite::Height() const { return image->Height() * sprite.scale;}
+inline Position*    Sprite::GetPosition() const { return _position; }
+inline float        Sprite::HalfWidth() const { return Width() / 2.0f; }
+inline float        Sprite::HalfHeight() const { return Height() / 2.0f; }
+inline Color        Sprite::GetFilterColor() const { return sprite.color; };
 
 // ---------------------------------------------------------------------------------
 
 inline void Sprite::SetRotation(Direction rotation) { sprite.rotation = DirectionConverter::GetRadians(rotation); }
-
 inline void Sprite::SetRotation(float rotation) { sprite.rotation = rotation;}
-
 inline void Sprite::SetScale(float scale) { sprite.scale = scale; }
-
 inline void Sprite::SetLayer(float layer) { sprite.depth = layer; }
-
-inline void Sprite::SetOpacity(float value) { sprite.opacity = max(0.0f, min(1.0f, value)); }
+inline void Sprite::SetOpacity(float value) { sprite.color.A = max(0.0f, min(1.0f, value)); }
+inline void Sprite::SetFilterColor(Color color) { sprite.color = color; }
 
 // ---------------------------------------------------------------------------------
 

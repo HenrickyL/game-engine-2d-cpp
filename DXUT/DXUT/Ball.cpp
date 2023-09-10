@@ -9,9 +9,10 @@ Ball::Ball(Player* p, Image* img) {
     _sprite->SetLayer(Layer::MIDDLE);
 
     // tamanho do player é 100x20
-    BBox(_sprite->GetCircle());
+    BBox(_sprite->GetRect());
 
     // centraliza o jogador
+    player = p;
     MoveTo(Position(
         p->GetPosition().X(),
         p->Top()-_sprite->HalfHeight()));
@@ -37,7 +38,8 @@ void Ball::OnCollision(Object* obj) {
 }
 // ---------------------------------------------------------------------------------
 void Ball::Update() {
-    this->Translate(_speed * gameTime);
+    if(player->state == PLAYING)
+        this->Translate(_speed * gameTime);
     
     if (this->Top() <= 0 || this->Down() >= window->Height()) {
         _speed.SetY(-_speed.Y());
