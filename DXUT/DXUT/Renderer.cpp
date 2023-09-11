@@ -1055,7 +1055,7 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
             float a = filterColor.A;
 
             //XMVECTOR color = XMVectorSet(r, g, b, a);
-            XMVECTOR color = XMVectorSet(1, 1, 1, 0.5f);
+            XMVECTOR color = XMVectorSet(1, 1, 1, 1);
 
             XMVECTOR originRotationDepth = XMVectorSet(center.x + anchorX, center.y + anchorY, rotation, layerDepth);
 
