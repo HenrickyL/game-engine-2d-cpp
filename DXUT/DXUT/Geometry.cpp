@@ -173,8 +173,8 @@ Circle::Circle()
 Circle::Circle(float r)
 {
     // define círculo de raio r
-    _position = Position(r, r);
     radius = r;
+    _position = Position(r, r);
     _type = CIRCLE_T;
 }
 

@@ -107,8 +107,8 @@ public:
     Circle();                                       // construtor padrão
     Circle(float r);                                // contrutor com raio
 
-    float CenterX() const { return _position.X() + radius; }    // coordenadas do mundo do centro (eixo x)
-    float CenterY() const { return _position.Y() + radius; }    // coordenadas do mundo do centro (eixo y)
+    float CenterX() const { return _position.X() ; }    // coordenadas do mundo do centro (eixo x)
+    float CenterY() const { return _position.Y(); }    // coordenadas do mundo do centro (eixo y)
 };
 
 // --------------------------------------------------------------------------

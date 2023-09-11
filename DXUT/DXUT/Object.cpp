@@ -80,7 +80,7 @@ void Object::MoveTo(Position position)
 	if (_sprite)
 		_sprite->SetPosition(_position);
 	if (_bbox)
-		_bbox->MoveTo(position);
+		_bbox->MoveTo(_position);
 };
 // -------------------------------------------------------------------------------
 void Object::OnCollision(Object* obj)

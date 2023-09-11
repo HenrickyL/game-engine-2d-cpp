@@ -8,7 +8,7 @@ Alien::Alien(Image* img)
     this->SetSprite(new Sprite(img));
     this->SetSpeed(Vector::Right * _speedScalar);
     type = ALIEN;
-    BBox(_sprite->GetRect());
+    BBox(_sprite->GetCircle());
     _sprite->SetFilterColor(Color(1,1,51/255));
 }
 
