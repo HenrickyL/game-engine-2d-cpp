@@ -1,10 +1,10 @@
-#ifndef _GALAGA_PLAYER_H_
-#define _GALAGA_PLAYER_H_
-
+#ifndef _BREAKOUT_PLAYER_H_
+#define _BREAKOUT_PLAYER_H_
 // ---------------------------------------------------------------------------------
 // Inclusões
 #include "DXUT_2D.h"
-
+// ---------------------------------------------------------------------------------
+enum PLAYERSTATE { PLAYING, STOPED };
 // ---------------------------------------------------------------------------------
 
 class Player : public Object
@@ -12,9 +12,11 @@ class Player : public Object
 private :
     Image* _missile;
 public:
-    Player(Image* imgPlayer, Image* missileImg);
+    PLAYERSTATE state;
+    Player(Image* img);
     ~Player();
 
+    void OnCollision(Object* obj);
     void Update();
 };
 

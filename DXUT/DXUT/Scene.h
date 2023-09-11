@@ -21,6 +21,10 @@ using ObjectDel = pair<Object*, int>;          // <objeto,tipo> a deletar da cen
 
 // ---------------------------------------------------------------------------------
 
+/// TODO: add lista de desenho, e possibilidade de remover dela. assim podemos remover de uma lista específica como apenas de colisão.
+/// TODO: add Clear para limpar a cena, ou Object::Reset e um Scene::Reset
+
+
 class Scene
 {
 private:
@@ -61,6 +65,7 @@ public:
     void Remove();                              // remove objeto sendo processado na cena sem deletar
     void Delete(Object* obj, ObjectGroup type);        // deleta objeto da lista indicada (STATIC ou MOVING)
     void Delete();                              // deleta o objeto cujo Update/Draw está sendo executado
+
     uint Size();                                // retorna a quantidade de objetos na cena
 
     void Begin();                               // inicia percurso na lista de objetos

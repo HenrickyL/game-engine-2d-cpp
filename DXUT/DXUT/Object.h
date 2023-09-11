@@ -24,6 +24,7 @@ protected:
     uint type;                                          // tipo do objeto
     Sprite  *_sprite    = nullptr;
     Vector   _speed      = Vector::Right;
+    float   _speedMagnitude = 1.0f;
     Geometry* _bbox;                                 // bounding box do objeto
 
 public:
@@ -75,6 +76,12 @@ public:
 
     // retorna a bounding box do objeto
     virtual Geometry* BBox() const;
+    virtual float Left() const;
+    virtual float Right() const;
+    virtual float Top() const;
+    virtual float Down() const;
+    virtual float Width() const;
+    virtual float Height() const;
 
 };
 
@@ -90,6 +97,13 @@ inline Position Object::GetPosition() const { return *_position; }
 inline uint Object::Type() const { return type;}
 // retorna a bounding box do objeto
 inline Geometry* Object::BBox() const{ return _bbox;}
+
+inline  float Object::Left() const { return _sprite ? _position->X() - _sprite->HalfWidth() : _position->X(); }
+inline  float Object::Right() const { return _sprite ? _position->X() + _sprite->HalfWidth() : _position->X(); }
+inline  float Object::Top() const { return _sprite ? _position->Y() - _sprite->HalfHeight() : _position->Y(); }
+inline  float Object::Down() const { return _sprite ? _position->Y() + _sprite->HalfHeight() : _position->Y(); }
+inline  float Object::Width() const { return _sprite->Width(); }
+inline  float Object::Height() const { return _sprite->Height(); }
 // -----------------------------------------------------------------------------
 
 #endif

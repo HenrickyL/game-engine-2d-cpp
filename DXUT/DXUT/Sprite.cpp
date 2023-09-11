@@ -63,6 +63,7 @@ void Sprite::ResetSprite()
     sprite.rotation = rotationDefault;
     sprite.anchorX = Width() / 2;
     sprite.anchorY = Height() / 2;
+    sprite.color = Color();
 }
 
 
@@ -106,10 +107,12 @@ void Sprite::SetPosition(const Position& p)
 
 Rect*  Sprite::GetRect() const 
 { 
-    float Ax = _position->X() - HalfWidth();
-    float Ay = _position->Y() - HalfHeight();
-    float Bx = _position->X() + HalfHeight();
-    float By = _position->Y() + HalfHeight();
+    float w = HalfWidth();
+    float h = HalfHeight();
+    float Ax = _position->X() - w;
+    float Ay = _position->Y() - h;
+    float Bx = _position->X() + w;
+    float By = _position->Y() + h;
     return new Rect(Position(Ax, Ay), Position(Bx, By));
 }
 

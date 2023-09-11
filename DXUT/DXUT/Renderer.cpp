@@ -2,12 +2,14 @@
 #include <algorithm>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
+#include "Colors.h"
 using namespace DirectX;
-
 // ---------------------------------------------------------------------------------
 
 Renderer::Renderer()
 {
+    window = nullptr;
+    graphics = nullptr;
     inputLayout = nullptr;
     vertexShader = nullptr;
     pixelShader = nullptr;
@@ -50,7 +52,9 @@ Renderer::~Renderer()
         pixelPlotTexture->Release();
         pixelPlotTexture = nullptr;
     }
+
     // ----------------------------------------
+
     if (constantBuffer)
     {
         constantBuffer->Release();
@@ -100,647 +104,78 @@ Renderer::~Renderer()
     }
 }
 
-// ---------------------------------------------------------------------------------
-
-bool Renderer::Initialize(Window* window, Graphics* graphics)
+void Renderer::BeginPixels()
 {
-    //-------------------------------
-    // Vertex Shader
-    //-------------------------------
-    _window = window;
-    _graphics = graphics;
-    // carrega bytecode do vertex shader (HLSL)
-    ID3DBlob* vShader = nullptr;
-    if FAILED(D3DReadFileToBlob(L"Shaders/Vertex.cso", &vShader))
-        return false;
+    // trava a textura para plotagem de pixels
+    D3D11_MAPPED_SUBRESOURCE mappedTex;
+    graphics->context->Map(pixelPlotTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedTex);
 
-    // cria o vertex shader
-    if FAILED(graphics->device->CreateVertexShader(vShader->GetBufferPointer(), vShader->GetBufferSize(), NULL, &vertexShader))
-        return false;
+    // formato de tela usando 32 bits por pixel
+    // ----------------------------------------
+    // A memória de vídeo é dividida em blocos de 4 bytes (32 bits por pixel)
+    // O pitch é a largura de uma linha da memória de vídeo. O valor do pitch
+    // é dado em bytes e portanto será igual a quantidade de pixels * 4 bytes 
+    // por pixel. Para obter a quantidade de pixels em cada linha da memória 
+    // de vídeo devemos dividir o valor do pitch por 4. É exatamente o que a 
+    // operação de deslocamente de bits (>>) está fazendo.
 
-    //-------------------------------
-    // Input Layout
-    //-------------------------------
+    // define o ponteiro para a memória de vídeo e o pitch da memória
+    videoMemoryPitch = mappedTex.RowPitch >> 2;
+    videoMemory = (ulong*)mappedTex.pData;
 
-    // descreve o input layout dos vértices
-    D3D11_INPUT_ELEMENT_DESC layoutDesc[] =
-    {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-    };
-
-    // cria o input layout
-    if FAILED(graphics->device->CreateInputLayout(layoutDesc, 3, vShader->GetBufferPointer(), vShader->GetBufferSize(), &inputLayout))
-        return false;
-
-    // libera bytecode
-    vShader->Release();
-
-    //-------------------------------
-    // Pixel Shader
-    //-------------------------------
-
-    // carrega bytecode do pixel shader (HLSL)
-    ID3DBlob* pShader = nullptr;
-    if FAILED(D3DReadFileToBlob(L"Shaders/Pixel.cso", &pShader))
-        return false;
-
-    // cria o pixel shader
-    if FAILED(graphics->device->CreatePixelShader(pShader->GetBufferPointer(), pShader->GetBufferSize(), NULL, &pixelShader))
-        return false;
-
-    // libera bytecode
-    pShader->Release();
-
-    //-------------------------------
-    // Rasterizador
-    //-------------------------------
-
-    D3D11_RASTERIZER_DESC rasterDesc = {};
-    rasterDesc.FillMode = (D3D11_FILL_MODE)_fillMode;
-    //rasterDesc.FillMode = D3D11_FILL_WIREFRAME;
-    rasterDesc.CullMode = D3D11_CULL_NONE;
-    rasterDesc.DepthClipEnable = true;
-
-    // cria estado do rasterizador
-    if FAILED(graphics->device->CreateRasterizerState(&rasterDesc, &rasterState))
-        return false;
-
-    //-------------------------------
-    // Vertex Buffer
-    //-------------------------------
-
-    D3D11_BUFFER_DESC vertexBufferDesc = {};
-    vertexBufferDesc.ByteWidth = sizeof(Vertex) * VerticesPerSprite * MaxBatchSize;
-    vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-    if FAILED(graphics->device->CreateBuffer(&vertexBufferDesc, nullptr, &vertexBuffer))
-        return false;
-
-    //-------------------------------
-    // Index Buffer
-    //-------------------------------
-
-    D3D11_BUFFER_DESC indexBufferDesc = { 0 };
-    indexBufferDesc.ByteWidth = sizeof(short) * IndicesPerSprite * MaxBatchSize;
-    indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-    indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-
-    // gera índices para o número máximo de sprites suportados
-    vector<short> indices;
-    indices.reserve(MaxBatchSize * IndicesPerSprite);
-    for (short i = 0; i < MaxBatchSize * VerticesPerSprite; i += VerticesPerSprite)
-    {
-        indices.push_back(i);
-        indices.push_back(i + 1);
-        indices.push_back(i + 2);
-
-        indices.push_back(i + 1);
-        indices.push_back(i + 3);
-        indices.push_back(i + 2);
-    }
-
-    D3D11_SUBRESOURCE_DATA indexData = { 0 };
-    indexData.pSysMem = &indices.front();
-
-    if FAILED(graphics->device->CreateBuffer(&indexBufferDesc, &indexData, &indexBuffer))
-        return false;
-
-    //-------------------------------
-    // Constant Buffer
-    //-------------------------------
-
-    D3D11_BUFFER_DESC constBufferDesc = { 0 };
-    constBufferDesc.ByteWidth = sizeof(XMMATRIX);
-    constBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    constBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    constBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-    // calcula a matriz de transformação
-    float xScale = (graphics->viewport.Width > 0) ? 2.0f / graphics->viewport.Width : 0.0f;
-    float yScale = (graphics->viewport.Height > 0) ? 2.0f / graphics->viewport.Height : 0.0f;
-
-    // transforma para coordenadas da tela
-    XMMATRIX transformMatrix
-    (
-        xScale, 0, 0, 0,
-        0, -yScale, 0, 0,
-        0, 0, 1, 0,
-        -1, 1, 0, 1
-    );
-
-    D3D11_SUBRESOURCE_DATA constantData = { 0 };
-    XMMATRIX worldViewProj = XMMatrixTranspose(transformMatrix);
-    constantData.pSysMem = &worldViewProj;
-
-    if FAILED(graphics->device->CreateBuffer(&constBufferDesc, &constantData, &constantBuffer))
-        return false;
-
-    //-------------------------------
-    // Texture Sampler
-    //-------------------------------
-
-    D3D11_SAMPLER_DESC samplerDesc = {};
-    samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.MipLODBias = 0.0f;
-    samplerDesc.MaxAnisotropy = (graphics->device->GetFeatureLevel() > D3D_FEATURE_LEVEL_9_1) ? 16 : 2;
-    samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-    samplerDesc.BorderColor[0] = 0.0f;
-    samplerDesc.BorderColor[1] = 0.0f;
-    samplerDesc.BorderColor[2] = 0.0f;
-    samplerDesc.BorderColor[3] = 0.0f;
-    samplerDesc.MinLOD = 0;
-    samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-    // cria o amostrador da textura
-    if FAILED(graphics->device->CreateSamplerState(&samplerDesc, &sampler))
-        return false;
-
-    //-------------------------------
-    // Configura Pipeline Direct3D 
-    //-------------------------------
-
-    uint vertexStride = sizeof(Vertex);
-    uint vertexOffset = 0;
-    graphics->context->IASetVertexBuffers(0, 1, &vertexBuffer, &vertexStride, &vertexOffset);
-    graphics->context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R16_UINT, 0);
-    graphics->context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    graphics->context->IASetInputLayout(inputLayout);
-    graphics->context->VSSetShader(vertexShader, NULL, 0);
-    graphics->context->VSSetConstantBuffers(0, 1, &constantBuffer);
-    graphics->context->PSSetShader(pixelShader, NULL, 0);
-    graphics->context->PSSetSamplers(0, 1, &sampler);
-    graphics->context->RSSetState(rasterState);
-
-
-    // ---------------------------------------------
-    // Textura de Plotagem de Pixels
-    // ---------------------------------------------
-
-    // descreve uma textura a ser preenchida manualmente
-    D3D11_TEXTURE2D_DESC desc;
-    ZeroMemory(&desc, sizeof(desc));
-
-    desc.Width = int(window->Width());                // largura da textura
-    desc.Height = int(window->Height());            // altura da textura
-    desc.MipLevels = 1;                                // usa apenas um nível
-    desc.ArraySize = 1;                                // cria apenas uma textura
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;        // formato RGBA de 32 bits
-    desc.SampleDesc.Count = 1;                        // uma amostra por pixel (sem antialiasing)
-    desc.Usage = D3D11_USAGE_DYNAMIC;                // alocada em RAM para acesso rápido via CPU
-    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;    // será acessada por um shader
-    desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // CPU pode escrever na textura
-
-    // cria textura a ser preenchida com pixels
-    if FAILED(graphics->device->CreateTexture2D(&desc, nullptr, &pixelPlotTexture))
-        return false;
-
-    // configura visualização para a textura de pixels
-    D3D11_SHADER_RESOURCE_VIEW_DESC pixelPlotDesc;
-    ZeroMemory(&pixelPlotDesc, sizeof(pixelPlotDesc));
-
-    pixelPlotDesc.Format = desc.Format;
-    pixelPlotDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-    pixelPlotDesc.Texture2D.MipLevels = desc.MipLevels;
-    pixelPlotDesc.Texture2D.MostDetailedMip = desc.MipLevels - 1;
-
-    // cria uma visualização para a textura de pixels
-    if FAILED(graphics->device->CreateShaderResourceView((ID3D11Resource*)pixelPlotTexture, &pixelPlotDesc, &pixelPlotView))
-        return false;
-
-    // ---------------------------------------------
-    // Sprite 
-    // ---------------------------------------------
-
-    if (pixelPlotSprite.position)
-        pixelPlotSprite.position->MoveTo(Position(0, 0));
-    else
-        pixelPlotSprite.position = new Position();
-    pixelPlotSprite.scale = 1.0f;
-    pixelPlotSprite.depth = 0.0f;
-    pixelPlotSprite.rotation = 0.0f;
-    pixelPlotSprite.width = window->Width();
-    pixelPlotSprite.height = window->Height();
-    pixelPlotSprite.texture = pixelPlotView;
-    // inicialização bem sucedida
-    return true;
+    // limpa a textura para o próximo desenho
+    // 0xff000000 = valor 32bits codificado com Alpha transparente
+    memset(videoMemory, 0xff000000, mappedTex.RowPitch * window->Height());
 }
 
-// ---------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
-void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprites, uint cont)
+void Renderer::Draw(Geometry* shape, ulong color)
 {
-    // desenhe usando a seguinte textura
-    Graphics::context->PSSetShaderResources(0, 1, &texture);
-
-    while (cont > 0)
+    switch (shape->Type())
     {
-        // quantos sprites vamos desenhar
-        uint batchSize = cont;
-
-        // quantos sprites cabem no vertex buffer
-        uint remainingSpace = MaxBatchSize - vertexBufferPosition;
-
-        // quantidade de sprite é maior do que o espaço disponível
-        if (batchSize > remainingSpace)
-        {
-            // se o tamanho disponível é muito pequeno
-            if (remainingSpace < MinBatchSize)
-            {
-                // volte ao ínicio do buffer
-                vertexBufferPosition = 0;
-                batchSize = (cont < MaxBatchSize) ? cont : MaxBatchSize;
-            }
-            else
-            {
-                // restrinja a quantidade de sprites pelo espaço sobrando
-                batchSize = remainingSpace;
-            }
-        }
-
-        // trava o vertex buffer para escrita
-        D3D11_MAP mapType = (vertexBufferPosition == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE_NO_OVERWRITE;
-        D3D11_MAPPED_SUBRESOURCE mappedBuffer;
-        Graphics::context->Map(vertexBuffer, 0, mapType, 0, &mappedBuffer);
-
-        // se posiciona dentro do vertex buffer
-        Vertex* vertices = (Vertex*)mappedBuffer.pData + vertexBufferPosition * VerticesPerSprite;
-
-        // gera posições dos vértices de cada sprite que será desenhado nesse lote
-        for (uint i = 0; i < batchSize; ++i)
-        {
-            // pega tamanho da textura
-            XMVECTOR size = XMVectorMergeXY(XMLoadInt(&sprites[i]->width), XMLoadInt(&sprites[i]->height));
-            XMVECTOR textureSize = XMConvertVectorUIntToFloat(size, 0);
-            XMVECTOR inverseTextureSize = XMVectorReciprocal(textureSize);
-
-            // organiza informações do sprite
-            XMFLOAT2 positionxy(sprites[i]->position->X(), sprites[i]->position->Y());
-            float scale = sprites[i]->scale;
-            XMFLOAT2 center(0.0f, 0.0f);
-            float rotation = sprites[i]->rotation;
-            float layerDepth = sprites[i]->depth;
-            ///TODO: See Anchor ist ok
-            float anchorX = sprites[i]->anchorX;
-            float anchorY = sprites[i]->anchorY;
-
-
-            // carrega informações do sprite em registros SIMD
-            XMVECTOR source = XMVectorSet(0, 0, 1, 1);
-            XMVECTOR destination = XMVectorPermute<0, 1, 4, 4>(XMLoadFloat2(&positionxy), XMLoadFloat(&scale));
-            XMVECTOR color = XMVectorSet(1, 1, 1, 1);
-            XMVECTOR originRotationDepth = XMVectorSet(center.x + anchorX, center.y + anchorY, rotation, layerDepth);
-
-            // extrai os tamanhos de origem e destino em vetores separados
-            XMVECTOR sourceSize = XMVectorSwizzle<2, 3, 2, 3>(source);
-            XMVECTOR destinationSize = XMVectorSwizzle<2, 3, 2, 3>(destination);
-
-            // altera a escala do offset de origem pelo tamanho da fonte, tomando cuidado para evitar overflow se a região fonte for zero
-            XMVECTOR isZeroMask = XMVectorEqual(sourceSize, XMVectorZero());
-            XMVECTOR nonZeroSourceSize = XMVectorSelect(sourceSize, g_XMEpsilon, isZeroMask);
-
-            XMVECTOR origin = XMVectorDivide(originRotationDepth, nonZeroSourceSize);
-
-            // converte a região fonte de texels para o formato de coordenadas de textura mod-1
-            origin *= inverseTextureSize;
-
-            // se o tamanho de destino é relativo a região fonte, converte-o para pixels
-            destinationSize *= textureSize;
-
-            // calcula uma matriz de rotação 2x2
-            XMVECTOR rotationMatrix1;
-            XMVECTOR rotationMatrix2;
-
-            if (rotation != 0)
-            {
-                float sin, cos;
-
-                XMScalarSinCos(&sin, &cos, rotation);
-
-                XMVECTOR sinV = XMLoadFloat(&sin);
-                XMVECTOR cosV = XMLoadFloat(&cos);
-
-                rotationMatrix1 = XMVectorMergeXY(cosV, sinV);
-                rotationMatrix2 = XMVectorMergeXY(-sinV, cosV);
-            }
-            else
-            {
-                rotationMatrix1 = g_XMIdentityR0;
-                rotationMatrix2 = g_XMIdentityR1;
-            }
-
-            // os quatro vértices do sprite são calculados a partir de transformações dessas posições unitárias
-            static XMVECTORF32 cornerOffsets[VerticesPerSprite] =
-            {
-                { 0, 0 },
-                { 1, 0 },
-                { 0, 1 },
-                { 1, 1 },
-            };
-
-            int mirrorBits = 0;
-
-            // gere os quatro vértices 
-            for (int i = 0; i < VerticesPerSprite; ++i)
-            {
-                // calcula posição
-                XMVECTOR cornerOffset = (cornerOffsets[i] - origin) * destinationSize;
-
-                // aplica matriz de rotação 2x2
-                XMVECTOR position1 = XMVectorMultiplyAdd(XMVectorSplatX(cornerOffset), rotationMatrix1, destination);
-                XMVECTOR position2 = XMVectorMultiplyAdd(XMVectorSplatY(cornerOffset), rotationMatrix2, position1);
-
-                // insere componente z = depth
-                XMVECTOR position = XMVectorPermute<0, 1, 7, 6>(position2, originRotationDepth);
-
-                // Escreve posição como um Float4, mesmo sendo VertexPositionColor::position um XMFLOAT3.
-                // Isso é mais rápido e inofensivo porque estamos apenas invalidando o primeiro elemento
-                // do campo cor, que será imediatamente sobrescrito com seu valor correto.
-                XMStoreFloat4(reinterpret_cast<XMFLOAT4*>(&vertices[i].pos), position);
-
-                // insere a cor
-                XMStoreFloat4(&vertices[i].color, color);
-
-                // computa e escreve as coordenadas da textura
-                XMVECTOR textureCoordinate = XMVectorMultiplyAdd(cornerOffsets[i ^ mirrorBits], sourceSize, source);
-
-                XMStoreFloat2(&vertices[i].tex, textureCoordinate);
-            }
-
-            vertices += VerticesPerSprite;
-        }
-
-        // destrava o vertex buffer
-        Graphics::context->Unmap(vertexBuffer, 0);
-
-        // desenha sprites 
-        uint startIndex = (uint)vertexBufferPosition * IndicesPerSprite;
-        uint indexCount = (uint)batchSize * IndicesPerSprite;
-        Graphics::context->DrawIndexed(indexCount, startIndex, 0);
-
-        // avança a posição no vertex buffer
-        vertexBufferPosition += batchSize;
-
-        // avança a posição no vetor de sprites
-        sprites += batchSize;
-
-        // foram desenhados batchSize sprites nessa passagem
-        cont -= batchSize;
+    case POINT_T:
+        Draw((Point*)shape, color);
+        break;
+    case LINE_T:
+        Draw((Line*)shape, color);
+        break;
+    case RECTANGLE_T:
+        Draw((Rect*)shape, color);
+        break;
+    case CIRCLE_T:
+        Draw((Circle*)shape, color);
+        break;
+    case POLYGON_T:
+        Draw((Poly*)shape, color);
+        break;
+    case MIXED_T:
+        Draw((Mixed*)shape, color);
+        break;
     }
 }
 
-// ---------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
-void Renderer::Render()
+void Renderer::Draw(Point* point, ulong color)
 {
-    // ordena sprites por profundidade
-    sort(spriteVector.begin(), spriteVector.end(),
-        [](SpriteData* a, SpriteData* b) -> bool
-        { return a->depth > b->depth; });
-
-    // quantidades de sprites a serem renderizados
-    uint spriteVectorSize = uint(spriteVector.size());
-
-    if (spriteVectorSize == 0)
-        return;
-
-    ID3D11ShaderResourceView* batchTexture = nullptr;
-    uint batchStart = 0;
-
-    // junta sprites adjacentes que compartilham a mesma textura
-    for (uint pos = 0; pos < spriteVectorSize; ++pos)
-    {
-        ID3D11ShaderResourceView* texture = spriteVector[pos]->texture;
-
-        if (texture != batchTexture)
-        {
-            if (pos > batchStart)
-            {
-                RenderBatch(batchTexture, &spriteVector[batchStart], pos - batchStart);
-            }
-
-            batchTexture = texture;
-            batchStart = pos;
-        }
-    }
-
-    // desenha o grupo final de sprites
-    RenderBatch(batchTexture, &spriteVector[batchStart], spriteVectorSize - batchStart);
-
-    // limpa a lista de desenho (atualizada a cada frame)
-    spriteVector.clear();
+    if (point->X() >= 0 && point->X() < window->Width())
+        if (point->Y() >= 0 && point->Y() < window->Height())
+            PlotPixel(int(point->X()), int(point->Y()), color);
 }
 
-// ---------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
-void Renderer::Draw(SpriteData* sprite)
+void Renderer::Draw(Line* line, ulong color)
 {
-    spriteVector.push_back(sprite);
-}
+    int x1 = int(line->A().X());
+    int y1 = int(line->A().Y());
+    int x2 = int(line->B().X());
+    int y2 = int(line->B().Y());
 
-// ---------------------------------------------------------------------------------
-
-void Renderer::DrawLine(int a1, int b1, int a2, int b2, ulong color)
-{
-    // Symmetric Double Step Line Algorithm by Xialon Wu
-    // It's 3 to 4 times faster than the standard Bressenham's algorithm
-    // Implementation by Brian Wyvill from "Graphics Gems", Academic Press, 1990
-
-    int dx, dy, incr1, incr2, D, x, y, xend, c, pixels_left;
-    int x1, y1;
-    int sign_x, sign_y, step, reverse, i;
-
-    dx = (a2 - a1) * (sign_x = ((a2 - a1) < 0 ? -1 : 1));
-    dy = (b2 - b1) * (sign_y = ((b2 - b1) < 0 ? -1 : 1));
-
-    /* decide increment sign by the slope sign */
-    if (sign_x == sign_y)
-        step = 1;
-    else
-        step = -1;
-
-    /* chooses axis of greatest movement (make dx) */
-    if (dy > dx)
-    {
-        // operator ^= obtain the bitwise exclusive OR of the first and second operands; 
-        // store the result in the object specified by the first operand
-        a1 ^= b1; b1 ^= a1; a1 ^= b1;
-        a2 ^= b2; b2 ^= a2; a2 ^= b2;
-        dx ^= dy; dy ^= dx; dx ^= dy;
-        reverse = 1;
-    }
-    else
-        reverse = 0;
-
-    /* note error check for dx==0 should be included here */
-    /* start from the smaller coordinate */
-    if (a1 > a2)
-    {
-        x = a2;
-        y = b2;
-        x1 = a1;
-        y1 = b1;
-    }
-    else
-    {
-        x = a1;
-        y = b1;
-        x1 = a2;
-        y1 = b2;
-    }
-
-    /* Note dx=n implies 0 - n or (dx+1) pixels to be set
-    * Go round loop dx/4 times then plot last 0,1,2 or 3 pixels
-    *  In fact (dx-1)/4 as 2 pixels are already plotted */
-    xend = (dx - 1) / 4;
-    pixels_left = (dx - 1) % 4;    /* number of pixels left over at the end */
-    PlotLine(x, y, reverse, color);
-    if (pixels_left < 0)
-        return;    /* plot only one pixel for zero
-                * length vectors */
-    PlotLine(x1, y1, reverse, color);    /* plot first two points */
-    incr2 = 4 * dy - 2 * dx;
-    if (incr2 < 0) {    /* slope less than 1/2 */
-        c = 2 * dy;
-        incr1 = 2 * c;
-        D = incr1 - dx;
-
-        for (i = 0; i < xend; i++) {    /* plotting loop */
-            ++x;
-            --x1;
-            if (D < 0) {
-                /* pattern 1 forwards */
-                PlotLine(x, y, reverse, color);
-                PlotLine(++x, y, reverse, color);
-                /* pattern 1 backwards */
-                PlotLine(x1, y1, reverse, color);
-                PlotLine(--x1, y1, reverse, color);
-                D += incr1;
-            }
-            else {
-                if (D < c) {
-                    /* pattern 2 forwards */
-                    PlotLine(x, y, reverse, color);
-                    PlotLine(++x, y += step, reverse, color);
-                    /* pattern 2 backwards */
-                    PlotLine(x1, y1, reverse, color);
-                    PlotLine(--x1, y1 -= step, reverse, color);
-                }
-                else {
-                    /* pattern 3 forwards */
-                    PlotLine(x, y += step, reverse, color);
-                    PlotLine(++x, y, reverse, color);
-                    /* pattern 3 backwards */
-                    PlotLine(x1, y1 -= step, reverse, color);
-                    PlotLine(--x1, y1, reverse, color);
-                }
-                D += incr2;
-            }
-        }        /* end for */
-        /* plot last pattern */
-        if (pixels_left) {
-            if (D < 0) {
-                PlotLine(++x, y, reverse, color);    /* pattern 1 */
-                if (pixels_left > 1)
-                    PlotLine(++x, y, reverse, color);
-                if (pixels_left > 2)
-                    PlotLine(--x1, y1, reverse, color);
-            }
-            else {
-                if (D < c) {
-                    PlotLine(++x, y, reverse, color);    /* pattern 2  */
-                    if (pixels_left > 1)
-                        PlotLine(++x, y += step, reverse, color);
-                    if (pixels_left > 2)
-                        PlotLine(--x1, y1, reverse, color);
-                }
-                else {
-                    /* pattern 3 */
-                    PlotLine(++x, y += step, reverse, color);
-                    if (pixels_left > 1)
-                        PlotLine(++x, y, reverse, color);
-                    if (pixels_left > 2)
-                        PlotLine(--x1, y1 -= step, reverse, color);
-                }
-            }
-        }        /* end if pixels_left */
-    }
-    /* end slope < 1/2 */
-    else {            /* slope greater than 1/2 */
-        c = 2 * (dy - dx);
-        incr1 = 2 * c;
-        D = incr1 + dx;
-        for (i = 0; i < xend; i++) {
-            ++x;
-            --x1;
-            if (D > 0) {
-                /* pattern 4 forwards */
-                PlotLine(x, y += step, reverse, color);
-                PlotLine(++x, y += step, reverse, color);
-                /* pattern 4 backwards */
-                PlotLine(x1, y1 -= step, reverse, color);
-                PlotLine(--x1, y1 -= step, reverse, color);
-                D += incr1;
-            }
-            else {
-                if (D < c) {
-                    /* pattern 2 forwards */
-                    PlotLine(x, y, reverse, color);
-                    PlotLine(++x, y += step, reverse, color);
-
-                    /* pattern 2 backwards */
-                    PlotLine(x1, y1, reverse, color);
-                    PlotLine(--x1, y1 -= step, reverse, color);
-                }
-                else {
-                    /* pattern 3 forwards */
-                    PlotLine(x, y += step, reverse, color);
-                    PlotLine(++x, y, reverse, color);
-                    /* pattern 3 backwards */
-                    PlotLine(x1, y1 -= step, reverse, color);
-                    PlotLine(--x1, y1, reverse, color);
-                }
-                D += incr2;
-            }
-        }        /* end for */
-        /* plot last pattern */
-        if (pixels_left) {
-            if (D > 0) {
-                PlotLine(++x, y += step, reverse, color);    /* pattern 4 */
-                if (pixels_left > 1)
-                    PlotLine(++x, y += step, reverse, color);
-                if (pixels_left > 2)
-                    PlotLine(--x1, y1 -= step, reverse, color);
-            }
-            else {
-                if (D < c) {
-                    PlotLine(++x, y, reverse, color);    /* pattern 2  */
-                    if (pixels_left > 1)
-                        PlotLine(++x, y += step, reverse, color);
-                    if (pixels_left > 2)
-                        PlotLine(--x1, y1, reverse, color);
-                }
-                else {
-                    /* pattern 3 */
-                    PlotLine(++x, y += step, reverse, color);
-                    if (pixels_left > 1)
-                        PlotLine(++x, y, reverse, color);
-                    if (pixels_left > 2) {
-                        if (D > c) /* step 3 */
-                            PlotLine(--x1, y1 -= step, reverse, color);
-                        else /* step 2 */
-                            PlotLine(--x1, y1, reverse, color);
-                    }
-                }
-            }
-        }
-    }
+    // desenha apenas a parte visível da linha
+    if (ClipLine(x1, y1, x2, y2))
+        DrawLine(x1, y1, x2, y2, color);
 }
 
 // -----------------------------------------------------------------------------
@@ -754,8 +189,8 @@ int Renderer::ClipLine(int& x1, int& y1, int& x2, int& y2)
     // this function clips the sent line using the clipping region defined below
     int min_clip_x = 0;
     int min_clip_y = 0;
-    int max_clip_x = _window->Width() - 1;
-    int max_clip_y = _window->Height() - 1;
+    int max_clip_x = window->Width() - 1;
+    int max_clip_y = window->Height() - 1;
 
     // internal clipping codes
 #define CLIP_CODE_C  0x0000
@@ -1013,86 +448,212 @@ int Renderer::ClipLine(int& x1, int& y1, int& x2, int& y2)
 }
 
 // -----------------------------------------------------------------------------
-void Renderer::BeginPixels()
+
+void Renderer::DrawLine(int a1, int b1, int a2, int b2, ulong color)
 {
-    // trava a textura para plotagem de pixels
-    D3D11_MAPPED_SUBRESOURCE mappedTex;
-    _graphics->context->Map(pixelPlotTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedTex);
+    // Symmetric Double Step Line Algorithm by Xialon Wu
+    // It's 3 to 4 times faster than the standard Bressenham's algorithm
+    // Implementation by Brian Wyvill from "Graphics Gems", Academic Press, 1990
 
-    // formato de tela usando 32 bits por pixel
-    // ----------------------------------------
-    // A memória de vídeo é dividida em blocos de 4 bytes (32 bits por pixel)
-    // O pitch é a largura de uma linha da memória de vídeo. O valor do pitch
-    // é dado em bytes e portanto será igual a quantidade de pixels * 4 bytes 
-    // por pixel. Para obter a quantidade de pixels em cada linha da memória 
-    // de vídeo devemos dividir o valor do pitch por 4. É exatamente o que a 
-    // operação de deslocamente de bits (>>) está fazendo.
+    int dx, dy, incr1, incr2, D, x, y, xend, c, pixels_left;
+    int x1, y1;
+    int sign_x, sign_y, step, reverse, i;
 
-    // define o ponteiro para a memória de vídeo e o pitch da memória
-    videoMemoryPitch = mappedTex.RowPitch >> 2;
-    videoMemory = (ulong*)mappedTex.pData;
+    dx = (a2 - a1) * (sign_x = ((a2 - a1) < 0 ? -1 : 1));
+    dy = (b2 - b1) * (sign_y = ((b2 - b1) < 0 ? -1 : 1));
 
-    // limpa a textura para o próximo desenho
-    // 0xff000000 = valor 32bits codificado com Alpha transparente
-    memset(videoMemory, 0xff000000, mappedTex.RowPitch * _window->Height());
-}
-// -----------------------------------------------------------------------------
+    /* decide increment sign by the slope sign */
+    if (sign_x == sign_y)
+        step = 1;
+    else
+        step = -1;
 
-void Renderer::Draw(Geometry* shape, ulong color)
-{
-    switch (shape->Type())
+    /* chooses axis of greatest movement (make dx) */
+    if (dy > dx)
     {
-    case POINT_T:
-        Draw((Point*)shape, color);
-        break;
-    case LINE_T:
-        Draw((Line*)shape, color);
-        break;
-    case RECTANGLE_T:
-        Draw((Rect*)shape, color);
-        break;
-    case CIRCLE_T:
-        Draw((Circle*)shape, color);
-        break;
-    case POLYGON_T:
-        Draw((Poly*)shape, color);
-        break;
-    case MIXED_T:
-        Draw((Mixed*)shape, color);
-        break;
+        // operator ^= obtain the bitwise exclusive OR of the first and second operands; 
+        // store the result in the object specified by the first operand
+        a1 ^= b1; b1 ^= a1; a1 ^= b1;
+        a2 ^= b2; b2 ^= a2; a2 ^= b2;
+        dx ^= dy; dy ^= dx; dx ^= dy;
+        reverse = 1;
+    }
+    else
+        reverse = 0;
+
+    /* note error check for dx==0 should be included here */
+    /* start from the smaller coordinate */
+    if (a1 > a2)
+    {
+        x = a2;
+        y = b2;
+        x1 = a1;
+        y1 = b1;
+    }
+    else
+    {
+        x = a1;
+        y = b1;
+        x1 = a2;
+        y1 = b2;
+    }
+
+    /* Note dx=n implies 0 - n or (dx+1) pixels to be set
+    * Go round loop dx/4 times then plot last 0,1,2 or 3 pixels
+    *  In fact (dx-1)/4 as 2 pixels are already plotted */
+    xend = (dx - 1) / 4;
+    pixels_left = (dx - 1) % 4;    /* number of pixels left over at the end */
+    PlotLine(x, y, reverse, color);
+    if (pixels_left < 0)
+        return;    /* plot only one pixel for zero
+                * length vectors */
+    PlotLine(x1, y1, reverse, color);    /* plot first two points */
+    incr2 = 4 * dy - 2 * dx;
+    if (incr2 < 0) {    /* slope less than 1/2 */
+        c = 2 * dy;
+        incr1 = 2 * c;
+        D = incr1 - dx;
+
+        for (i = 0; i < xend; i++) {    /* plotting loop */
+            ++x;
+            --x1;
+            if (D < 0) {
+                /* pattern 1 forwards */
+                PlotLine(x, y, reverse, color);
+                PlotLine(++x, y, reverse, color);
+                /* pattern 1 backwards */
+                PlotLine(x1, y1, reverse, color);
+                PlotLine(--x1, y1, reverse, color);
+                D += incr1;
+            }
+            else {
+                if (D < c) {
+                    /* pattern 2 forwards */
+                    PlotLine(x, y, reverse, color);
+                    PlotLine(++x, y += step, reverse, color);
+                    /* pattern 2 backwards */
+                    PlotLine(x1, y1, reverse, color);
+                    PlotLine(--x1, y1 -= step, reverse, color);
+                }
+                else {
+                    /* pattern 3 forwards */
+                    PlotLine(x, y += step, reverse, color);
+                    PlotLine(++x, y, reverse, color);
+                    /* pattern 3 backwards */
+                    PlotLine(x1, y1 -= step, reverse, color);
+                    PlotLine(--x1, y1, reverse, color);
+                }
+                D += incr2;
+            }
+        }        /* end for */
+        /* plot last pattern */
+        if (pixels_left) {
+            if (D < 0) {
+                PlotLine(++x, y, reverse, color);    /* pattern 1 */
+                if (pixels_left > 1)
+                    PlotLine(++x, y, reverse, color);
+                if (pixels_left > 2)
+                    PlotLine(--x1, y1, reverse, color);
+            }
+            else {
+                if (D < c) {
+                    PlotLine(++x, y, reverse, color);    /* pattern 2  */
+                    if (pixels_left > 1)
+                        PlotLine(++x, y += step, reverse, color);
+                    if (pixels_left > 2)
+                        PlotLine(--x1, y1, reverse, color);
+                }
+                else {
+                    /* pattern 3 */
+                    PlotLine(++x, y += step, reverse, color);
+                    if (pixels_left > 1)
+                        PlotLine(++x, y, reverse, color);
+                    if (pixels_left > 2)
+                        PlotLine(--x1, y1 -= step, reverse, color);
+                }
+            }
+        }        /* end if pixels_left */
+    }
+    /* end slope < 1/2 */
+    else {            /* slope greater than 1/2 */
+        c = 2 * (dy - dx);
+        incr1 = 2 * c;
+        D = incr1 + dx;
+        for (i = 0; i < xend; i++) {
+            ++x;
+            --x1;
+            if (D > 0) {
+                /* pattern 4 forwards */
+                PlotLine(x, y += step, reverse, color);
+                PlotLine(++x, y += step, reverse, color);
+                /* pattern 4 backwards */
+                PlotLine(x1, y1 -= step, reverse, color);
+                PlotLine(--x1, y1 -= step, reverse, color);
+                D += incr1;
+            }
+            else {
+                if (D < c) {
+                    /* pattern 2 forwards */
+                    PlotLine(x, y, reverse, color);
+                    PlotLine(++x, y += step, reverse, color);
+
+                    /* pattern 2 backwards */
+                    PlotLine(x1, y1, reverse, color);
+                    PlotLine(--x1, y1 -= step, reverse, color);
+                }
+                else {
+                    /* pattern 3 forwards */
+                    PlotLine(x, y += step, reverse, color);
+                    PlotLine(++x, y, reverse, color);
+                    /* pattern 3 backwards */
+                    PlotLine(x1, y1 -= step, reverse, color);
+                    PlotLine(--x1, y1, reverse, color);
+                }
+                D += incr2;
+            }
+        }        /* end for */
+        /* plot last pattern */
+        if (pixels_left) {
+            if (D > 0) {
+                PlotLine(++x, y += step, reverse, color);    /* pattern 4 */
+                if (pixels_left > 1)
+                    PlotLine(++x, y += step, reverse, color);
+                if (pixels_left > 2)
+                    PlotLine(--x1, y1 -= step, reverse, color);
+            }
+            else {
+                if (D < c) {
+                    PlotLine(++x, y, reverse, color);    /* pattern 2  */
+                    if (pixels_left > 1)
+                        PlotLine(++x, y += step, reverse, color);
+                    if (pixels_left > 2)
+                        PlotLine(--x1, y1, reverse, color);
+                }
+                else {
+                    /* pattern 3 */
+                    PlotLine(++x, y += step, reverse, color);
+                    if (pixels_left > 1)
+                        PlotLine(++x, y, reverse, color);
+                    if (pixels_left > 2) {
+                        if (D > c) /* step 3 */
+                            PlotLine(--x1, y1 -= step, reverse, color);
+                        else /* step 2 */
+                            PlotLine(--x1, y1, reverse, color);
+                    }
+                }
+            }
+        }
     }
 }
 
 // -----------------------------------------------------------------------------
 
-void Renderer::Draw(Point* point, ulong color)
-{
-    if (point->X() >= 0 && point->X() < _window->Width())
-        if (point->Y() >= 0 && point->Y() < _window->Height())
-            PlotPixel(int(point->X()), int(point->Y()), color);
-}
-
-// -----------------------------------------------------------------------------
-
-void Renderer::Draw(Line* line, ulong color)
-{
-    int x1 = int(line->A().X());
-    int y1 = int(line->A().Y());
-    int x2 = int(line->B().X());
-    int y2 = int(line->B().Y());
-
-    // desenha apenas a parte visível da linha
-    if (ClipLine(x1, y1, x2, y2))
-        DrawLine(x1, y1, x2, y2, color);
-}
-// -----------------------------------------------------------------------------
-
 void Renderer::Draw(Rect* rect, ulong color)
 {
-    Line top(Position(rect->Left(), rect->Top()), Position(rect->Right(), rect->Top()));
-    Line left(Position(rect->Left(), rect->Top() + 1), Position(rect->Left(), rect->Bottom()));
-    Line right(Position(rect->Right(), rect->Top() + 1), Position(rect->Right(), rect->Bottom()));
-    Line bottom(Position(rect->Left() + 1, rect->Bottom()), Position(rect->Right() - 1, rect->Bottom()));
+    Line top(rect->Left(), rect->Top(), rect->Right(), rect->Top());
+    Line left(rect->Left(), rect->Top() + 1, rect->Left(), rect->Bottom());
+    Line right(rect->Right(), rect->Top() + 1, rect->Right(), rect->Bottom());
+    Line bottom(rect->Left() + 1, rect->Bottom(), rect->Right() - 1, rect->Bottom());
 
     Draw(&top, color);
     Draw(&left, color);
@@ -1135,14 +696,14 @@ void Renderer::Draw(Circle* circ, ulong color)
             y = y - 1;
         }
 
-        a.MoveTo(Position((xpos + x), (ypos + y))); Draw(&a, color);
-        b.MoveTo(Position((xpos + x), (ypos - y))); Draw(&b, color);
-        c.MoveTo(Position((xpos - x), (ypos + y))); Draw(&c, color);
-        d.MoveTo(Position((xpos - x), (ypos - y))); Draw(&d, color);
-        e.MoveTo(Position((xpos + y), (ypos + x))); Draw(&e, color);
-        f.MoveTo(Position((xpos + y), (ypos - x))); Draw(&f, color);
-        g.MoveTo(Position((xpos - y), (ypos + x))); Draw(&g, color);
-        h.MoveTo(Position((xpos - y), (ypos - x))); Draw(&h, color);
+        a.MoveTo(Position(float(xpos + x), float(ypos + y))); Draw(&a, color);
+        b.MoveTo(Position(float(xpos + x), float(ypos - y))); Draw(&b, color);
+        c.MoveTo(Position(float(xpos - x), float(ypos + y))); Draw(&c, color);
+        d.MoveTo(Position(float(xpos - x), float(ypos - y))); Draw(&d, color);
+        e.MoveTo(Position(float(xpos + y), float(ypos + x))); Draw(&e, color);
+        f.MoveTo(Position(float(xpos + y), float(ypos - x))); Draw(&f, color);
+        g.MoveTo(Position(float(xpos - y), float(ypos + x))); Draw(&g, color);
+        h.MoveTo(Position(float(xpos - y), float(ypos - x))); Draw(&h, color);
     }
 }
 
@@ -1164,7 +725,7 @@ void Renderer::Draw(Poly* pol, ulong color)
         y2 = pol->vertexList[i + 1].Y() + pol->Y();
 
         // draw a line clipping to viewport
-        Line line(Position(x1, y1), Position(x2, y2));
+        Line line(x1, y1, x2, y2);
         Draw(&line, color);
     }
 
@@ -1176,7 +737,7 @@ void Renderer::Draw(Poly* pol, ulong color)
     y2 = pol->vertexList[i].Y() + pol->Y();
 
     // draw a line clipping to viewport
-    Line line(Position(x1, y1), Position(x2, y2));
+    Line line(x1, y1, x2, y2);
     Draw(&line, color);
 }
 
@@ -1187,15 +748,469 @@ void Renderer::Draw(Mixed* mul, ulong color)
     for (auto i : mul->shapes)
         Draw(i, color);
 }
+
 // -----------------------------------------------------------------------------
 
 void Renderer::EndPixels()
 {
     // destrava a textura de plotagem de pixels
-    _graphics->context->Unmap(pixelPlotTexture, 0);
+    graphics->context->Unmap(pixelPlotTexture, 0);
 
     // adiciona o sprite na lista de desenho
     Draw(&pixelPlotSprite);
 }
+
+// ---------------------------------------------------------------------------------
+
+
+bool Renderer::Initialize(Window* window, Graphics* graphics)
+{
+    this->window = window;
+    this->graphics = graphics;
+
+    //-------------------------------
+    // Vertex Shader
+    //-------------------------------
+
+    // carrega bytecode do vertex shader (HLSL)
+    ID3DBlob* vShader = nullptr;
+    D3DReadFileToBlob(L"Shaders/Vertex.cso", &vShader);
+
+    // cria o vertex shader
+    graphics->device->CreateVertexShader(vShader->GetBufferPointer(), vShader->GetBufferSize(), NULL, &vertexShader);
+
+    //-------------------------------
+    // Input Layout
+    //-------------------------------
+
+    // descreve o input layout dos vértices
+    D3D11_INPUT_ELEMENT_DESC layoutDesc[] =
+    {
+        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+    };
+
+    // cria o input layout
+    graphics->device->CreateInputLayout(layoutDesc, 3, vShader->GetBufferPointer(), vShader->GetBufferSize(), &inputLayout);
+
+    // libera bytecode
+    vShader->Release();
+
+    //-------------------------------
+    // Pixel Shader
+    //-------------------------------
+
+    // carrega bytecode do pixel shader (HLSL)
+    ID3DBlob* pShader = nullptr;
+    D3DReadFileToBlob(L"Shaders/Pixel.cso", &pShader);
+
+    // cria o vertex shader
+    graphics->device->CreatePixelShader(pShader->GetBufferPointer(), pShader->GetBufferSize(), NULL, &pixelShader);
+
+    // libera bytecode
+    pShader->Release();
+
+    //-------------------------------
+    // Rasterizador
+    //-------------------------------
+
+    D3D11_RASTERIZER_DESC rasterDesc;
+    ZeroMemory(&rasterDesc, sizeof(rasterDesc));
+    rasterDesc.FillMode = D3D11_FILL_SOLID;
+    //rasterDesc.FillMode = D3D11_FILL_WIREFRAME;
+    rasterDesc.CullMode = D3D11_CULL_NONE;
+    rasterDesc.DepthClipEnable = true;
+
+    // cria estado do rasterizador
+    graphics->device->CreateRasterizerState(&rasterDesc, &rasterState);
+
+    //-------------------------------
+    // Vertex Buffer
+    //-------------------------------
+
+    D3D11_BUFFER_DESC vertexBufferDesc = { 0 };
+    vertexBufferDesc.ByteWidth = sizeof(Vertex) * MaxBatchSize * VerticesPerSprite;
+    vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+    vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+    graphics->device->CreateBuffer(&vertexBufferDesc, nullptr, &vertexBuffer);
+
+    //-------------------------------
+    // Index Buffer
+    //-------------------------------
+
+    D3D11_BUFFER_DESC indexBufferDesc = { 0 };
+    indexBufferDesc.ByteWidth = sizeof(short) * MaxBatchSize * IndicesPerSprite;
+    indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+    indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+
+    // gera índices para o número máximo de sprites suportados
+    vector<short> indices;
+    indices.reserve(MaxBatchSize * IndicesPerSprite);
+    for (short i = 0; i < MaxBatchSize * VerticesPerSprite; i += VerticesPerSprite)
+    {
+        indices.push_back(i);
+        indices.push_back(i + 1);
+        indices.push_back(i + 2);
+
+        indices.push_back(i + 1);
+        indices.push_back(i + 3);
+        indices.push_back(i + 2);
+    }
+
+    D3D11_SUBRESOURCE_DATA indexData = { 0 };
+    indexData.pSysMem = &indices.front();
+
+    if FAILED(graphics->device->CreateBuffer(&indexBufferDesc, &indexData, &indexBuffer))
+        return false;
+
+    //-------------------------------
+    // Constant Buffer
+    //-------------------------------
+
+    D3D11_BUFFER_DESC constBufferDesc = { 0 };
+    constBufferDesc.ByteWidth = sizeof(XMMATRIX);
+    constBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+    constBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    constBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+    // calcula a matriz de transformação
+    float xScale = (graphics->viewport.Width > 0) ? 2.0f / graphics->viewport.Width : 0.0f;
+    float yScale = (graphics->viewport.Height > 0) ? 2.0f / graphics->viewport.Height : 0.0f;
+
+    // transforma para coordenadas da tela
+    XMMATRIX transformMatrix
+    (
+        xScale, 0, 0, 0,
+        0, -yScale, 0, 0,
+        0, 0, 1, 0,
+        -1, 1, 0, 1
+    );
+
+    D3D11_SUBRESOURCE_DATA constantData = { 0 };
+    XMMATRIX worldViewProj = XMMatrixTranspose(transformMatrix);
+    constantData.pSysMem = &worldViewProj;
+
+    graphics->device->CreateBuffer(&constBufferDesc, &constantData, &constantBuffer);
+
+    //-------------------------------
+    // Texture Sampler
+    //-------------------------------
+
+    D3D11_SAMPLER_DESC samplerDesc;
+    ZeroMemory(&samplerDesc, sizeof(samplerDesc));
+    samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.MipLODBias = 0.0f;
+    samplerDesc.MaxAnisotropy = (graphics->device->GetFeatureLevel() > D3D_FEATURE_LEVEL_9_1) ? 16 : 2;
+    samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+    samplerDesc.BorderColor[0] = 0.0f;
+    samplerDesc.BorderColor[1] = 0.0f;
+    samplerDesc.BorderColor[2] = 0.0f;
+    samplerDesc.BorderColor[3] = 0.0f;
+    samplerDesc.MinLOD = 0;
+    samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+    // cria o amostrador da textura
+    graphics->device->CreateSamplerState(&samplerDesc, &sampler);
+
+    //-------------------------------
+    // Configura Direct3D Pipeline
+    //-------------------------------
+
+    uint vertexStride = sizeof(Vertex);
+    uint vertexOffset = 0;
+    graphics->context->IASetVertexBuffers(0, 1, &vertexBuffer, &vertexStride, &vertexOffset);
+    graphics->context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R16_UINT, 0);
+    graphics->context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    graphics->context->IASetInputLayout(inputLayout);
+    graphics->context->VSSetShader(vertexShader, NULL, 0);
+    graphics->context->VSSetConstantBuffers(0, 1, &constantBuffer);
+    graphics->context->PSSetShader(pixelShader, NULL, 0);
+    graphics->context->PSSetSamplers(0, 1, &sampler);
+    graphics->context->RSSetState(rasterState);
+
+    // ---------------------------------------------
+    // Textura de Plotagem de Pixels
+    // ---------------------------------------------
+
+    // descreve uma textura a ser preenchida manualmente
+    D3D11_TEXTURE2D_DESC desc;
+    ZeroMemory(&desc, sizeof(desc));
+
+    desc.Width = int(window->Width());                // largura da textura
+    desc.Height = int(window->Height());            // altura da textura
+    desc.MipLevels = 1;                                // usa apenas um nível
+    desc.ArraySize = 1;                                // cria apenas uma textura
+    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;        // formato RGBA de 32 bits
+    desc.SampleDesc.Count = 1;                        // uma amostra por pixel (sem antialiasing)
+    desc.Usage = D3D11_USAGE_DYNAMIC;                // alocada em RAM para acesso rápido via CPU
+    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;    // será acessada por um shader
+    desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // CPU pode escrever na textura
+
+    // cria textura a ser preenchida com pixels
+    if FAILED(graphics->device->CreateTexture2D(&desc, nullptr, &pixelPlotTexture))
+        return false;
+
+    // configura visualização para a textura de pixels
+    D3D11_SHADER_RESOURCE_VIEW_DESC pixelPlotDesc;
+    ZeroMemory(&pixelPlotDesc, sizeof(pixelPlotDesc));
+
+    pixelPlotDesc.Format = desc.Format;
+    pixelPlotDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    pixelPlotDesc.Texture2D.MipLevels = desc.MipLevels;
+    pixelPlotDesc.Texture2D.MostDetailedMip = desc.MipLevels - 1;
+
+    // cria uma visualização para a textura de pixels
+    if FAILED(graphics->device->CreateShaderResourceView((ID3D11Resource*)pixelPlotTexture, &pixelPlotDesc, &pixelPlotView))
+        return false;
+
+    // ---------------------------------------------
+    // Sprite 
+    // ---------------------------------------------
+    if (pixelPlotSprite.position)
+        pixelPlotSprite.position->MoveTo(Position(0, 0));
+    else
+        pixelPlotSprite.position = new Position();
+    pixelPlotSprite.scale = 1.0f;
+    pixelPlotSprite.depth = 0.0f;
+    pixelPlotSprite.rotation = 0.0f;
+    pixelPlotSprite.width = window->Width();
+    pixelPlotSprite.height = window->Height();
+    pixelPlotSprite.texture = pixelPlotView;
+
+    // inicialização bem sucedida
+    return true;
+}
+
+// ---------------------------------------------------------------------------------
+
+void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprites, uint cont)
+{
+    // desenhe usando a seguinte textura
+    graphics->context->PSSetShaderResources(0, 1, &texture);
+
+    while (cont > 0)
+    {
+        // quantos sprites vamos desenhar
+        uint batchSize = cont;
+
+        // quantos sprites cabem no vertex buffer
+        uint remainingSpace = MaxBatchSize - vertexBufferPosition;
+
+        // quantidade de sprite é maior do que o espaço disponível
+        if (batchSize > remainingSpace)
+        {
+            // se o tamanho disponível é muito pequeno
+            if (remainingSpace < MinBatchSize)
+            {
+                // volte ao ínicio do buffer
+                vertexBufferPosition = 0;
+                batchSize = (cont < MaxBatchSize) ? cont : MaxBatchSize;
+            }
+            else
+            {
+                // restrinja a quantidade de sprites pelo espaço sobrando
+                batchSize = remainingSpace;
+            }
+        }
+
+        // trava o vertex buffer para escrita
+        D3D11_MAP mapType = (vertexBufferPosition == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE_NO_OVERWRITE;
+        D3D11_MAPPED_SUBRESOURCE mappedBuffer;
+        graphics->context->Map(vertexBuffer, 0, mapType, 0, &mappedBuffer);
+
+        // se posiciona dentro do vertex buffer
+        Vertex* vertices = (Vertex*)mappedBuffer.pData + vertexBufferPosition * VerticesPerSprite;
+
+        // gera posições dos vértices de cada sprite que será desenhado nesse lote
+        for (uint i = 0; i < batchSize; ++i)
+        {
+            // pega tamanho da textura
+            XMVECTOR size = XMVectorMergeXY(XMLoadInt(&sprites[i]->width), XMLoadInt(&sprites[i]->height));
+            XMVECTOR textureSize = XMConvertVectorUIntToFloat(size, 0);
+            XMVECTOR inverseTextureSize = XMVectorReciprocal(textureSize);
+
+            // organiza informações do sprite
+            XMFLOAT2 positionxy(sprites[i]->position->X(), sprites[i]->position->Y());
+            float scale = sprites[i]->scale;
+            XMFLOAT2 center(0.0f, 0.0f);
+            float rotation = sprites[i]->rotation;
+            float layerDepth = sprites[i]->depth;
+            ///TODO: See Anchor ist ok
+            float anchorX = sprites[i]->anchorX;
+            float anchorY = sprites[i]->anchorY;
+            Color filterColor = sprites[i]->color;
+
+            // carrega informações do sprite em registros SIMD
+            XMVECTOR source = XMVectorSet(0, 0, 1, 1);
+            XMVECTOR destination = XMVectorPermute<0, 1, 4, 4>(XMLoadFloat2(&positionxy), XMLoadFloat(&scale));
+            float r = filterColor.R;
+            float g = filterColor.G;
+            float b = filterColor.B;
+            float a = filterColor.A;
+
+            //XMVECTOR color = XMVectorSet(r, g, b, a);
+            #ifdef _DEBUG
+                XMVECTOR color = XMVectorSet(1, 1, 1, 1);
+            #else
+                XMVECTOR color = XMVectorSet(r, g, b, a);
+            #endif
+
+            XMVECTOR originRotationDepth = XMVectorSet(center.x + anchorX, center.y + anchorY, rotation, layerDepth);
+
+            // extrai os tamanhos de origem e destino em vetores separados
+            XMVECTOR sourceSize = XMVectorSwizzle<2, 3, 2, 3>(source);
+            XMVECTOR destinationSize = XMVectorSwizzle<2, 3, 2, 3>(destination);
+
+            // altera a escala do offset de origem pelo tamanho da fonte, tomando cuidado para evitar overflow se a região fonte for zero
+            XMVECTOR isZeroMask = XMVectorEqual(sourceSize, XMVectorZero());
+            XMVECTOR nonZeroSourceSize = XMVectorSelect(sourceSize, g_XMEpsilon, isZeroMask);
+
+            XMVECTOR origin = XMVectorDivide(originRotationDepth, nonZeroSourceSize);
+
+            // converte a região fonte de texels para o formato de coordenadas de textura mod-1
+            origin *= inverseTextureSize;
+
+            // se o tamanho de destino é relativo a região fonte, converte-o para pixels
+            destinationSize *= textureSize;
+
+            // calcula uma matriz de rotação 2x2
+            XMVECTOR rotationMatrix1;
+            XMVECTOR rotationMatrix2;
+
+            if (rotation != 0)
+            {
+                float sin, cos;
+
+                XMScalarSinCos(&sin, &cos, rotation);
+
+                XMVECTOR sinV = XMLoadFloat(&sin);
+                XMVECTOR cosV = XMLoadFloat(&cos);
+
+                rotationMatrix1 = XMVectorMergeXY(cosV, sinV);
+                rotationMatrix2 = XMVectorMergeXY(-sinV, cosV);
+            }
+            else
+            {
+                rotationMatrix1 = g_XMIdentityR0;
+                rotationMatrix2 = g_XMIdentityR1;
+            }
+
+            // os quatro vértices do sprite são calculados a partir de transformações dessas posições unitárias
+            static XMVECTORF32 cornerOffsets[VerticesPerSprite] =
+            {
+                { 0, 0 },
+                { 1, 0 },
+                { 0, 1 },
+                { 1, 1 },
+            };
+
+            int mirrorBits = 0;
+
+            // gere os quatro vértices 
+            for (int i = 0; i < VerticesPerSprite; ++i)
+            {
+                // calcula posição
+                XMVECTOR cornerOffset = (cornerOffsets[i] - origin) * destinationSize;
+
+                // aplica matriz de rotação 2x2
+                XMVECTOR position1 = XMVectorMultiplyAdd(XMVectorSplatX(cornerOffset), rotationMatrix1, destination);
+                XMVECTOR position2 = XMVectorMultiplyAdd(XMVectorSplatY(cornerOffset), rotationMatrix2, position1);
+
+                // insere componente z = depth
+                XMVECTOR position = XMVectorPermute<0, 1, 7, 6>(position2, originRotationDepth);
+
+                // Escreve posição como um Float4, mesmo sendo VertexPositionColor::position um XMFLOAT3.
+                // Isso é mais rápido e inofensivo porque estamos apenas invalidando o primeiro elemento
+                // do campo cor, que será imediatamente sobrescrito com seu valor correto.
+                XMStoreFloat4(reinterpret_cast<XMFLOAT4*>(&vertices[i].pos), position);
+
+                // insere a cor
+                XMStoreFloat4(&vertices[i].color, color);
+
+                // computa e escreve as coordenadas da textura
+                XMVECTOR textureCoordinate = XMVectorMultiplyAdd(cornerOffsets[i ^ mirrorBits], sourceSize, source);
+
+                XMStoreFloat2(&vertices[i].tex, textureCoordinate);
+            }
+
+            vertices += VerticesPerSprite;
+        }
+
+        // destrava o vertex buffer
+        graphics->context->Unmap(vertexBuffer, 0);
+
+        // desenha sprites 
+        uint startIndex = (uint)vertexBufferPosition * IndicesPerSprite;
+        uint indexCount = (uint)batchSize * IndicesPerSprite;
+        graphics->context->DrawIndexed(indexCount, startIndex, 0);
+
+        // avança a posição no vertex buffer
+        vertexBufferPosition += batchSize;
+
+        // avança a posição no vetor de sprites
+        sprites += batchSize;
+
+        // foram desenhados batchSize sprites nessa passagem
+        cont -= batchSize;
+    }
+}
+
+// ---------------------------------------------------------------------------------
+
+void Renderer::Render()
+{
+    // ordena sprites por profundidade:
+    // necessário para o correto funcionamento 
+    // da mistura (blending) entre as texturas dos sprites
+    sort(spriteVector.begin(), spriteVector.end(),
+        [](SpriteData* a, SpriteData* b) -> bool
+        { return a->depth > b->depth; });
+
+    // quantidades de sprites a serem renderizados
+    uint spriteVectorSize = uint(spriteVector.size());
+
+    if (spriteVectorSize == 0)
+        return;
+
+    ID3D11ShaderResourceView* batchTexture = nullptr;
+    uint batchStart = 0;
+
+    // junta sprites adjacentes que compartilham a mesma textura
+    for (uint pos = 0; pos < spriteVectorSize; ++pos)
+    {
+        ID3D11ShaderResourceView* texture = spriteVector[pos]->texture;
+
+        if (texture != batchTexture)
+        {
+            if (pos > batchStart)
+            {
+                RenderBatch(batchTexture, &spriteVector[batchStart], pos - batchStart);
+            }
+
+            batchTexture = texture;
+            batchStart = pos;
+        }
+    }
+
+    // desenha o grupo final de sprites
+    RenderBatch(batchTexture, &spriteVector[batchStart], spriteVectorSize - batchStart);
+
+    // limpa a lista de desenho (atualizada a cada frame)
+    spriteVector.clear();
+}
+
+// ---------------------------------------------------------------------------------
+
+void Renderer::Draw(SpriteData* sprite)
+{
+    spriteVector.push_back(sprite);
+}
+
 
 // ---------------------------------------------------------------------------------

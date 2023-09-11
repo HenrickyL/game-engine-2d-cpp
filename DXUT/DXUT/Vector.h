@@ -26,6 +26,7 @@ public:
 	Vector	operator/(const float value) const;
 	Vector	operator-(const Vector& other) const;
 	bool	operator==(const Vector& other) const;
+	bool	operator!=(const Vector& other) const;
 	bool	operator<=>(const Vector& other) const; // equal direction
 
 };

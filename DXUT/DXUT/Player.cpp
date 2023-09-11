@@ -1,17 +1,22 @@
 #include "Player.h"
 // ---------------------------------------------------------------------------------
-#include "Galaga.h"
-#include "Missile.h"
+#include "Breakout.h"
 // ---------------------------------------------------------------------------------
 
-Player::Player(Image* imgPlayer, Image* missileImg)
+Player::Player(Image* img)
 {
 	_position = new Position();
-	_missile = missileImg;
-	this->SetSprite(new Sprite(imgPlayer));
-	this->SetSpeed(Vector::Right * 160.0f);
+	this->SetSprite(new Sprite(img));
+	_speedMagnitude = 500;
+	this->SetSpeed(Vector(Vector::Right * _speedMagnitude));
 	_sprite->SetLayer(Layer::MIDDLE);
+
+
+	// estado inicial do jogo
+	state = STOPED;
+	// tipo do objeto
 	type = PLAYER;
+	_sprite->SetFilterColor(Vector(1, 0, 0));
 	BBox(_sprite->GetRect());
 }
 // ---------------------------------------------------------------------------------
@@ -25,30 +30,23 @@ Player::~Player()
 
 void Player::Update()
 {
-	if(input->KeyDown(VK_LEFT))
-	{
-		if (_speed <=> Vector::Right)
-			_speed = _speed * -1;
+	// inicia o jogo com barra de espaço
+	if (state == STOPED && input->KeyDown(VK_SPACE))
+		state = PLAYING;
 
-		if(_position->X() - _sprite->HalfWidth() > 0)
-			this->Translate(_speed * gameTime);
-
+	// desloca jogador horizontalmente
+	if (input->KeyDown(VK_RIGHT) && this->Right() <= window->Width()) {
+		_speed = (Vector::Right) * _speedMagnitude;
+		Translate(_speed * gameTime);
 	}
-	if(input->KeyDown(VK_RIGHT))
-	{
-		if (_speed <=> Vector::Left)
-			_speed = _speed * -1;
-
-		if (_position->X() + _sprite->HalfWidth() <= window->Width())
-			this->Translate(_speed * gameTime);
+	if (input->KeyDown(VK_LEFT) && this->Left() >= 0) {
+		_speed = (Vector::Left)*_speedMagnitude;
+		Translate(_speed * gameTime);
 	}
 
-	if(input->KeyPress(SPACE))
-	{
-		Missile* m = new Missile(_missile);
-		Position p = Position(_position->X(), _position->Y() - _sprite->HalfHeight());
-		m->MoveTo(p);
-		Galaga::scene->Add(m, MOVING);
-	}
+}
+
+void Player::OnCollision(Object* obj) {
+
 }
 
