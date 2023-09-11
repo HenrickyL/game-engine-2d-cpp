@@ -12,7 +12,8 @@ Player::Player(Image* imgPlayer, Image* missileImg)
 	this->SetSpeed(Vector::Right * 160.0f);
 	_sprite->SetLayer(Layer::MIDDLE);
 	type = PLAYER;
-	BBox(_sprite->GetRect());
+	_sprite->SetScale(1.5);
+	BBox(_sprite->GetCircle());
 }
 // ---------------------------------------------------------------------------------
 Player::~Player()

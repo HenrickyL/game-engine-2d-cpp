@@ -95,7 +95,15 @@ Line::Line(const Position& pa, const Position& pb)
     b = Point(pb);
     _type = LINE_T;
 }
+// --------------------------------------------------------------------------
 
+Line::Line(float x1, float y1, float x2, float y2)
+{
+    // cria linha de (x1,y1) até (x2,y2)
+    a = Point(x1, y1);
+    b = Point(x2, y2);
+    _type = LINE_T;
+}
 // --------------------------------------------------------------------------
 
 Line::Line(const Point& pa, const Point& pb)

@@ -9,6 +9,7 @@ Alien::Alien(Image* img)
     this->SetSpeed(Vector::Right * _speedScalar);
     type = ALIEN;
     BBox(_sprite->GetRect());
+    _sprite->SetFilterColor(Color(1,1,51/255));
 }
 
 // ---------------------------------------------------------------------------------

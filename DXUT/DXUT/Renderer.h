@@ -26,8 +26,8 @@ struct Vertex
 class Renderer
 {
 private:
-    Window* _window;                          // ponteiro para janela do jogo
-    Graphics* _graphics;                        // ponteiro para dispositivo gráfico
+    Window* window;                          // ponteiro para janela do jogo
+    Graphics* graphics;                        // ponteiro para dispositivo gráfico
 
     ID3D11InputLayout*      inputLayout;                 // input layout
     ID3D11VertexShader*     vertexShader;                // vertex shader

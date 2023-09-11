@@ -65,6 +65,7 @@ public:
     Point a, b;                                     // linha vai do ponto A ao ponto B
 
     Line();                                         // construtor padrão
+    Line(float x1, float y1, float x2, float y2);   // construtor usando pontos-flutuantes
     Line(const Position& pa, const Position& pb);   // construtor usando pontos
     Line(const Point& pa, const Point& pb);                     // construtor usando pontos
 
