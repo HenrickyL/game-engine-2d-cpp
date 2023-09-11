@@ -80,6 +80,8 @@ public:
     virtual float Right() const;
     virtual float Top() const;
     virtual float Down() const;
+    virtual float Width() const;
+    virtual float Height() const;
 
 };
 
@@ -100,6 +102,8 @@ inline  float Object::Left() const { return _sprite ? _position->X() - _sprite->
 inline  float Object::Right() const { return _sprite ? _position->X() + _sprite->HalfWidth() : _position->X(); }
 inline  float Object::Top() const { return _sprite ? _position->Y() - _sprite->HalfHeight() : _position->Y(); }
 inline  float Object::Down() const { return _sprite ? _position->Y() + _sprite->HalfHeight() : _position->Y(); }
+inline  float Object::Width() const { return _sprite->Width(); }
+inline  float Object::Height() const { return _sprite->Height(); }
 // -----------------------------------------------------------------------------
 
 #endif

@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------------------
 #include "Player.h"
 #include "Ball.h"
-
+#include "Block.h"
 
 // ------------------------------------------------------------------------------
 // Inicializa��o de membros est�ticos da classe
@@ -25,6 +25,7 @@ void Breakout::Init()
 
     backg = new Sprite("Resources/Background.jpg");
     backg->SetPosition(window->Center());
+    backg->SetLayer(Layer::BACK);
 
     // --------------------------
     scene = new Scene();
@@ -36,6 +37,7 @@ void Breakout::Init()
     tile3 = new Image("Resources/Tile3.png");
     tile4 = new Image("Resources/Tile4.png");
     tile5 = new Image("Resources/Tile5.png");
+    Image* tileList[] = { tile1, tile2, tile3, tile4, tile5 };
 
     // ---------------------------
     // cria jogador
@@ -49,8 +51,34 @@ void Breakout::Init()
     ballImg = new Image("Resources/Ball.png");
     Ball* ball = new Ball(player, ballImg);
     scene->Add(ball, MOVING);
+    //----------------------------
+    // criar os blocks
+    int numBlocksX = 8;
+    int numBlocksY = 5;
 
+    int windowWidth = window->Width();
+    int windowHeight = window->Height();
 
+    int horizontalSpacing = 30; // Ajuste conforme necessário
+    int verticalSpacing = 25;   // Ajuste conforme necessário
+
+    Block* b = new Block(tile1);
+    int blockWidth = b->Width();
+    int blockHeight = b->Height();
+    delete b;
+
+    int offsetX = (windowWidth - (numBlocksX * blockWidth + (numBlocksX - 1) * horizontalSpacing)) / 2;
+    int offsetY = (windowHeight - (numBlocksY * blockHeight + (numBlocksY - 1) * verticalSpacing)) / 2;
+    for (int lin = 0; lin < numBlocksY; lin++) {
+        for (int row = 0; row < numBlocksX; row++) {
+            Block* block = new Block(tileList[lin]);
+            int x = offsetX + row * (blockWidth + horizontalSpacing);
+            int y = offsetY + lin * (blockHeight + verticalSpacing);
+            block->MoveTo(Position(x, y));
+            scene->Add(block, STATIC);
+        }
+    }
+    
 }
 
 // ------------------------------------------------------------------------------

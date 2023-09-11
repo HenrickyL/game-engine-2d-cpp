@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Breakout.cpp" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="DXUT_Utils_Direction_.h" />
     <ClInclude Include="DXUT_2D.h" />

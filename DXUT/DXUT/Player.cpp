@@ -44,15 +44,6 @@ void Player::Update()
 		Translate(_speed * gameTime);
 	}
 
-	if (input->KeyDown(VK_UP) && this->Top() >= 0) {
-		_speed = (Vector::Up)*_speedMagnitude;
-		Translate(_speed * gameTime);
-	}
-
-	if (input->KeyDown(VK_DOWN) && this->Down() <= window->Height()) {
-		_speed = (Vector::Down)*_speedMagnitude;
-		Translate(_speed * gameTime);
-	}
 }
 
 void Player::OnCollision(Object* obj) {
