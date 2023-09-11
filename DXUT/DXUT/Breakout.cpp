@@ -8,6 +8,15 @@
 // Inicializa��o de membros est�ticos da classe
 
 Scene* Breakout::scene = nullptr;
+Breakout* Breakout::instance = nullptr;
+
+Breakout* Breakout::Instance() {
+    if (Breakout::instance == nullptr) {
+        instance = new Breakout();
+    }
+    return instance;
+}
+
 
 // ------------------------------------------------------------------------------
 
@@ -19,6 +28,83 @@ Breakout::Breakout()
 
 void Breakout::Init()
 {
+    Reset();
+    
+}
+
+// ------------------------------------------------------------------------------
+
+void Breakout::InputVerifyExit()
+{
+    // sai com o pressionamento da tecla ESC
+    if (input->KeyPress(VK_ESCAPE))
+        window->Close();
+
+}
+// ------------------------------------------------------------------------------
+
+void Breakout::Update()
+{
+    InputVerifyExit();
+    //BoundingBox
+    if (input->KeyPress(KEY_B)) {
+        viewBBox = !viewBBox;
+    }
+    //Scene
+    if (input->KeyPress(KEY_S)) {
+        viewScene = !viewScene;
+    }
+
+    // atualiza objetos da cena
+    scene->Update();
+
+    // detec��o e resolu��o de colis�o
+    scene->CollisionDetection();
+}
+
+
+// ------------------------------------------------------------------------------
+
+void Breakout::Draw()
+{
+    if (viewScene) {
+        // desenha pano de fundo
+        backg->Draw();
+        // desenha cena
+        scene->Draw();
+    }
+
+    if (viewBBox) {
+        scene->DrawBBox();
+    }
+}
+
+// ------------------------------------------------------------------------------
+
+void Breakout::Finalize()
+{
+    if(!pause)delete pause;
+    //delete imgs
+    if (!tile1)delete tile1;
+    if (!tile2)delete tile2;
+    if (!tile3)delete tile3;
+    if (!tile4)delete tile4;
+    if (!playerImg)delete playerImg;
+    if (!ballImg)delete ballImg;
+    // apaga sprites
+    if (!backg)delete backg;
+    // apaga cena do jogo
+    if (!scene)delete scene;
+}
+
+
+void Breakout::OnPause() {
+    pause->Draw();
+}
+
+void Breakout::Reset() {
+    Finalize();
+
     pause = new Sprite("Resources/pause_screen.png");
     pause->SetScale(0.6f);
     pause->SetPosition(window->Center());
@@ -78,75 +164,7 @@ void Breakout::Init()
             scene->Add(block, STATIC);
         }
     }
-    
-}
 
-// ------------------------------------------------------------------------------
+    Sleep(1000);
 
-void Breakout::InputVerifyExit()
-{
-    // sai com o pressionamento da tecla ESC
-    if (input->KeyPress(VK_ESCAPE))
-        window->Close();
-
-}
-// ------------------------------------------------------------------------------
-
-void Breakout::Update()
-{
-    InputVerifyExit();
-    //BoundingBox
-    if (input->KeyPress(KEY_B)) {
-        viewBBox = !viewBBox;
-    }
-    //Scene
-    if (input->KeyPress(KEY_S)) {
-        viewScene = !viewScene;
-    }
-
-    // atualiza objetos da cena
-    scene->Update();
-
-    // detec��o e resolu��o de colis�o
-    scene->CollisionDetection();
-}
-
-
-// ------------------------------------------------------------------------------
-
-void Breakout::Draw()
-{
-    if (viewScene) {
-        // desenha pano de fundo
-        backg->Draw();
-        // desenha cena
-        scene->Draw();
-    }
-
-    if (viewBBox) {
-        scene->DrawBBox();
-    }
-}
-
-// ------------------------------------------------------------------------------
-
-void Breakout::Finalize()
-{
-    delete pause;
-    //delete imgs
-    delete tile1;
-    delete tile2;
-    delete tile3;
-    delete tile4;
-    delete playerImg;
-    delete ballImg;
-    // apaga sprites
-    delete backg;
-    // apaga cena do jogo
-    delete scene;
-}
-
-
-void Breakout::OnPause() {
-    pause->Draw();
 }

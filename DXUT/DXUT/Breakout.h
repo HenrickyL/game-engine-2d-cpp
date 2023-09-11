@@ -15,6 +15,7 @@ enum ObjTypes
 class Breakout : public Game
 {
 private:
+	static Breakout* instance;
 	bool viewScene = true;
 	bool viewBBox = false;
 	Sprite* pause = nullptr;
@@ -35,13 +36,16 @@ private:
 	void OnPause();
 	void InputVerifyExit();
 
+	Breakout();
 public:
 	static Scene* scene;
 
-	Breakout();
 	void Init();
 	void Update();
 	void Draw();
 	void Finalize();
+	void Reset();
+
+	static Breakout* Instance();
 };
 #endif

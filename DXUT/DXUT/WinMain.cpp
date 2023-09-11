@@ -27,7 +27,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->LostFocus(Engine::Pause);
 		engine->window->InFocus(Engine::Resume);
 		// cria e executa a aplicação
-		int exitCode = engine->Start(new Breakout());
+		int exitCode = engine->Start(Breakout::Instance());
 
 		// finaliza execução
 		delete engine;

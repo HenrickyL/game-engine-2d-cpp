@@ -14,7 +14,7 @@ Ball::Ball(Player* p, Image* img) {
     player = p;
     MoveTo(Position(
         p->GetPosition().X(),
-        p->Top() - _sprite->HalfHeight()));
+        p->Top() - _sprite->HalfHeight() - 5));
     // tipo do objeto
     type = BALL;
     BBox(_sprite->GetCircle());
@@ -43,14 +43,18 @@ void Ball::Update() {
     else {
         MoveTo(Position(
             player->GetPosition().X(),
-            player->Top() - _sprite->HalfHeight()));
+            player->Top() - _sprite->HalfHeight()-5));
     }
 
-    if (this->Top() <= 0 || this->Down() >= window->Height()) {
+    if (this->Top() < 0 ) {
         _speed.SetY(-_speed.Y());
     }
 
-    if (this->Right() >= window->Width() || this->Left() <= 0) {
+    if (this->Right() > window->Width() || this->Left() < 0) {
         _speed.SetX(-_speed.X());
+    }
+
+    if (this->Down() > window->Height()) {
+        Breakout::Instance()->Reset();
     }
 }
