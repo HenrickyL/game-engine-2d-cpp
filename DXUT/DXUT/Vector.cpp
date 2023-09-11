@@ -78,3 +78,8 @@ bool	Vector::operator==(const Vector& other) const
 	return _x == other._x && _y == other._y && _z == other._z;
 }
 
+bool	Vector::operator!=(const Vector& other) const
+{
+	return ! (*this == other);
+}
+
