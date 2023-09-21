@@ -13,6 +13,7 @@ public:
 	static Vector Left;
 	static Vector Right;
 	static Vector Zero;
+	static Vector One;
 
 
 	Vector(float x, float y, float z=0);
