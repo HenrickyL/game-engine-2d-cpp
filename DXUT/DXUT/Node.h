@@ -2,19 +2,20 @@
 #define DXUT_AI_NODE_H
 
 #include "State.h"
+#include "Action.h"
 
 class Node {
 private:
 	State* state;
-	float cost = 0;
+	Action* action;
 	Node* father;
 
 public:
 	
-
+	Node(State* state, Node* father, Action* action = nullptr);
 	float Cost() const;
 };
 
-inline float Node::Cost() const { return this->cost; }
+inline float Node::Cost() const { return this->action ? this->action->Cost() : 0.0f; }
 
 #endif

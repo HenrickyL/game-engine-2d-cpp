@@ -4,5 +4,9 @@ class Action {
 private:
 	float cost;
 
+public:
+	float Cost()const;
 };
+
+inline float Action::Cost() const { return cost; }
 #endif

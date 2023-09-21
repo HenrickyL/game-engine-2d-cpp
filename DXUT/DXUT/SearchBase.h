@@ -10,14 +10,7 @@
 class SearchBase {
 private:
 public:
-	/**breadth - first search
-	 * Use Queue to search result
-	 *
-	 */
-	Node* Search(State* initial, State* final)
-	{
-		State* state = initial;
-		Node* node = new Node();
-	}
+	Node* Search(State* initial, State* final);
+	
 };
 #endif

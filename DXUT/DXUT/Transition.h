@@ -11,7 +11,7 @@ private:
 	State* target;
 	Action* action;
 public:
-	Transition(State*& state, Action act);
+	Transition(State*& state, Action* act);
 	virtual void Enter() = 0;	// Método de entrada no estado
 	virtual void Execute() = 0; // Método para a lógica do estado
 	virtual void Exit() = 0;	// Método de saída do estado
