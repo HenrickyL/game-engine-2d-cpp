@@ -3,18 +3,18 @@
 //------------------------------------------
 #include<vector>
 //------------------------------------------
-class ITransition;
+class Transition;
 //------------------------------------------
 
-class IState {
+class State {
 private:
-	std::vector<ITransition*>* edges;
+	std::vector<Transition*>* edges;
 
 	void DeleteEdges();
 public:
-	IState();
-	~IState();
+	State();
+	~State();
 	virtual bool IsTriggered() const = 0;		// Método para verificar se a transição deve ocorrer
-	virtual IState* GetTargetState() const = 0; // Método para obter o estado de destino da transição
+	virtual State* GetTargetState() const = 0; // Método para obter o estado de destino da transição
 };
 #endif

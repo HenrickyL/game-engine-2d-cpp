@@ -157,22 +157,22 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Galaga.cpp">
-      <Filter>Develop\Games\Galaga\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Alien.cpp">
-      <Filter>Develop\Games\Galaga\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Vector.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Develop\Games\Galaga\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Missile.cpp">
-      <Filter>Develop\Games\Galaga\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Geometry.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Breakout.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -210,13 +210,13 @@
     <ClInclude Include="Perception.h">
       <Filter>Modules\AI\Header Files\Agent</Filter>
     </ClInclude>
-    <ClInclude Include="IState.h">
+    <ClInclude Include="State.h">
       <Filter>Modules\AI\Header Files\Search</Filter>
     </ClInclude>
-    <ClInclude Include="ITransition.h">
+    <ClInclude Include="Transition.h">
       <Filter>Modules\AI\Header Files\Search</Filter>
     </ClInclude>
-    <ClInclude Include="INode.h">
+    <ClInclude Include="Node.h">
       <Filter>Modules\AI\Header Files\Search</Filter>
     </ClInclude>
     <ClInclude Include="DXUT_IA.h">
@@ -246,7 +246,7 @@
     <ClInclude Include="DXUT_Test_Observer.h">
       <Filter>Modules\Tests\UseCase</Filter>
     </ClInclude>
-    <ClInclude Include="SearchMethods.h">
+    <ClInclude Include="SearchBase.h">
       <Filter>Modules\AI\Header Files\Search</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
@@ -285,19 +285,10 @@
     <ClInclude Include="Types.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Alien.h">
-      <Filter>Develop\Games\Galaga\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Missile.h">
-      <Filter>Develop\Games\Galaga\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Develop\Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Develop\Games\Galaga\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Galaga.h">
       <Filter>Develop\Games\Galaga\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
@@ -308,6 +299,15 @@
     </ClInclude>
     <ClInclude Include="Position.h">
       <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Breakout.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

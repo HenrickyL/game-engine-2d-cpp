@@ -1,14 +1,17 @@
-#ifndef DXUT_AI_ITRANSITION_H
-#define DXUT_AI_ITRANSITION_H
+#ifndef DXUT_AI_TRANSITION_H
+#define DXUT_AI_TRANSITION_H
 //------------------------------------------
-class IState;
+class State;
+class Action;
+
 //------------------------------------------
 
-class ITransition {
+class Transition {
 private:
-	IState* target;
+	State* target;
+	Action* action;
 public:
-	ITransition(IState*& state, float cost);
+	Transition(State*& state, Action act);
 	virtual void Enter() = 0;	// Método de entrada no estado
 	virtual void Execute() = 0; // Método para a lógica do estado
 	virtual void Exit() = 0;	// Método de saída do estado
