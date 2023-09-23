@@ -10,7 +10,9 @@
 class SearchBase {
 private:
 public:
-	Node* Search(State* initial, State* final);
+	/** Breadth First Search 
+	*/
+	Node* BFS(State* initial, State* final);
 	
 };
 #endif
