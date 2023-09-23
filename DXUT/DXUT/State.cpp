@@ -4,6 +4,12 @@
 //------------------------------------------
 State::State() {
 	edges = new std::vector<Transition*>();
+	name = "default";
+}
+
+State::State(std::string _name) {
+	edges = new std::vector<Transition*>();
+	name = _name;
 }
 //------------------------------------------
 State::~State() {
@@ -16,4 +22,11 @@ void State::DeleteEdges() {
 		delete e;
 	}
 	delete edges;
+}
+
+vector<Transition*>* State::Edges() const { return edges; }
+
+
+void State::AddTransition(Transition* transition) {
+	edges->push_back(transition);
 }

@@ -18,6 +18,40 @@ AiTest::AiTest()
 void AiTest::Init()
 {
     Reset();
+
+    State* a1 = new State("Q1");
+    State* a2 = new State("Q2");
+    State* a3 = new State("Q3");
+    State* a4 = new State("Q4");
+    State* a5 = new State("Q5");
+    State* a6 = new State("Q6");
+    State* a7 = new State("Q7");
+
+
+    // ------------------------------------------------
+    a1->AddTransition(new Transition(a2, nullptr));
+    a1->AddTransition(new Transition(a6, nullptr));
+
+    a2->AddTransition(new Transition(a3, nullptr));
+    a2->AddTransition(new Transition(a4, nullptr));
+    
+    a3->AddTransition(new Transition(a7, nullptr));
+    a4->AddTransition(new Transition(a5, nullptr));
+    a5->AddTransition(new Transition(a7, nullptr));
+    a6->AddTransition(new Transition(a7, nullptr));
+    // ------------------------------------------------
+    Node* res = SearchBase::BFS(a1, a7);
+    std::string s = res->GetPath();
+    OutputDebugString(s.c_str());
+    // ------------------------------------------------
+
+    states.push_back(a1);
+    states.push_back(a2);
+    states.push_back(a3);
+    states.push_back(a4);
+    states.push_back(a5);
+    states.push_back(a6);
+    states.push_back(a7);
     
 }
 
@@ -82,6 +116,10 @@ void AiTest::Finalize()
     if (!backg)delete backg;
     // apaga cena do jogo
     if (!scene)delete scene;
+
+    for (State* s : states) {
+        delete s;
+    }
 }
 
 

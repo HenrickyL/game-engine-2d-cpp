@@ -18,6 +18,7 @@ Node::Node(Transition* _transition, Node* _father) {
 	this->father = _father;
 }
 
+
 //------------------------------------------
 vector<Node*> Node::Edges(Node* _father) const {
 	vector<Node*> result;
@@ -25,4 +26,19 @@ vector<Node*> Node::Edges(Node* _father) const {
 		result.push_back(new Node(item, _father));
 	}
 	return result;
+}
+
+
+std::string Node::GetPath() {
+	std::string res = this->state->Name();
+	if (father != nullptr) {
+		res += " > " + father->GetPath();
+	}
+	return res;
+}
+
+void Node::DeletePath() {
+	if (father)
+		father->DeletePath();
+	delete father;
 }

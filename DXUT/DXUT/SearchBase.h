@@ -12,7 +12,7 @@ private:
 public:
 	/** Breadth First Search 
 	*/
-	Node* BFS(State* initial, State* final);
+	static Node* BFS(State* initial, State* final);
 	
 };
 #endif

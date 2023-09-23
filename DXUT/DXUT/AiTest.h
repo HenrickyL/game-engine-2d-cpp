@@ -2,8 +2,9 @@
 #define _BREAKOUT_H
 
 #include "DXUT_2D.h"
-
-
+#include "DXUT_IA.h"
+#include <vector>
+using std::vector;
 class AiTest : public Game
 {
 private:
@@ -12,6 +13,7 @@ private:
 	Sprite* pause = nullptr;
 	Sprite* backg = nullptr;
 
+	vector<State*> states;
 	// --------------------------
 	Image* tile1 = nullptr;           // bloco verde
 	Image* tile2 = nullptr;           // bloco cinza

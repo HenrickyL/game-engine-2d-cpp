@@ -8,4 +8,5 @@
 #include "Node.h"
 #include "State.h"
 #include "Transition.h"
+#include "SearchBase.h"
 #endif
