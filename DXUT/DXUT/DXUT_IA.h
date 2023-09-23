@@ -10,5 +10,7 @@
 #include "State.h"
 #include "Transition.h"
 #include "SearchBase.h"
-#include "SearchStructure .h"
+#include "SearchStructure.h"
+#include "QueueSearch.h"
+
 #endif

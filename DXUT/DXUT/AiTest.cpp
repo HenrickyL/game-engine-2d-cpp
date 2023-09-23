@@ -40,7 +40,7 @@ void AiTest::Init()
     a5->AddTransition(new Transition(a7, nullptr));
     a6->AddTransition(new Transition(a7, nullptr));
     // ------------------------------------------------
-    Node* res = SearchBase::BFS(a1, a7);
+    Node* res = SearchBase::BreadthFirstSearch(a1, a7);
     std::string s = res->GetPath();
     OutputDebugString(s.c_str());
     // ------------------------------------------------

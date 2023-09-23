@@ -1,5 +1,6 @@
 #include "QueueSearch.h"
 
+
 template <typename T>
 void QueueSearch<T>::Push(const T& element) {
     data.push(element);
@@ -19,7 +20,7 @@ bool QueueSearch<T>::IsEmpty() const {
 
 template <typename T>
 bool QueueSearch<T>::Exist(const T& element) const {
-    std::queue<T> tempData = data;
+    queue<T> tempData = data;
     while (!tempData.empty()) {
         if (tempData.front() == element) {
             return true;

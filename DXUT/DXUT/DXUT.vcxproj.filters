@@ -303,7 +303,7 @@
     <ClInclude Include="AiTest.h">
       <Filter>Develop\Games\AiTest\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SearchStructure .h">
+    <ClInclude Include="SearchStructure.h">
       <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
     <ClInclude Include="QueueSearch.h">

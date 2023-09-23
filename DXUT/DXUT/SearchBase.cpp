@@ -1,29 +1,18 @@
 #include "SearchBase.h"
-#include <queue>
-#include <vector>
+//------------------------------------------
 #include "Transition.h"
-using std::queue;
+#include "QueueSearch.h"
+#include <vector>
 using std::vector;
+#include <queue>
+using std::queue;
+//------------------------------------------
+
 
 bool existInVector(vector<Node*> list, Node* element) {
 	for (const auto* item : list) {
 		if (item == element)
 			return true;
-	}
-	return false;
-}
-
-
-bool ExistInQueue(queue<Node*> _queue, Node* element) {
-	bool result = false;
-	Node* node;
-	//remove all elements and search
-	while (!_queue.empty()) {
-		node = _queue.front();
-		_queue.pop();
-		if (!result && node == element) {
-			return true;
-		}
 	}
 	return false;
 }
@@ -55,22 +44,22 @@ void DeleteNodes(vector<Node*>& nodesToRemove) {
 	}
 }
 
+//------------------------------------------
 
-Node* SearchBase::BFS(State* initial, State* _final)
+Node* SearchBase::Search(State* initial, State* _final, SearchStructure<Node*>& edge)
 {
 	Node* node = new Node(initial, nullptr);
 	//borda
-	queue<Node*> edge;
-	edge.push(node);
+	//SearchStructure<Node*>& edge
+	edge.Push(node);
 	//lidos
 	vector<Node*> read;
 
 	vector<Node*> AllNodes;
 	AllNodes.push_back(node);
 
-	while (!edge.empty()) {
-		node = edge.front();
-		edge.pop();
+	while (!edge.IsEmpty()) {
+		node = edge.Pop();
 		read.push_back(node);
 
 		if (node->GetState() == _final) {
@@ -79,15 +68,23 @@ Node* SearchBase::BFS(State* initial, State* _final)
 		for (Transition* elem : *node->GetState()->Edges()) {
 			Node* chield = new Node(elem, node);
 			AllNodes.push_back(chield);
-			if (!existInVector(read, chield) && !ExistInQueue(edge, chield)) {
+			if (!existInVector(read, chield) && !edge.Exist(chield)) {
 				if (chield->GetState() == _final) {
 					DeleteNotInPath(AllNodes, chield);
 					DeleteNodes(AllNodes);
 					return chield;
 				}
-				edge.push(chield);
+				edge.Push(chield);
 			}
 		}
 	}
+	DeleteNodes(AllNodes);
 	return nullptr;
+}
+
+//------------------------------------------
+
+Node* SearchBase::BreadthFirstSearch(State* _initial, State* _final) {
+	QueueSearch<Node*> qSearch;
+	return SearchBase::Search(_initial, _final, qSearch);
 }

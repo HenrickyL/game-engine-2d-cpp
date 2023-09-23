@@ -188,7 +188,7 @@
     <ClInclude Include="QueueSearch.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SearchBase.h" />
-    <ClInclude Include="SearchStructure .h" />
+    <ClInclude Include="SearchStructure.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SubjectNotification.h" />
     <ClInclude Include="IObserver.h" />

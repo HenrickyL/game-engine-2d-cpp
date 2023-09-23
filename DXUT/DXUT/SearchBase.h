@@ -3,16 +3,19 @@
 //------------------------------------------
 #include "Node.h"
 #include "State.h"
+#include "SearchStructure.h"
 //------------------------------------------
 
 //------------------------------------------
 
 class SearchBase {
 private:
+	static Node* Search(State* initial, State* final, SearchStructure<Node*>& method);
 public:
 	/** Breadth First Search 
 	*/
-	static Node* BFS(State* initial, State* final);
+	static Node* BreadthFirstSearch(State* initial, State* final);
+
 	
 };
 #endif
