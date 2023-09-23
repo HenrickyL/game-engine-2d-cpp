@@ -143,6 +143,7 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="QueueSearch.cpp" />
     <ClCompile Include="SearchBase.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -184,8 +185,10 @@
     <ClInclude Include="DXUT_Test_Observer.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="QueueSearch.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SearchBase.h" />
+    <ClInclude Include="SearchStructure .h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SubjectNotification.h" />
     <ClInclude Include="IObserver.h" />

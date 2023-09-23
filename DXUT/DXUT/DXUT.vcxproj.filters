@@ -88,6 +88,9 @@
     <Filter Include="Develop\Games\AiTest\Source Files">
       <UniqueIdentifier>{7f6c3cbd-0927-4348-a56a-c3bff3a2b892}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\AI\Header Files\Middleware">
+      <UniqueIdentifier>{49240dda-a20b-42b3-9484-448e1a4fe5b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -171,6 +174,9 @@
     </ClCompile>
     <ClCompile Include="AiTest.cpp">
       <Filter>Develop\Games\AiTest\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QueueSearch.cpp">
+      <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +302,12 @@
     </ClInclude>
     <ClInclude Include="AiTest.h">
       <Filter>Develop\Games\AiTest\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchStructure .h">
+      <Filter>Modules\AI\Header Files\Middleware</Filter>
+    </ClInclude>
+    <ClInclude Include="QueueSearch.h">
+      <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
