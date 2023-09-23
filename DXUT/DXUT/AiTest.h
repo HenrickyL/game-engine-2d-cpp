@@ -4,18 +4,9 @@
 #include "DXUT_2D.h"
 
 
-enum ObjTypes
-{
-	PLAYER,
-	BALL,
-	BLOCK
-};
-
-
-class Breakout : public Game
+class AiTest : public Game
 {
 private:
-	static Breakout* instance;
 	bool viewScene = true;
 	bool viewBBox = false;
 	Sprite* pause = nullptr;
@@ -29,23 +20,18 @@ private:
 	Image* tile5 = nullptr;           // bloco amarelo
 	// --------------------------
 
-	Image* playerImg = nullptr;
-	Image* ballImg = nullptr;
-
 
 	void OnPause();
 	void InputVerifyExit();
 
-	Breakout();
 public:
 	static Scene* scene;
+	AiTest();
 
 	void Init();
 	void Update();
 	void Draw();
 	void Finalize();
 	void Reset();
-
-	static Breakout* Instance();
 };
 #endif

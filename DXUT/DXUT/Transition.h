@@ -25,7 +25,6 @@ public:
 };
 
 
-State* Transition::GetState() const { return target; };
-Action* Transition::GetAction() const { return action; };
+
 
 #endif

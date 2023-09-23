@@ -6,13 +6,13 @@
 #include "Transition.h"
 //------------------------------------------
 
-Node::Node(State* _state, Action* _action, Node* _father = nullptr) {
+Node::Node(State* _state, Action* _action, Node* _father) {
 	this->state = _state;
 	this->action = _action;
 	this->father = _father;
 }
 
-Node::Node(Transition* _transition, Node* _father = nullptr) {
+Node::Node(Transition* _transition, Node* _father) {
 	this->state = _transition->GetState();
 	this->action = _transition->GetAction();
 	this->father = _father;

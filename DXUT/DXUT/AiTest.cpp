@@ -1,32 +1,21 @@
-﻿#include "Breakout.h"
+﻿#include "AiTest.h"
 // ------------------------------------------------------------------------------
-#include "Player.h"
-#include "Ball.h"
-#include "Block.h"
+
 
 // ------------------------------------------------------------------------------
 // Inicializa��o de membros est�ticos da classe
 
-Scene* Breakout::scene = nullptr;
-Breakout* Breakout::instance = nullptr;
-
-Breakout* Breakout::Instance() {
-    if (Breakout::instance == nullptr) {
-        instance = new Breakout();
-    }
-    return instance;
-}
-
+Scene* AiTest::scene = nullptr;
 
 // ------------------------------------------------------------------------------
 
-Breakout::Breakout()
+AiTest::AiTest()
 {
     window->Size(960, 540);
-    window->Title("Breakout");
+    window->Title("AiTest");
 }
 
-void Breakout::Init()
+void AiTest::Init()
 {
     Reset();
     
@@ -34,7 +23,7 @@ void Breakout::Init()
 
 // ------------------------------------------------------------------------------
 
-void Breakout::InputVerifyExit()
+void AiTest::InputVerifyExit()
 {
     // sai com o pressionamento da tecla ESC
     if (input->KeyPress(VK_ESCAPE))
@@ -43,7 +32,7 @@ void Breakout::InputVerifyExit()
 }
 // ------------------------------------------------------------------------------
 
-void Breakout::Update()
+void AiTest::Update()
 {
     InputVerifyExit();
     //BoundingBox
@@ -65,7 +54,7 @@ void Breakout::Update()
 
 // ------------------------------------------------------------------------------
 
-void Breakout::Draw()
+void AiTest::Draw()
 {
     if (viewScene) {
         // desenha pano de fundo
@@ -81,7 +70,7 @@ void Breakout::Draw()
 
 // ------------------------------------------------------------------------------
 
-void Breakout::Finalize()
+void AiTest::Finalize()
 {
     if(!pause)delete pause;
     //delete imgs
@@ -89,8 +78,6 @@ void Breakout::Finalize()
     if (!tile2)delete tile2;
     if (!tile3)delete tile3;
     if (!tile4)delete tile4;
-    if (!playerImg)delete playerImg;
-    if (!ballImg)delete ballImg;
     // apaga sprites
     if (!backg)delete backg;
     // apaga cena do jogo
@@ -98,11 +85,11 @@ void Breakout::Finalize()
 }
 
 
-void Breakout::OnPause() {
+void AiTest::OnPause() {
     pause->Draw();
 }
 
-void Breakout::Reset() {
+void AiTest::Reset() {
     Finalize();
 
     pause = new Sprite("Resources/pause_screen.png");
@@ -125,46 +112,6 @@ void Breakout::Reset() {
     tile5 = new Image("Resources/Tile5.png");
     Image* tileList[] = { tile1, tile2, tile3, tile4, tile5 };
 
-    // ---------------------------
-    // cria jogador
-    playerImg = new Image("Resources/Player.png");
-    Player* player = new Player(playerImg);
-    player->MoveTo(Position(window->Center().X(), window->Height() - 30.0f));
-    scene->Add(player, MOVING);
-
-    // ---------------------------
-    // cria bola
-    ballImg = new Image("Resources/Ball.png");
-    Ball* ball = new Ball(player, ballImg);
-    scene->Add(ball, MOVING);
     //----------------------------
-    // criar os blocks
-    int numBlocksX = 8;
-    int numBlocksY = 5;
-
-    int windowWidth = window->Width();
-    int windowHeight = window->Height();
-
-    int horizontalSpacing = 30; // Ajuste conforme necessário
-    int verticalSpacing = 25;   // Ajuste conforme necessário
-
-    Block* b = new Block(tile1);
-    int blockWidth = b->Width();
-    int blockHeight = b->Height();
-    delete b;
-
-    int offsetX = (windowWidth - (numBlocksX * blockWidth + (numBlocksX - 1) * horizontalSpacing)) / 2;
-    int offsetY = (windowHeight - (numBlocksY * blockHeight + (numBlocksY - 1) * verticalSpacing)) / 2;
-    for (int lin = 0; lin < numBlocksY; lin++) {
-        for (int row = 0; row < numBlocksX; row++) {
-            Block* block = new Block(tileList[lin]);
-            int x = offsetX + row * (blockWidth + horizontalSpacing);
-            int y = offsetY + lin * (blockHeight + verticalSpacing);
-            block->MoveTo(Position(x, y));
-            scene->Add(block, STATIC);
-        }
-    }
-
-    Sleep(1000);
-
+    
 }

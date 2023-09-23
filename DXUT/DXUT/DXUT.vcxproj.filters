@@ -160,9 +160,6 @@
     <ClCompile Include="Vector.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Develop\Games\Galaga\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Geometry.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
@@ -172,13 +169,7 @@
     <ClCompile Include="SearchBase.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Breakout.cpp">
-      <Filter>Develop\Games\Galaga\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ball.cpp">
-      <Filter>Develop\Games\Galaga\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Block.cpp">
+    <ClCompile Include="AiTest.cpp">
       <Filter>Develop\Games\Galaga\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -294,9 +285,6 @@
     <ClInclude Include="Resources.h">
       <Filter>Develop\Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Develop\Games\Galaga\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
@@ -306,13 +294,7 @@
     <ClInclude Include="Position.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Breakout.h">
-      <Filter>Develop\Games\Galaga\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ball.h">
-      <Filter>Develop\Games\Galaga\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
+    <ClInclude Include="AiTest.h">
       <Filter>Develop\Games\Galaga\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
