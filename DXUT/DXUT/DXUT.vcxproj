@@ -145,6 +145,7 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="QueueSearch.cpp" />
     <ClCompile Include="SearchBase.cpp" />
+    <ClCompile Include="StackSearch.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Position.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="SearchBase.h" />
     <ClInclude Include="SearchStructure.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="StackSearch.h" />
     <ClInclude Include="SubjectNotification.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="Perception.h" />

@@ -178,6 +178,9 @@
     <ClCompile Include="QueueSearch.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StackSearch.cpp">
+      <Filter>Modules\AI\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -307,6 +310,9 @@
       <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
     <ClInclude Include="QueueSearch.h">
+      <Filter>Modules\AI\Header Files\Middleware</Filter>
+    </ClInclude>
+    <ClInclude Include="StackSearch.h">
       <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
   </ItemGroup>

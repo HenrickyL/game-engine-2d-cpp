@@ -2,6 +2,7 @@
 //------------------------------------------
 #include "Transition.h"
 #include "QueueSearch.h"
+#include "StackSearch.h"
 #include <vector>
 using std::vector;
 #include <queue>
@@ -87,4 +88,9 @@ Node* SearchBase::Search(State* initial, State* _final, SearchStructure& edge)
 Node* SearchBase::BreadthFirstSearch(State* _initial, State* _final) {
 	QueueSearch qSearch;
 	return SearchBase::Search(_initial, _final, qSearch);
+}
+
+Node* SearchBase::DepthFirstSearch(State* _initial, State* _final) {
+	StackSearch sSearch;
+	return SearchBase::Search(_initial, _final, sSearch);
 }
