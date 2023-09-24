@@ -25,3 +25,4 @@ bool QueueSearch::Exist(const Node* element) const {
     }
     return false;
 }
+

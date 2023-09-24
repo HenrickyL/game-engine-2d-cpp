@@ -27,28 +27,39 @@ void AiTest::Init()
     State* a6 = new State("Q6");
     State* a7 = new State("Q7");
 
+    Action* act1 = new Action(1.0f);
+    Action* act2 = new Action(20.0f);
+    Action* act3 = new Action(5.0f);
+
 
     // ------------------------------------------------
-    a1->AddTransition(new Transition(a6, nullptr));
-    a1->AddTransition(new Transition(a2, nullptr));
+    a1->AddTransition(new Transition(a6, act1));
+    a1->AddTransition(new Transition(a2, act1));
 
-    a2->AddTransition(new Transition(a3, nullptr));
-    a2->AddTransition(new Transition(a4, nullptr));
+    a2->AddTransition(new Transition(a3, act1));
+    a2->AddTransition(new Transition(a4, act3));
     
-    a3->AddTransition(new Transition(a7, nullptr));
-    a4->AddTransition(new Transition(a5, nullptr));
-    a5->AddTransition(new Transition(a7, nullptr));
-    a6->AddTransition(new Transition(a7, nullptr));
+    a3->AddTransition(new Transition(a7, act3));
+    a4->AddTransition(new Transition(a5, act1));
+    a5->AddTransition(new Transition(a7, act1));
+    a6->AddTransition(new Transition(a7, act2));
     std::string s = "";
     // ------------------------------------------------
     Node* res = SearchMethods::BreadthFirstSearch(a1, a7);
     s = "\nBFS: " + res->GetPath();
     OutputDebugString(s.c_str());
+    delete res;
 
     res = SearchMethods::DepthFirstSearch(a1, a7);
     s = "\nDFS: " + res->GetPath();
     OutputDebugString(s.c_str());
     delete res;
+
+    res = SearchMethods::HeuristicSearch(a1, a7);
+    s = "\nHeuristic: " + res->GetPath() + " - Cost: " + std::to_string(res->Cost());
+    OutputDebugString(s.c_str());
+    delete res;
+
     // ------------------------------------------------
     states.push_back(a1);
     states.push_back(a2);
@@ -57,6 +68,11 @@ void AiTest::Init()
     states.push_back(a5);
     states.push_back(a6);
     states.push_back(a7);
+
+    delete act1;
+    delete act2;
+    delete act3;
+
     
 }
 

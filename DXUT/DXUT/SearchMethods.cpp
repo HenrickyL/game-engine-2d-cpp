@@ -3,6 +3,7 @@
 #include "Transition.h"
 #include "QueueSearch.h"
 #include "StackSearch.h"
+#include "PriorityQueueSearch.h"
 #include <vector>
 using std::vector;
 #include <queue>
@@ -10,7 +11,7 @@ using std::queue;
 //------------------------------------------
 
 
-bool existInVector(vector<Node*> list, Node* element) {
+bool existInVector(vector<Node*> list, const Node* element) {
 	for (const auto* item : list) {
 		if (item == element)
 			return true;
@@ -41,7 +42,8 @@ void DeleteNotInPath(vector<Node*>& nodesToRemove, Node* path) {
 
 void DeleteNodes(vector<Node*>& nodesToRemove) {
 	for (auto it = nodesToRemove.begin(); it != nodesToRemove.end(); it++) {
-		delete *it;
+		if(*it)
+			delete *it;
 	}
 }
 
@@ -61,20 +63,64 @@ Node* SearchMethods::Search(State* initial, State* _final, SearchStructure& edge
 
 	while (!edge.IsEmpty()) {
 		node = edge.Pop();
-		read.push_back(node);
-
-		if (node->GetState() == _final) {
+		/*if (node->GetState() == _final) {
 			return node;
-		}
+		}*/
+		read.push_back(node);
 		for (Transition* elem : *node->GetState()->Edges()) {
 			Node* chield = new Node(elem, node);
 			AllNodes.push_back(chield);
 			if (!existInVector(read, chield) && !edge.Exist(chield)) {
 				if (chield->GetState() == _final) {
-					DeleteNotInPath(AllNodes, chield);
-					DeleteNodes(AllNodes);
-					return chield;
+					return SearchMethods::SearchAndHandleResult(chield, _final, AllNodes);
 				}
+				edge.Push(chield);
+			}
+		}
+	}
+	DeleteNodes(AllNodes);
+	return nullptr;
+}
+
+//------------------------------------------
+
+Node* SearchMethods::SearchAndHandleResult(Node* node, State* target, vector<Node*> AllNodes) {
+	DeleteNotInPath(AllNodes, node);
+	DeleteNodes(AllNodes);
+	return node;
+}
+
+//------------------------------------------
+
+Node* SearchMethods::HeuristicSearch(State* initial, State* _final)
+{
+	Node* node = new Node(initial, nullptr);
+	//borda
+	//SearchStructure<Node*>& edge
+	PriorityQueueSearch edge;
+	edge.Push(node);
+	//lidos
+	vector<Node*> read;
+
+	vector<Node*> AllNodes;
+	AllNodes.push_back(node);
+
+	while (!edge.IsEmpty()) {
+		node = edge.Pop();
+
+		if (node->GetState() == _final) {
+			return SearchMethods::SearchAndHandleResult(node, _final, AllNodes);
+		}
+		read.push_back(node);
+		for (Transition* elem : *node->GetState()->Edges()) {
+			Node* chield = new Node(elem, node);
+			AllNodes.push_back(chield);
+			//pointer exist
+			if (!existInVector(read, chield) && !edge.Exist(chield)) {
+				edge.Push(chield);
+			}
+			else if (edge.ExistLargeThan(chield)) {
+				edge.RemoveLargeThanBy(chield);
 				edge.Push(chield);
 			}
 		}

@@ -17,6 +17,7 @@ private:
 	State	*state;
 	Action	*action;
 	Node	*father;
+	float	cost=0;
 
 public:
 	
@@ -33,18 +34,23 @@ public:
 	//------------------------------------------
 	void SetFather(Node* father);
 	//------------------------------------------
-	bool operator==(const Node& other) const;
+	bool operator<(const Node& other) const;
+	//bool operator==(const Node& other) const;
+
 
 };
 
-inline float Node::Cost() const { return this->action ? this->action->Cost() : 0.0f; }
+inline float Node::Cost() const { return cost; }
 inline State* Node::GetState() const { return state; }
-inline void Node::SetFather(Node* _father) { father = _father; }
 inline Node* Node::Father() const { return father; }
 
-inline bool Node::operator==(const Node& other) const {
-	return this->state == other.state && this->action == other.action;
+
+inline bool Node::operator<(const Node& other) const {
+	return  this->cost > other.cost;
 }
+//inline bool Node::operator==(const Node& other) const {
+//	return this->state == other.state && this->cost == other.cost;
+//}
 
 
 #endif

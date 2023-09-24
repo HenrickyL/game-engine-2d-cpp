@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Action.cpp" />
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="Environment.cpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="PriorityQueueSearch.cpp" />
     <ClCompile Include="QueueSearch.cpp" />
     <ClCompile Include="SearchMethods.cpp" />
     <ClCompile Include="StackSearch.cpp" />
@@ -186,6 +188,7 @@
     <ClInclude Include="DXUT_Test_Observer.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="PriorityQueueSearch.h" />
     <ClInclude Include="QueueSearch.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SearchMethods.h" />

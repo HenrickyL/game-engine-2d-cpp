@@ -2,9 +2,10 @@
 #define DXUT_AI_ACTION_H
 class Action {
 private:
-	float cost;
+	float cost=0.0f;
 
 public:
+	Action(float cost = 0.0f);
 	float Cost()const;
 };
 

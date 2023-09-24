@@ -9,15 +9,24 @@
 Node::Node(State* _state, Action* _action, Node* _father) {
 	this->state = _state;
 	this->action = _action;
-	this->father = _father;
+	SetFather(_father);
 }
 
 Node::Node(Transition* _transition, Node* _father) {
 	this->state = _transition->GetState();
 	this->action = _transition->GetAction();
-	this->father = _father;
+	SetFather(_father);
 }
 
+//------------------------------------------
+
+void Node::SetFather(Node* _father) { 
+	cost = action ? action->Cost() : 0.0f;
+	this->father = _father;
+	if (this->father) {
+		cost += father->Cost();
+	}
+}
 
 //------------------------------------------
 vector<Node*> Node::Edges(Node* _father) const {

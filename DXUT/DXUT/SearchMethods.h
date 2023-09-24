@@ -11,6 +11,8 @@
 class SearchMethods {
 private:
 	static Node* Search(State* initial, State* final, SearchStructure& method);
+	static Node* SearchAndHandleResult(Node* node, State* target, vector<Node*> AllNodes);
+
 public:
 	/** 
 		* @brief Breadth First Search 
@@ -21,6 +23,7 @@ public:
 	*/
 	static Node* DepthFirstSearch(State* initial, State* final);
 
+	static Node* HeuristicSearch(State* initial, State* final);
 
 	
 };

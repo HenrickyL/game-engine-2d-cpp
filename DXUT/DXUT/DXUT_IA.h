@@ -14,5 +14,6 @@
 #include "SearchStructure.h"
 #include "QueueSearch.h"
 #include "StackSearch.h"
+#include "PriorityQueueSearch.h"
 
 #endif
