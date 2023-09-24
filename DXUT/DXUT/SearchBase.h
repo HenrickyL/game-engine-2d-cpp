@@ -10,7 +10,7 @@
 
 class SearchBase {
 private:
-	static Node* Search(State* initial, State* final, SearchStructure<Node*>& method);
+	static Node* Search(State* initial, State* final, SearchStructure& method);
 public:
 	/** Breadth First Search 
 	*/

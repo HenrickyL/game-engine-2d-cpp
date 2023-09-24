@@ -7,15 +7,14 @@ using std::queue;
 //------------------------------------------
 
 
-template <typename T>
-class QueueSearch  : public SearchStructure<T>{
+class QueueSearch  : public SearchStructure{
 private:
-    queue<T> data;
+    queue<Node*> data;
 public:
-    void    Push(const T& element) override;
-    T       Pop() override;
+    void    Push(Node* element) override;
+    Node*   Pop() override;
     bool    IsEmpty() const override;
-    bool    Exist(const T& element) const override;
+    bool    Exist(const Node* element) const override;
 };
 
 #endif

@@ -46,7 +46,7 @@ void DeleteNodes(vector<Node*>& nodesToRemove) {
 
 //------------------------------------------
 
-Node* SearchBase::Search(State* initial, State* _final, SearchStructure<Node*>& edge)
+Node* SearchBase::Search(State* initial, State* _final, SearchStructure& edge)
 {
 	Node* node = new Node(initial, nullptr);
 	//borda
@@ -85,6 +85,6 @@ Node* SearchBase::Search(State* initial, State* _final, SearchStructure<Node*>& 
 //------------------------------------------
 
 Node* SearchBase::BreadthFirstSearch(State* _initial, State* _final) {
-	QueueSearch<Node*> qSearch;
+	QueueSearch qSearch;
 	return SearchBase::Search(_initial, _final, qSearch);
 }
