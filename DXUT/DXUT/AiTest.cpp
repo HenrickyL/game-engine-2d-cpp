@@ -29,8 +29,8 @@ void AiTest::Init()
 
 
     // ------------------------------------------------
-    a1->AddTransition(new Transition(a2, nullptr));
     a1->AddTransition(new Transition(a6, nullptr));
+    a1->AddTransition(new Transition(a2, nullptr));
 
     a2->AddTransition(new Transition(a3, nullptr));
     a2->AddTransition(new Transition(a4, nullptr));
@@ -39,12 +39,17 @@ void AiTest::Init()
     a4->AddTransition(new Transition(a5, nullptr));
     a5->AddTransition(new Transition(a7, nullptr));
     a6->AddTransition(new Transition(a7, nullptr));
+    std::string s = "";
     // ------------------------------------------------
-    Node* res = SearchBase::DepthFirstSearch(a1, a7);
-    std::string s = res->GetPath();
+    Node* res = SearchBase::BreadthFirstSearch(a1, a7);
+    s = "\nBFS: " + res->GetPath();
     OutputDebugString(s.c_str());
-    // ------------------------------------------------
 
+    res = SearchBase::DepthFirstSearch(a1, a7);
+    s = "\nDFS: " + res->GetPath();
+    OutputDebugString(s.c_str());
+    delete res;
+    // ------------------------------------------------
     states.push_back(a1);
     states.push_back(a2);
     states.push_back(a3);
