@@ -169,7 +169,7 @@
     <ClCompile Include="Node.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SearchBase.cpp">
+    <ClCompile Include="SearchMethods.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AiTest.cpp">
@@ -252,7 +252,7 @@
     <ClInclude Include="DXUT_Test_Observer.h">
       <Filter>Modules\Tests\UseCase</Filter>
     </ClInclude>
-    <ClInclude Include="SearchBase.h">
+    <ClInclude Include="SearchMethods.h">
       <Filter>Modules\AI\Header Files\Search</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">

@@ -41,11 +41,11 @@ void AiTest::Init()
     a6->AddTransition(new Transition(a7, nullptr));
     std::string s = "";
     // ------------------------------------------------
-    Node* res = SearchBase::BreadthFirstSearch(a1, a7);
+    Node* res = SearchMethods::BreadthFirstSearch(a1, a7);
     s = "\nBFS: " + res->GetPath();
     OutputDebugString(s.c_str());
 
-    res = SearchBase::DepthFirstSearch(a1, a7);
+    res = SearchMethods::DepthFirstSearch(a1, a7);
     s = "\nDFS: " + res->GetPath();
     OutputDebugString(s.c_str());
     delete res;

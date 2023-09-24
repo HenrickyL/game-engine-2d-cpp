@@ -1,4 +1,4 @@
-﻿#ifndef DXUT_AI_SEARCH_BASE_H
+﻿#ifndef DXUT_AI_SEARCH_METHODS_H
 #define DXUT_AI_SEARCH_BASE_H
 //------------------------------------------
 #include "Node.h"
@@ -8,7 +8,7 @@
 
 //------------------------------------------
 
-class SearchBase {
+class SearchMethods {
 private:
 	static Node* Search(State* initial, State* final, SearchStructure& method);
 public:

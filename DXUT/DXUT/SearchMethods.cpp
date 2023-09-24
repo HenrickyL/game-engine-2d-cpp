@@ -1,4 +1,4 @@
-#include "SearchBase.h"
+#include "SearchMethods.h"
 //------------------------------------------
 #include "Transition.h"
 #include "QueueSearch.h"
@@ -47,7 +47,7 @@ void DeleteNodes(vector<Node*>& nodesToRemove) {
 
 //------------------------------------------
 
-Node* SearchBase::Search(State* initial, State* _final, SearchStructure& edge)
+Node* SearchMethods::Search(State* initial, State* _final, SearchStructure& edge)
 {
 	Node* node = new Node(initial, nullptr);
 	//borda
@@ -85,12 +85,12 @@ Node* SearchBase::Search(State* initial, State* _final, SearchStructure& edge)
 
 //------------------------------------------
 
-Node* SearchBase::BreadthFirstSearch(State* _initial, State* _final) {
+Node* SearchMethods::BreadthFirstSearch(State* _initial, State* _final) {
 	QueueSearch qSearch;
-	return SearchBase::Search(_initial, _final, qSearch);
+	return SearchMethods::Search(_initial, _final, qSearch);
 }
 
-Node* SearchBase::DepthFirstSearch(State* _initial, State* _final) {
+Node* SearchMethods::DepthFirstSearch(State* _initial, State* _final) {
 	StackSearch sSearch;
-	return SearchBase::Search(_initial, _final, sSearch);
+	return SearchMethods::Search(_initial, _final, sSearch);
 }

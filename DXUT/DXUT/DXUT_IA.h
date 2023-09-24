@@ -9,8 +9,10 @@
 #include "Node.h"
 #include "State.h"
 #include "Transition.h"
-#include "SearchBase.h"
+
+#include "SearchMethods.h"
 #include "SearchStructure.h"
 #include "QueueSearch.h"
+#include "StackSearch.h"
 
 #endif
