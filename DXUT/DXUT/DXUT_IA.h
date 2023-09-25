@@ -5,7 +5,15 @@
 #include "Environment.h"
 #include "Action.h"
 #include "Perception.h"
-#include "INode.h"
-#include "IState.h"
-#include "ITransition.h"
+
+#include "Node.h"
+#include "State.h"
+#include "Transition.h"
+
+#include "SearchMethods.h"
+#include "SearchStructure.h"
+#include "QueueSearch.h"
+#include "StackSearch.h"
+#include "PriorityQueueSearch.h"
+
 #endif

@@ -2,25 +2,18 @@
 #define _BREAKOUT_H
 
 #include "DXUT_2D.h"
-
-
-enum ObjTypes
-{
-	PLAYER,
-	BALL,
-	BLOCK
-};
-
-
-class Breakout : public Game
+#include "DXUT_IA.h"
+#include <vector>
+using std::vector;
+class AiTest : public Game
 {
 private:
-	static Breakout* instance;
 	bool viewScene = true;
 	bool viewBBox = false;
 	Sprite* pause = nullptr;
 	Sprite* backg = nullptr;
 
+	vector<State*> states;
 	// --------------------------
 	Image* tile1 = nullptr;           // bloco verde
 	Image* tile2 = nullptr;           // bloco cinza
@@ -29,23 +22,18 @@ private:
 	Image* tile5 = nullptr;           // bloco amarelo
 	// --------------------------
 
-	Image* playerImg = nullptr;
-	Image* ballImg = nullptr;
-
 
 	void OnPause();
 	void InputVerifyExit();
 
-	Breakout();
 public:
 	static Scene* scene;
+	AiTest();
 
 	void Init();
 	void Update();
 	void Draw();
 	void Finalize();
 	void Reset();
-
-	static Breakout* Instance();
 };
 #endif

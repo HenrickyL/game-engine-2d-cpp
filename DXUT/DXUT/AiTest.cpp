@@ -1,40 +1,84 @@
-﻿#include "Breakout.h"
+﻿#include "AiTest.h"
 // ------------------------------------------------------------------------------
-#include "Player.h"
-#include "Ball.h"
-#include "Block.h"
+
 
 // ------------------------------------------------------------------------------
 // Inicializa��o de membros est�ticos da classe
 
-Scene* Breakout::scene = nullptr;
-Breakout* Breakout::instance = nullptr;
-
-Breakout* Breakout::Instance() {
-    if (Breakout::instance == nullptr) {
-        instance = new Breakout();
-    }
-    return instance;
-}
-
+Scene* AiTest::scene = nullptr;
 
 // ------------------------------------------------------------------------------
 
-Breakout::Breakout()
+AiTest::AiTest()
 {
     window->Size(960, 540);
-    window->Title("Breakout");
+    window->Title("AiTest");
 }
 
-void Breakout::Init()
+void AiTest::Init()
 {
     Reset();
+
+    State* a1 = new State("Q1");
+    State* a2 = new State("Q2");
+    State* a3 = new State("Q3");
+    State* a4 = new State("Q4");
+    State* a5 = new State("Q5");
+    State* a6 = new State("Q6");
+    State* a7 = new State("Q7");
+
+    Action* act1 = new Action(1.0f);
+    Action* act2 = new Action(20.0f);
+    Action* act3 = new Action(5.0f);
+
+
+    // ------------------------------------------------
+    a1->AddTransition(new Transition(a6, act1));
+    a1->AddTransition(new Transition(a2, act1));
+
+    a2->AddTransition(new Transition(a3, act1));
+    a2->AddTransition(new Transition(a4, act3));
+    
+    a3->AddTransition(new Transition(a7, act3));
+    a4->AddTransition(new Transition(a5, act1));
+    a5->AddTransition(new Transition(a7, act1));
+    a6->AddTransition(new Transition(a7, act2));
+    std::string s = "";
+    // ------------------------------------------------
+    Node* res = SearchMethods::BreadthFirstSearch(a1, a7);
+    s = "\nBFS: " + res->GetPath();
+    OutputDebugString(s.c_str());
+    delete res;
+
+    res = SearchMethods::DepthFirstSearch(a1, a7);
+    s = "\nDFS: " + res->GetPath();
+    OutputDebugString(s.c_str());
+    delete res;
+
+    res = SearchMethods::HeuristicSearch(a1, a7);
+    s = "\nHeuristic: " + res->GetPath() + " - Cost: " + std::to_string(res->Cost());
+    OutputDebugString(s.c_str());
+    delete res;
+
+    // ------------------------------------------------
+    states.push_back(a1);
+    states.push_back(a2);
+    states.push_back(a3);
+    states.push_back(a4);
+    states.push_back(a5);
+    states.push_back(a6);
+    states.push_back(a7);
+
+    delete act1;
+    delete act2;
+    delete act3;
+
     
 }
 
 // ------------------------------------------------------------------------------
 
-void Breakout::InputVerifyExit()
+void AiTest::InputVerifyExit()
 {
     // sai com o pressionamento da tecla ESC
     if (input->KeyPress(VK_ESCAPE))
@@ -43,7 +87,7 @@ void Breakout::InputVerifyExit()
 }
 // ------------------------------------------------------------------------------
 
-void Breakout::Update()
+void AiTest::Update()
 {
     InputVerifyExit();
     //BoundingBox
@@ -65,7 +109,7 @@ void Breakout::Update()
 
 // ------------------------------------------------------------------------------
 
-void Breakout::Draw()
+void AiTest::Draw()
 {
     if (viewScene) {
         // desenha pano de fundo
@@ -81,7 +125,7 @@ void Breakout::Draw()
 
 // ------------------------------------------------------------------------------
 
-void Breakout::Finalize()
+void AiTest::Finalize()
 {
     if(!pause)delete pause;
     //delete imgs
@@ -89,20 +133,22 @@ void Breakout::Finalize()
     if (!tile2)delete tile2;
     if (!tile3)delete tile3;
     if (!tile4)delete tile4;
-    if (!playerImg)delete playerImg;
-    if (!ballImg)delete ballImg;
     // apaga sprites
     if (!backg)delete backg;
     // apaga cena do jogo
     if (!scene)delete scene;
+
+    for (State* s : states) {
+        delete s;
+    }
 }
 
 
-void Breakout::OnPause() {
+void AiTest::OnPause() {
     pause->Draw();
 }
 
-void Breakout::Reset() {
+void AiTest::Reset() {
     Finalize();
 
     pause = new Sprite("Resources/pause_screen.png");
@@ -125,46 +171,6 @@ void Breakout::Reset() {
     tile5 = new Image("Resources/Tile5.png");
     Image* tileList[] = { tile1, tile2, tile3, tile4, tile5 };
 
-    // ---------------------------
-    // cria jogador
-    playerImg = new Image("Resources/Player.png");
-    Player* player = new Player(playerImg);
-    player->MoveTo(Position(window->Center().X(), window->Height() - 30.0f));
-    scene->Add(player, MOVING);
-
-    // ---------------------------
-    // cria bola
-    ballImg = new Image("Resources/Ball.png");
-    Ball* ball = new Ball(player, ballImg);
-    scene->Add(ball, MOVING);
     //----------------------------
-    // criar os blocks
-    int numBlocksX = 8;
-    int numBlocksY = 5;
-
-    int windowWidth = window->Width();
-    int windowHeight = window->Height();
-
-    int horizontalSpacing = 30; // Ajuste conforme necessário
-    int verticalSpacing = 25;   // Ajuste conforme necessário
-
-    Block* b = new Block(tile1);
-    int blockWidth = b->Width();
-    int blockHeight = b->Height();
-    delete b;
-
-    int offsetX = (windowWidth - (numBlocksX * blockWidth + (numBlocksX - 1) * horizontalSpacing)) / 2;
-    int offsetY = (windowHeight - (numBlocksY * blockHeight + (numBlocksY - 1) * verticalSpacing)) / 2;
-    for (int lin = 0; lin < numBlocksY; lin++) {
-        for (int row = 0; row < numBlocksX; row++) {
-            Block* block = new Block(tileList[lin]);
-            int x = offsetX + row * (blockWidth + horizontalSpacing);
-            int y = offsetY + lin * (blockHeight + verticalSpacing);
-            block->MoveTo(Position(x, y));
-            scene->Add(block, STATIC);
-        }
-    }
-
-    Sleep(1000);
-
+    
 }

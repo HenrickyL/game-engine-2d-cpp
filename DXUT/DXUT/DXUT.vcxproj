@@ -130,11 +130,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Action.cpp" />
     <ClCompile Include="Agent.cpp" />
-    <ClCompile Include="Block.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="Environment.cpp" />
-    <ClCompile Include="Breakout.cpp" />
+    <ClCompile Include="AiTest.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Error.cpp" />
@@ -143,10 +143,13 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="IState.cpp" />
-    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="PriorityQueueSearch.cpp" />
+    <ClCompile Include="QueueSearch.cpp" />
+    <ClCompile Include="SearchMethods.cpp" />
+    <ClCompile Include="StackSearch.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -154,7 +157,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="ITransition.cpp" />
+    <ClCompile Include="Transition.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -163,7 +166,6 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
-    <ClInclude Include="Block.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="DXUT_Utils_Direction_.h" />
     <ClInclude Include="DXUT_2D.h" />
@@ -171,7 +173,7 @@
     <ClInclude Include="DXUT_Utils_Observer.h" />
     <ClInclude Include="DXUT_Utils.h" />
     <ClInclude Include="Environment.h" />
-    <ClInclude Include="Breakout.h" />
+    <ClInclude Include="AiTest.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />
     <ClInclude Include="Engine.h" />
@@ -182,25 +184,27 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputKeys.h" />
     <ClInclude Include="Instance.h" />
-    <ClInclude Include="INode.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
-    <ClInclude Include="Ball.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="PriorityQueueSearch.h" />
+    <ClInclude Include="QueueSearch.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SearchMethods.h" />
+    <ClInclude Include="SearchStructure.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="StackSearch.h" />
     <ClInclude Include="SubjectNotification.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="Perception.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Sensor.h" />
-    <ClInclude Include="IState.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="ISubject.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="ITransition.h" />
+    <ClInclude Include="Transition.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="WinApp.h" />

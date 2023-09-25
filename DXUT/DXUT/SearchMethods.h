@@ -1,24 +1,30 @@
 ﻿#ifndef DXUT_AI_SEARCH_METHODS_H
-#define DXUT_AI_SEARCH_METHODS_H
+#define DXUT_AI_SEARCH_BASE_H
 //------------------------------------------
-#include "INode.h"
-#include "IState.h"
+#include "Node.h"
+#include "State.h"
+#include "SearchStructure.h"
 //------------------------------------------
 
 //------------------------------------------
 
 class SearchMethods {
 private:
-public:
-	/**breadth - first search
-	 * Use Queue to search result
-	 *
-	 */
-	INode* BFS(IState* initial, IState* final)
-	{
-		IState* state = initial;
-		INode* node = new INode();
+	static Node* Search(State* initial, State* final, SearchStructure& method);
+	static Node* SearchAndHandleResult(Node* node, State* target, vector<Node*> AllNodes);
 
-	}
+public:
+	/** 
+		* @brief Breadth First Search 
+	*/
+	static Node* BreadthFirstSearch(State* initial, State* final);
+	/**
+		* @brief Deph First Search
+	*/
+	static Node* DepthFirstSearch(State* initial, State* final);
+
+	static Node* HeuristicSearch(State* initial, State* final);
+
+	
 };
 #endif

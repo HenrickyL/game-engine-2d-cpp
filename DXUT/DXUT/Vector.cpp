@@ -14,6 +14,7 @@ Vector Vector::Left = Vector(-1, 0, 0);
  */
 Vector Vector::Right = Vector(1, 0, 0);
 Vector Vector::Zero = Vector(0,0,0);
+Vector Vector::One = Vector(1, 1, 1);
 
 // ---------------------------------------------------------------------------------
 Vector::Vector(float x, float y, float z)
