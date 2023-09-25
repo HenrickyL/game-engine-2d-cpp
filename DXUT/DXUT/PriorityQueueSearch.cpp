@@ -19,7 +19,7 @@ bool PriorityQueueSearch::IsEmpty() const {
 }
 
 bool PriorityQueueSearch::Exist(const Node* element) const {
-    priority_queue<Node*> tempData = data;
+    priority_queue<Node*, std::vector<Node*>, NodeComparator> tempData = data;
     while (!tempData.empty()) {
         if (tempData.top() == element) {
             return true;
@@ -30,7 +30,7 @@ bool PriorityQueueSearch::Exist(const Node* element) const {
 }
 
 bool PriorityQueueSearch::ExistLargeThan(Node* element) const {
-    priority_queue<Node*> tempData = data;
+    priority_queue<Node*, std::vector<Node*>, NodeComparator> tempData = data;
     while (!tempData.empty()) {
         Node* top = tempData.top();
         if (top->GetState() == element->GetState() && top->Cost() > element->Cost()) {
@@ -49,8 +49,8 @@ void  PriorityQueueSearch::RemoveLargeThanBy(Node* element) {
         data.pop();
 
         if (node->GetState() == element->GetState() && node->Cost() < element->Cost()) {
-            node->DeletePath();
-            delete node;
+            //node->DeletePath();
+            //delete node;
             break; 
         }
         newNodes.push_back(node);

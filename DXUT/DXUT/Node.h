@@ -45,9 +45,7 @@ inline State* Node::GetState() const { return state; }
 inline Node* Node::Father() const { return father; }
 
 
-inline bool Node::operator<(const Node& other) const {
-	return  this->cost > other.cost;
-}
+
 //inline bool Node::operator==(const Node& other) const {
 //	return this->state == other.state && this->cost == other.cost;
 //}

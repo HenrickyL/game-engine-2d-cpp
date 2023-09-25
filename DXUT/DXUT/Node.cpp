@@ -51,3 +51,8 @@ void Node::DeletePath() {
 		father->DeletePath();
 	delete father;
 }
+
+
+bool Node::operator<(const Node& other) const {
+	return  this->cost > other.cost;
+}

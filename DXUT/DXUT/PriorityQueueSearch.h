@@ -6,9 +6,18 @@
 #include <queue>
 using std::priority_queue;
 
+
+
 class PriorityQueueSearch : public SearchStructure {
+
+    struct NodeComparator {
+        bool operator()(const Node* a, const Node* b) const {
+            return a->Cost() > b->Cost();
+        }
+    };
+
 private:
-    priority_queue<Node*> data ;
+    priority_queue<Node*, std::vector<Node*>, NodeComparator> data ;
 
 public:
 
