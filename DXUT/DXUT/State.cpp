@@ -30,3 +30,9 @@ vector<Transition*>* State::Edges() const { return edges; }
 void State::AddTransition(Transition* transition) {
 	edges->push_back(transition);
 }
+
+
+
+float State::GetHeuristic() {
+	return 0.0f;
+}

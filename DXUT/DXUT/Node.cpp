@@ -1,6 +1,6 @@
 #include "Node.h"
 //------------------------------------------
-
+#include <iostream>
 #include "State.h"
 #include "Action.h"
 #include "Transition.h"
@@ -22,6 +22,7 @@ Node::Node(Transition* _transition, Node* _father) {
 
 void Node::SetFather(Node* _father) { 
 	cost = action ? action->Cost() : 0.0f;
+	cost += state->GetHeuristic();
 	this->father = _father;
 	if (this->father) {
 		cost += father->Cost();

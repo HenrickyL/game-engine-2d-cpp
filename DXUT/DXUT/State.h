@@ -23,6 +23,7 @@ public:
 	std::string Name() const;
 	void AddTransition(Transition* transition);
 
+	virtual float GetHeuristic();
 	//------------------------------------------
 //	virtual bool IsTriggered() const = 0;		// Método para verificar se a transição deve ocorrer
 //	virtual State* GetTargetState() const = 0; // Método para obter o estado de destino da transição

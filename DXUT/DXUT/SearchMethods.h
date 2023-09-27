@@ -22,7 +22,7 @@ public:
 		* @brief Deph First Search
 	*/
 	static Node* DepthFirstSearch(State* initial, State* final);
-
+	// f(n) = g(n) + h(n) - > Custo + Heuristica
 	static Node* HeuristicSearch(State* initial, State* final);
 
 	
