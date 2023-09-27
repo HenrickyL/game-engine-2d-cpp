@@ -57,3 +57,10 @@ void Node::DeletePath() {
 bool Node::operator<(const Node& other) const {
 	return  this->cost > other.cost;
 }
+
+void Node::GenerateTransitions(vector<Action*> actions){
+	for (Action* action : actions) {
+		if(!state->ExistActionInEdge(action))
+			state->Generate(action);
+	}
+}

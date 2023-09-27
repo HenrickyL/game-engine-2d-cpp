@@ -31,6 +31,7 @@ public:
 	float Cost() const;
 	State* GetState() const;
 	Node* Father() const;
+	void GenerateTransitions(vector<Action*> actions);
 	//------------------------------------------
 	void SetFather(Node* father);
 	//------------------------------------------

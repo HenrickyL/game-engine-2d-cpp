@@ -1,6 +1,7 @@
 #include "State.h"
 //------------------------------------------
 #include "Transition.h"
+#include "Action.h"
 //------------------------------------------
 State::State() {
 	edges = new std::vector<Transition*>();
@@ -33,6 +34,23 @@ void State::AddTransition(Transition* transition) {
 
 
 
-float State::GetHeuristic() {
+float State::GetHeuristic(const State* target) const {
 	return 0.0f;
 }
+
+
+//bool State::IsTriggered() const {
+//	return true;
+//}
+
+
+//TODO: Verify Performance 
+bool State::ExistActionInEdge(Action* action) {
+	for (Transition* t : *edges) {
+		if (t->GetAction() == action) {
+			return true;
+		}
+	}
+	return false;
+}
+

@@ -49,7 +49,7 @@ void DeleteNodes(vector<Node*>& nodesToRemove) {
 
 //------------------------------------------
 
-Node* SearchMethods::Search(State* initial, State* _final, SearchStructure& edge)
+Node* SearchMethods::Search(State* initial, State* _final, SearchStructure& edge, vector<Action*> actions)
 {
 	Node* node = new Node(initial, nullptr);
 	//borda
@@ -63,9 +63,11 @@ Node* SearchMethods::Search(State* initial, State* _final, SearchStructure& edge
 
 	while (!edge.IsEmpty()) {
 		node = edge.Pop();
-		/*if (node->GetState() == _final) {
-			return node;
-		}*/
+		
+		if (!actions.empty()) {
+			node->GenerateTransitions(actions);
+		}
+
 		read.push_back(node);
 		for (Transition* elem : *node->GetState()->Edges()) {
 			Node* chield = new Node(elem, node);
@@ -92,7 +94,7 @@ Node* SearchMethods::SearchAndHandleResult(Node* node, State* target, vector<Nod
 
 //------------------------------------------
 
-Node* SearchMethods::HeuristicSearch(State* initial, State* _final)
+Node* SearchMethods::HeuristicSearch(State* initial, State* _final, vector<Action*> actions)
 {
 	Node* node = new Node(initial, nullptr);
 	//borda
@@ -111,6 +113,11 @@ Node* SearchMethods::HeuristicSearch(State* initial, State* _final)
 		if (node->GetState() == _final) {
 			return SearchMethods::SearchAndHandleResult(node, _final, AllNodes);
 		}
+
+		if (!actions.empty()) {
+			node->GenerateTransitions(actions);
+		}
+
 		read.push_back(node);
 		for (Transition* elem : *node->GetState()->Edges()) {
 			Node* chield = new Node(elem, node);
