@@ -12,7 +12,6 @@ Player::Player(Image* img) {
 
 
 void Player::Update() {
-	if
 }
 
 void Player::OnCollision(Object* obj) {
