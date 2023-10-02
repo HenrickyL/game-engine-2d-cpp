@@ -26,6 +26,7 @@ public:
 	void		Translate(const Vector& delta);
 	void		MoveTo(const Position& position);
 
+	bool		operator==(const Position& other) const;
 	Position	operator+(const Position& other) const;
 	Position	operator*(const float value) const;
 	Vector		operator-(const Position& other) const;
@@ -41,5 +42,13 @@ inline float	Position::Z() const {return _z;}
 inline void		Position::SetX(const float value) { _x = value; }
 inline void		Position::SetY(const float value) { _y = value; }
 inline void		Position::SetZ(const float value) { _z = value; }
+
+inline bool		Position::operator==(const Position& other) const {
+	return
+		this->X() == other.X() &&
+		this->Y() == other.Y() &&
+		this->Z() == other.Z();
+}
+
 
 #endif

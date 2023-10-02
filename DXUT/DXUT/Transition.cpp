@@ -4,7 +4,7 @@
 #include "Action.h"
 //------------------------------------------
 
-Transition::Transition(State*& state, Action* act) {
+Transition::Transition(State* state, Action* act) {
 	this->target = state;
 	this->action = act;
 }

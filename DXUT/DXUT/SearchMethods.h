@@ -12,8 +12,8 @@ using std::vector;
 
 class SearchMethods {
 private:
-	static vector<Action*> defaultActions;
-	static Node* Search(State* initial, State* final, SearchStructure& method, vector<Action*> actions = defaultActions);
+	static const int _MAX = 2000;
+	static Node* Search(State* initial, State* final, SearchStructure& method, vector<Action*> actions);
 
 	//------------------------------------------
 	static Node* SearchAndHandleResult(Node* node, State* target, vector<Node*> AllNodes);
@@ -27,7 +27,7 @@ public:
 	*/
 	static Node* DepthFirstSearch(State* initial, State* final);
 	// f(n) = g(n) + h(n) - > Custo + Heuristica
-	static Node* HeuristicSearch(State* initial, State* final, vector<Action*> actions = defaultActions);
+	static Node* HeuristicSearch(State* initial, State* final, vector<Action*> actions);
 	
 };
 #endif

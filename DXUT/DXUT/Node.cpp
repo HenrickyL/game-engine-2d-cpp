@@ -18,11 +18,12 @@ Node::Node(Transition* _transition, Node* _father) {
 	SetFather(_father);
 }
 
+
 //------------------------------------------
 
 void Node::SetFather(Node* _father) { 
 	cost = action ? action->Cost() : 0.0f;
-	cost += state->GetHeuristic();
+	cost += state->GetHeuristic(target);
 	this->father = _father;
 	if (this->father) {
 		cost += father->Cost();
@@ -42,10 +43,16 @@ vector<Node*> Node::Edges(Node* _father) const {
 std::string Node::GetPath() {
 	std::string res = this->state->Name();
 	if (father != nullptr) {
-		res += " > " + father->GetPath();
+		res += " > \n\t" + father->GetPath();
 	}
 	return res;
 }
+
+int Node::GetPathLength() {
+	if (father == nullptr) return 0;
+	return 1 + father->GetPathLength();
+}
+
 
 void Node::DeletePath() {
 	if (father)
@@ -64,3 +71,18 @@ void Node::GenerateTransitions(vector<Action*> actions){
 			state->Generate(action);
 	}
 }
+
+
+bool Node::IsGeneratedPossible() const {
+	return this->state->IsGeneratedPossible();
+}
+
+void Node::SetHeuristicBy(State* _target) {
+	target = _target;
+}
+
+bool Node::Equal(const Node* other) const {
+	return this->GetState()->Equal(other->GetState()) || this == other;
+}
+
+

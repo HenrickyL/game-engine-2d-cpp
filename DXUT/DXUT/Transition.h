@@ -11,7 +11,7 @@ private:
 	State* target;
 	Action* action;
 public:
-	Transition(State*& state, Action* act);
+	Transition(State* state, Action* act);
 
 
 	State* GetState() const;

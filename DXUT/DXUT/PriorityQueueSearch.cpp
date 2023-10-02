@@ -1,6 +1,7 @@
 // PriorityQueueSearch.cpp
 #include "PriorityQueueSearch.h"
 #include<vector>
+#include "State.h"
 using std::vector;
 
 
@@ -21,7 +22,7 @@ bool PriorityQueueSearch::IsEmpty() const {
 bool PriorityQueueSearch::Exist(const Node* element) const {
     priority_queue<Node*, std::vector<Node*>, NodeComparator> tempData = data;
     while (!tempData.empty()) {
-        if (tempData.top() == element) {
+        if (tempData.top()->Equal(element)) {
             return true;
         }
         tempData.pop();
@@ -33,7 +34,7 @@ bool PriorityQueueSearch::ExistLargeThan(Node* element) const {
     priority_queue<Node*, std::vector<Node*>, NodeComparator> tempData = data;
     while (!tempData.empty()) {
         Node* top = tempData.top();
-        if (top->GetState() == element->GetState() && top->Cost() > element->Cost()) {
+        if (top->GetState()->Equal(element->GetState())  && top->Cost() > element->Cost()) {
             return true;
         }
         tempData.pop();

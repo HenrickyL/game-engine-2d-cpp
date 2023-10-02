@@ -34,7 +34,7 @@ void State::AddTransition(Transition* transition) {
 
 
 
-float State::GetHeuristic(const State* target) const {
+float State::GetHeuristic(State* target) const {
 	return 0.0f;
 }
 

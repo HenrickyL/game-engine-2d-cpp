@@ -157,6 +157,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene.h" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="StatePosition.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transition.cpp" />
@@ -186,7 +187,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputKeys.h" />
     <ClInclude Include="Instance.h" />
-    <ClInclude Include="Moviment.h" />
+    <ClInclude Include="MovimentAction.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
     <ClInclude Include="Object.h" />
@@ -199,6 +200,7 @@
     <ClInclude Include="SearchStructure.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StackSearch.h" />
+    <ClInclude Include="StatePosition.h" />
     <ClInclude Include="SubjectNotification.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="Perception.h" />

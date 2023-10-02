@@ -15,11 +15,9 @@ private:
 
 	vector<State*> states;
 	// --------------------------
-	Image* tile1 = nullptr;           // bloco verde
-	Image* tile2 = nullptr;           // bloco cinza
-	Image* tile3 = nullptr;           // bloco vermelho
-	Image* tile4 = nullptr;           // bloco roxo
-	Image* tile5 = nullptr;           // bloco amarelo
+	Image* imgPlayer = nullptr;
+	Image* imgResult = nullptr;
+
 	// --------------------------
 
 

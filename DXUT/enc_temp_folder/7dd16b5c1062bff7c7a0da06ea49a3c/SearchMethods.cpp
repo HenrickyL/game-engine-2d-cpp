@@ -132,13 +132,14 @@ Node* SearchMethods::HeuristicSearch(State* initial, State* _final, vector<Actio
 				edge.Push(chield);
 			}
 			else {
-				if (edge.ExistLargeThan(chield)) {
+				/*if (edge.ExistLargeThan(chield)) {
 					edge.RemoveLargeThanBy(chield);
 					edge.Push(chield);
 				}
 				else if(count > ::SearchMethods::_MAX){
 					return SearchMethods::SearchAndHandleResult(chield, _final, AllNodes);
-				}
+				}*/
+				return SearchMethods::SearchAndHandleResult(chield, _final, AllNodes);
 			}
 		}
 	}

@@ -17,14 +17,17 @@ private:
 	State	*state;
 	Action	*action;
 	Node	*father;
+	State	*target;
 	float	cost=0;
 
 public:
 	
 	Node(State* state, Action* action, Node* father = nullptr);
 	Node(Transition* transition, Node* father = nullptr);
-
+	int lenght;
 	std::string GetPath();
+	int GetPathLength();
+
 	void DeletePath();
 	//------------------------------------------
 	vector<Node*> Edges(Node* father = nullptr) const;
@@ -32,6 +35,9 @@ public:
 	State* GetState() const;
 	Node* Father() const;
 	void GenerateTransitions(vector<Action*> actions);
+	bool IsGeneratedPossible() const;
+	void SetHeuristicBy(State* target);
+	bool Equal(const Node* other) const;
 	//------------------------------------------
 	void SetFather(Node* father);
 	//------------------------------------------

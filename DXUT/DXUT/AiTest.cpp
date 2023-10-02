@@ -1,6 +1,8 @@
 ﻿#include "AiTest.h"
 // ------------------------------------------------------------------------------
-
+#include "StatePosition.h"
+#include "MovimentAction.h"
+#include "Player.h"
 
 // ------------------------------------------------------------------------------
 // Inicializa��o de membros est�ticos da classe
@@ -19,61 +21,46 @@ void AiTest::Init()
 {
     Reset();
 
-    State* a1 = new State("Q1");
-    State* a2 = new State("Q2");
-    State* a3 = new State("Q3");
-    State* a4 = new State("Q4");
-    State* a5 = new State("Q5");
-    State* a6 = new State("Q6");
-    State* a7 = new State("Q7");
 
-    Action* act1 = new Action(1.0f);
-    Action* act2 = new Action(20.0f);
-    Action* act3 = new Action(5.0f);
+    imgPlayer = new Image("Resources/player.png");
+    imgResult = new Image("Resources/x.png");
 
 
-    // ------------------------------------------------
-    a1->AddTransition(new Transition(a6, act1));
-    a1->AddTransition(new Transition(a2, act1));
+    Player* player = new Player(imgPlayer);
+    player->MoveTo(Position(10, 10));
+    Player* FinalPos = new Player(imgResult);
+    FinalPos->MoveTo(Position(800, 500));
 
-    a2->AddTransition(new Transition(a3, act1));
-    a2->AddTransition(new Transition(a4, act3));
-    
-    a3->AddTransition(new Transition(a7, act3));
-    a4->AddTransition(new Transition(a5, act1));
-    a5->AddTransition(new Transition(a7, act1));
-    a6->AddTransition(new Transition(a7, act2));
+
+
+
+    StatePosition* A = new StatePosition(player->GetPosition());
+    StatePosition* B = new StatePosition(FinalPos->GetPosition());
+
+
+    Action* up = new MovimentAction(Vector::Up);
+    Action* down = new MovimentAction(Vector::Down);
+    Action* left = new MovimentAction(Vector::Left);
+    Action* right = new MovimentAction(Vector::Right);
+
+    vector<Action*> actions;
+    actions.push_back(up);
+    actions.push_back(down);
+    actions.push_back(left);
+    actions.push_back(right);
+
     std::string s = "";
-    // ------------------------------------------------
-    Node* res = SearchMethods::BreadthFirstSearch(a1, a7);
-    s = "\nBFS: " + res->GetPath();
+    OutputDebugString("------------");
+
+    Node* result = SearchMethods::HeuristicSearch(A, B, actions);
+    int value = result->GetPathLength();
+    s = "\nHeuristic: {\n\t" + result->GetPath() + "\n}\n\tCost: " + std::to_string(result->Cost());
     OutputDebugString(s.c_str());
-    delete res;
 
-    res = SearchMethods::DepthFirstSearch(a1, a7);
-    s = "\nDFS: " + res->GetPath();
-    OutputDebugString(s.c_str());
-    delete res;
 
-    res = SearchMethods::HeuristicSearch(a1, a7);
-    s = "\nHeuristic: " + res->GetPath() + " - Cost: " + std::to_string(res->Cost());
-    OutputDebugString(s.c_str());
-    delete res;
-
-    // ------------------------------------------------
-    states.push_back(a1);
-    states.push_back(a2);
-    states.push_back(a3);
-    states.push_back(a4);
-    states.push_back(a5);
-    states.push_back(a6);
-    states.push_back(a7);
-
-    delete act1;
-    delete act2;
-    delete act3;
-
-    
+    delete up, down, left, right;
+    delete A, B;
+    delete result;
 }
 
 // ------------------------------------------------------------------------------
@@ -129,10 +116,8 @@ void AiTest::Finalize()
 {
     if(!pause)delete pause;
     //delete imgs
-    if (!tile1)delete tile1;
-    if (!tile2)delete tile2;
-    if (!tile3)delete tile3;
-    if (!tile4)delete tile4;
+    if (imgPlayer)delete imgPlayer;
+    if (imgResult)delete imgResult;
     // apaga sprites
     if (!backg)delete backg;
     // apaga cena do jogo
@@ -164,12 +149,6 @@ void AiTest::Reset() {
     // --------------------------
 
     // carregar imagens
-    tile1 = new Image("Resources/Tile1.png");
-    tile2 = new Image("Resources/Tile2.png");
-    tile3 = new Image("Resources/Tile3.png");
-    tile4 = new Image("Resources/Tile4.png");
-    tile5 = new Image("Resources/Tile5.png");
-    Image* tileList[] = { tile1, tile2, tile3, tile4, tile5 };
 
     //----------------------------
     
