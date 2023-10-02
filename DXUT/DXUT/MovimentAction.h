@@ -8,7 +8,7 @@
 
 class MovimentAction : public Action {
 private:
-	float magnitude = 10;
+	float magnitude = 50;
 	Vector direction = Vector::Right;
 public:
 	MovimentAction(Vector _direction);

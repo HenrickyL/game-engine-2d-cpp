@@ -113,7 +113,7 @@ Node* SearchMethods::HeuristicSearch(State* initial, State* _final, vector<Actio
 		node = edge.Pop();
 		count++;
 
-		if (node->GetState() == _final) {
+		if (node->GetState()->Equal(_final)) {
 			return SearchMethods::SearchAndHandleResult(node, _final, AllNodes);
 		}
 

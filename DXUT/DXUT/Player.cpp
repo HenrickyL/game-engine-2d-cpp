@@ -5,7 +5,7 @@
 // ------------------------
 
 Player::Player(Image* img, const Position& p) {
-	_position = new Position();
+	_position = new Position(p);
 	this->SetSprite(new Sprite(img));
 	_magnitude= 100;
 	_sprite->SetLayer(Layer::MIDDLE);
@@ -59,8 +59,8 @@ void Player::OnCollision(Object* obj) {
 
 }
 
-void deletePath(Node* path) {
-    Node* node = path;
+void deletePath(Node* _path) {
+    Node* node = _path;
     while (node != nullptr) {
         Node* aux = node;
         node = node->Father();
@@ -69,12 +69,13 @@ void deletePath(Node* path) {
     }
 }
 
+
 void Player::Search() {
     StatePosition* A = new StatePosition(this->GetPosition());
     StatePosition* B = new StatePosition(target);
 
     std::string s = "";
-    OutputDebugString("------------");
+    //OutputDebugString("------------");
     if (path) {
         deletePath(path);
     }
