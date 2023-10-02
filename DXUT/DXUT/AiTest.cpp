@@ -26,41 +26,16 @@ void AiTest::Init()
     imgResult = new Image("Resources/x.png");
 
 
-    Player* player = new Player(imgPlayer);
-    player->MoveTo(Position(10, 10));
-    Player* FinalPos = new Player(imgResult);
-    FinalPos->MoveTo(Position(800, 500));
+    Position initial(800, 500);
+    Player* player = new Player(imgPlayer, initial);
+    Position target (800, 500);
+    player->SetTarget(target);
 
-
-
-
-    StatePosition* A = new StatePosition(player->GetPosition());
-    StatePosition* B = new StatePosition(FinalPos->GetPosition());
-
-
-    Action* up = new MovimentAction(Vector::Up);
-    Action* down = new MovimentAction(Vector::Down);
-    Action* left = new MovimentAction(Vector::Left);
-    Action* right = new MovimentAction(Vector::Right);
-
-    vector<Action*> actions;
-    actions.push_back(up);
-    actions.push_back(down);
-    actions.push_back(left);
-    actions.push_back(right);
-
-    std::string s = "";
-    OutputDebugString("------------");
-
-    Node* result = SearchMethods::HeuristicSearch(A, B, actions);
-    int value = result->GetPathLength();
-    s = "\nHeuristic: {\n\t" + result->GetPath() + "\n}\n\tCost: " + std::to_string(result->Cost());
-    OutputDebugString(s.c_str());
-
-
-    delete up, down, left, right;
-    delete A, B;
-    delete result;
+    scene->Add(player, MOVING);
+    //---------------
+    targetLocal = new Sprite(imgResult);
+    targetLocal->SetScale(0.01f);
+    targetLocal->SetPosition(target);
 }
 
 // ------------------------------------------------------------------------------
@@ -108,20 +83,25 @@ void AiTest::Draw()
     if (viewBBox) {
         scene->DrawBBox();
     }
+
+    if (targetLocal) {
+        targetLocal->Draw();
+    }
 }
 
 // ------------------------------------------------------------------------------
 
 void AiTest::Finalize()
 {
-    if(!pause)delete pause;
+    if(pause)delete pause;
     //delete imgs
     if (imgPlayer)delete imgPlayer;
     if (imgResult)delete imgResult;
     // apaga sprites
-    if (!backg)delete backg;
+    if (backg)delete backg;
     // apaga cena do jogo
-    if (!scene)delete scene;
+    if (scene)delete scene;
+    if (targetLocal) delete targetLocal;
 
     for (State* s : states) {
         delete s;
