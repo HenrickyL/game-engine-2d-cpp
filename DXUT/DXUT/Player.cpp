@@ -10,6 +10,8 @@ Player::Player(Image* img, const Position& p) {
 	_magnitude= 100;
 	_sprite->SetLayer(Layer::MIDDLE);
     _sprite->SetScale(0.01f);
+    _sprite->SetFilterColor(Color(255,0,255));
+
 	BBox(_sprite->GetCircle());
 
     Action* up = new MovimentAction(Vector::Up);
@@ -38,10 +40,13 @@ void Player::Update() {
         Search();
         int n = path->GetPathLength();
         pivot = path;
+        _sprite->SetFilterColor(Color(0, 255, 0));
 	}
 
     if (input->KeyPress(SPACE) ) {
         if (pivot != nullptr) {
+            _sprite->SetFilterColor(Color(255, 255, 255));
+
             StatePosition* state = dynamic_cast<StatePosition*>(pivot->GetState());
             Position p = state->GetPosition();
             this->MoveTo(p);
@@ -49,6 +54,7 @@ void Player::Update() {
             pivot = pivot->Father();
         }
         else {
+            _sprite->SetFilterColor(Color(0, 255, 0));
             pivot = path;
             MoveTo(initial);
         }
