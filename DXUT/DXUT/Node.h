@@ -34,7 +34,7 @@ public:
 	float Cost() const;
 	State* GetState() const;
 	Node* Father() const;
-	void GenerateTransitions(vector<Action*> actions);
+	void GenerateTransitions(const vector<Action*> actions);
 	bool IsGeneratedPossible() const;
 	void SetHeuristicBy(State* target);
 	bool Equal(const Node* other) const;

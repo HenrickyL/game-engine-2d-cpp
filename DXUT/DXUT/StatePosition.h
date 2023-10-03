@@ -13,11 +13,13 @@ private:
 public:
 	StatePosition(const Position& pos);
 	~StatePosition();
-	void Generate(Action* action) override;
+	
+	void Generate(const vector<Action*> actions) override;
 	float GetHeuristic(State* target = nullptr) const override;
 	void Update() override;
 	bool Equal(State* other) const;
 	bool IsGeneratedPossible() const override;
+	bool IsAmbiguous(State* newState) const override;
 };
 
 #endif

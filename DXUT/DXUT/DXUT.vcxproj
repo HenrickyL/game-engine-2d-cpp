@@ -170,6 +170,7 @@
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DXUT_Utils_Direction_.h" />
     <ClInclude Include="DXUT_2D.h" />
     <ClInclude Include="DXUT_IA.h" />

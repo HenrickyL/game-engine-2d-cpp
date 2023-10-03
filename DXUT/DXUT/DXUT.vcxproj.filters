@@ -348,6 +348,9 @@
     <ClInclude Include="MovimentAction.h">
       <Filter>Modules\AI\Header Files\Middleware\StatePosition</Filter>
     </ClInclude>
+    <ClInclude Include="Dictionary.h">
+      <Filter>Modules\AI\Header Files\Middleware</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">

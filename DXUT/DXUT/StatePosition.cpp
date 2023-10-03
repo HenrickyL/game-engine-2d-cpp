@@ -16,17 +16,25 @@ StatePosition::StatePosition(const Position& pos) {
 }
 
 StatePosition::~StatePosition() {
-	delete _position;
+	if (_position) delete _position;
+	if (_sprite) delete _sprite;
+	if (_bbox) delete _bbox;
+	DeleteEdges();
 }
 
 
-void StatePosition::Generate(Action* _action) {
-	MovimentAction* action = dynamic_cast<MovimentAction*>(_action);
-	if (action) {
-		StatePosition *target = dynamic_cast<StatePosition*>(action->Generate(this));
-		if (!target)
-			return;
-		edges->push_back(new Transition(target, action));
+void StatePosition::Generate(const vector<Action*> actions){
+	for (Action* action : actions) {
+		StatePosition* currentGenerated = dynamic_cast<StatePosition*>(action->Generate(this));
+
+		// Verifique se o novo estado já existe na lista de estados ou se é ambíguo
+		if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
+			AddTransition(new Transition(this, currentGenerated, action));
+		}
+		else {
+			if(currentGenerated != nullptr)
+				delete currentGenerated; // Descarte o estado ambíguo
+		}
 	}
 }
 
@@ -55,5 +63,14 @@ bool StatePosition::Equal(State* _other) const {
 
 bool StatePosition::IsGeneratedPossible() const {
 	return true;
+}
+
+
+bool StatePosition::IsAmbiguous(State* newState) const {
+	StatePosition* state = dynamic_cast<StatePosition*>(newState);
+	if (state) {
+
+	}
+	return false;
 }
 

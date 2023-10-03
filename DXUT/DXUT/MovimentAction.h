@@ -11,9 +11,8 @@ private:
 	float magnitude = 50;
 	Vector direction = Vector::Right;
 public:
-	MovimentAction(Vector _direction);
+	MovimentAction(Vector _direction, Action* _inverse = nullptr);
 	State* Generate(State* state)const override;
-
 };
 
 

@@ -13,9 +13,9 @@ State::State(std::string _name) {
 	name = _name;
 }
 //------------------------------------------
-State::~State() {
-	DeleteEdges();
-}
+//State::~State() {
+//	DeleteEdges();
+//}
 //------------------------------------------
 void State::DeleteEdges() {
 	for (int i = 0; i < edges->size(); i++) {
@@ -53,4 +53,17 @@ bool State::ExistActionInEdge(Action* action) {
 	}
 	return false;
 }
+
+
+bool State::ExistInEdge(State* _target) const {
+	for (const Transition* t : *edges) {
+		if (t->GetTarget()->Equal(_target)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
 

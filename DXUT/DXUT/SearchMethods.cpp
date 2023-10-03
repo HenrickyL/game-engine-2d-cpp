@@ -93,14 +93,11 @@ Node* SearchMethods::SearchAndHandleResult(Node* node, State* target, vector<Nod
 }
 
 //------------------------------------------
-
-Node* SearchMethods::HeuristicSearch(State* initial, State* _final, vector<Action*> actions)
-{
+Node* SearchMethods::HeuristicSearch(State* initial, State* _final, vector<Action*> actions) {
 	int count = 0;
 	Node* node = new Node(initial, nullptr);
 	node->SetHeuristicBy(_final);
 	//borda
-	//SearchStructure<Node*>& edge
 	PriorityQueueSearch edge;
 	edge.Push(node);
 	//lidos
@@ -136,7 +133,7 @@ Node* SearchMethods::HeuristicSearch(State* initial, State* _final, vector<Actio
 					edge.RemoveLargeThanBy(chield);
 					edge.Push(chield);
 				}
-				else if(count > ::SearchMethods::_MAX){
+				else if (count > ::SearchMethods::_MAX) {
 					return SearchMethods::SearchAndHandleResult(chield, _final, AllNodes);
 				}
 			}

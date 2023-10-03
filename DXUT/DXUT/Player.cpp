@@ -19,6 +19,12 @@ Player::Player(Image* img, const Position& p) {
     Action* left = new MovimentAction(Vector::Left);
     Action* right = new MovimentAction(Vector::Right);
 
+    //set inverses
+    up->SetInverse(down);
+    down->SetInverse(up);
+    right->SetInverse(left);
+    left->SetInverse(right);
+
     actions.push_back(up);
     actions.push_back(down);
     actions.push_back(left);
@@ -28,6 +34,9 @@ Player::Player(Image* img, const Position& p) {
 }
 
 Player::~Player() {
+    if (_position) delete _position;
+    if (_sprite) delete _sprite;
+    if (_bbox) delete _bbox;
     for (Action* a : actions) {
         delete a;
     }

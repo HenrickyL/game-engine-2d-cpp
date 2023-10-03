@@ -13,7 +13,7 @@ Node::Node(State* _state, Action* _action, Node* _father) {
 }
 
 Node::Node(Transition* _transition, Node* _father) {
-	this->state = _transition->GetState();
+	this->state = _transition->GetTarget();
 	this->action = _transition->GetAction();
 	SetFather(_father);
 }
@@ -65,11 +65,8 @@ bool Node::operator<(const Node& other) const {
 	return  this->cost > other.cost;
 }
 
-void Node::GenerateTransitions(vector<Action*> actions){
-	for (Action* action : actions) {
-		if(!state->ExistActionInEdge(action))
-			state->Generate(action);
-	}
+void Node::GenerateTransitions(const vector<Action*> actions){
+	state->Generate(actions);
 }
 
 

@@ -30,4 +30,5 @@ public:
 	static Node* HeuristicSearch(State* initial, State* final, vector<Action*> actions);
 	
 };
+
 #endif
