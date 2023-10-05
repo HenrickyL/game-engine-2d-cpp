@@ -1,18 +1,44 @@
 #ifndef IA_DICTIONARY_H
 #define IA_DICTIONARY_H
-
+//------------------------------------------
 #include "State.h"
 #include <unordered_map>
+//------------------------------------------
+enum DictionaryStatus { Enabled, Disabled };
+//------------------------------------------
 
 template <typename KeyType>
 class Dictionary {
-private:
+//private:
     std::unordered_map<KeyType, State*> dictionary;
+    ; // Enum para o status
+
+    DictionaryStatus status = Enabled; // Status inicial é habilitado
 
 public:
+    // Construtor
+    Dictionary() {}
+
+    // Método para habilitar o dicionário
+    void Enable() {
+        status = Enabled;
+    }
+
+    // Método para desabilitar o dicionário
+    void Disable() {
+        status = Disabled;
+    }
+
+    // Método para verificar se o dicionário está habilitado
+    bool IsEnabled() const {
+        return status == Enabled;
+    }
+
     // Método para adicionar um par chave-valor ao dicionário
-    void Add(const KeyType& key, const State*& value) {
-        dictionary[key] = value;
+    void Add(const KeyType& key, State* value) {
+        if (IsEnabled()) {
+            dictionary[key] = value;
+        }
     }
 
     // Método para consultar o valor associado a uma chave no dicionário
@@ -32,7 +58,9 @@ public:
 
     // Método para remover um par chave-valor do dicionário
     void Remove(const KeyType& key) {
-        dictionary.erase(key);
+        if (IsEnabled()) {
+            dictionary.erase(key);
+        }
     }
 
     // Método para obter o valor associado a uma chave
@@ -41,17 +69,16 @@ public:
         if (it != dictionary.end()) {
             return it->second;
         }
-        //throw std::out_of_range("Key not found in dictionary");
         return nullptr;
     }
+    //------------------------------------------
 
-    // Operador [] para acesso aos valores do dicionário
-    State* operator[](const KeyType& key) {
-        return dictionary[key];
+    Dictionary& operator=(const std::pair<KeyType, State*>& pair) {
+        dictionary[pair.first] = pair.second;
+        return *this;
     }
-    // Sobrecarga do operador de atribuição (=)
-    ValueType& operator=(const ValueType& value) {
-        return dictionary[value.first] = value.second;
+    State*& operator[](const KeyType& key); {
+        return dictionary[key];
     }
 };
 
