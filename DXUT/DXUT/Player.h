@@ -12,9 +12,9 @@ class Player : public Object {
 private:
     Position initial;
     Position target;
-    Node* path = nullptr;
-    vector<Action*> actions;
-    Node* pivot = nullptr;
+    Node<Position>* path = nullptr;
+    vector<Action<Position>*> actions;
+    Node<Position>* pivot = nullptr;
     void Search();
 public:
     Player(Image* img, const Position& p);

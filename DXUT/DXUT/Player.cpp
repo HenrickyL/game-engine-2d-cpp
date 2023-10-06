@@ -14,10 +14,10 @@ Player::Player(Image* img, const Position& p) {
 
 	BBox(_sprite->GetCircle());
 
-    Action* up = new MovimentAction(Vector::Up);
-    Action* down = new MovimentAction(Vector::Down);
-    Action* left = new MovimentAction(Vector::Left);
-    Action* right = new MovimentAction(Vector::Right);
+    MovimentAction* up = new MovimentAction(Vector::Up);
+    MovimentAction* down = new MovimentAction(Vector::Down);
+    MovimentAction* left = new MovimentAction(Vector::Left);
+    MovimentAction* right = new MovimentAction(Vector::Right);
 
     //set inverses
     up->SetInverse(down);
@@ -37,7 +37,7 @@ Player::~Player() {
     if (_position) delete _position;
     if (_sprite) delete _sprite;
     if (_bbox) delete _bbox;
-    for (Action* a : actions) {
+    for (Action<Position>* a : actions) {
         delete a;
     }
 }
@@ -74,10 +74,10 @@ void Player::OnCollision(Object* obj) {
 
 }
 
-void deletePath(Node* _path) {
-    Node* node = _path;
+void deletePath(Node<Position>* _path) {
+    Node<Position>* node = _path;
     while (node != nullptr) {
-        Node* aux = node;
+        Node<Position>* aux = node;
         node = node->Father();
         delete aux->GetState();
         delete aux;
@@ -94,7 +94,7 @@ void Player::Search() {
     if (path) {
         deletePath(path);
     }
-    path = SearchMethods::HeuristicSearch(A, B, actions);
+    path = SearchMethods<Position>::HeuristicSearch(A, B, actions);
     int value = path->GetPathLength();
     /*s = "\nHeuristic: {\n\t" + path->GetPath() + "\n}\n\tCost: " + std::to_string(path->Cost());
     OutputDebugString(s.c_str());*/

@@ -130,12 +130,6 @@
     <ClCompile Include="Environment.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transition.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
@@ -172,26 +166,8 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SearchMethods.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AiTest.cpp">
       <Filter>Develop\Games\AiTest\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QueueSearch.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StackSearch.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PriorityQueueSearch.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Action.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StatePosition.cpp">
       <Filter>Modules\AI\Source Files</Filter>
@@ -350,6 +326,30 @@
     </ClInclude>
     <ClInclude Include="Dictionary.h">
       <Filter>Modules\AI\Header Files\Middleware</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StackSearch.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueueSearch.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchMethods.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PriorityQueueSearch.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.inl">
+      <Filter>Modules\AI\Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

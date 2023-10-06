@@ -1,7 +1,5 @@
 ﻿#include "AiTest.h"
 // ------------------------------------------------------------------------------
-#include "StatePosition.h"
-#include "MovimentAction.h"
 #include "Player.h"
 
 // ------------------------------------------------------------------------------
@@ -103,7 +101,7 @@ void AiTest::Finalize()
     if (scene)delete scene;
     if (targetLocal) delete targetLocal;
 
-    for (State* s : states) {
+    for (auto* s : states) {
         delete s;
     }
 }

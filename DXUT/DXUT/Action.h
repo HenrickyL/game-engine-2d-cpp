@@ -1,29 +1,25 @@
 #ifndef DXUT_AI_ACTION_H
 #define DXUT_AI_ACTION_H
 
+template<typename T>
 class State;
 
+template<typename T>
 class Action {
 protected:
 	float cost=0.0f;
-	Action* inverse = nullptr;
+	Action<T>* inverse = nullptr;
 
 public:
 	Action(float cost = 0.0f);
-	Action(float cost, Action* _inverse = nullptr);
+	Action(float cost, Action<T>* _inverse = nullptr);
 
 	float Cost()const;
-	Action* Inverse() const;
-	void SetInverse(Action* _inverse);
+	Action<T>* Inverse() const;
+	void SetInverse(Action<T>* _inverse);
 
-
-
-	virtual State* Generate(State* _target)const = 0;
+	virtual State<T>* Generate(State<T>* _target)const = 0;
 };
 
-inline float Action::Cost() const { return cost; }
-inline Action* Action::Inverse() const { return inverse; }
-inline void Action::SetInverse(Action* _inverse) { inverse = _inverse; };
-
-
+#include "Action.inl"
 #endif

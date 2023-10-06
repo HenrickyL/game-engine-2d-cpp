@@ -7,23 +7,26 @@ using std::vector;
 #include "Action.h"
 
 //------------------------------------------
+template<typename T>
 class State;
+
+template<typename T>
 class Transition;
 //------------------------------------------
 
-
+template<typename T>
 class Node {
 private:
-	State	*state;
-	Action	*action;
+	State<T>	*state;
+	Action<T>	*action;
 	Node	*father;
-	State	*target;
+	State<T>	*target;
 	float	cost=0;
 
 public:
 	
-	Node(State* state, Action* action, Node* father = nullptr);
-	Node(Transition* transition, Node* father = nullptr);
+	Node(State<T>* state, Action<T>* action, Node* father = nullptr);
+	Node(Transition<T>* transition, Node* father = nullptr);
 	int lenght;
 	std::string GetPath();
 	int GetPathLength();
@@ -32,11 +35,11 @@ public:
 	//------------------------------------------
 	vector<Node*> Edges(Node* father = nullptr) const;
 	float Cost() const;
-	State* GetState() const;
+	State<T>* GetState() const;
 	Node* Father() const;
-	void GenerateTransitions(const vector<Action*> actions);
+	void GenerateTransitions(const vector<Action<T>*> actions);
 	bool IsGeneratedPossible() const;
-	void SetHeuristicBy(State* target);
+	void SetHeuristicBy(State<T>* target);
 	bool Equal(const Node* other) const;
 	//------------------------------------------
 	void SetFather(Node* father);
@@ -44,12 +47,10 @@ public:
 	bool operator<(const Node& other) const;
 	//bool operator==(const Node& other) const;
 
-
+#include "Node.inl"
 };
 
-inline float Node::Cost() const { return cost; }
-inline State* Node::GetState() const { return state; }
-inline Node* Node::Father() const { return father; }
+
 
 
 

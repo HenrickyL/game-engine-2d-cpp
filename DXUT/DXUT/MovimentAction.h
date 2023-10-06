@@ -6,13 +6,13 @@
 #include "Object.h"
 #include "StatePosition.h"
 
-class MovimentAction : public Action {
+class MovimentAction : public Action<Position> {
 private:
 	float magnitude = 50;
 	Vector direction = Vector::Right;
 public:
 	MovimentAction(Vector _direction, Action* _inverse = nullptr);
-	State* Generate(State* state)const override;
+	State<Position>* Generate(State<Position>* state)const override;
 };
 
 

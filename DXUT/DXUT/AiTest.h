@@ -15,7 +15,7 @@ private:
 	Sprite* targetLocal = nullptr;
 
 
-	vector<State*> states;
+	vector<State<Position>*> states;
 	// --------------------------
 	Image* imgPlayer = nullptr;
 	Image* imgResult = nullptr;

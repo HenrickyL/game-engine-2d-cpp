@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Transition.h"
 #include "MovimentAction.h"
+#include "Action.h"
 //------------------------------------------
 
 Window*& StatePosition::window = Engine::window;
@@ -23,13 +24,13 @@ StatePosition::~StatePosition() {
 }
 
 
-void StatePosition::Generate(const vector<Action*> actions){
-	for (Action* action : actions) {
+void StatePosition::Generate(const vector<Action<Position>*> actions){
+	for (auto* action : actions) {
 		StatePosition* currentGenerated = dynamic_cast<StatePosition*>(action->Generate(this));
 
 		// Verifique se o novo estado já existe na lista de estados ou se é ambíguo
 		if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
-			AddTransition(new Transition(this, currentGenerated, action));
+			AddTransition(new Transition<Position>(this, currentGenerated, action));
 		}
 		else {
 			if(currentGenerated != nullptr)
@@ -38,7 +39,7 @@ void StatePosition::Generate(const vector<Action*> actions){
 	}
 }
 
-float StatePosition::GetHeuristic(State* _target) const {
+float StatePosition::GetHeuristic(State<Position>* _target) const {
 	StatePosition* target = dynamic_cast<StatePosition*>(_target);
 	if (target) {
 		Position p = target->GetPosition();
@@ -52,7 +53,7 @@ void StatePosition::Update() {
 
 }
 
-bool StatePosition::Equal(State* _other) const {
+bool StatePosition::Equal(State<Position>* _other) const {
 	StatePosition* other = dynamic_cast<StatePosition*>(_other);
 	if (other) {
 		return this->GetPosition() == other->GetPosition() || this == _other;
@@ -66,7 +67,7 @@ bool StatePosition::IsGeneratedPossible() const {
 }
 
 
-bool StatePosition::IsAmbiguous(State* newState) const {
+bool StatePosition::IsAmbiguous(State<Position>* newState) const {
 	StatePosition* state = dynamic_cast<StatePosition*>(newState);
 	if (state) {
 

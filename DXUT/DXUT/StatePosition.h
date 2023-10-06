@@ -6,20 +6,19 @@
 #include "Window.h"
 #include "Action.h"
 
-
-class StatePosition : public State, public Object {
+class StatePosition : public State<Position>, public Object {
 private:
 	static Window*& window;
 public:
 	StatePosition(const Position& pos);
 	~StatePosition();
 	
-	void Generate(const vector<Action*> actions) override;
-	float GetHeuristic(State* target = nullptr) const override;
-	void Update() override;
-	bool Equal(State* other) const;
-	bool IsGeneratedPossible() const override;
-	bool IsAmbiguous(State* newState) const override;
+	void	Generate(const vector<Action<Position>*> actions) override;
+	float	GetHeuristic(State<Position>* target = nullptr) const override;
+	void	Update() override;
+	bool	Equal(State<Position>* other) const;
+	bool	IsGeneratedPossible() const override;
+	bool	IsAmbiguous(State<Position>* newState) const override;
 };
 
 #endif

@@ -8,14 +8,14 @@ MovimentAction::MovimentAction(Vector _direction, Action* _inverse) {
 	inverse = _inverse;
 }
 
-State* MovimentAction::Generate(State* _state) const {
+State<Position>* MovimentAction::Generate(State<Position>* _state) const {
 	StatePosition* origin = dynamic_cast<StatePosition*>(_state);
 	if(origin != nullptr) {
 		Position pos = origin->GetPosition();
 		pos.Translate(direction * magnitude);
 		StatePosition* targetGenerated = new StatePosition(pos);
 		if(inverse)
-			targetGenerated->AddTransition(new Transition(targetGenerated, origin, inverse));
+			targetGenerated->AddTransition(new Transition<Position>(targetGenerated, origin, inverse));
 		return targetGenerated;
 	}
 	return nullptr;
