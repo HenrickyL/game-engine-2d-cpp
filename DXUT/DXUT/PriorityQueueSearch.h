@@ -1,11 +1,10 @@
-// PriorityQueueSearch.h
 #ifndef DXUT_AI_PRIORITY_QUEUE_SEARCH_H
 #define DXUT_AI_PRIORITY_QUEUE_SEARCH_H
 
 #include "SearchStructure.h"
+#include "Node.h"
 #include <queue>
 using std::priority_queue;
-
 
 template<typename T>
 class PriorityQueueSearch : public SearchStructure<T> {
@@ -17,7 +16,7 @@ class PriorityQueueSearch : public SearchStructure<T> {
     };
 
 private:
-    priority_queue<Node<T>*, std::vector<Node<T>*>, NodeComparator> data ;
+    priority_queue<Node<T>*, std::vector<Node<T>*>, NodeComparator> data;
 
 public:
 
@@ -31,4 +30,5 @@ public:
 };
 
 #include "PriorityQueueSearch.inl"
+
 #endif

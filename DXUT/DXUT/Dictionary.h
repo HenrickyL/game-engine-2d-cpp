@@ -10,7 +10,7 @@ enum DictionaryStatus { Enabled, Disabled };
 template <typename KeyType>
 class Dictionary {
 //private:
-    std::unordered_map<KeyType, State*> dictionary;
+    std::unordered_map<KeyType, State<KeyType>*> dictionary;
     ; // Enum para o status
 
     DictionaryStatus status = Enabled; // Status inicial é habilitado
@@ -35,14 +35,14 @@ public:
     }
 
     // Método para adicionar um par chave-valor ao dicionário
-    void Add(const KeyType& key, State* value) {
+    void Add(const KeyType& key, State<KeyType>* value) {
         if (IsEnabled()) {
             dictionary[key] = value;
         }
     }
 
     // Método para consultar o valor associado a uma chave no dicionário
-    bool Get(const KeyType& key, State*& value) const {
+    bool Get(const KeyType& key, State<KeyType>*& value) const {
         auto it = dictionary.find(key);
         if (it != dictionary.end()) {
             value = it->second;
@@ -64,7 +64,7 @@ public:
     }
 
     // Método para obter o valor associado a uma chave
-    State* Get(const KeyType& key) const {
+    State<KeyType>* Get(const KeyType& key) const {
         auto it = dictionary.find(key);
         if (it != dictionary.end()) {
             return it->second;
@@ -73,11 +73,12 @@ public:
     }
     //------------------------------------------
 
-    Dictionary& operator=(const std::pair<KeyType, State*>& pair) {
+    Dictionary& operator=(const std::pair<KeyType, State<KeyType>*>& pair) {
         dictionary[pair.first] = pair.second;
         return *this;
     }
-    State*& operator[](const KeyType& key); {
+
+    State<KeyType>*& operator[](const KeyType& key) {
         return dictionary[key];
     }
 };

@@ -327,29 +327,29 @@
     <ClInclude Include="Dictionary.h">
       <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
-    <ClInclude Include="Action.inl">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StackSearch.inl">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Node.inl">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Transition.inl">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="QueueSearch.inl">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SearchMethods.inl">
-      <Filter>Modules\AI\Source Files</Filter>
+      <Filter>Modules\AI\Header Files\Search</Filter>
     </ClInclude>
     <ClInclude Include="PriorityQueueSearch.inl">
-      <Filter>Modules\AI\Source Files</Filter>
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.inl">
+      <Filter>Modules\AI\Header Files\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="QueueSearch.inl">
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="StackSearch.inl">
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchMethods.inl">
+      <Filter>Modules\AI\Header Files\Search</Filter>
     </ClInclude>
     <ClInclude Include="State.inl">
-      <Filter>Modules\AI\Source Files</Filter>
+      <Filter>Modules\AI\Header Files\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.inl">
+      <Filter>Modules\AI\Header Files\Agent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

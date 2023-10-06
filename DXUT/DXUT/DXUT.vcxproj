@@ -130,9 +130,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Action.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="Environment.cpp" />
@@ -146,22 +143,7 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Moviment.cpp" />
-    <ClInclude Include="Node.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
     <ClCompile Include="Player.cpp" />
-    <ClInclude Include="PriorityQueueSearch.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
-    <ClInclude Include="QueueSearch.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
-    <ClInclude Include="SearchMethods.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
-    <ClInclude Include="StackSearch.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -171,9 +153,6 @@
     <ClCompile Include="StatePosition.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClInclude Include="Transition.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -234,8 +213,29 @@
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="Node.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="PriorityQueueSearch.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="QueueSearch.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="SearchMethods.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
     <None Include="Sensor&amp;Effect.md" />
     <ClInclude Include="State.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="StackSearch.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="Transition.inl">
       <FileType>Document</FileType>
     </ClInclude>
     <None Include="TypeErrors.h" />

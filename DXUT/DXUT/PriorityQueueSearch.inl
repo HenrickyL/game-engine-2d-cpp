@@ -1,8 +1,10 @@
-// PriorityQueueSearch.cpp
-//#include "PriorityQueueSearch.h"
-#include<vector>
-#include "State.h"
-using std::vector;
+#ifndef DXUT_AI_PRIORITY_QUEUE_SEARCH_INL
+#define DXUT_AI_PRIORITY_QUEUE_SEARCH_INL
+
+#include "SearchStructure.h"
+#include "Node.h"
+#include <queue>
+using std::priority_queue;
 
 template<typename T>
 void PriorityQueueSearch<T>::Push(Node<T>* element) {
@@ -15,6 +17,7 @@ Node<T>* PriorityQueueSearch<T>::Pop() {
     data.pop();
     return element;
 }
+
 template<typename T>
 bool PriorityQueueSearch<T>::IsEmpty() const {
     return data.empty();
@@ -37,7 +40,7 @@ bool PriorityQueueSearch<T>::ExistLargeThan(Node<T>* element) const {
     priority_queue<Node<T>*, std::vector<Node<T>*>, NodeComparator> tempData = data;
     while (!tempData.empty()) {
         Node<T>* top = tempData.top();
-        if (top->GetState()->Equal(element->GetState())  && top->Cost() > element->Cost()) {
+        if (top->GetState()->Equal(element->GetState()) && top->Cost() > element->Cost()) {
             return true;
         }
         tempData.pop();
@@ -46,7 +49,7 @@ bool PriorityQueueSearch<T>::ExistLargeThan(Node<T>* element) const {
 }
 
 template<typename T>
-void  PriorityQueueSearch<T>::RemoveLargeThanBy(Node<T>* element) {
+void PriorityQueueSearch<T>::RemoveLargeThanBy(Node<T>* element) {
     vector<Node<T>*> newNodes;
     while (!data.empty()) {
         Node<T>* node = data.top();
@@ -55,7 +58,7 @@ void  PriorityQueueSearch<T>::RemoveLargeThanBy(Node<T>* element) {
         if (node->GetState() == element->GetState() && node->Cost() < element->Cost()) {
             //node->DeletePath();
             //delete node;
-            break; 
+            break;
         }
         newNodes.push_back(node);
     }
@@ -64,3 +67,5 @@ void  PriorityQueueSearch<T>::RemoveLargeThanBy(Node<T>* element) {
         data.push(node);
     }
 }
+
+#endif

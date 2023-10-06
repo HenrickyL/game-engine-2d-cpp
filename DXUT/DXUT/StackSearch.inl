@@ -1,5 +1,5 @@
-//#include "StackSearch.h"
-
+#ifndef DXUT_AI_STACK_SEARCH_INL
+#define DXUT_AI_STACK_SEARCH_INL
 
 template<typename T>
 void StackSearch<T>::Push(Node<T>* element) {
@@ -29,3 +29,5 @@ bool StackSearch<T>::Exist(const Node<T>* element) const {
     }
     return false;
 }
+
+#endif
