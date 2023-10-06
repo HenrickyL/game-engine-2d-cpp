@@ -8,13 +8,14 @@ class Action;
 
 class Transition {
 private:
+	State* origin;
 	State* target;
 	Action* action;
 public:
-	Transition(State*& state, Action* act);
+	Transition(State* _origin, State* _target, Action* _act);
 
-
-	State* GetState() const;
+	State*	GetOrigin() const;
+	State*	GetTarget() const;
 	Action* GetAction() const;
 
 	//virtual void Enter() = 0;	// Método de entrada no estado

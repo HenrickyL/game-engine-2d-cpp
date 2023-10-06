@@ -4,10 +4,11 @@
 #include "Action.h"
 //------------------------------------------
 
-Transition::Transition(State*& state, Action* act) {
-	this->target = state;
-	this->action = act;
+Transition::Transition(State* _origin, State* _target, Action* _act){
+	this->origin = _origin;
+	this->target = _target;
+	this->action = _act;
 }
-
-State* Transition::GetState() const { return target; };
+State*	Transition::GetOrigin() const { return origin; };
+State*	Transition::GetTarget() const { return target; };
 Action* Transition::GetAction() const { return action; };

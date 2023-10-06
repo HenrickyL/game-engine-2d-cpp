@@ -24,7 +24,7 @@ protected:
     uint type;                                          // tipo do objeto
     Sprite  *_sprite    = nullptr;
     Vector   _speed      = Vector::Right;
-    float   _speedMagnitude = 1.0f;
+    float   _magnitude = 1.0f;
     Geometry* _bbox;                                 // bounding box do objeto
 
 public:
@@ -61,12 +61,15 @@ public:
 
     // -----------------------------------------------------------------------------
 
-    Vector Speed() const;
+    Vector  Speed() const;
+    float   Magnitude() const;
+
     Position GetPosition() const;
 
     // -----------------------------------------------------------------------------
 
     void SetSpeed(const Vector speed);
+    void SetMagnitude(const float value);
     void SetSprite(Sprite* sprite);
 
     // retorna tipo do objeto
@@ -88,9 +91,11 @@ public:
 
 // -----------------------------------------------------------------------------
 // Métodos Inline
+inline float    Object::Magnitude() const { return _magnitude; }
+inline void     Object::SetMagnitude(const float value) { this->_magnitude = value; }
 
-inline Vector Object::Speed() const { return _speed;}
-inline void Object::SetSpeed(const Vector speed){ _speed = speed;}
+inline Vector   Object::Speed() const { return _speed;}
+inline void     Object::SetSpeed(const Vector speed){ _speed = speed;}
 inline Position Object::GetPosition() const { return *_position; }
 
 // retorna tipo do objeto

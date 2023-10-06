@@ -1,25 +1,27 @@
-#ifndef _BREAKOUT_PLAYER_H_
-#define _BREAKOUT_PLAYER_H_
-// ---------------------------------------------------------------------------------
-// Inclusões
-#include "DXUT_2D.h"
-// ---------------------------------------------------------------------------------
-enum PLAYERSTATE { PLAYING, STOPED };
-// ---------------------------------------------------------------------------------
+#ifndef IA_TEST_PLAYER_H
+#define IA_TEST_PLAYER_H
 
-class Player : public Object
-{
-private :
-    Image* _missile;
+#include "Object.h"
+#include <vector>
+#include "MovimentAction.h"
+#include "Node.h"
+using std::vector;
+
+
+class Player : public Object {
+private:
+    Position initial;
+    Position target;
+    Node* path = nullptr;
+    vector<Action*> actions;
+    Node* pivot = nullptr;
+    void Search();
 public:
-    PLAYERSTATE state;
-    Player(Image* img);
+    Player(Image* img, const Position& p);
     ~Player();
-
     void OnCollision(Object* obj);
     void Update();
+    void SetTarget(const Position& p);
 };
-
-// ---------------------------------------------------------------------------------
 
 #endif

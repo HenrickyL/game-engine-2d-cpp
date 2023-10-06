@@ -1,6 +1,7 @@
 #include "State.h"
 //------------------------------------------
 #include "Transition.h"
+#include "Action.h"
 //------------------------------------------
 State::State() {
 	edges = new std::vector<Transition*>();
@@ -12,9 +13,9 @@ State::State(std::string _name) {
 	name = _name;
 }
 //------------------------------------------
-State::~State() {
-	DeleteEdges();
-}
+//State::~State() {
+//	DeleteEdges();
+//}
 //------------------------------------------
 void State::DeleteEdges() {
 	for (int i = 0; i < edges->size(); i++) {
@@ -30,3 +31,39 @@ vector<Transition*>* State::Edges() const { return edges; }
 void State::AddTransition(Transition* transition) {
 	edges->push_back(transition);
 }
+
+
+
+float State::GetHeuristic(State* target) const {
+	return 0.0f;
+}
+
+
+//bool State::IsTriggered() const {
+//	return true;
+//}
+
+
+//TODO: Verify Performance 
+bool State::ExistActionInEdge(Action* action) {
+	for (Transition* t : *edges) {
+		if (t->GetAction() == action) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
+bool State::ExistInEdge(State* _target) const {
+	for (const Transition* t : *edges) {
+		if (t->GetTarget()->Equal(_target)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
+

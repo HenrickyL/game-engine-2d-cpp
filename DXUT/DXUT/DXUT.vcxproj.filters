@@ -91,6 +91,12 @@
     <Filter Include="Modules\AI\Header Files\Middleware">
       <UniqueIdentifier>{49240dda-a20b-42b3-9484-448e1a4fe5b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\AI\Header Files\Middleware\SearchStructures">
+      <UniqueIdentifier>{c4037434-f481-4f6f-b540-60f78d44e1df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\AI\Header Files\Middleware\StatePosition">
+      <UniqueIdentifier>{44175f06-f280-4108-9074-7f8720e367f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -185,6 +191,15 @@
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Action.cpp">
+      <Filter>Modules\AI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StatePosition.cpp">
+      <Filter>Modules\AI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Develop\Games\AiTest\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Moviment.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -312,16 +327,28 @@
     <ClInclude Include="AiTest.h">
       <Filter>Develop\Games\AiTest\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SearchStructure.h">
-      <Filter>Modules\AI\Header Files\Middleware</Filter>
+    <ClInclude Include="PriorityQueueSearch.h">
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
     </ClInclude>
     <ClInclude Include="QueueSearch.h">
-      <Filter>Modules\AI\Header Files\Middleware</Filter>
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchStructure.h">
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
     </ClInclude>
     <ClInclude Include="StackSearch.h">
-      <Filter>Modules\AI\Header Files\Middleware</Filter>
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
     </ClInclude>
-    <ClInclude Include="PriorityQueueSearch.h">
+    <ClInclude Include="StatePosition.h">
+      <Filter>Modules\AI\Header Files\Middleware\StatePosition</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Develop\Games\AiTest\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovimentAction.h">
+      <Filter>Modules\AI\Header Files\Middleware\StatePosition</Filter>
+    </ClInclude>
+    <ClInclude Include="Dictionary.h">
       <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
   </ItemGroup>

@@ -13,7 +13,7 @@ using std::queue;
 
 bool existInVector(vector<Node*> list, const Node* element) {
 	for (const auto* item : list) {
-		if (item == element)
+		if (item->Equal(element))
 			return true;
 	}
 	return false;
@@ -49,7 +49,7 @@ void DeleteNodes(vector<Node*>& nodesToRemove) {
 
 //------------------------------------------
 
-Node* SearchMethods::Search(State* initial, State* _final, SearchStructure& edge)
+Node* SearchMethods::Search(State* initial, State* _final, SearchStructure& edge, vector<Action*> actions)
 {
 	Node* node = new Node(initial, nullptr);
 	//borda
@@ -63,9 +63,11 @@ Node* SearchMethods::Search(State* initial, State* _final, SearchStructure& edge
 
 	while (!edge.IsEmpty()) {
 		node = edge.Pop();
-		/*if (node->GetState() == _final) {
-			return node;
-		}*/
+		
+		if (!actions.empty()) {
+			node->GenerateTransitions(actions);
+		}
+
 		read.push_back(node);
 		for (Transition* elem : *node->GetState()->Edges()) {
 			Node* chield = new Node(elem, node);
@@ -91,12 +93,11 @@ Node* SearchMethods::SearchAndHandleResult(Node* node, State* target, vector<Nod
 }
 
 //------------------------------------------
-
-Node* SearchMethods::HeuristicSearch(State* initial, State* _final)
-{
+Node* SearchMethods::HeuristicSearch(State* initial, State* _final, vector<Action*> actions) {
+	int count = 0;
 	Node* node = new Node(initial, nullptr);
+	node->SetHeuristicBy(_final);
 	//borda
-	//SearchStructure<Node*>& edge
 	PriorityQueueSearch edge;
 	edge.Push(node);
 	//lidos
@@ -107,21 +108,34 @@ Node* SearchMethods::HeuristicSearch(State* initial, State* _final)
 
 	while (!edge.IsEmpty()) {
 		node = edge.Pop();
+		count++;
 
-		if (node->GetState() == _final) {
+		if (node->GetState()->Equal(_final)) {
 			return SearchMethods::SearchAndHandleResult(node, _final, AllNodes);
 		}
+
+		if (node->IsGeneratedPossible() && !actions.empty()) {
+			node->GenerateTransitions(actions);
+		}
+
 		read.push_back(node);
 		for (Transition* elem : *node->GetState()->Edges()) {
 			Node* chield = new Node(elem, node);
+			chield->SetHeuristicBy(_final);
+
 			AllNodes.push_back(chield);
 			//pointer exist
 			if (!existInVector(read, chield) && !edge.Exist(chield)) {
 				edge.Push(chield);
 			}
-			else if (edge.ExistLargeThan(chield)) {
-				edge.RemoveLargeThanBy(chield);
-				edge.Push(chield);
+			else {
+				if (edge.ExistLargeThan(chield)) {
+					edge.RemoveLargeThanBy(chield);
+					edge.Push(chield);
+				}
+				else if (count > ::SearchMethods::_MAX) {
+					return SearchMethods::SearchAndHandleResult(chield, _final, AllNodes);
+				}
 			}
 		}
 	}
@@ -133,10 +147,12 @@ Node* SearchMethods::HeuristicSearch(State* initial, State* _final)
 
 Node* SearchMethods::BreadthFirstSearch(State* _initial, State* _final) {
 	QueueSearch qSearch;
-	return SearchMethods::Search(_initial, _final, qSearch);
+	vector<Action*> actions;
+	return SearchMethods::Search(_initial, _final, qSearch, actions);
 }
 
 Node* SearchMethods::DepthFirstSearch(State* _initial, State* _final) {
 	StackSearch sSearch;
-	return SearchMethods::Search(_initial, _final, sSearch);
+	vector<Action*> actions;
+	return SearchMethods::Search(_initial, _final, sSearch, actions);
 }
