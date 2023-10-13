@@ -5,6 +5,9 @@
 #include "Object.h"
 #include "Window.h"
 #include "Action.h"
+#include "Position.h"
+#include <vector>
+using std::vector;
 
 class StatePosition : public State<Position>, public Object {
 private:

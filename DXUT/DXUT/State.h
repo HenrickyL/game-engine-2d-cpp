@@ -4,6 +4,9 @@
 #include <vector>
 #include <string>
 //------------------------------------------
+// #include "State.h"
+// #include "Transition.h"
+// #include "Action.h"
 
 template <typename T>
 class Transition;
@@ -19,27 +22,59 @@ protected:
     std::string name;
     std::vector<Transition<T>*>* edges;
 
-    void DeleteEdges();
+    void DeleteEdges(){
+        for (int i = 0; i < edges->size(); i++) {
+        Transition<T>* e = edges->at(i);
+        delete e;
+        }
+        delete edges;
+    }
 
 public:
-    State();
-    State(std::string name);
+    State(){
+        edges = new std::vector<Transition<T>*>();
+        name = "default";
+    }
+    State(std::string _name){
+        edges = new std::vector<Transition<T>*>();
+        name = _name;
+    }
 
-    std::vector<Transition<T>*>* Edges() const;
-    std::string Name() const;
-    void AddTransition(Transition<T>* transition);
+    std::vector<Transition<T>*>* Edges() const{
+        return edges;
+    }
+    std::string Name() const{
+        return name;
+    }
 
-    virtual float GetHeuristic(State<T>* target) const;
+    void AddTransition(Transition<T>* transition){
+        edges->push_back(transition);
+    }
+
+    virtual float GetHeuristic(State<T>* target) const{
+        return 0.0f;
+    }
     virtual bool IsGeneratedPossible() const = 0;
     virtual bool Equal(State<T>* other) const = 0;
-
     virtual void Generate(const std::vector<Action<T>*> actions) = 0;
     virtual bool IsAmbiguous(State<T>* newState) const = 0;
 
-    bool ExistActionInEdge(Action<T>* action);
-    bool ExistInEdge(State<T>* _target) const;
+    bool ExistActionInEdge(Action<T>* action){
+        for (Transition<T>* t : *edges) {
+            if (t->GetAction() == action) {
+                return true;
+            }
+        }
+        return false;
+    }
+    bool ExistInEdge(State<T>* _target) const{
+        for (const Transition<T>* t : *edges) {
+            if (t->GetTarget()->Equal(_target)) {
+                return true;
+            }
+        }
+        return false;
+    }
 };
-
-#include "State.inl"
 
 #endif

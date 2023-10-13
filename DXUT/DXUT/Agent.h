@@ -4,13 +4,14 @@
 #include<vector>
 
 class Perception;
+template<typename T>
 class Action;
 
 
 class Agent {
 private:
 	std::vector<Perception*>* sensors;
-	std::vector<Action*>* actuators;
+	std::vector<Action<int>*>* actuators;
 
 	void DeleteSensors();
 	void DeleteActuators();

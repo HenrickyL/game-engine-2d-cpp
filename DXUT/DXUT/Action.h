@@ -11,16 +11,28 @@ protected:
     Action<T>* inverse = nullptr;
 
 public:
-    Action(float cost = 0.0f);
-    Action(float cost, Action<T>* _inverse = nullptr);
+    Action(float _cost = 0.0f) {
+        cost = _cost;
+    }
 
-    float Cost() const;
-    Action<T>* Inverse() const;
-    void SetInverse(Action<T>* _inverse);
+    Action(float _cost, Action<T>* _inverse = nullptr) {
+        cost = _cost;
+        inverse = _inverse;
+    }
+
+    float Cost() const {
+        return cost;
+    }
+    Action<T>* Inverse() const {
+        return inverse;
+    }
+
+    void SetInverse(Action<T>* _inverse) {
+        inverse = _inverse;
+    }
 
     virtual State<T>* Generate(State<T>* _target) const = 0;
 };
 
-#include "Action.inl"
 
 #endif

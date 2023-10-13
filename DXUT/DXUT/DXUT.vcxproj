@@ -213,31 +213,7 @@
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Action.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
-    <ClInclude Include="Node.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
-    <ClInclude Include="PriorityQueueSearch.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
-    <ClInclude Include="QueueSearch.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
-    <ClInclude Include="SearchMethods.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
     <None Include="Sensor&amp;Effect.md" />
-    <ClInclude Include="State.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
-    <ClInclude Include="StackSearch.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
-    <ClInclude Include="Transition.inl">
-      <FileType>Document</FileType>
-    </ClInclude>
     <None Include="TypeErrors.h" />
   </ItemGroup>
   <ItemGroup>

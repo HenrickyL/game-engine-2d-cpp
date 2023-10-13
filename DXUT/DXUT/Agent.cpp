@@ -5,7 +5,7 @@
 //------------------------------------------
 
 Agent::Agent() {
-	actuators = new std::vector<Action*>();
+	actuators = new std::vector<Action<int>*>();
 	sensors = new std::vector<Perception*>();
 }
 //------------------------------------------
@@ -28,7 +28,7 @@ void Agent::DeleteSensors() {
 
 void Agent::DeleteActuators() {
 	for (int i = 0; i < actuators->size(); i++) {
-		Action* item = actuators->at(i);
+		Action<int>* item = actuators->at(i);
 		delete item;
 	}
 	delete actuators;

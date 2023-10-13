@@ -12,12 +12,28 @@ private:
     queue<Node<T>*> data;
 
 public:
-    void Push(Node<T>* element) override;
-    Node<T>* Pop() override;
-    bool IsEmpty() const override;
-    bool Exist(const Node<T>* element) const override;
+    void Push(Node<T>* element) override {
+        data.push(element);
+    }
+    Node<T>* Pop() override {
+        Node<T>* element = data.front();
+        data.pop();
+        return element;
+    }
+    bool IsEmpty() const override {
+        return data.empty();
+    }
+    bool Exist(const Node<T>* element) const override {
+        queue<Node<T>*> tempData = data;
+        while (!tempData.empty()) {
+            if (tempData.front() == element) {
+                    return true;
+            }
+            tempData.pop();
+        }
+        return false;
+    }
 };
 
-#include "QueueSearch.inl"
 
 #endif
