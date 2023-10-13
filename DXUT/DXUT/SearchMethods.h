@@ -3,9 +3,12 @@
 
 #include "SearchStructure.h"
 #include "PriorityQueueSearch.h"
+#include "QueueSearch.h"
+#include "StackSearch.h"
 #include "Node.h"
 #include "State.h"
 #include "Action.h"
+#include "Dictionary.h"
 #include <vector>
 #include <queue>
 using std::vector;
@@ -88,16 +91,16 @@ private:
     }
 
 public:
-    /*static Node<T>* BreadthFirstSearch(State<T>* initial, State<T>* final) {
+    static Node<T>* BreadthFirstSearch(State<T>* _initial, State<T>* _final) {
         QueueSearch<T> qSearch;
         vector<Action<T>*> actions;
         return SearchMethods<T>::Search(_initial, _final, qSearch, actions);
     }
-    static Node<T>* DepthFirstSearch(State<T>* initial, State<T>* final) {
+    static Node<T>* DepthFirstSearch(State<T>* _initial, State<T>* _final) {
         StackSearch<T> sSearch;
         vector<Action<T>*> actions;
         return SearchMethods<T>::Search(_initial, _final, sSearch, actions);
-    }*/
+    }
     static Node<T>* HeuristicSearch(State<T>* _initial, State<T>* _final, vector<Action<T>*> actions) {
         int count = 0;
         Node<T>* node = new Node<T>(_initial, nullptr);
