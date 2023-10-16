@@ -13,6 +13,9 @@ class Transition;
 
 template <typename T>
 class Action;
+template <typename T>
+class Dictionary;
+
 
 //------------------------------------------
 
@@ -20,6 +23,7 @@ template <typename T>
 class State {
 protected:
     std::string name;
+    T value;
     std::vector<Transition<T>*>* edges;
 
     void DeleteEdges(){
@@ -56,7 +60,7 @@ public:
     }
     virtual bool IsGeneratedPossible() const = 0;
     virtual bool Equal(State<T>* other) const = 0;
-    virtual void Generate(const std::vector<Action<T>*> actions) = 0;
+    virtual void Generate(const std::vector<Action<T>*> actions, Dictionary<T>* controlGenerated) = 0;
     virtual bool IsAmbiguous(State<T>* newState) const = 0;
 
     bool ExistActionInEdge(Action<T>* action){
@@ -74,6 +78,9 @@ public:
             }
         }
         return false;
+    }
+    T Value()const {
+        return value;
     }
 };
 

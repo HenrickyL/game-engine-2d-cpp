@@ -64,8 +64,8 @@ public:
     float Cost() const { return cost; }
     State<T>* GetState() const { return state; }
     Node<T>* Father() const { return father; }
-    void GenerateTransitions(const vector<Action<T>*> actions) {
-        state->Generate(actions);
+    void GenerateTransitions(const vector<Action<T>*> actions, Dictionary<T>* controlGenerated) {
+        state->Generate(actions, controlGenerated);
     }
 
     bool IsGeneratedPossible() const {

@@ -4,6 +4,7 @@
 #include "Transition.h"
 #include "MovimentAction.h"
 #include "Action.h"
+#include "Dictionary.h"
 //------------------------------------------
 
 Window*& StatePosition::window = Engine::window;
@@ -24,17 +25,27 @@ StatePosition::~StatePosition() {
 }
 
 
-void StatePosition::Generate(const vector<Action<Position>*> actions){
+void StatePosition::Generate(const vector<Action<Position>*> actions, Dictionary<Position>* controlGenerated){
 	for (auto* action : actions) {
 		StatePosition* currentGenerated = dynamic_cast<StatePosition*>(action->Generate(this));
-
-		// Verifique se o novo estado já existe na lista de estados ou se é ambíguo
-		if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
-			AddTransition(new Transition<Position>(this, currentGenerated, action));
+		Position currentPosition = currentGenerated->GetPosition();
+		if (controlGenerated) {
+			if (currentGenerated && !this->ExistInEdge(currentGenerated) && !controlGenerated->Contains(currentPosition)) {
+				AddTransition(new Transition<Position>(this, currentGenerated, action));
+				controlGenerated->Add(currentPosition, currentGenerated);
+			}
+			else {
+				delete currentGenerated; // Descarte o estado ambíguo
+			}
 		}
 		else {
-			if(currentGenerated != nullptr)
+			// Verifique se o novo estado já existe na lista de estados ou se é ambíguo
+			if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
+				AddTransition(new Transition<Position>(this, currentGenerated, action));
+			}
+			else {
 				delete currentGenerated; // Descarte o estado ambíguo
+			}
 		}
 	}
 }

@@ -14,6 +14,9 @@ Player::Player(Image* img, const Position& p) {
 
 	BBox(_sprite->GetCircle());
 
+    t = new Timer();
+    dictionary = new Dictionary<Position>();
+
     MovimentAction* up = new MovimentAction(Vector::Up);
     MovimentAction* down = new MovimentAction(Vector::Down);
     MovimentAction* left = new MovimentAction(Vector::Left);
@@ -40,6 +43,8 @@ Player::~Player() {
     for (Action<Position>* a : actions) {
         delete a;
     }
+    if (dictionary) delete dictionary;
+    if (t) delete t;
 }
 
 
@@ -94,9 +99,12 @@ void Player::Search() {
     if (path) {
         deletePath(path);
     }
-    Dictionary<Position> controlGenerated;
-    path = SearchMethods<Position>::HeuristicSearch(A, B, actions, controlGenerated);
-    int value = path->GetPathLength();
+    t->Start();
+    path = SearchMethods<Position>::HeuristicSearch(A, B, actions, dictionary);
+    t->Stop();
+    float timer = t->Elapsed();
+    t->Reset();
+    int value = path ? path->GetPathLength() : 0;
     /*s = "\nHeuristic: {\n\t" + path->GetPath() + "\n}\n\tCost: " + std::to_string(path->Cost());
     OutputDebugString(s.c_str());*/
 }

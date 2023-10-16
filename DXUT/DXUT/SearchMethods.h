@@ -17,7 +17,7 @@ using std::queue;
 template <typename T>
 class SearchMethods {
 private:
-    static const int _MAX = 2000;
+    static const int _MAX = 5000;
 
     static Node<T>* Search(State<T>* initial, State<T>* _final, SearchStructure<T>& edge,  SearchStructure<T>& method, vector<Action<T>*> actions) {
         Node<T>* node = new Node<T>(initial, nullptr);
@@ -101,11 +101,14 @@ public:
         vector<Action<T>*> actions;
         return SearchMethods<T>::Search(_initial, _final, sSearch, actions);
     }
-    static Node<T>* HeuristicSearch(State<T>* _initial, State<T>* _final, vector<Action<T>*> actions, Dictionary<T> controlGenerated) {
+    static Node<T>* HeuristicSearch(State<T>* _initial, State<T>* _final, vector<Action<T>*> actions, Dictionary<T>* controlGenerated) {
         int count = 0;
         Node<T>* node = new Node<T>(_initial, nullptr);
         node->SetHeuristicBy(_final);
-
+        T key = _initial->Value();
+        if (!controlGenerated->Contains(key)) {
+            controlGenerated->Add(key, _initial);
+        }
         PriorityQueueSearch<T> edge;
         edge.Push(node);
 
@@ -122,7 +125,7 @@ public:
             }
 
             if (node->IsGeneratedPossible() && !actions.empty()) {
-                node->GenerateTransitions(actions);
+                node->GenerateTransitions(actions, controlGenerated);
             }
 
             read.push_back(node);

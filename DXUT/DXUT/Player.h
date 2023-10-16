@@ -5,6 +5,8 @@
 #include <vector>
 #include "MovimentAction.h"
 #include "Node.h"
+#include "Dictionary.h"
+#include "Timer.h"
 using std::vector;
 
 
@@ -15,6 +17,9 @@ private:
     Node<Position>* path = nullptr;
     vector<Action<Position>*> actions;
     Node<Position>* pivot = nullptr;
+    Dictionary<Position>* dictionary;
+    Timer* t;
+
     void Search();
 public:
     Player(Image* img, const Position& p);

@@ -14,6 +14,7 @@ State<Position>* MovimentAction::Generate(State<Position>* _state) const {
 		Position pos = origin->GetPosition();
 		pos.Translate(direction * magnitude);
 		StatePosition* targetGenerated = new StatePosition(pos);
+		///TODO: check the need for the inverse
 		if(inverse)
 			targetGenerated->AddTransition(new Transition<Position>(targetGenerated, origin, inverse));
 		return targetGenerated;

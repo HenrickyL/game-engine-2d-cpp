@@ -29,7 +29,7 @@ protected:
 
 public:
     Object();                       // construtor padrão
-    ~Object();                      // destrutor virtual
+    //virtual ~Object() = 0;                      // destrutor virtual
 
     // ------------------------
     // funções virtuais    
