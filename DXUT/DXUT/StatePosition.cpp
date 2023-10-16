@@ -15,6 +15,7 @@ StatePosition::StatePosition(const Position& pos) {
 	int y = pos.Y();
 	name = "(x: " + std::to_string(x) + ", y: " + std::to_string(y) + ")";
 	_position = new Position(x, y);
+	value = *_position;
 }
 
 StatePosition::~StatePosition() {
@@ -25,30 +26,30 @@ StatePosition::~StatePosition() {
 }
 
 
-void StatePosition::Generate(const vector<Action<Position>*> actions, Dictionary<Position>* controlGenerated){
-	for (auto* action : actions) {
-		StatePosition* currentGenerated = dynamic_cast<StatePosition*>(action->Generate(this));
-		Position currentPosition = currentGenerated->GetPosition();
-		if (controlGenerated) {
-			if (currentGenerated && !this->ExistInEdge(currentGenerated) && !controlGenerated->Contains(currentPosition)) {
-				AddTransition(new Transition<Position>(this, currentGenerated, action));
-				controlGenerated->Add(currentPosition, currentGenerated);
-			}
-			else {
-				delete currentGenerated; // Descarte o estado ambíguo
-			}
-		}
-		else {
-			// Verifique se o novo estado já existe na lista de estados ou se é ambíguo
-			if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
-				AddTransition(new Transition<Position>(this, currentGenerated, action));
-			}
-			else {
-				delete currentGenerated; // Descarte o estado ambíguo
-			}
-		}
-	}
-}
+//void StatePosition::Generate(const vector<Action<Position>*> actions, Dictionary<Position>* controlGenerated){
+//	for (auto* action : actions) {
+//		StatePosition* currentGenerated = dynamic_cast<StatePosition*>(action->Generate(this));
+//		Position currentPosition = currentGenerated->GetPosition();
+//		if (controlGenerated) {
+//			if (currentGenerated && !this->ExistInEdge(currentGenerated) && !controlGenerated->Contains(currentPosition)) {
+//				AddTransition(new Transition<Position>(this, currentGenerated, action));
+//				controlGenerated->Add(currentPosition, currentGenerated);
+//			}
+//			else {
+//				delete currentGenerated; // Descarte o estado ambíguo
+//			}
+//		}
+//		else {
+//			// Verifique se o novo estado já existe na lista de estados ou se é ambíguo
+//			if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
+//				AddTransition(new Transition<Position>(this, currentGenerated, action));
+//			}
+//			else {
+//				delete currentGenerated; // Descarte o estado ambíguo
+//			}
+//		}
+//	}
+//}
 
 float StatePosition::GetHeuristic(State<Position>* _target) const {
 	StatePosition* target = dynamic_cast<StatePosition*>(_target);

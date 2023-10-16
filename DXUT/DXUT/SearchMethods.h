@@ -51,9 +51,16 @@ private:
         DeleteNodes(AllNodes);
         return nullptr;
     }
-    static void DeleteNodes(vector<Node<T>*>& nodesToRemove) {
+    static void DeleteNodes(vector<Node<T>*>& nodesToRemove, Dictionary<T>* controlGenerated) {
+        bool deleteIn = controlGenerated != nullptr;
         for (auto it = nodesToRemove.begin(); it != nodesToRemove.end(); it++) {
-            if (*it) delete* it;
+            Node<T>* node = *it;
+            if (node) {
+                if (deleteIn) {
+                    controlGenerated->Remove(node->Value());
+                }
+                delete node;
+            }
         }
     }
     static void DeleteNotInPath(vector<Node<T>*>& nodesToRemove, Node<T>* path) {
@@ -84,9 +91,9 @@ private:
         }
         return false;
     }
-    static Node<T>* SearchAndHandleResult(Node<T>* node, State<T>* target, vector<Node<T>*> AllNodes) {
+    static Node<T>* SearchAndHandleResult(Node<T>* node, State<T>* target, vector<Node<T>*> AllNodes, Dictionary<T>* controlGenerated) {
         DeleteNotInPath(AllNodes, node);
-        DeleteNodes(AllNodes);
+        DeleteNodes(AllNodes, controlGenerated);
         return node;
     }
 
@@ -121,7 +128,7 @@ public:
             count++;
 
             if (node->GetState()->Equal(_final)) {
-                return SearchMethods<T>::SearchAndHandleResult(node, _final, AllNodes);
+                return SearchMethods<T>::SearchAndHandleResult(node, _final, AllNodes, controlGenerated);
             }
 
             if (node->IsGeneratedPossible() && !actions.empty()) {
@@ -144,12 +151,12 @@ public:
                         edge.Push(chield);
                     }
                     else if (count > ::SearchMethods<T>::_MAX) {
-                        return SearchMethods<T>::SearchAndHandleResult(chield, _final, AllNodes);
+                        return SearchMethods<T>::SearchAndHandleResult(chield, _final, AllNodes, controlGenerated);
                     }
                 }
             }
         }
-        DeleteNodes(AllNodes);
+        DeleteNodes(AllNodes, controlGenerated);
         return nullptr;
     }
 };

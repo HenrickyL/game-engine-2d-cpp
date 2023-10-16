@@ -16,7 +16,7 @@ public:
 	StatePosition(const Position& pos);
 	~StatePosition();
 	
-	void	Generate(const vector<Action<Position>*> actions, Dictionary<Position>* controlGenerated) override;
+	//void	Generate(const vector<Action<Position>*> actions, Dictionary<Position>* controlGenerated) override;
 	float	GetHeuristic(State<Position>* target = nullptr) const override;
 	void	Update() override;
 	bool	Equal(State<Position>* other) const;

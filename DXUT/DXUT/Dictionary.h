@@ -1,12 +1,15 @@
 #ifndef IA_DICTIONARY_H
 #define IA_DICTIONARY_H
 //------------------------------------------
-#include "State.h"
+//#include "State.h"
 #include "Hasheable.h"
 #include <unordered_map>
 //------------------------------------------
 enum DictionaryStatus { Enabled, Disabled };
 //------------------------------------------
+template <typename KeyType>
+class State;
+
 
 //// Agora, defina seu próprio comparador para KeyType
 //struct KeyTypeEqual {

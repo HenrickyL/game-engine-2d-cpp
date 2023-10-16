@@ -52,7 +52,6 @@ Player::~Player() {
 void Player::Update() {
 	if (input->KeyPress(KEY_R)) {
         Search();
-        int n = path->GetPathLength();
         pivot = path;
         _sprite->SetFilterColor(Color(0, 255, 0));
 	}
@@ -103,10 +102,7 @@ void Player::Search() {
     path = SearchMethods<Position>::HeuristicSearch(A, B, actions, dictionary);
     t->Stop();
     float timer = t->Elapsed();
-    t->Reset();
-    int value = path ? path->GetPathLength() : 0;
-    /*s = "\nHeuristic: {\n\t" + path->GetPath() + "\n}\n\tCost: " + std::to_string(path->Cost());
-    OutputDebugString(s.c_str());*/
+    int value = path != nullptr ? path->GetPathLength() : 0;
 }
 
 

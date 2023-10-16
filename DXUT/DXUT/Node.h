@@ -91,6 +91,11 @@ public:
     bool operator<(const Node<T>& other) const {
         return this->cost > other.cost;
     }
+
+
+    T Value() const {
+        return state->Value();
+    }
 };
 
 

@@ -13,8 +13,11 @@ class Transition;
 
 template <typename T>
 class Action;
-template <typename T>
-class Dictionary;
+
+//template <typename T>
+//class Dictionary;
+
+#include "Dictionary.h"
 
 
 //------------------------------------------
@@ -60,7 +63,31 @@ public:
     }
     virtual bool IsGeneratedPossible() const = 0;
     virtual bool Equal(State<T>* other) const = 0;
-    virtual void Generate(const std::vector<Action<T>*> actions, Dictionary<T>* controlGenerated) = 0;
+    virtual void Generate(const std::vector<Action<T>*> actions, Dictionary<T>* controlGenerated) {
+        for (auto* action : actions) {
+            State<T>* currentGenerated = action->Generate(this);
+            T currentPosition = currentGenerated->Value();
+            if (controlGenerated) {
+                if (currentGenerated && !this->ExistInEdge(currentGenerated) && !controlGenerated->Contains(currentPosition)) {
+                    AddTransition(new Transition<T>(this, currentGenerated, action));
+                    controlGenerated->Add(currentPosition, currentGenerated);
+                }
+                else {
+                    delete currentGenerated; // Descarte o estado ambíguo
+                }
+            }
+            else {
+                // Verifique se o novo estado já existe na lista de estados ou se é ambíguo
+                if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
+                    AddTransition(new Transition<T>(this, currentGenerated, action));
+                }
+                else {
+                    delete currentGenerated; // Descarte o estado ambíguo
+                }
+            }
+        }
+    
+    }
     virtual bool IsAmbiguous(State<T>* newState) const = 0;
 
     bool ExistActionInEdge(Action<T>* action){
@@ -79,6 +106,7 @@ public:
         }
         return false;
     }
+    ///TODO: validate whether the name 'Value' is the best, as it will be used as 'Key' later.
     T Value()const {
         return value;
     }

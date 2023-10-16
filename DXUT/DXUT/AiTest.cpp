@@ -24,7 +24,7 @@ void AiTest::Init()
     imgResult = new Image("Resources/x.png");
 
 
-    Position initial(50, 50);
+    Position initial(100, 100);
     Player* player = new Player(imgPlayer, initial);
     Position target (800, 500);
     player->SetTarget(target);
