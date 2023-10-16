@@ -327,6 +327,9 @@
     <ClInclude Include="Dictionary.h">
       <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
+    <ClInclude Include="Hasheable.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">

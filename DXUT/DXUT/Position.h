@@ -1,10 +1,12 @@
 #ifndef DXUT_POSITION_H
 #define DXUT_POSITION_H
-// ---------------------------------------------------------------------------------
+// --------------------------------------------
+#include "Hasheable.h"
+// --------------------------------------------
 class Vector;
-// ---------------------------------------------------------------------------------
+// --------------------------------------------
 
-class Position
+class Position : public Hasheable
 {
 protected:
 	float _x=0, _y=0,_z=0;
@@ -30,6 +32,11 @@ public:
 	Position	operator+(const Position& other) const;
 	Position	operator*(const float value) const;
 	Vector		operator-(const Position& other) const;
+
+	std::size_t customHash() const override;
+	bool operator==(const Hasheable& outra) const override;
+
+
 
 };
 // ---------------------------------------------------------------------------------

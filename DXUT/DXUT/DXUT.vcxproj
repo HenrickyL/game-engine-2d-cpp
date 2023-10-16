@@ -176,6 +176,7 @@
     <ClInclude Include="Error.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Hasheable.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputKeys.h" />

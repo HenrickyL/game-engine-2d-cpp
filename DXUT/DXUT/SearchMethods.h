@@ -101,7 +101,7 @@ public:
         vector<Action<T>*> actions;
         return SearchMethods<T>::Search(_initial, _final, sSearch, actions);
     }
-    static Node<T>* HeuristicSearch(State<T>* _initial, State<T>* _final, vector<Action<T>*> actions) {
+    static Node<T>* HeuristicSearch(State<T>* _initial, State<T>* _final, vector<Action<T>*> actions, Dictionary<T> controlGenerated) {
         int count = 0;
         Node<T>* node = new Node<T>(_initial, nullptr);
         node->SetHeuristicBy(_final);

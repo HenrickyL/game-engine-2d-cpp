@@ -94,7 +94,8 @@ void Player::Search() {
     if (path) {
         deletePath(path);
     }
-    path = SearchMethods<Position>::HeuristicSearch(A, B, actions);
+    Dictionary<Position> controlGenerated;
+    path = SearchMethods<Position>::HeuristicSearch(A, B, actions, controlGenerated);
     int value = path->GetPathLength();
     /*s = "\nHeuristic: {\n\t" + path->GetPath() + "\n}\n\tCost: " + std::to_string(path->Cost());
     OutputDebugString(s.c_str());*/

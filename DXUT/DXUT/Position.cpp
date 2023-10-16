@@ -2,6 +2,7 @@
 // ---------------------------------------------------------------------------------
 #include "cmath"
 #include "Vector.h"
+#include <functional>
 // ---------------------------------------------------------------------------------
 
 Position::Position() : _x(0), _y(0), _z(0) {}
@@ -60,3 +61,18 @@ Vector	Position::operator-(const Position& other) const
 {
 	return Vector(_x -other._x, _y - other._y, _z - other._z);
 }
+
+
+std::size_t Position::customHash() const {
+	std::size_t xHash = std::hash<int>{}(X());
+	std::size_t yHash = std::hash<int>{}(Y());
+	return xHash ^ (yHash << 1);
+}
+
+bool Position::operator==(const Hasheable& outra) const {
+	if (const Position* p = dynamic_cast<const Position*>(&outra)) {
+		return X() == p->X() && Y() == p->Y();
+	}
+	return false;
+}
+

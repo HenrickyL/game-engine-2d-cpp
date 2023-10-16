@@ -2,16 +2,39 @@
 #define IA_DICTIONARY_H
 //------------------------------------------
 #include "State.h"
+#include "Hasheable.h"
 #include <unordered_map>
 //------------------------------------------
 enum DictionaryStatus { Enabled, Disabled };
 //------------------------------------------
 
+//// Agora, defina seu próprio comparador para KeyType
+//struct KeyTypeEqual {
+//    template <typename T>
+//    bool operator()(const T& a, const T& b) const {
+//        return a == b;
+//    }
+//};
+
+
 template <typename KeyType>
 class Dictionary {
-//private:
-    std::unordered_map<KeyType, State<KeyType>*> dictionary;
-    ; // Enum para o status
+private:
+    // Defina seu próprio hasher para KeyType
+    struct KeyTypeHash {
+        template <typename T>
+        std::size_t operator()(const T& key) const {
+            const Hasheable* myKey = dynamic_cast<const Hasheable*>(&key);
+            if (myKey) {
+                return myKey->customHash();
+            }
+            else {
+                throw "<Hasheable> key is not Hasheable!";
+            }
+        }
+    };
+    std::unordered_map<KeyType, State<KeyType>*, KeyTypeHash> dictionary;
+    // Enum para o status
 
     DictionaryStatus status = Enabled; // Status inicial é habilitado
 
