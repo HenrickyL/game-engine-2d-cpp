@@ -14,7 +14,6 @@ public:
     Action(float _cost = 0.0f) {
         cost = _cost;
     }
-
     Action(float _cost, Action<T>* _inverse = nullptr) {
         cost = _cost;
         inverse = _inverse;
@@ -26,7 +25,6 @@ public:
     Action<T>* Inverse() const {
         return inverse;
     }
-
     void SetInverse(Action<T>* _inverse) {
         inverse = _inverse;
     }

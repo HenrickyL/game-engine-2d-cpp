@@ -13,15 +13,10 @@ class Transition;
 
 template <typename T>
 class Action;
-
-//template <typename T>
-//class Dictionary;
-
 #include "Dictionary.h"
-
-
 //------------------------------------------
 
+//State.h
 template <typename T>
 class State {
 protected:
@@ -36,7 +31,6 @@ protected:
         }
         delete edges;
     }
-
 public:
     State(){
         edges = new std::vector<Transition<T>*>();
@@ -88,7 +82,7 @@ public:
         }
     
     }
-    virtual bool IsAmbiguous(State<T>* newState) const = 0;
+    //virtual bool IsAmbiguous(State<T>* newState) const = 0;
 
     bool ExistActionInEdge(Action<T>* action){
         for (Transition<T>* t : *edges) {

@@ -21,15 +21,12 @@ public:
 	Game();										// construtor
 	virtual ~Game();							// destrutor
 
-
 	// Métodos que podem ser sobrescritos para implementar 
 	// funcionalidade específica para o jogo. Eles já possuem
 	// uma implementação padrão.
 
 	virtual void OnPause();                     // pausa do jogo
 	virtual void OnResume();                    // retoma do jogo
-
-
 	// Estes métodos são puramente virtuais, isto é, devem ser 
 		// implementados em todas as classes derivas de App.
 

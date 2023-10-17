@@ -79,11 +79,3 @@ bool StatePosition::IsGeneratedPossible() const {
 }
 
 
-bool StatePosition::IsAmbiguous(State<Position>* newState) const {
-	StatePosition* state = dynamic_cast<StatePosition*>(newState);
-	if (state) {
-
-	}
-	return false;
-}
-

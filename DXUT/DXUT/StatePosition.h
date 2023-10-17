@@ -21,7 +21,6 @@ public:
 	void	Update() override;
 	bool	Equal(State<Position>* other) const;
 	bool	IsGeneratedPossible() const override;
-	bool	IsAmbiguous(State<Position>* newState) const override;
 };
 
 #endif

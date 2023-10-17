@@ -93,8 +93,6 @@ void Player::Search() {
     StatePosition* A = new StatePosition(this->GetPosition());
     StatePosition* B = new StatePosition(target);
 
-    std::string s = "";
-    //OutputDebugString("------------");
     if (path) {
         deletePath(path);
     }
