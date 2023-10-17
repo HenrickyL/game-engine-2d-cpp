@@ -35,9 +35,6 @@ public:
 
 	std::size_t customHash() const override;
 	bool operator==(const Hasheable& outra) const override;
-
-
-
 };
 // ---------------------------------------------------------------------------------
 //inline

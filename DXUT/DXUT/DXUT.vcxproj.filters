@@ -343,6 +343,9 @@
     <None Include="TypeErrors.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </None>
+    <None Include="HowToCreateYourProblemAStar.md">
+      <Filter>Modules\Docs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Pixel.hlsl">
