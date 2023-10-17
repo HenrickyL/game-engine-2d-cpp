@@ -19,12 +19,12 @@ Object::Object()
 	_bbox = nullptr;
 }
 
-Object::~Object()
-{
-	if(_position) delete _position;
-	if(_sprite) delete _sprite;
-	if(_bbox) delete _bbox;
-}
+//Object::~Object()
+//{
+//	if(_position) delete _position;
+//	if(_sprite) delete _sprite;
+//	if(_bbox) delete _bbox;
+//}
 
 // -------------------------------------------------------------------------------
 

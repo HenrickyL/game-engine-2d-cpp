@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -130,7 +130,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Action.cpp" />
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="Environment.cpp" />
@@ -143,21 +142,17 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Node.cpp" />
-    <ClCompile Include="PriorityQueueSearch.cpp" />
-    <ClCompile Include="QueueSearch.cpp" />
-    <ClCompile Include="SearchMethods.cpp" />
-    <ClCompile Include="StackSearch.cpp" />
-    <ClCompile Include="State.cpp" />
+    <ClCompile Include="Moviment.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene.h" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="StatePosition.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Transition.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -167,6 +162,7 @@
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DXUT_Utils_Direction_.h" />
     <ClInclude Include="DXUT_2D.h" />
     <ClInclude Include="DXUT_IA.h" />
@@ -180,13 +176,16 @@
     <ClInclude Include="Error.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Hasheable.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputKeys.h" />
     <ClInclude Include="Instance.h" />
+    <ClInclude Include="MovimentAction.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="PriorityQueueSearch.h" />
     <ClInclude Include="QueueSearch.h" />
@@ -195,6 +194,7 @@
     <ClInclude Include="SearchStructure.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StackSearch.h" />
+    <ClInclude Include="StatePosition.h" />
     <ClInclude Include="SubjectNotification.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="Perception.h" />
@@ -214,6 +214,7 @@
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="HowToCreateYourProblemAStar.md" />
     <None Include="Sensor&amp;Effect.md" />
     <None Include="TypeErrors.h" />
   </ItemGroup>

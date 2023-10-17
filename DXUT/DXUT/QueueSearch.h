@@ -1,20 +1,39 @@
 #ifndef DXUT_AI_QUEUE_SEARCH_H
 #define DXUT_AI_QUEUE_SEARCH_H
-//------------------------------------------
+
 #include "SearchStructure.h"
-#include<queue>
+#include "Node.h"
+#include <queue>
 using std::queue;
-//------------------------------------------
 
-
-class QueueSearch  : public SearchStructure{
+template<typename T>
+class QueueSearch : public SearchStructure<T> {
 private:
-    queue<Node*> data;
+    queue<Node<T>*> data;
+
 public:
-    void    Push(Node* element) override;
-    Node*   Pop() override;
-    bool    IsEmpty() const override;
-    bool    Exist(const Node* element) const override;
+    void Push(Node<T>* element) override {
+        data.push(element);
+    }
+    Node<T>* Pop() override {
+        Node<T>* element = data.front();
+        data.pop();
+        return element;
+    }
+    bool IsEmpty() const override {
+        return data.empty();
+    }
+    bool Exist(const Node<T>* element) const override {
+        queue<Node<T>*> tempData = data;
+        while (!tempData.empty()) {
+            if (tempData.front() == element) {
+                    return true;
+            }
+            tempData.pop();
+        }
+        return false;
+    }
 };
+
 
 #endif

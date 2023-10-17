@@ -1,28 +1,36 @@
 #ifndef DXUT_AI_TRANSITION_H
 #define DXUT_AI_TRANSITION_H
-//------------------------------------------
+
+template <typename T>
 class State;
+
+template <typename T>
 class Action;
 
-//------------------------------------------
-
+template <typename T>
 class Transition {
 private:
-	State* target;
-	Action* action;
+    State<T>* origin;
+    State<T>* target;
+    Action<T>* action;
+
 public:
-	Transition(State*& state, Action* act);
+    Transition(State<T>* _origin, State<T>* _target, Action<T>* _act) {
+        this->origin = _origin;
+        this->target = _target;
+        this->action = _act;
+    }
 
-
-	State* GetState() const;
-	Action* GetAction() const;
-
-	//virtual void Enter() = 0;	// Método de entrada no estado
-	//virtual void Execute() = 0; // Método para a lógica do estado
-	//virtual void Exit() = 0;	// Método de saída do estado
+    State<T>* GetOrigin() const {
+        return origin;
+    }
+    State<T>* GetTarget() const {
+        return target;
+    }
+    Action<T>* GetAction() const {
+        return action;
+    }
 };
-
-
 
 
 #endif

@@ -1,52 +1,112 @@
 #include "Player.h"
-// ---------------------------------------------------------------------------------
-#include "Breakout.h"
-// ---------------------------------------------------------------------------------
+// ------------------------
+#include "StatePosition.h"
+#include "SearchMethods.h"
+// ------------------------
 
-Player::Player(Image* img)
-{
-	_position = new Position();
+Player::Player(Image* img, const Position& p) {
+	_position = new Position(p);
 	this->SetSprite(new Sprite(img));
-	_speedMagnitude = 500;
-	this->SetSpeed(Vector(Vector::Right * _speedMagnitude));
+	_magnitude= 100;
 	_sprite->SetLayer(Layer::MIDDLE);
+    _sprite->SetScale(0.01f);
+    _sprite->SetFilterColor(Color(255,0,255));
 
+	BBox(_sprite->GetCircle());
 
-	// estado inicial do jogo
-	state = STOPED;
-	// tipo do objeto
-	type = PLAYER;
-	_sprite->SetFilterColor(Vector(1, 0, 0));
-	BBox(_sprite->GetRect());
+    t = new Timer();
+    dictionary = new Dictionary<Position>();
+
+    MovimentAction* up = new MovimentAction(Vector::Up);
+    MovimentAction* down = new MovimentAction(Vector::Down);
+    MovimentAction* left = new MovimentAction(Vector::Left);
+    MovimentAction* right = new MovimentAction(Vector::Right);
+
+    //set inverses
+    up->SetInverse(down);
+    down->SetInverse(up);
+    right->SetInverse(left);
+    left->SetInverse(right);
+
+    actions.push_back(up);
+    actions.push_back(down);
+    actions.push_back(left);
+    actions.push_back(right);
+    initial = p;
+
 }
-// ---------------------------------------------------------------------------------
-Player::~Player()
-{
-	delete _position;
-	delete _sprite;
-	delete _bbox;
+
+Player::~Player() {
+    if (_position) delete _position;
+    if (_sprite) delete _sprite;
+    if (_bbox) delete _bbox;
+    for (Action<Position>* a : actions) {
+        delete a;
+    }
+    if (dictionary) delete dictionary;
+    if (t) delete t;
 }
-// ---------------------------------------------------------------------------------
 
-void Player::Update()
-{
-	// inicia o jogo com barra de espaço
-	if (state == STOPED && input->KeyDown(VK_SPACE))
-		state = PLAYING;
 
-	// desloca jogador horizontalmente
-	if (input->KeyDown(VK_RIGHT) && this->Right() <= window->Width()) {
-		_speed = (Vector::Right) * _speedMagnitude;
-		Translate(_speed * gameTime);
-	}
-	if (input->KeyDown(VK_LEFT) && this->Left() >= 0) {
-		_speed = (Vector::Left)*_speedMagnitude;
-		Translate(_speed * gameTime);
+
+void Player::Update() {
+	if (input->KeyPress(KEY_R)) {
+        Search();
+        pivot = path;
+        _sprite->SetFilterColor(Color(0, 255, 0));
 	}
 
+    if (input->KeyPress(SPACE) ) {
+        if (pivot != nullptr) {
+            _sprite->SetFilterColor(Color(255, 255, 255));
+
+            StatePosition* state = dynamic_cast<StatePosition*>(pivot->GetState());
+            Position p = state->GetPosition();
+            this->MoveTo(p);
+            int n = pivot->GetPathLength();
+            pivot = pivot->Father();
+        }
+        else {
+            _sprite->SetFilterColor(Color(0, 255, 0));
+            pivot = path;
+            MoveTo(initial);
+        }
+    }
 }
 
 void Player::OnCollision(Object* obj) {
 
 }
+
+void deletePath(Node<Position>* _path) {
+    Node<Position>* node = _path;
+    while (node != nullptr) {
+        Node<Position>* aux = node;
+        node = node->Father();
+        delete aux->GetState();
+        delete aux;
+    }
+}
+
+
+void Player::Search() {
+    StatePosition* A = new StatePosition(this->GetPosition());
+    StatePosition* B = new StatePosition(target);
+
+    if (path) {
+        deletePath(path);
+    }
+    t->Start();
+    path = SearchMethods<Position>::HeuristicSearch(A, B, actions, dictionary);
+    t->Stop();
+    float timer = t->Elapsed();
+    int value = path != nullptr ? path->GetPathLength() : 0;
+}
+
+
+
+void Player::SetTarget(const Position& p) {
+    target = p;
+}
+
 

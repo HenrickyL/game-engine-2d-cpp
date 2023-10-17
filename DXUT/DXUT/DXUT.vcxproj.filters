@@ -91,6 +91,12 @@
     <Filter Include="Modules\AI\Header Files\Middleware">
       <UniqueIdentifier>{49240dda-a20b-42b3-9484-448e1a4fe5b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\AI\Header Files\Middleware\SearchStructures">
+      <UniqueIdentifier>{c4037434-f481-4f6f-b540-60f78d44e1df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\AI\Header Files\Middleware\StatePosition">
+      <UniqueIdentifier>{44175f06-f280-4108-9074-7f8720e367f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -122,12 +128,6 @@
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Environment.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transition.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
@@ -166,25 +166,16 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SearchMethods.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AiTest.cpp">
       <Filter>Develop\Games\AiTest\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QueueSearch.cpp">
+    <ClCompile Include="StatePosition.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StackSearch.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>Develop\Games\AiTest\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PriorityQueueSearch.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Action.cpp">
+    <ClCompile Include="Moviment.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -312,17 +303,32 @@
     <ClInclude Include="AiTest.h">
       <Filter>Develop\Games\AiTest\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SearchStructure.h">
-      <Filter>Modules\AI\Header Files\Middleware</Filter>
+    <ClInclude Include="PriorityQueueSearch.h">
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
     </ClInclude>
     <ClInclude Include="QueueSearch.h">
-      <Filter>Modules\AI\Header Files\Middleware</Filter>
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchStructure.h">
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
     </ClInclude>
     <ClInclude Include="StackSearch.h">
+      <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="StatePosition.h">
+      <Filter>Modules\AI\Header Files\Middleware\StatePosition</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Develop\Games\AiTest\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovimentAction.h">
+      <Filter>Modules\AI\Header Files\Middleware\StatePosition</Filter>
+    </ClInclude>
+    <ClInclude Include="Dictionary.h">
       <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
-    <ClInclude Include="PriorityQueueSearch.h">
-      <Filter>Modules\AI\Header Files\Middleware</Filter>
+    <ClInclude Include="Hasheable.h">
+      <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -336,6 +342,9 @@
     </None>
     <None Include="TypeErrors.h">
       <Filter>Engine\Header Files\Utility</Filter>
+    </None>
+    <None Include="HowToCreateYourProblemAStar.md">
+      <Filter>Modules\Docs</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
