@@ -9,15 +9,18 @@ MovimentAction::MovimentAction(Vector _direction, Action* _inverse) {
 }
 
 State<Position>* MovimentAction::Generate(State<Position>* _state) const {
-	StatePosition* origin = dynamic_cast<StatePosition*>(_state);
-	if(origin != nullptr) {
+	Position pos = Apply(_state);
+	StatePosition* targetGenerated = new StatePosition(pos);
+	return targetGenerated;
+}
+
+
+Position MovimentAction::Apply(State<Position>* _target) const {
+	StatePosition* origin = dynamic_cast<StatePosition*>(_target);
+	if (origin != nullptr) {
 		Position pos = origin->GetPosition();
 		pos.Translate(direction * magnitude);
-		StatePosition* targetGenerated = new StatePosition(pos);
-		///TODO: check the need for the inverse
-		if(inverse)
-			targetGenerated->AddTransition(new Transition<Position>(targetGenerated, origin, inverse));
-		return targetGenerated;
+		return pos;
 	}
-	return nullptr;
+	throw "MovimentAction - State target is not valid";
 }

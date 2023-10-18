@@ -59,18 +59,29 @@ public:
     virtual bool Equal(State<T>* other) const = 0;
     virtual void Generate(const std::vector<Action<T>*> actions, Dictionary<T>* controlGenerated) {
         for (auto* action : actions) {
-            State<T>* currentGenerated = action->Generate(this);
-            T currentPosition = currentGenerated->Value();
+            ///TODO: Validar se o estado gerado e valido
+            T key = action->Apply(this);
             if (controlGenerated) {
-                if (currentGenerated && !this->ExistInEdge(currentGenerated) && !controlGenerated->Contains(currentPosition)) {
-                    AddTransition(new Transition<T>(this, currentGenerated, action));
-                    controlGenerated->Add(currentPosition, currentGenerated);
+                if (!this->ExistInKeyInEdge(key) && !controlGenerated->Contains(key)) {
+                    State<T>* currentGenerated = action->Generate(this);
+                    if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
+                        AddTransition(new Transition<T>(this, currentGenerated, action));
+                        if (action->Inverse() != nullptr) {
+                            AddTransition(new Transition<T>(currentGenerated, this, action));
+                        }
+                        controlGenerated->Add(key, currentGenerated);
+                    }
                 }
                 else {
-                    delete currentGenerated; // Descarte o estado ambíguo
+                    State<T>* inDictionary = controlGenerated->Get(key);
+                    AddTransition(new Transition<T>(this, inDictionary, action));
+                    if (action->Inverse() != nullptr) {
+                        AddTransition(new Transition<T>(inDictionary, this, action));
+                    }
                 }
             }
             else {
+                State<T>* currentGenerated = action->Generate(this);
                 // Verifique se o novo estado já existe na lista de estados ou se é ambíguo
                 if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
                     AddTransition(new Transition<T>(this, currentGenerated, action));
@@ -100,6 +111,15 @@ public:
         }
         return false;
     }
+    bool ExistInKeyInEdge(T _key) const {
+        for (const Transition<T>* t : *edges) {
+            if (t->GetTarget()->Value() == _key) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     ///TODO: validate whether the name 'Value' is the best, as it will be used as 'Key' later.
     T Value()const {
         return value;

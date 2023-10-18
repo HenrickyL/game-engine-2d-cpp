@@ -51,6 +51,7 @@ Player::~Player() {
 
 void Player::Update() {
 	if (input->KeyPress(KEY_R)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
         Search();
         pivot = path;
         _sprite->SetFilterColor(Color(0, 255, 0));
@@ -69,7 +70,7 @@ void Player::Update() {
         else {
             _sprite->SetFilterColor(Color(0, 255, 0));
             pivot = path;
-            MoveTo(initial);
+            MoveTo(pivot->Value());
         }
     }
 }
@@ -80,10 +81,10 @@ void Player::OnCollision(Object* obj) {
 
 void deletePath(Node<Position>* _path) {
     Node<Position>* node = _path;
+    Node<Position>* aux = nullptr;
     while (node != nullptr) {
-        Node<Position>* aux = node;
+        aux = node;
         node = node->Father();
-        delete aux->GetState();
         delete aux;
     }
 }
@@ -92,9 +93,9 @@ void deletePath(Node<Position>* _path) {
 void Player::Search() {
     StatePosition* A = new StatePosition(this->GetPosition());
     StatePosition* B = new StatePosition(target);
-
-    if (path) {
+    if (path != nullptr) { 
         deletePath(path);
+        path = nullptr;
     }
     float timer = 0;
     t->Start();

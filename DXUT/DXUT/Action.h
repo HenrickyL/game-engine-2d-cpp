@@ -30,6 +30,8 @@ public:
     }
 
     virtual State<T>* Generate(State<T>* _target) const = 0;
+    virtual T Apply(State<T>* _target) const = 0;
+
 };
 
 

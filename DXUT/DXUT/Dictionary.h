@@ -68,7 +68,7 @@ public:
     }
 
     // Método para consultar o valor associado a uma chave no dicionário
-    bool Get(const KeyType& key, State<KeyType>*& value) const {
+    bool ContainKeyByValue(const KeyType& key, State<KeyType>*& value) const {
         auto it = dictionary.find(key);
         if (it != dictionary.end()) {
             value = it->second;

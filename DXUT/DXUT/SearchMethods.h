@@ -56,9 +56,7 @@ private:
         for (auto it = nodesToRemove.begin(); it != nodesToRemove.end(); it++) {
             Node<T>* node = *it;
             if (node) {
-                if (deleteIn) {
-                    controlGenerated->Remove(node->Value());
-                }
+                
                 delete node;
             }
         }
