@@ -3,8 +3,11 @@
 
 #include <vector>
 #include <string>
+#include <stack>
 using std::vector;
 using std::string;
+using std::stack;
+
 
 #include "State.h"
 #include "Action.h"
@@ -19,7 +22,7 @@ class Node {
 private:
 	State<T>* state;
 	Action<T>* action;
-	Node<T>* father;
+	Node<T>* father = nullptr;
 	State<T>* target;
 	float cost = 0;
 	int length;
@@ -90,6 +93,46 @@ public:
 
     bool operator<(const Node<T>& other) const {
         return this->cost > other.cost;
+    }
+
+    /*Node<T>* RevertPath() {
+        Node<T>* node = this;
+        stack<Node<T>*> s;
+        while (node != nullptr) {
+            s.push(node);
+            node = node->Father();
+        }
+        node = s.top();
+        Node<T>* aux1 =nullptr;
+        Node<T>* aux2 = nullptr;
+        while (!s.empty()) {
+            aux1 = s.top();
+            s.pop();
+            if (!s.empty()) {
+                aux2 = s.top();
+                s.pop();
+                s.push(aux2);
+            }
+            else {
+                aux2 = nullptr;
+            }
+            aux1->SetFather(aux2);
+        }
+        return node;
+    }*/
+
+    Node<T>* ReversePath() {
+        Node<T>* node = this;
+        Node<T>* next = nullptr;
+        Node<T>* aux = nullptr;
+
+        while (node != nullptr) {
+            next = node->Father();
+            node->SetFather(aux);
+            aux = node;
+            node = next;
+        }
+        return aux;
     }
 
 

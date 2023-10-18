@@ -96,10 +96,11 @@ void Player::Search() {
     if (path) {
         deletePath(path);
     }
+    float timer = 0;
     t->Start();
     path = SearchMethods<Position>::HeuristicSearch(A, B, actions, dictionary);
     t->Stop();
-    float timer = t->Elapsed();
+    timer = t->Elapsed();
     int value = path != nullptr ? path->GetPathLength() : 0;
 }
 

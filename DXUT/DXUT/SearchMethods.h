@@ -94,7 +94,7 @@ private:
     static Node<T>* SearchAndHandleResult(Node<T>* node, State<T>* target, vector<Node<T>*> AllNodes, Dictionary<T>* controlGenerated) {
         DeleteNotInPath(AllNodes, node);
         DeleteNodes(AllNodes, controlGenerated);
-        return node;
+        return node->ReversePath();
     }
 
 public:
