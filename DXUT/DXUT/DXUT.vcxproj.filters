@@ -346,6 +346,9 @@
     <None Include="HowToCreateYourProblemAStar.md">
       <Filter>Modules\Docs</Filter>
     </None>
+    <None Include="Action.inl">
+      <Filter>Engine\Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Pixel.hlsl">

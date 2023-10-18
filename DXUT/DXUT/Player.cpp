@@ -17,21 +17,36 @@ Player::Player(Image* img, const Position& p) {
     t = new Timer();
     dictionary = new Dictionary<Position>();
 
-    MovimentAction* up = new MovimentAction(Vector::Up);
-    MovimentAction* down = new MovimentAction(Vector::Down);
-    MovimentAction* left = new MovimentAction(Vector::Left);
-    MovimentAction* right = new MovimentAction(Vector::Right);
+    MovimentAction* N = new MovimentAction(Vector::Up);
+    MovimentAction* S = new MovimentAction(Vector::Down);
+    MovimentAction* E = new MovimentAction(Vector::Left);
+    MovimentAction* W = new MovimentAction(Vector::Right);
+
+    MovimentAction* NE = new MovimentAction(Vector::Right + Vector::Up);
+    MovimentAction* NW = new MovimentAction(Vector::Left + Vector::Up);
+    MovimentAction* SE = new MovimentAction(Vector::Down + Vector::Right);
+    MovimentAction* SW = new MovimentAction(Vector::Down + Vector::Left);
+
 
     //set inverses
-    up->SetInverse(down);
-    down->SetInverse(up);
-    right->SetInverse(left);
-    left->SetInverse(right);
+    N->SetInverse(S);
+    S->SetInverse(N);
+    W->SetInverse(E);
+    E->SetInverse(W);
 
-    actions.push_back(up);
-    actions.push_back(down);
-    actions.push_back(left);
-    actions.push_back(right);
+    NE->SetInverse(SW);
+    NW->SetInverse(SE);
+    SE->SetInverse(NW);
+    SW->SetInverse(NE);
+
+    actions.push_back(N);
+    actions.push_back(S);
+    actions.push_back(E);
+    actions.push_back(W);
+    actions.push_back(NE);
+    actions.push_back(NW);
+    actions.push_back(SE);
+    actions.push_back(SW);
     initial = p;
 
 }
