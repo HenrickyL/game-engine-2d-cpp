@@ -361,6 +361,9 @@
     <None Include="SearchMethods.inl">
       <Filter>Modules\AI\Source Files</Filter>
     </None>
+    <None Include="Transition.inl">
+      <Filter>Engine\Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Pixel.hlsl">
