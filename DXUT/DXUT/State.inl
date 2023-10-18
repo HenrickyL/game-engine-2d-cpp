@@ -5,6 +5,7 @@
 #include "Transition.h"
 #include "Action.h"
 
+
 template<typename T>
 State<T>::State() {
     edges = new std::vector<Transition<T>*>();
@@ -82,38 +83,43 @@ T State<T>::Value()const {
 }
 
 template <typename T>
-void State<T>::Generate(const std::vector<Action<T>*> actions, Dictionary<T>* controlGenerated) {
+void State<T>::Generate(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated) {
+    T min = this->ChooseBestComparison(actions, target);
+
     for (auto* action : actions) {
         ///TODO: Validar se o estado gerado e valido
         T key = action->Apply(this);
-        if (controlGenerated) {
-            if (!this->ExistInKeyInEdge(key) && !controlGenerated->Contains(key)) {
-                State<T>* currentGenerated = action->Generate(this);
-                if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
-                    AddTransition(new Transition<T>(this, currentGenerated, action));
+        if (key == min) {
+            if (controlGenerated) {
+                if (!this->ExistInKeyInEdge(key) && !controlGenerated->Contains(key)) {
+                    State<T>* currentGenerated = action->Generate(this);
+                    if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
+                        AddTransition(new Transition<T>(this, currentGenerated, action));
+                        /*if (action->Inverse() != nullptr) {
+                            AddTransition(new Transition<T>(currentGenerated, this, action));
+                        }*/
+                        controlGenerated->Add(key, currentGenerated);
+                    }
+                }
+                else {
+                    State<T>* inDictionary = controlGenerated->Get(key);
+                    AddTransition(new Transition<T>(this, inDictionary, action));
                     /*if (action->Inverse() != nullptr) {
-                        AddTransition(new Transition<T>(currentGenerated, this, action));
+                        AddTransition(new Transition<T>(inDictionary, this, action));
                     }*/
-                    controlGenerated->Add(key, currentGenerated);
                 }
             }
             else {
-                State<T>* inDictionary = controlGenerated->Get(key);
-                AddTransition(new Transition<T>(this, inDictionary, action));
-                /*if (action->Inverse() != nullptr) {
-                    AddTransition(new Transition<T>(inDictionary, this, action));
-                }*/
+                State<T>* currentGenerated = action->Generate(this);
+                // Verifique se o novo estado já existe na lista de estados ou se é ambíguo
+                if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
+                    AddTransition(new Transition<T>(this, currentGenerated, action));
+                }
+                else {
+                    delete currentGenerated; // Descarte o estado ambíguo
+                }
             }
-        }
-        else {
-            State<T>* currentGenerated = action->Generate(this);
-            // Verifique se o novo estado já existe na lista de estados ou se é ambíguo
-            if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
-                AddTransition(new Transition<T>(this, currentGenerated, action));
-            }
-            else {
-                delete currentGenerated; // Descarte o estado ambíguo
-            }
+            return;
         }
     }
 }

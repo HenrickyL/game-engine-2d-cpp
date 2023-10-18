@@ -77,8 +77,8 @@ template<typename T>
 Node<T>* Node<T>::Father() const { return father; }
 
 template<typename T>
-void Node<T>::GenerateTransitions(const vector<Action<T>*> actions, Dictionary<T>* controlGenerated) {
-    state->Generate(actions, controlGenerated);
+void Node<T>::GenerateTransitions(const vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated) {
+    state->Generate(actions,target,controlGenerated);
 }
 
 

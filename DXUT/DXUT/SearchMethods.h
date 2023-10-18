@@ -131,7 +131,7 @@ public:
             }
 
             if (node->IsGeneratedPossible() && !actions.empty()) {
-                node->GenerateTransitions(actions, controlGenerated);
+                node->GenerateTransitions(actions,_final, controlGenerated);
             }
 
             read.push_back(node);

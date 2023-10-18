@@ -19,7 +19,7 @@ public:
     void SetInverse(Action<T>* _inverse);
 
     virtual State<T>* Generate(State<T>* _target) const = 0;
-    virtual T Apply(State<T>* _target) const = 0;
+    virtual T Apply(const State<T>* _target) const = 0;
 
 };
 

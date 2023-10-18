@@ -15,12 +15,8 @@ State<Position>* MovimentAction::Generate(State<Position>* _state) const {
 }
 
 
-Position MovimentAction::Apply(State<Position>* _target) const {
-	StatePosition* origin = dynamic_cast<StatePosition*>(_target);
-	if (origin != nullptr) {
-		Position pos = origin->GetPosition();
-		pos.Translate(direction * magnitude);
-		return pos;
-	}
-	throw "MovimentAction - State target is not valid";
+Position MovimentAction::Apply(const State<Position>* _target) const {
+	Position pos = _target->Value();
+	pos.Translate(direction * magnitude);
+	return pos;
 }
