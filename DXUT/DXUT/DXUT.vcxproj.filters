@@ -350,6 +350,9 @@
       <Filter>Modules\AI\Source Files</Filter>
     </None>
     <None Include="Node.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </None>
+    <None Include="Dictionary.inl">
       <Filter>Engine\Header Files</Filter>
     </None>
   </ItemGroup>
