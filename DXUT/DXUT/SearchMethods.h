@@ -113,7 +113,7 @@ public:
         Node<T>* node = new Node<T>(_initial, nullptr);
         node->SetHeuristicBy(_final);
         T key = _initial->Value();
-        if (!controlGenerated->Contains(key)) {
+        if (controlGenerated && !controlGenerated->Contains(key)) {
             controlGenerated->Add(key, _initial);
         }
         PriorityQueueSearch<T> edge;
