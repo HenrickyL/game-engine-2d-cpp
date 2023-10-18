@@ -216,6 +216,7 @@
   <ItemGroup>
     <None Include="Action.inl" />
     <None Include="HowToCreateYourProblemAStar.md" />
+    <None Include="Node.inl" />
     <None Include="Sensor&amp;Effect.md" />
     <None Include="TypeErrors.h" />
   </ItemGroup>

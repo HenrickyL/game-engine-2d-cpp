@@ -1,22 +1,22 @@
 #ifndef DXUT_AI_NODE_H
 #define DXUT_AI_NODE_H
-
+// ------------------------
 #include <vector>
 #include <string>
 #include <stack>
 using std::vector;
 using std::string;
 using std::stack;
+#include"Dictionary.h"
+// ------------------------
+template<typename T>
+class State;
+template<typename T>
+class Action;
+template<typename T>
+class Transition;
 
-
-#include "State.h"
-#include "Action.h"
-#include "Transition.h"
-
-//#include "State.h"
-//#include "Action.h"
-//#include "Transition.h"
-
+// ------------------------
 template<typename T>
 class Node {
 private:
@@ -28,74 +28,32 @@ private:
 	int length;
 
 public:
-    Node(State<T>* _state, Action<T>* _action, Node<T>* _father = nullptr) {
-        this->state = _state;
-        this->action = _action;
-        SetFather(_father);
-    }
-    Node(Transition<T>* _transition, Node<T>* _father = nullptr) {
-        this->state = _transition->GetTarget();
-        this->action = _transition->GetAction();
-        SetFather(_father);
-    }
+    Node(State<T>* _state, Action<T>* _action, Node<T>* _father = nullptr);
+    Node(Transition<T>* _transition, Node<T>* _father = nullptr);
 
-    std::string GetPath() {
-        string res = this->state->Name();
-        if (father != nullptr) {
-            res += " > \n\t" + father->GetPath();
-        }
-        return res;
-    }
+    void DeletePath();
+    void GenerateTransitions(const vector<Action<T>*> actions, Dictionary<T>* controlGenerated);
+    void SetHeuristicBy(State<T>* _target);
+    void SetFather(Node<T>* _father);
+    Node<T>* ReversePath();
 
-    int GetPathLength() {
-        if (father == nullptr) return 0;
-        return 1 + father->GetPathLength();
-    }
-    void DeletePath() {
-        if (father)
-            father->DeletePath();
-        delete father;
-    }
+    std::string GetPath() const;
+    int GetPathLength() const;
+    vector<Node<T>*> Edges(Node<T>* _father = nullptr) const;
+    float Cost() const;
+    State<T>* GetState() const;
+    Node<T>* Father() const;
+    bool IsGeneratedPossible() const;
+    bool Equal(const Node<T>* other) const;
+    bool operator<(const Node<T>& other) const;
+    T Value() const;
+};
 
-    vector<Node<T>*> Edges(Node<T>* _father = nullptr) const {
-        vector<Node<T>*> result;
-        for (Transition<T>* item : *state->Edges()) {
-            result.push_back(new Node<T>(item, _father));
-        }
-        return result;
-    }
-    float Cost() const { return cost; }
-    State<T>* GetState() const { return state; }
-    Node<T>* Father() const { return father; }
-    void GenerateTransitions(const vector<Action<T>*> actions, Dictionary<T>* controlGenerated) {
-        state->Generate(actions, controlGenerated);
-    }
+#include "Node.inl"
 
-    bool IsGeneratedPossible() const {
-        return this->state->IsGeneratedPossible();
-    }
+#endif
 
-    void SetHeuristicBy(State<T>* _target) {
-        target = _target;
-    }
-    bool Equal(const Node<T>* other) const {
-        return this->GetState()->Equal(other->GetState()) || this == other;
-    }
-
-    void SetFather(Node<T>* _father) {
-        cost = action ? action->Cost() : 0.0f;
-        cost += state->GetHeuristic(target);
-        this->father = _father;
-        if (this->father) {
-            cost += father->Cost();
-        }
-    }
-
-    bool operator<(const Node<T>& other) const {
-        return this->cost > other.cost;
-    }
-
-    /*Node<T>* RevertPath() {
+/*Node<T>* RevertPath() {
         Node<T>* node = this;
         stack<Node<T>*> s;
         while (node != nullptr) {
@@ -120,26 +78,3 @@ public:
         }
         return node;
     }*/
-
-    Node<T>* ReversePath() {
-        Node<T>* node = this;
-        Node<T>* next = nullptr;
-        Node<T>* aux = nullptr;
-
-        while (node != nullptr) {
-            next = node->Father();
-            node->SetFather(aux);
-            aux = node;
-            node = next;
-        }
-        return aux;
-    }
-
-
-    T Value() const {
-        return state->Value();
-    }
-};
-
-
-#endif

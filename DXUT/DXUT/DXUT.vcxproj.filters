@@ -347,6 +347,9 @@
       <Filter>Modules\Docs</Filter>
     </None>
     <None Include="Action.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </None>
+    <None Include="Node.inl">
       <Filter>Engine\Header Files</Filter>
     </None>
   </ItemGroup>
