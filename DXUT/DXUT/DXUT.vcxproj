@@ -219,6 +219,7 @@
     <None Include="HowToCreateYourProblemAStar.md" />
     <None Include="Node.inl" />
     <None Include="Sensor&amp;Effect.md" />
+    <None Include="State.inl" />
     <None Include="TypeErrors.h" />
   </ItemGroup>
   <ItemGroup>
