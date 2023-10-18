@@ -12,6 +12,22 @@ Node<T>::Node(State<T>* _state, Action<T>* _action, Node<T>* _father) {
     SetFather(_father);
 }
 
+template<typename T>
+Node<T>::Node(State<T>* _state, State<T>* _target, Action<T>* _action, Node<T>* _father) {
+    this->state = _state;
+    this->action = _action;
+    this->SetHeuristicBy(_target);
+    SetFather(_father);
+}
+template<typename T>
+Node<T>::Node(Transition<T>* _transition, State<T>* _target, Node<T>* _father) {
+    this->state = _transition->GetTarget();
+    this->action = _transition->GetAction();
+    this->SetHeuristicBy(_target);
+    SetFather(_father);
+}
+
+
 
 template<typename T>
 Node<T>::Node(Transition<T>* _transition, Node<T>* _father) {

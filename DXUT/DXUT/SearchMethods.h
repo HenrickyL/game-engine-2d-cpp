@@ -110,8 +110,7 @@ public:
     }
     static Node<T>* HeuristicSearch(State<T>* _initial, State<T>* _final, vector<Action<T>*> actions, Dictionary<T>* controlGenerated) {
         int count = 0;
-        Node<T>* node = new Node<T>(_initial, nullptr);
-        node->SetHeuristicBy(_final);
+        Node<T>* node = new Node<T>(_initial, _final, nullptr);
         T key = _initial->Value();
         if (controlGenerated && !controlGenerated->Contains(key)) {
             controlGenerated->Add(key, _initial);
@@ -138,8 +137,7 @@ public:
             read.push_back(node);
 
             for (Transition<T>* elem : *node->GetState()->Edges()) {
-                Node<T>* chield = new Node<T>(elem, node);
-                chield->SetHeuristicBy(_final);
+                Node<T>* chield = new Node<T>(elem, _final, node);
                 AllNodes.push_back(chield);
 
                 if (!existInVector(read, chield) && !edge.Exist(chield)) {

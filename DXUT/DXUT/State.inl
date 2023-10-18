@@ -91,18 +91,18 @@ void State<T>::Generate(const std::vector<Action<T>*> actions, Dictionary<T>* co
                 State<T>* currentGenerated = action->Generate(this);
                 if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
                     AddTransition(new Transition<T>(this, currentGenerated, action));
-                    if (action->Inverse() != nullptr) {
+                    /*if (action->Inverse() != nullptr) {
                         AddTransition(new Transition<T>(currentGenerated, this, action));
-                    }
+                    }*/
                     controlGenerated->Add(key, currentGenerated);
                 }
             }
             else {
                 State<T>* inDictionary = controlGenerated->Get(key);
                 AddTransition(new Transition<T>(this, inDictionary, action));
-                if (action->Inverse() != nullptr) {
+                /*if (action->Inverse() != nullptr) {
                     AddTransition(new Transition<T>(inDictionary, this, action));
-                }
+                }*/
             }
         }
         else {

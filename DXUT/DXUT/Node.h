@@ -23,13 +23,17 @@ private:
 	State<T>* state;
 	Action<T>* action;
 	Node<T>* father = nullptr;
-	State<T>* target;
+	State<T>* target = nullptr;
 	float cost = 0;
 	int length;
 
 public:
     Node(State<T>* _state, Action<T>* _action, Node<T>* _father = nullptr);
     Node(Transition<T>* _transition, Node<T>* _father = nullptr);
+    Node(State<T>* _state, State<T>* _target, Action<T>* _action, Node<T>* _father = nullptr);
+    Node(Transition<T>* _transition, State<T>* _target, Node<T>* _father = nullptr);
+
+
 
     void DeletePath();
     void GenerateTransitions(const vector<Action<T>*> actions, Dictionary<T>* controlGenerated);
