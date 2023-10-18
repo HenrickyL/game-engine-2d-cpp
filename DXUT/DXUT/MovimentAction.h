@@ -8,7 +8,7 @@
 
 class MovimentAction : public Action<Position> {
 private:
-	float magnitude = 25;
+	float magnitude = 100;
 	Vector direction = Vector::Right;
 public:
 	MovimentAction(Vector _direction, Action* _inverse = nullptr);
