@@ -68,11 +68,16 @@ Player::~Player() {
 
 void Player::Update() {
 	if (input->KeyPress(KEY_R)) {
-        _sprite->SetFilterColor(Color(255, 0, 0));
         Search();
         pivot = path;
         _sprite->SetFilterColor(Color(0, 255, 0));
 	}
+    
+    if (input->KeyDown(KEY_O)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
+        MoveTo(initial);
+    }
+
 
     if (input->KeyDown(SPACE) ) {
         run = true;
@@ -80,26 +85,30 @@ void Player::Update() {
         interTimer->Start();
     }
     if (input->KeyDown(VK_RIGHT)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
         StatePosition p(GetPosition());
         Position current=actions[E]->Apply(&p);
         MoveTo(current);
     }else if (input->KeyDown(VK_LEFT)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
         StatePosition p(GetPosition());
         Position current = actions[W]->Apply(&p);
         MoveTo(current);
     }else if (input->KeyDown(VK_UP)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
         StatePosition p(GetPosition());
         Position current = actions[N]->Apply(&p);
         MoveTo(current);
     }
     else if (input->KeyDown(VK_DOWN)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
         StatePosition p(GetPosition());
         Position current = actions[S]->Apply(&p);
         MoveTo(current);
     }
 
 
-    if (run && interTimer->Elapsed(animationTime / path->GetPathLength())) {
+    if (run && interTimer->Elapsed(animationTime / ( pathLength != 0 ? pathLength : 1))) {
         interTimer->Reset();
         if (pivot != nullptr) {
             _sprite->SetFilterColor(Color(255, 255, 255));
@@ -112,7 +121,6 @@ void Player::Update() {
         else {
             _sprite->SetFilterColor(Color(0, 255, 0));
             pivot = path;
-            MoveTo(pivot->Value());
             run = false;
         }
     }
@@ -146,7 +154,7 @@ void Player::Search() {
     path = SearchMethods<Position>::HeuristicSearch(A, B, actions, dictionary);
     t.Stop();
     timer = t.Elapsed();
-    int value = path != nullptr ? path->GetPathLength() : 0;
+    pathLength = path != nullptr ? path->GetPathLength() : 0;
 }
 
 

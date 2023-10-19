@@ -10,7 +10,7 @@ Scene* AiTest::scene = nullptr;
 
 AiTest::AiTest()
 {
-    window->Size(960, 540);
+    window->Size(1280, 960);
     window->Title("AiTest");
 }
 
@@ -25,7 +25,7 @@ void AiTest::Init()
 
     Position initial(100, 100);
     Player* player = new Player(imgPlayer, initial);
-    Position target (800, 500);
+    Position target (window->Center()); // (640, 480)
     player->SetTarget(target);
 
     scene->Add(player, MOVING);

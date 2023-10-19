@@ -18,8 +18,9 @@ private:
     Node<Position>* pivot = nullptr;
     Dictionary<Position>* dictionary;
     Timer* interTimer;
+    int pathLength = 0;
     bool run = false;
-    float animationTime = 5;
+    float animationTime = 3;
 
     void Search();
 public:
