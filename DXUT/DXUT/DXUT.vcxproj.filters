@@ -362,7 +362,7 @@
       <Filter>Modules\AI\Source Files</Filter>
     </None>
     <None Include="Transition.inl">
-      <Filter>Engine\Header Files</Filter>
+      <Filter>Modules\AI\Source Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

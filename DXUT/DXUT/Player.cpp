@@ -4,6 +4,8 @@
 #include "SearchMethods.h"
 // ------------------------
 
+
+
 Player::Player(Image* img, const Position& p) {
 	_position = new Position(p);
 	this->SetSprite(new Sprite(img));
@@ -14,13 +16,13 @@ Player::Player(Image* img, const Position& p) {
 
 	BBox(_sprite->GetCircle());
 
-    t = new Timer();
+    interTimer = new Timer();
     dictionary = new Dictionary<Position>();
 
     MovimentAction* N = new MovimentAction(Vector::Up);
     MovimentAction* S = new MovimentAction(Vector::Down);
-    MovimentAction* E = new MovimentAction(Vector::Left);
-    MovimentAction* W = new MovimentAction(Vector::Right);
+    MovimentAction* W = new MovimentAction(Vector::Left);
+    MovimentAction* E = new MovimentAction(Vector::Right);
 
     MovimentAction* NE = new MovimentAction(Vector::Right + Vector::Up);
     MovimentAction* NW = new MovimentAction(Vector::Left + Vector::Up);
@@ -40,13 +42,13 @@ Player::Player(Image* img, const Position& p) {
     SW->SetInverse(NE);
 
     actions.push_back(N);
-    actions.push_back(S);
-    actions.push_back(E);
-    actions.push_back(W);
     actions.push_back(NE);
-    actions.push_back(NW);
+    actions.push_back(E);
     actions.push_back(SE);
+    actions.push_back(S);
     actions.push_back(SW);
+    actions.push_back(W);
+    actions.push_back(NW);
     initial = p;
 
 }
@@ -59,7 +61,7 @@ Player::~Player() {
         delete a;
     }
     if (dictionary) delete dictionary;
-    if (t) delete t;
+    if (interTimer) delete interTimer;
 }
 
 
@@ -72,10 +74,35 @@ void Player::Update() {
         _sprite->SetFilterColor(Color(0, 255, 0));
 	}
 
-    if (input->KeyPress(SPACE) ) {
+    if (input->KeyDown(SPACE) ) {
+        run = true;
+        interTimer->Stop();
+        interTimer->Start();
+    }
+    if (input->KeyDown(VK_RIGHT)) {
+        StatePosition p(GetPosition());
+        Position current=actions[E]->Apply(&p);
+        MoveTo(current);
+    }else if (input->KeyDown(VK_LEFT)) {
+        StatePosition p(GetPosition());
+        Position current = actions[W]->Apply(&p);
+        MoveTo(current);
+    }else if (input->KeyDown(VK_UP)) {
+        StatePosition p(GetPosition());
+        Position current = actions[N]->Apply(&p);
+        MoveTo(current);
+    }
+    else if (input->KeyDown(VK_DOWN)) {
+        StatePosition p(GetPosition());
+        Position current = actions[S]->Apply(&p);
+        MoveTo(current);
+    }
+
+
+    if (run && interTimer->Elapsed(animationTime / path->GetPathLength())) {
+        interTimer->Reset();
         if (pivot != nullptr) {
             _sprite->SetFilterColor(Color(255, 255, 255));
-
             StatePosition* state = dynamic_cast<StatePosition*>(pivot->GetState());
             Position p = state->GetPosition();
             this->MoveTo(p);
@@ -86,6 +113,7 @@ void Player::Update() {
             _sprite->SetFilterColor(Color(0, 255, 0));
             pivot = path;
             MoveTo(pivot->Value());
+            run = false;
         }
     }
 }
@@ -113,10 +141,11 @@ void Player::Search() {
         path = nullptr;
     }
     float timer = 0;
-    t->Start();
+    Timer t;
+    t.Start();
     path = SearchMethods<Position>::HeuristicSearch(A, B, actions, dictionary);
-    t->Stop();
-    timer = t->Elapsed();
+    t.Stop();
+    timer = t.Elapsed();
     int value = path != nullptr ? path->GetPathLength() : 0;
 }
 

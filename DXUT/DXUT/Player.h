@@ -9,7 +9,6 @@
 #include "Timer.h"
 using std::vector;
 
-
 class Player : public Object {
 private:
     Position initial;
@@ -18,7 +17,9 @@ private:
     vector<Action<Position>*> actions;
     Node<Position>* pivot = nullptr;
     Dictionary<Position>* dictionary;
-    Timer* t;
+    Timer* interTimer;
+    bool run = false;
+    float animationTime = 5;
 
     void Search();
 public:
