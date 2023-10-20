@@ -15,22 +15,11 @@ private:
     Action<T>* action;
 
 public:
-    Transition(State<T>* _origin, State<T>* _target, Action<T>* _act) {
-        this->origin = _origin;
-        this->target = _target;
-        this->action = _act;
-    }
-
-    State<T>* GetOrigin() const {
-        return origin;
-    }
-    State<T>* GetTarget() const {
-        return target;
-    }
-    Action<T>* GetAction() const {
-        return action;
-    }
+    Transition(State<T>* _origin, State<T>* _target, Action<T>* _act);
+    State<T>* GetOrigin() const;
+    State<T>* GetTarget() const;
+    Action<T>* GetAction() const;
 };
 
-
+#include "Transition.inl"
 #endif

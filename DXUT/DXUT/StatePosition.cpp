@@ -5,6 +5,7 @@
 #include "MovimentAction.h"
 #include "Action.h"
 #include "Dictionary.h"
+#include <cfloat>
 //------------------------------------------
 
 Window*& StatePosition::window = Engine::window;
@@ -77,5 +78,21 @@ bool StatePosition::Equal(State<Position>* _other) const {
 bool StatePosition::IsGeneratedPossible() const {
 	return true;
 }
+
+
+Position StatePosition::ChooseBestComparison(const std::vector<Action<Position>*> actions, State<Position>* target)const {
+	Position best;
+	float min = FLT_MAX;
+	for (auto* action : actions) {
+		Position key = action->Apply(this);
+		float distance = key.Distance(target->Value());
+		if (distance < min) {
+			min = distance;
+			best = key;
+		}
+	}
+	return best;
+}
+
 
 

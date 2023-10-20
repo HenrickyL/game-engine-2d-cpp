@@ -4,6 +4,8 @@
 #include "SearchMethods.h"
 // ------------------------
 
+
+
 Player::Player(Image* img, const Position& p) {
 	_position = new Position(p);
 	this->SetSprite(new Sprite(img));
@@ -14,24 +16,39 @@ Player::Player(Image* img, const Position& p) {
 
 	BBox(_sprite->GetCircle());
 
-    t = new Timer();
+    interTimer = new Timer();
     dictionary = new Dictionary<Position>();
 
-    MovimentAction* up = new MovimentAction(Vector::Up);
-    MovimentAction* down = new MovimentAction(Vector::Down);
-    MovimentAction* left = new MovimentAction(Vector::Left);
-    MovimentAction* right = new MovimentAction(Vector::Right);
+    MovimentAction* N = new MovimentAction(Vector::Up);
+    MovimentAction* S = new MovimentAction(Vector::Down);
+    MovimentAction* W = new MovimentAction(Vector::Left);
+    MovimentAction* E = new MovimentAction(Vector::Right);
+
+    MovimentAction* NE = new MovimentAction(Vector::Right + Vector::Up);
+    MovimentAction* NW = new MovimentAction(Vector::Left + Vector::Up);
+    MovimentAction* SE = new MovimentAction(Vector::Down + Vector::Right);
+    MovimentAction* SW = new MovimentAction(Vector::Down + Vector::Left);
+
 
     //set inverses
-    up->SetInverse(down);
-    down->SetInverse(up);
-    right->SetInverse(left);
-    left->SetInverse(right);
+    N->SetInverse(S);
+    S->SetInverse(N);
+    W->SetInverse(E);
+    E->SetInverse(W);
 
-    actions.push_back(up);
-    actions.push_back(down);
-    actions.push_back(left);
-    actions.push_back(right);
+    NE->SetInverse(SW);
+    NW->SetInverse(SE);
+    SE->SetInverse(NW);
+    SW->SetInverse(NE);
+
+    actions.push_back(N);
+    actions.push_back(NE);
+    actions.push_back(E);
+    actions.push_back(SE);
+    actions.push_back(S);
+    actions.push_back(SW);
+    actions.push_back(W);
+    actions.push_back(NW);
     initial = p;
 
 }
@@ -44,7 +61,7 @@ Player::~Player() {
         delete a;
     }
     if (dictionary) delete dictionary;
-    if (t) delete t;
+    if (interTimer) delete interTimer;
 }
 
 
@@ -55,11 +72,46 @@ void Player::Update() {
         pivot = path;
         _sprite->SetFilterColor(Color(0, 255, 0));
 	}
+    
+    if (input->KeyDown(KEY_O)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
+        MoveTo(initial);
+    }
 
-    if (input->KeyPress(SPACE) ) {
+
+    if (input->KeyDown(SPACE) ) {
+        run = true;
+        interTimer->Stop();
+        interTimer->Start();
+    }
+    if (input->KeyDown(VK_RIGHT)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
+        StatePosition p(GetPosition());
+        Position current=actions[E]->Apply(&p);
+        MoveTo(current);
+    }else if (input->KeyDown(VK_LEFT)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
+        StatePosition p(GetPosition());
+        Position current = actions[W]->Apply(&p);
+        MoveTo(current);
+    }else if (input->KeyDown(VK_UP)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
+        StatePosition p(GetPosition());
+        Position current = actions[N]->Apply(&p);
+        MoveTo(current);
+    }
+    else if (input->KeyDown(VK_DOWN)) {
+        _sprite->SetFilterColor(Color(255, 0, 0));
+        StatePosition p(GetPosition());
+        Position current = actions[S]->Apply(&p);
+        MoveTo(current);
+    }
+
+
+    if (run && interTimer->Elapsed(animationTime / ( pathLength != 0 ? pathLength : 1))) {
+        interTimer->Reset();
         if (pivot != nullptr) {
             _sprite->SetFilterColor(Color(255, 255, 255));
-
             StatePosition* state = dynamic_cast<StatePosition*>(pivot->GetState());
             Position p = state->GetPosition();
             this->MoveTo(p);
@@ -69,7 +121,7 @@ void Player::Update() {
         else {
             _sprite->SetFilterColor(Color(0, 255, 0));
             pivot = path;
-            MoveTo(initial);
+            run = false;
         }
     }
 }
@@ -80,10 +132,10 @@ void Player::OnCollision(Object* obj) {
 
 void deletePath(Node<Position>* _path) {
     Node<Position>* node = _path;
+    Node<Position>* aux = nullptr;
     while (node != nullptr) {
-        Node<Position>* aux = node;
+        aux = node;
         node = node->Father();
-        delete aux->GetState();
         delete aux;
     }
 }
@@ -92,15 +144,17 @@ void deletePath(Node<Position>* _path) {
 void Player::Search() {
     StatePosition* A = new StatePosition(this->GetPosition());
     StatePosition* B = new StatePosition(target);
-
-    if (path) {
+    if (path != nullptr) { 
         deletePath(path);
+        path = nullptr;
     }
-    t->Start();
+    float timer = 0;
+    Timer t;
+    t.Start();
     path = SearchMethods<Position>::HeuristicSearch(A, B, actions, dictionary);
-    t->Stop();
-    float timer = t->Elapsed();
-    int value = path != nullptr ? path->GetPathLength() : 0;
+    t.Stop();
+    timer = t.Elapsed();
+    pathLength = path != nullptr ? path->GetPathLength() : 0;
 }
 
 

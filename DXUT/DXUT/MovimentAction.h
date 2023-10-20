@@ -8,12 +8,12 @@
 
 class MovimentAction : public Action<Position> {
 private:
-	float magnitude = 50;
+	float magnitude = 10;
 	Vector direction = Vector::Right;
 public:
 	MovimentAction(Vector _direction, Action* _inverse = nullptr);
 	State<Position>* Generate(State<Position>* state)const override;
+	Position Apply(const State<Position>* _target) const override;
 };
-
 
 #endif
