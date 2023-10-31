@@ -218,6 +218,7 @@
     <None Include="Dictionary.inl" />
     <None Include="HowToCreateYourProblemAStar.md" />
     <None Include="Node.inl" />
+    <None Include="PriorityQueueSearch.inl" />
     <None Include="SearchMethods.inl" />
     <None Include="Sensor&amp;Effect.md" />
     <None Include="State.inl" />
