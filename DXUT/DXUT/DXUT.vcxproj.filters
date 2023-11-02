@@ -328,7 +328,7 @@
       <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
     <ClInclude Include="Hasheable.h">
-      <Filter>Engine\Header Files\Utility</Filter>
+      <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

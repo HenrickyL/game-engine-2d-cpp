@@ -9,9 +9,4 @@ public:
     virtual ~Hasheable() {}
 };
 
-//// Implementação de um operador de igualdade global para comparar objetos Hasheable
-//bool operator==(const Hasheable& a, const Hasheable& b) {
-//    return a.customHash() == b.customHash();
-//}
-
 #endif
