@@ -222,6 +222,7 @@
     <None Include="QueueSearch.inl" />
     <None Include="SearchMethods.inl" />
     <None Include="Sensor&amp;Effect.md" />
+    <None Include="StackSearch.inl" />
     <None Include="State.inl" />
     <None Include="Transition.inl" />
     <None Include="TypeErrors.h" />

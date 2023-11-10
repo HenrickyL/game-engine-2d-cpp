@@ -370,6 +370,9 @@
     <None Include="QueueSearch.inl">
       <Filter>Modules\AI\Source Files</Filter>
     </None>
+    <None Include="StackSearch.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Pixel.hlsl">
