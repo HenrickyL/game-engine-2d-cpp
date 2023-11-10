@@ -133,7 +133,8 @@
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="Environment.cpp" />
-    <ClCompile Include="AiTest.cpp" />
+    <ClCompile Include="MissionariesCannibalsProblem.cpp" />
+    <ClCompile Include="ShortPathProblem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Error.cpp" />
@@ -169,7 +170,8 @@
     <ClInclude Include="DXUT_Utils_Observer.h" />
     <ClInclude Include="DXUT_Utils.h" />
     <ClInclude Include="Environment.h" />
-    <ClInclude Include="AiTest.h" />
+    <ClInclude Include="MissionariesCannibalsProblem.h" />
+    <ClInclude Include="ShortPathProblem.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />
     <ClInclude Include="Engine.h" />

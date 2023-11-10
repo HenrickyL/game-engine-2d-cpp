@@ -1,20 +1,20 @@
-﻿#include "AiTest.h"
+﻿#include "ShortPathProblem.h"
 // ------------------------------------------------------------------------------
 #include "Player.h"
 // ------------------------------------------------------------------------------
 // Inicializa��o de membros est�ticos da classe
 
-Scene* AiTest::scene = nullptr;
+Scene* ShortPathProblem::scene = nullptr;
 
 // ------------------------------------------------------------------------------
 
-AiTest::AiTest()
+ShortPathProblem::ShortPathProblem()
 {
     window->Size(800, 500);
-    window->Title("AiTest");
+    window->Title("ShortPathProblem");
 }
 
-void AiTest::Init()
+void ShortPathProblem::Init()
 {
     Reset();
 
@@ -37,7 +37,7 @@ void AiTest::Init()
 
 // ------------------------------------------------------------------------------
 
-void AiTest::InputVerifyExit()
+void ShortPathProblem::InputVerifyExit()
 {
     // sai com o pressionamento da tecla ESC
     if (input->KeyPress(VK_ESCAPE))
@@ -46,7 +46,7 @@ void AiTest::InputVerifyExit()
 }
 // ------------------------------------------------------------------------------
 
-void AiTest::Update()
+void ShortPathProblem::Update()
 {
     InputVerifyExit();
     //BoundingBox
@@ -68,7 +68,7 @@ void AiTest::Update()
 
 // ------------------------------------------------------------------------------
 
-void AiTest::Draw()
+void ShortPathProblem::Draw()
 {
     if (viewScene) {
         // desenha pano de fundo
@@ -88,7 +88,7 @@ void AiTest::Draw()
 
 // ------------------------------------------------------------------------------
 
-void AiTest::Finalize()
+void ShortPathProblem::Finalize()
 {
     if(pause)delete pause;
     //delete imgs
@@ -106,11 +106,11 @@ void AiTest::Finalize()
 }
 
 
-void AiTest::OnPause() {
+void ShortPathProblem::OnPause() {
     pause->Draw();
 }
 
-void AiTest::Reset() {
+void ShortPathProblem::Reset() {
     Finalize();
 
     pause = new Sprite("Resources/pause_screen.png");

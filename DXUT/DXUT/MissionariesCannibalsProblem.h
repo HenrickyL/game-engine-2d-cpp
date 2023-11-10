@@ -1,12 +1,10 @@
-#ifndef _BREAKOUT_H
-#define _BREAKOUT_H
+#ifndef _MissionariesCannibalsProblem_H
+#define _MissionariesCannibalsProblem_H
 
 #include "DXUT_2D.h"
 #include "DXUT_IA.h"
-#include <vector>
-using std::vector;
-class AiTest : public Game
-{
+
+class MissionariesCannibalsProblem : public Game {
 private:
 	bool viewScene = true;
 	bool viewBBox = false;
@@ -22,13 +20,11 @@ private:
 
 	// --------------------------
 
-
 	void OnPause();
 	void InputVerifyExit();
-
 public:
 	static Scene* scene;
-	AiTest();
+	MissionariesCannibalsProblem();
 
 	void Init();
 	void Update();
@@ -36,4 +32,5 @@ public:
 	void Finalize();
 	void Reset();
 };
+
 #endif
