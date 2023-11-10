@@ -1,5 +1,7 @@
 #include "DXUT.h"
-#include "MissionariesCannibalsProblem.h"
+//#include "MissionariesCannibalsProblem.h"
+#include "ShortPathProblem.h"
+
 #include <sstream>
 
 using std::stringstream;
@@ -27,7 +29,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->LostFocus(Engine::Pause);
 		engine->window->InFocus(Engine::Resume);
 		// cria e executa a aplicação
-		int exitCode = engine->Start(new MissionariesCannibalsProblem());
+		int exitCode = engine->Start(new ShortPathProblem());
 
 		// finaliza execução
 		delete engine;

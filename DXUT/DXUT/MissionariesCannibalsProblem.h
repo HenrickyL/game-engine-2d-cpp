@@ -4,13 +4,14 @@
 #include "DXUT_2D.h"
 #include "DXUT_IA.h"
 
-class MissionariesCannibalsProblem : public Game {
+#include "MCS.h"
+
+class MissionariesCannibalsProblem : public Game, private Agent<MCS>{
 private:
 	bool viewScene = true;
 	bool viewBBox = false;
 	Sprite* pause = nullptr;
 	Sprite* backg = nullptr;
-	vector<State<Position>*> states;
 	// --------------------------
 	Image* imgPlayer = nullptr;
 	Image* imgResult = nullptr;
@@ -28,6 +29,9 @@ public:
 	void Draw();
 	void Finalize();
 	void Reset();
+
+	void GenStates() override;
+
 };
 
 #endif

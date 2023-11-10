@@ -130,9 +130,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Agent.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
-    <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="MCAction.cpp" />
+    <ClCompile Include="MCS.cpp" />
+    <ClCompile Include="MCState.cpp" />
     <ClCompile Include="MissionariesCannibalsProblem.cpp" />
     <ClCompile Include="ShortPathProblem.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -220,7 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Action.inl" />
+    <None Include="Agent.inl" />
     <None Include="Dictionary.inl" />
+    <None Include="Environment.inl" />
     <None Include="HowToCreateYourProblemAStar.md" />
     <None Include="Node.inl" />
     <None Include="PriorityQueueSearch.inl" />

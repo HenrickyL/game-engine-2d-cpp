@@ -86,7 +86,7 @@ template <typename T>
 void State<T>::Generate(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated) {
     T min = this->ChooseBestComparison(actions, target);
 
-    for (auto* action : actions) {
+    for (Action<T>* action : actions) {
         ///TODO: Validar se o estado gerado e valido
         T key = action->Apply(this);
         if (key == min) {

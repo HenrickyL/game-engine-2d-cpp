@@ -1,27 +1,40 @@
 ﻿#include "MissionariesCannibalsProblem.h"
 // ------------------------------------------------------------------------------
-
 Scene* MissionariesCannibalsProblem::scene = nullptr;
-
 // ------------------------------------------------------------------------------
+
+#include "MCAction.h"
+#include "MCState.h"
 
 MissionariesCannibalsProblem::MissionariesCannibalsProblem()
 {
     window->Size(800, 500); 
     window->Title("MissionariesCannibalsProblem");
+    this->InstanceAgent();
+
+    this->SetInitial(MCS(3, 3));
+    this->SetFinal(MCS(0, 0, 0));
+    this->SetCurrent(Initial());
 }
 
 void MissionariesCannibalsProblem::Init()
 {
     Reset();
 
-
     imgPlayer = new Image("Resources/player.png");
     imgResult = new Image("Resources/x.png");
-
-
     //---------------
+    MCAction* MoveMissionary= new MCAction(1, 0);
+    MCAction* MoveCanibal = new MCAction(0, 1);
+    MCAction* Move2Missionaries = new MCAction(2, 0);
+    MCAction* Move2Canibals = new MCAction(0, 2);
+
+    Actuators()->push_back(MoveMissionary);
+    Actuators()->push_back(MoveCanibal);
+    Actuators()->push_back(Move2Missionaries);
+    Actuators()->push_back(Move2Canibals);
 }
+
 
 // ------------------------------------------------------------------------------
 
@@ -82,9 +95,7 @@ void MissionariesCannibalsProblem::Finalize()
     if (backg)delete backg;
     // apaga cena do jogo
     if (scene)delete scene;
-    for (auto* s : states) {
-        delete s;
-    }
+    this->DeleteInstanceAgent();
 }
 
 
@@ -111,4 +122,11 @@ void MissionariesCannibalsProblem::Reset() {
 
     //----------------------------
 
+}
+
+
+
+void MissionariesCannibalsProblem::GenStates() {
+    this->_initialState = new MCState(Current());
+    this->_finalState = new MCState(_final);
 }

@@ -5,10 +5,13 @@
 #include "MCS.h"
 
 class MCState : public State<MCS> {
+public:
+    MCState(MCS value);
     bool IsGeneratedPossible() const override;
     bool Equal(State<MCS>* other) const override;
     MCS ChooseBestComparison(const std::vector<Action<MCS>*> actions, State<MCS>* target)const override;
     float GetHeuristic(State<MCS>* target) const;
+
 };
 
 #endif

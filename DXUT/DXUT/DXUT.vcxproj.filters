@@ -133,12 +133,6 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Agent.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Environment.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
@@ -188,6 +182,15 @@
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MissionariesCannibalsProblem.cpp">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MCState.cpp">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MCAction.cpp">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MCS.cpp">
       <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -396,6 +399,12 @@
     </None>
     <None Include="StackSearch.inl">
       <Filter>Modules\AI\Source Files</Filter>
+    </None>
+    <None Include="Agent.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </None>
+    <None Include="Environment.inl">
+      <Filter>Engine\Header Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
