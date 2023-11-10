@@ -367,6 +367,9 @@
     <None Include="PriorityQueueSearch.inl">
       <Filter>Engine\Header Files</Filter>
     </None>
+    <None Include="QueueSearch.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Pixel.hlsl">
