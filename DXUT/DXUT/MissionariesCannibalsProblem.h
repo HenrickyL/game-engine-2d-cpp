@@ -10,9 +10,6 @@ private:
 	bool viewBBox = false;
 	Sprite* pause = nullptr;
 	Sprite* backg = nullptr;
-	Sprite* targetLocal = nullptr;
-
-
 	vector<State<Position>*> states;
 	// --------------------------
 	Image* imgPlayer = nullptr;

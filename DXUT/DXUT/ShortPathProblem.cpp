@@ -22,7 +22,7 @@ void ShortPathProblem::Init()
     imgPlayer = new Image("Resources/player.png");
     imgResult = new Image("Resources/x.png");
 
-
+    ///TODO: Delete Player
     Position initial(100, 100);
     Player* player = new Player(imgPlayer, initial);
     Position target (window->Center()); // (640, 480)

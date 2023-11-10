@@ -27,8 +27,8 @@ public:
 
     virtual bool IsGeneratedPossible() const = 0;
     virtual bool Equal(State<T>* other) const = 0;
-    virtual void Generate(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated);
     virtual T ChooseBestComparison(const std::vector<Action<T>*> actions, State<T>* target)const = 0;
+    virtual void Generate(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated);
 
 
     void AddTransition(Transition<T>* transition);

@@ -345,6 +345,15 @@
     <ClInclude Include="MissionariesCannibalsProblem.h">
       <Filter>Develop\Games\MissionariesCannibalsProblem\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MCState.h">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MCAction.h">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MCS.h">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">

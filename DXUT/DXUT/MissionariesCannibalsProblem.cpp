@@ -1,8 +1,5 @@
 ﻿#include "MissionariesCannibalsProblem.h"
 // ------------------------------------------------------------------------------
-#include "Player.h"
-// ------------------------------------------------------------------------------
-// Inicializa��o de membros est�ticos da classe
 
 Scene* MissionariesCannibalsProblem::scene = nullptr;
 
@@ -10,7 +7,7 @@ Scene* MissionariesCannibalsProblem::scene = nullptr;
 
 MissionariesCannibalsProblem::MissionariesCannibalsProblem()
 {
-    window->Size(800, 500);
+    window->Size(800, 500); 
     window->Title("MissionariesCannibalsProblem");
 }
 
@@ -23,16 +20,7 @@ void MissionariesCannibalsProblem::Init()
     imgResult = new Image("Resources/x.png");
 
 
-    Position initial(100, 100);
-    Player* player = new Player(imgPlayer, initial);
-    Position target(window->Center()); // (640, 480)
-    player->SetTarget(target);
-
-    scene->Add(player, MOVING);
     //---------------
-    targetLocal = new Sprite(imgResult);
-    targetLocal->SetScale(0.01f);
-    targetLocal->SetPosition(target);
 }
 
 // ------------------------------------------------------------------------------
@@ -80,10 +68,6 @@ void MissionariesCannibalsProblem::Draw()
     if (viewBBox) {
         scene->DrawBBox();
     }
-
-    if (targetLocal) {
-        targetLocal->Draw();
-    }
 }
 
 // ------------------------------------------------------------------------------
@@ -98,8 +82,6 @@ void MissionariesCannibalsProblem::Finalize()
     if (backg)delete backg;
     // apaga cena do jogo
     if (scene)delete scene;
-    if (targetLocal) delete targetLocal;
-
     for (auto* s : states) {
         delete s;
     }
