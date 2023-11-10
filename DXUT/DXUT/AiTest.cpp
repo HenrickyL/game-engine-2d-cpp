@@ -10,7 +10,7 @@ Scene* AiTest::scene = nullptr;
 
 AiTest::AiTest()
 {
-    window->Size(1280, 960);
+    window->Size(800, 500);
     window->Title("AiTest");
 }
 

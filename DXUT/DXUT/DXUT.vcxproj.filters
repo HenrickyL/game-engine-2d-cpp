@@ -328,7 +328,7 @@
       <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
     <ClInclude Include="Hasheable.h">
-      <Filter>Engine\Header Files\Utility</Filter>
+      <Filter>Modules\AI\Header Files\Middleware</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -362,6 +362,15 @@
       <Filter>Modules\AI\Source Files</Filter>
     </None>
     <None Include="Transition.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </None>
+    <None Include="PriorityQueueSearch.inl">
+      <Filter>Engine\Header Files</Filter>
+    </None>
+    <None Include="QueueSearch.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </None>
+    <None Include="StackSearch.inl">
       <Filter>Modules\AI\Source Files</Filter>
     </None>
   </ItemGroup>
