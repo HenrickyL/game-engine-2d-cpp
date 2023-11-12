@@ -20,6 +20,7 @@ private:
 
 	void OnPause();
 	void InputVerifyExit();
+
 public:
 	static Scene* scene;
 	MissionariesCannibalsProblem();

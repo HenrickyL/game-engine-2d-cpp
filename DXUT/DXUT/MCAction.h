@@ -13,6 +13,7 @@ public:
 	MCAction(int _missionary, int _canibal);
 	State<MCS>* Generate(State<MCS>* _target) const override;
 	MCS Apply(const State<MCS>* _target) const override;
+	bool IsValid(const MCS _target) const override;
 };
 
 #endif

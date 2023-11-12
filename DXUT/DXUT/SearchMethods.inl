@@ -20,14 +20,14 @@ Node<T>* SearchMethods<T>::DepthFirstSearch(State<T>* _initial, State<T>* _final
 }
 
 template<typename T>
-Node<T>* SearchMethods<T>::HeuristicSearch(State<T>* _initial, State<T>* _final, vector<Action<T>*> actions, Dictionary<T>* controlGenerated) {
+Node<T>* SearchMethods<T>::HeuristicSearch(State<T>* _initial, State<T>* _final, vector<Action<T>*> actions, Dictionary<T>* controlGenerated, GenerateType generateType, bool useMinCost) {
     int count = 0;
     Node<T>* node = new Node<T>(_initial, _final, nullptr);
     T key = _initial->Value();
     if (controlGenerated && !controlGenerated->Contains(key)) {
         controlGenerated->Add(key, _initial);
     }
-    PriorityQueueSearch<T> edge;
+    PriorityQueueSearch<T> edge(useMinCost);
     edge.Push(node);
 
     vector<Node<T>*> read;
@@ -36,14 +36,19 @@ Node<T>* SearchMethods<T>::HeuristicSearch(State<T>* _initial, State<T>* _final,
 
     while (!edge.IsEmpty()) {
         node = edge.Pop();
+        T value = node->Value();
+        std::string res = node->GetPath();
         count++;
 
         if (node->GetState()->Equal(_final)) {
             return SearchMethods<T>::SearchAndHandleResult(node, _final, AllNodes, controlGenerated);
         }
+        if (count > SearchMethods<T>::_MAX) {
+            return SearchMethods<T>::SearchAndHandleResult(node, _final, AllNodes, controlGenerated);
+        }
 
         if (node->IsGeneratedPossible() && !actions.empty()) {
-            node->GenerateTransitions(actions, _final, controlGenerated);
+            node->GenerateTransitions(actions, _final, controlGenerated, generateType);
         }
 
         read.push_back(node);
@@ -60,10 +65,8 @@ Node<T>* SearchMethods<T>::HeuristicSearch(State<T>* _initial, State<T>* _final,
                     edge.RemoveLargeThanBy(chield);
                     edge.Push(chield);
                 }
-                else if (count > ::SearchMethods<T>::_MAX) {
-                    return SearchMethods<T>::SearchAndHandleResult(chield, _final, AllNodes, controlGenerated);
-                }
             }
+            
         }
     }
     DeleteNodes(AllNodes, controlGenerated);

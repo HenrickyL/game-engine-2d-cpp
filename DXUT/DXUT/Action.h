@@ -20,6 +20,7 @@ public:
 
     virtual State<T>* Generate(State<T>* _target) const = 0;
     virtual T Apply(const State<T>* _target) const = 0;
+    virtual bool IsValid(const T _target) const = 0;
 
 };
 

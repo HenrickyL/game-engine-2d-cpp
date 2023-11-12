@@ -11,8 +11,11 @@ MissionariesCannibalsProblem::MissionariesCannibalsProblem()
     window->Size(800, 500); 
     window->Title("MissionariesCannibalsProblem");
     this->InstanceAgent();
-    this->SetInitial(MCS(3, 3));
-    this->SetFinal(MCS(0, 0, 0));
+    int value = 3;
+    int countMissionaries = value;
+    int countCannibals = value;
+    this->SetInitial(MCS(countMissionaries, countCannibals));
+    this->SetFinal(MCS(countMissionaries, countCannibals,0, countMissionaries, countCannibals));
     this->SetCurrent(Initial());
     if (MissionariesCannibalsProblem::scene == nullptr) {
         MissionariesCannibalsProblem::scene = new Scene();
@@ -28,11 +31,15 @@ void MissionariesCannibalsProblem::Init()
     MCAction* MoveCanibal = new MCAction(0, 1);
     MCAction* Move2Missionaries = new MCAction(2, 0);
     MCAction* Move2Canibals = new MCAction(0, 2);
+    MCAction* MoveMissionaryAndCanibal = new MCAction(1, 1);
+
 
     actuators->push_back(MoveMissionary);
     actuators->push_back(MoveCanibal);
     actuators->push_back(Move2Missionaries);
     actuators->push_back(Move2Canibals);
+    actuators->push_back(MoveMissionaryAndCanibal);
+
 }
 
 
@@ -43,6 +50,10 @@ void MissionariesCannibalsProblem::InputVerifyExit()
     // sai com o pressionamento da tecla ESC
     if (input->KeyPress(VK_ESCAPE))
         window->Close();
+
+    if (input->KeyPress(KEY_R)) {
+        this->Search();
+    }
 
 }
 // ------------------------------------------------------------------------------
@@ -107,3 +118,4 @@ void MissionariesCannibalsProblem::GenStates() {
     this->_initialState = new MCState(Current());
     this->_finalState = new MCState(_final);
 }
+

@@ -80,18 +80,20 @@ bool StatePosition::IsGeneratedPossible() const {
 }
 
 
-Position StatePosition::ChooseBestComparison(const std::vector<Action<Position>*> actions, State<Position>* target)const {
+PairTypeAction<Position> StatePosition::ChooseBestComparison(const std::vector<Action<Position>*> actions, State<Position>* target)const {
 	Position best;
 	float min = FLT_MAX;
-	for (auto* action : actions) {
+	Action<Position>* bestAction = nullptr;
+	for (Action<Position>* action : actions) {
 		Position key = action->Apply(this);
 		float distance = key.Distance(target->Value());
 		if (distance < min) {
 			min = distance;
 			best = key;
+			bestAction = action;
 		}
 	}
-	return best;
+	return PairTypeAction<Position>(best, bestAction);
 }
 
 

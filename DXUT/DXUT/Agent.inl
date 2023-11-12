@@ -4,12 +4,14 @@
 #include "Perception.h"
 #include "Timer.h"
 #include "SearchMethods.h"
+#include <iostream>
 //------------------------------------------
 
 template<typename T>
 void Agent<T>::InstanceAgent() {
 	actuators = new std::vector<Action<T>*>();
 	sensors = new std::vector<Perception*>();
+	InstanceControlGenerated();
 }
 
 template<typename T>
@@ -47,9 +49,11 @@ void Agent<T>::Search() {
 	float timer = 0;
 	Timer t;
 	t.Start();
-	path = SearchMethods<T>::HeuristicSearch(_initialState, _finalState, actuators, controlGenerated);
+	path = SearchMethods<T>::HeuristicSearch(_initialState, _finalState, *actuators, controlGenerated, Default);
 	t.Stop();
 	timer = t.Elapsed();
+	///TODO: Clear - DEBUG
+	std::string res =   path->GetPath();
 	pathLength = path != nullptr ? path->GetPathLength() : 0;
 }
 
@@ -97,3 +101,10 @@ template<typename T>
 T Agent<T>::Current() const {
 	return _current;
 }
+
+template<typename T>
+void Agent<T>::InstanceControlGenerated() {
+	controlGenerated = new Dictionary<T>();
+}
+
+

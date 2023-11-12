@@ -21,7 +21,7 @@ public:
 	void	Update() override;
 	bool	Equal(State<Position>* other) const;
 	bool	IsGeneratedPossible() const override;
-	Position ChooseBestComparison(const std::vector<Action<Position>*> actions, State<Position>* target)const override;
+	PairTypeAction<Position> ChooseBestComparison(const std::vector<Action<Position>*> actions, State<Position>* target)const override;
 };
 
 #endif

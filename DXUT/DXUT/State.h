@@ -12,6 +12,24 @@ class Action;
 #include "Dictionary.h"
 //------------------------------------------
 
+template<typename T>
+struct PairTypeAction {
+    T _value;
+    Action<T>* _action;
+    int _cost;
+
+    PairTypeAction(T value, Action<T>* action, int cost = 0) {
+        _value = value;
+        _action = action;
+        _cost = cost;
+    }
+};
+
+enum GenerateType {
+    HillClimb,
+    Default
+};
+
 //State.h
 template <typename T>
 class State {
@@ -27,8 +45,12 @@ public:
 
     virtual bool IsGeneratedPossible() const = 0;
     virtual bool Equal(State<T>* other) const = 0;
-    virtual T ChooseBestComparison(const std::vector<Action<T>*> actions, State<T>* target)const = 0;
-    virtual void Generate(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated);
+    virtual PairTypeAction<T> ChooseBestComparison(const std::vector<Action<T>*> actions, State<T>* target)const = 0;
+    virtual void Generate(T key, Action<T>* action, Dictionary<T>* controlGenerated);
+    virtual void GenerateByBestChoice(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated);
+    virtual void GenerateForActions(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated);
+
+
 
 
     void AddTransition(Transition<T>* transition);
@@ -39,6 +61,7 @@ public:
     bool ExistActionInEdge(Action<T>* action) const;
     bool ExistInEdge(State<T>* _target) const;
     bool ExistInKeyInEdge(T _key) const;
+    virtual bool IsValid() const;
     ///TODO: validate whether the name 'Value' is the best, as it will be used as 'Key' later.
     T Value()const;
 };

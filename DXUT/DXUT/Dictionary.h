@@ -13,7 +13,6 @@ class State;
 template <typename KeyType>
 class Dictionary {
 private:
-    // Defina seu próprio hasher para KeyType
     struct KeyTypeHash {
         template <typename T>
         std::size_t operator()(const T& key) const {

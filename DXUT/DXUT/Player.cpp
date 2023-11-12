@@ -151,7 +151,7 @@ void Player::Search() {
     float timer = 0;
     Timer t;
     t.Start();
-    path = SearchMethods<Position>::HeuristicSearch(A, B, actions, dictionary);
+    path = SearchMethods<Position>::HeuristicSearch(A, B, actions, dictionary, HillClimb);
     t.Stop();
     timer = t.Elapsed();
     pathLength = path != nullptr ? path->GetPathLength() : 0;

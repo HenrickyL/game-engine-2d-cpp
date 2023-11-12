@@ -33,6 +33,7 @@ protected:
 	void deletePath(Node<T>* _path);
 	void InstanceAgent();
 	void DeleteInstanceAgent();
+	virtual void InstanceControlGenerated();
 public:
 	Agent() = default;
 	//------------------------------

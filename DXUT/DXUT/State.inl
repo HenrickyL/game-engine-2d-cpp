@@ -5,7 +5,6 @@
 #include "Transition.h"
 #include "Action.h"
 
-
 template<typename T>
 State<T>::State() {
     edges = new std::vector<Transition<T>*>();
@@ -83,44 +82,64 @@ T State<T>::Value()const {
 }
 
 template <typename T>
-void State<T>::Generate(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated) {
-    T min = this->ChooseBestComparison(actions, target);
-
-    for (Action<T>* action : actions) {
-        ///TODO: Validar se o estado gerado e valido
-        T key = action->Apply(this);
-        if (key == min) {
-            if (controlGenerated) {
-                if (!this->ExistInKeyInEdge(key) && !controlGenerated->Contains(key)) {
-                    State<T>* currentGenerated = action->Generate(this);
-                    if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
-                        AddTransition(new Transition<T>(this, currentGenerated, action));
-                        /*if (action->Inverse() != nullptr) {
-                            AddTransition(new Transition<T>(currentGenerated, this, action));
-                        }*/
-                        controlGenerated->Add(key, currentGenerated);
-                    }
-                }
-                else {
-                    State<T>* inDictionary = controlGenerated->Get(key);
-                    AddTransition(new Transition<T>(this, inDictionary, action));
+void State<T>::Generate(T key, Action<T>* action, Dictionary<T>* controlGenerated) {
+    
+        if (controlGenerated) {
+            if (!this->ExistInKeyInEdge(key) && !controlGenerated->Contains(key)) {
+                State<T>* currentGenerated = action->Generate(this);
+                if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
+                    AddTransition(new Transition<T>(this, currentGenerated, action));
                     /*if (action->Inverse() != nullptr) {
-                        AddTransition(new Transition<T>(inDictionary, this, action));
+                        AddTransition(new Transition<T>(currentGenerated, this, action));
                     }*/
+                    controlGenerated->Add(key, currentGenerated);
                 }
             }
             else {
-                State<T>* currentGenerated = action->Generate(this);
-                // Verifique se o novo estado já existe na lista de estados ou se é ambíguo
-                if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
-                    AddTransition(new Transition<T>(this, currentGenerated, action));
-                }
-                else {
-                    delete currentGenerated; // Descarte o estado ambíguo
-                }
+                State<T>* inDictionary = controlGenerated->Get(key);
+                AddTransition(new Transition<T>(this, inDictionary, action));
+                /*if (action->Inverse() != nullptr) {
+                    AddTransition(new Transition<T>(inDictionary, this, action));
+                }*/
             }
-            return;
+        }
+        else {
+            State<T>* currentGenerated = action->Generate(this);
+            // Verifique se o novo estado já existe na lista de estados ou se é ambíguo
+            if (currentGenerated && !this->ExistInEdge(currentGenerated)) {
+                AddTransition(new Transition<T>(this, currentGenerated, action));
+            }
+            else {
+                delete currentGenerated; // Descarte o estado ambíguo
+            }
+        }
+       /*     return;
+        }*/
+    //}
+}
+
+
+template <typename T>
+void State<T>::GenerateByBestChoice(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated) {
+    PairTypeAction<T> min = this->ChooseBestComparison(actions, target);
+    T key = min._value;
+    Action<T>* action = min._action;
+    Generate(key, action, controlGenerated);
+}
+
+template <typename T>
+void State<T>::GenerateForActions(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated){
+    for (Action<T>* action : actions) {
+        ///TODO: Validar se o estado gerado e valido
+        T key = action->Apply(this);
+        if (action->IsValid(key)) {
+            Generate(key, action, controlGenerated);
         }
     }
 }
 
+
+template <typename T>
+bool State<T>::IsValid() const {
+    return true;
+}

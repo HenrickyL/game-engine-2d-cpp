@@ -40,7 +40,7 @@ template<typename T>
 std::string Node<T>::GetPath() const {
     string res = this->state->Name();
     if (father != nullptr) {
-        res += " > \n\t" + father->GetPath();
+        res += " > \n" + father->GetPath();
     }
     return res;
 }
@@ -77,8 +77,13 @@ template<typename T>
 Node<T>* Node<T>::Father() const { return father; }
 
 template<typename T>
-void Node<T>::GenerateTransitions(const vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated) {
-    state->Generate(actions,target,controlGenerated);
+void Node<T>::GenerateTransitions(const vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated, GenerateType type) {
+    if (type == HillClimb) {
+        state->GenerateByBestChoice(actions, target, controlGenerated);
+    }
+    else {
+        state->GenerateForActions(actions,target,controlGenerated);
+    }
 }
 
 
