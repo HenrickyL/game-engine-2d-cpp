@@ -31,22 +31,21 @@ protected:
 	void DeleteActuators();
 	//search methods
 	void deletePath(Node<T>* _path);
+	void InstanceAgent();
+	void DeleteInstanceAgent();
 public:
 	Agent() = default;
 	//------------------------------
-	void InstanceAgent();
-	void DeleteInstanceAgent();
 	void Search();
 	virtual void GenStates() = 0;
 	//------------------------------
 	void SetInitial(T initial);
 	void SetFinal(T _final_);
-	void SetCurrent(T _current);
+	void SetCurrent(T _current_);
 	//------------------------------
 	T Initial() const;
 	T Final() const;
 	T Current() const;
-	std::vector<Action<T>*>* Actuators();
 };
 
 #include "Agent.inl"

@@ -1,6 +1,5 @@
 #include "DXUT.h"
 #include "MissionariesCannibalsProblem.h"
-
 #include <sstream>
 
 using std::stringstream;

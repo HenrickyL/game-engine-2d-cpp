@@ -79,7 +79,7 @@ void Agent<T>::SetFinal(T _final_) {
 
 template<typename T>
 void Agent<T>::SetCurrent(T _current_) {
-	this->_current = _current;
+	this->_current = _current_;
 
 }
 
@@ -96,9 +96,4 @@ T Agent<T>::Final() const {
 template<typename T>
 T Agent<T>::Current() const {
 	return _current;
-}
-
-template<typename T>
-std::vector<Action<T>*>* Agent<T>::Actuators() {
-	return actuators;
 }

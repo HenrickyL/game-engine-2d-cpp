@@ -45,6 +45,17 @@ bool MCS::operator==(const Hasheable& other) const {
     return false;
 }
 
+bool MCS::operator==(const MCS& other) const {
+    if (const MCS* mcs = dynamic_cast<const MCS*>(&other)) {
+        return missionaries == mcs->missionaries &&
+            cannibals == mcs->cannibals &&
+            boatOnLeft == mcs->boatOnLeft &&
+            missionariesOtherSide == mcs->missionariesOtherSide &&
+            cannibalsOtherSide == mcs->cannibalsOtherSide;
+    }
+    return false;
+}
+
 bool MCS::Equal(const MCS& other) const {
     return missionaries == other.missionaries &&
         cannibals == other.cannibals &&

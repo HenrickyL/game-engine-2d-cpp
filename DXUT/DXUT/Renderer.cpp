@@ -1030,21 +1030,23 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
         // gera posições dos vértices de cada sprite que será desenhado nesse lote
         for (uint i = 0; i < batchSize; ++i)
         {
+            SpriteData* spriteData = sprites[i];
+            if (spriteData == nullptr) continue;
             // pega tamanho da textura
-            XMVECTOR size = XMVectorMergeXY(XMLoadInt(&sprites[i]->width), XMLoadInt(&sprites[i]->height));
+            XMVECTOR size = XMVectorMergeXY(XMLoadInt(&spriteData->width), XMLoadInt(&spriteData->height));
             XMVECTOR textureSize = XMConvertVectorUIntToFloat(size, 0);
             XMVECTOR inverseTextureSize = XMVectorReciprocal(textureSize);
 
             // organiza informações do sprite
-            XMFLOAT2 positionxy(sprites[i]->position->X(), sprites[i]->position->Y());
-            float scale = sprites[i]->scale;
+            XMFLOAT2 positionxy(spriteData->position->X(), spriteData->position->Y());
+            float scale = spriteData->scale;
             XMFLOAT2 center(0.0f, 0.0f);
-            float rotation = sprites[i]->rotation;
-            float layerDepth = sprites[i]->depth;
+            float rotation = spriteData->rotation;
+            float layerDepth = spriteData->depth;
             ///TODO: See Anchor ist ok
-            float anchorX = sprites[i]->anchorX;
-            float anchorY = sprites[i]->anchorY;
-            Color filterColor = sprites[i]->color;
+            float anchorX = spriteData->anchorX;
+            float anchorY = spriteData->anchorY;
+            Color filterColor = spriteData->color;
 
             // carrega informações do sprite em registros SIMD
             XMVECTOR source = XMVectorSet(0, 0, 1, 1);
@@ -1171,7 +1173,9 @@ void Renderer::Render()
     // da mistura (blending) entre as texturas dos sprites
     sort(spriteVector.begin(), spriteVector.end(),
         [](SpriteData* a, SpriteData* b) -> bool
-        { return a->depth > b->depth; });
+        { 
+            if (a == nullptr || b == nullptr) return false;
+            return a->depth > b->depth; });
 
     // quantidades de sprites a serem renderizados
     uint spriteVectorSize = uint(spriteVector.size());
@@ -1185,7 +1189,9 @@ void Renderer::Render()
     // junta sprites adjacentes que compartilham a mesma textura
     for (uint pos = 0; pos < spriteVectorSize; ++pos)
     {
-        ID3D11ShaderResourceView* texture = spriteVector[pos]->texture;
+        SpriteData* spriteData = spriteVector[pos];
+        if (spriteData == nullptr) continue;
+        ID3D11ShaderResourceView* texture = spriteData->texture;
 
         if (texture != batchTexture)
         {

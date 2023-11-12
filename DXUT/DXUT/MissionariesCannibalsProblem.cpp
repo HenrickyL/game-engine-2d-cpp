@@ -11,16 +11,16 @@ MissionariesCannibalsProblem::MissionariesCannibalsProblem()
     window->Size(800, 500); 
     window->Title("MissionariesCannibalsProblem");
     this->InstanceAgent();
-
     this->SetInitial(MCS(3, 3));
     this->SetFinal(MCS(0, 0, 0));
     this->SetCurrent(Initial());
+    if (MissionariesCannibalsProblem::scene == nullptr) {
+        MissionariesCannibalsProblem::scene = new Scene();
+    }
 }
 
 void MissionariesCannibalsProblem::Init()
 {
-    Reset();
-
     imgPlayer = new Image("Resources/player.png");
     imgResult = new Image("Resources/x.png");
     //---------------
@@ -29,10 +29,10 @@ void MissionariesCannibalsProblem::Init()
     MCAction* Move2Missionaries = new MCAction(2, 0);
     MCAction* Move2Canibals = new MCAction(0, 2);
 
-    Actuators()->push_back(MoveMissionary);
-    Actuators()->push_back(MoveCanibal);
-    Actuators()->push_back(Move2Missionaries);
-    Actuators()->push_back(Move2Canibals);
+    actuators->push_back(MoveMissionary);
+    actuators->push_back(MoveCanibal);
+    actuators->push_back(Move2Missionaries);
+    actuators->push_back(Move2Canibals);
 }
 
 
@@ -58,7 +58,6 @@ void MissionariesCannibalsProblem::Update()
     if (input->KeyPress(KEY_S)) {
         viewScene = !viewScene;
     }
-
     // atualiza objetos da cena
     scene->Update();
 
@@ -102,28 +101,6 @@ void MissionariesCannibalsProblem::Finalize()
 void MissionariesCannibalsProblem::OnPause() {
     pause->Draw();
 }
-
-void MissionariesCannibalsProblem::Reset() {
-    Finalize();
-
-    pause = new Sprite("Resources/pause_screen.png");
-    pause->SetScale(0.6f);
-    pause->SetPosition(window->Center());
-
-    backg = new Sprite("Resources/Background.jpg");
-    backg->SetPosition(window->Center());
-    backg->SetLayer(Layer::BACK);
-
-    // --------------------------
-    scene = new Scene();
-    // --------------------------
-
-    // carregar imagens
-
-    //----------------------------
-
-}
-
 
 
 void MissionariesCannibalsProblem::GenStates() {

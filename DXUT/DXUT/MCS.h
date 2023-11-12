@@ -21,6 +21,8 @@ public:
 
     std::size_t customHash() const override;
     bool operator==(const Hasheable& other) const override;
+    bool operator==(const MCS& other) const;
+
 };
 
 #endif
