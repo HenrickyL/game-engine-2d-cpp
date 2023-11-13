@@ -58,6 +58,13 @@ void Agent<T>::Search() {
 }
 
 template<typename T>
+void Agent<T>::ClearMemory() {
+	if (this->controlGenerated != nullptr) {
+		this->controlGenerated->Clear();
+	}
+}
+
+template<typename T>
 void Agent<T>::deletePath(Node<T>* _path) {
 	Node<T>* node = _path;
 	Node<T>* aux = nullptr;

@@ -39,6 +39,7 @@ void MissionariesCannibalsProblem::Init()
 
 
 void MissionariesCannibalsProblem::Reset() {
+    this->ClearMemory();
     int value = this->problem;
     int countMissionaries = value;
     int countCannibals = value;

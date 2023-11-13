@@ -38,6 +38,7 @@ public:
 	Agent() = default;
 	//------------------------------
 	void Search();
+	void ClearMemory();
 	virtual void GenStates() = 0;
 	//------------------------------
 	void SetInitial(T initial);

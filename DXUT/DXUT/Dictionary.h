@@ -56,6 +56,9 @@ public:
 
     // Método para obter o valor associado a uma chave
     State<KeyType>* Get(const KeyType& key) const;
+
+    // Método para limpar todas as entradas do dicionário
+    void Clear();
     //------------------------------------------
 
     Dictionary& operator=(const std::pair<KeyType, State<KeyType>*>& pair);
