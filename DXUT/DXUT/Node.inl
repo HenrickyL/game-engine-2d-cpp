@@ -88,12 +88,6 @@ void Node<T>::GenerateTransitions(const vector<Action<T>*> actions, State<T>* ta
 
 
 template<typename T>
-bool Node<T>::IsPossibleToGenerate() const {
-    return this->state->IsPossibleToGenerate();
-}
-
-
-template<typename T>
 void Node<T>::SetHeuristicBy(State<T>* _target) {
     target = _target;
 }

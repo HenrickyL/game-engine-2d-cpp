@@ -11,12 +11,7 @@ MissionariesCannibalsProblem::MissionariesCannibalsProblem()
     window->Size(800, 500); 
     window->Title("MissionariesCannibalsProblem");
     this->InstanceAgent();
-    int value = 3;
-    int countMissionaries = value;
-    int countCannibals = value;
-    this->SetInitial(MCS(countMissionaries, countCannibals));
-    this->SetFinal(MCS(countMissionaries, countCannibals,0, countMissionaries, countCannibals));
-    this->SetCurrent(Initial());
+    
     if (MissionariesCannibalsProblem::scene == nullptr) {
         MissionariesCannibalsProblem::scene = new Scene();
     }
@@ -43,6 +38,15 @@ void MissionariesCannibalsProblem::Init()
 }
 
 
+void MissionariesCannibalsProblem::Reset() {
+    int value = this->problem;
+    int countMissionaries = value;
+    int countCannibals = value;
+    this->SetInitial(MCS(countMissionaries, countCannibals));
+    this->SetFinal(MCS(countMissionaries, countCannibals, 0, countMissionaries, countCannibals));
+    this->SetCurrent(Initial());
+}
+
 // ------------------------------------------------------------------------------
 
 void MissionariesCannibalsProblem::InputVerifyExit()
@@ -50,8 +54,11 @@ void MissionariesCannibalsProblem::InputVerifyExit()
     // sai com o pressionamento da tecla ESC
     if (input->KeyPress(VK_ESCAPE))
         window->Close();
-
+    if (input->KeyPress(SPACE)) {
+        problem++;
+    }
     if (input->KeyPress(KEY_R)) {
+        Reset();
         this->Search();
     }
 

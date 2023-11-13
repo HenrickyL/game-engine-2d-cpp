@@ -8,6 +8,7 @@
 
 class MissionariesCannibalsProblem : public Game, private Agent<MCS>{
 private:
+	int problem = 3;
 	bool viewScene = true;
 	bool viewBBox = false;
 	Sprite* pause = nullptr;
@@ -29,6 +30,8 @@ public:
 	void Update();
 	void Draw();
 	void Finalize();
+
+	void Reset();
 
 	void GenStates() override;
 

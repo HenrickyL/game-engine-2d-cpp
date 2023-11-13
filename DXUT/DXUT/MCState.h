@@ -7,9 +7,8 @@
 class MCState : public State<MCS> {
 public:
     MCState(MCS value);
-    bool IsPossibleToGenerate() const override;
     bool Equal(State<MCS>* other) const override;
-    PairTypeAction<MCS> ChooseBestComparison(const std::vector<Action<MCS>*> actions, State<MCS>* target)const override;
+    PairTypeAction<MCS> ChooseBestComparison(const std::vector<Action<MCS>*> actions, State<MCS>* target, Dictionary<MCS>* controlGenerated)const override;
     float GetHeuristic(State<MCS>* target) const;
     bool IsValid() const override;
 };

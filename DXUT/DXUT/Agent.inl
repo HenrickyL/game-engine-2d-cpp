@@ -49,11 +49,11 @@ void Agent<T>::Search() {
 	float timer = 0;
 	Timer t;
 	t.Start();
-	path = SearchMethods<T>::HeuristicSearch(_initialState, _finalState, *actuators, controlGenerated, Default);
+	path = SearchMethods<T>::HeuristicSearch(_initialState, _finalState, *actuators, controlGenerated, HillClimb);
 	t.Stop();
 	timer = t.Elapsed();
 	///TODO: Clear - DEBUG
-	std::string res =   path->GetPath();
+	std::string res = path != nullptr? path->GetPath() : "";
 	pathLength = path != nullptr ? path->GetPathLength() : 0;
 }
 

@@ -75,12 +75,7 @@ bool StatePosition::Equal(State<Position>* _other) const {
 }
 
 
-bool StatePosition::IsPossibleToGenerate() const {
-	return true;
-}
-
-
-PairTypeAction<Position> StatePosition::ChooseBestComparison(const std::vector<Action<Position>*> actions, State<Position>* target)const {
+PairTypeAction<Position> StatePosition::ChooseBestComparison(const std::vector<Action<Position>*> actions, State<Position>* target, Dictionary<Position>* controlGenerated)const {
 	Position best;
 	float min = FLT_MAX;
 	Action<Position>* bestAction = nullptr;

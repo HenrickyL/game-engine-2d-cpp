@@ -2,7 +2,8 @@
 
 
 MCS::MCS(int countMissionaries, int countCannibals, int boat, int _m, int _c) 
-    : missionaries(countMissionaries), cannibals(countCannibals), boatOnLeft(boat), missionariesOtherSide(_m), cannibalsOtherSide(_c) {}
+    : missionaries(countMissionaries), cannibals(countCannibals), boatOnLeft(boat), missionariesOtherSide(_m), cannibalsOtherSide(_c) 
+{}
 
 bool MCS::IsValid() const {
     if (this->cannibalsOtherSide < 0 || this->missionariesOtherSide < 0) return false;

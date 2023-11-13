@@ -43,14 +43,14 @@ public:
     State();
     State(std::string _name);
 
-    virtual bool IsPossibleToGenerate() const = 0;
     virtual bool Equal(State<T>* other) const = 0;
-    virtual PairTypeAction<T> ChooseBestComparison(const std::vector<Action<T>*> actions, State<T>* target)const = 0;
+    virtual PairTypeAction<T> ChooseBestComparison(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated)const = 0;
+    virtual bool IsValid() const;
+
     virtual void Generate(T key, Action<T>* action, Dictionary<T>* controlGenerated);
     virtual void GenerateByBestChoice(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated);
     virtual void GenerateForActions(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated);
     virtual float GetHeuristic(State<T>* target) const;
-    virtual bool IsValid() const;
 
 
     void AddTransition(Transition<T>* transition);

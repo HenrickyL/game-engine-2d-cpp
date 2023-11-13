@@ -6,15 +6,11 @@ MCState::MCState(MCS _value) {
 }
 
 
-bool MCState::IsPossibleToGenerate() const {
-	return this->Value().IsValid();
-}
-
 bool MCState::Equal(State<MCS>* other) const {
 	return this->Value().Equal(other->Value());
 }
 
-PairTypeAction<MCS> MCState::ChooseBestComparison(const std::vector<Action<MCS>*> actions, State<MCS>* target)const {
+PairTypeAction<MCS> MCState::ChooseBestComparison(const std::vector<Action<MCS>*> actions, State<MCS>* target, Dictionary<MCS>* controlGenerated)const {
 	MCS best;
 	float min = FLT_MAX;
 	Action<MCS>* actionBest = nullptr;
@@ -22,7 +18,7 @@ PairTypeAction<MCS> MCState::ChooseBestComparison(const std::vector<Action<MCS>*
 	for (auto* action : actions) {
 		MCS key = action->Apply(this);
 		float distance = key.Compare(target->Value());
-		if (key.IsValid() && (distance < min || min == FLT_MAX)) {
+		if (key.IsValid() && controlGenerated->Get(key) == nullptr && (distance < min || min == FLT_MAX)) {
 			min = distance;
 			best = key;
 			actionBest = action;

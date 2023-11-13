@@ -7,7 +7,7 @@ class State;
 template <typename T>
 class Action {
 protected:
-    float cost = 0.0f;
+    float cost = 1.0f;
     Action<T>* inverse = nullptr;
 
 public:

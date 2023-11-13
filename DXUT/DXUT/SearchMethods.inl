@@ -47,7 +47,7 @@ Node<T>* SearchMethods<T>::HeuristicSearch(State<T>* _initial, State<T>* _final,
             return SearchMethods<T>::SearchAndHandleResult(node, _final, AllNodes, controlGenerated);
         }
 
-        if (node->IsPossibleToGenerate() && !actions.empty()) {
+        if (!actions.empty()) {
             node->GenerateTransitions(actions, _final, controlGenerated, generateType);
         }
 
@@ -149,7 +149,7 @@ void SearchMethods<T>::DeleteNotInPath(vector<Node<T>*>& nodesToRemove, Node<T>*
 
 template<typename T>
 bool SearchMethods<T>::existInVector(vector<Node<T>*> list, const Node<T>* element) {
-    for (const auto* item : list) {
+    for (const Node<T>* item : list) {
         if (item->Equal(element)) return true;
     }
     return false;

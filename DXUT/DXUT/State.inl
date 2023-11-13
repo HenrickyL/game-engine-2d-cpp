@@ -121,16 +121,19 @@ void State<T>::Generate(T key, Action<T>* action, Dictionary<T>* controlGenerate
 
 template <typename T>
 void State<T>::GenerateByBestChoice(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated) {
-    PairTypeAction<T> min = this->ChooseBestComparison(actions, target);
+    PairTypeAction<T> min = this->ChooseBestComparison(actions, target, controlGenerated);
     T key = min._value;
     Action<T>* action = min._action;
-    Generate(key, action, controlGenerated);
+    if(action != nullptr)
+        Generate(key, action, controlGenerated);
+    else {
+        return;
+    }
 }
 
 template <typename T>
 void State<T>::GenerateForActions(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated){
     for (Action<T>* action : actions) {
-        ///TODO: Validar se o estado gerado e valido
         T key = action->Apply(this);
         if (action->IsValid(key)) {
             Generate(key, action, controlGenerated);
