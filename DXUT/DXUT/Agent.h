@@ -37,7 +37,7 @@ protected:
 public:
 	Agent() = default;
 	//------------------------------
-	void Search();
+	void Search(GenerateType generateType = HillClimb);
 	void ClearMemory();
 	virtual void GenStates() = 0;
 	//------------------------------

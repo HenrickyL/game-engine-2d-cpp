@@ -40,7 +40,7 @@ void Agent<T>::DeleteActuators() {
 //------------------------------------------
 
 template<typename T>
-void Agent<T>::Search() {
+void Agent<T>::Search(GenerateType generateType) {
 	GenStates();
 	if (path != nullptr) {
 		deletePath(path);
@@ -49,7 +49,7 @@ void Agent<T>::Search() {
 	float timer = 0;
 	Timer t;
 	t.Start();
-	path = SearchMethods<T>::HeuristicSearch(_initialState, _finalState, *actuators, controlGenerated, HillClimb);
+	path = SearchMethods<T>::HeuristicSearch(_initialState, _finalState, *actuators, controlGenerated, generateType);
 	t.Stop();
 	timer = t.Elapsed();
 	///TODO: Clear - DEBUG
