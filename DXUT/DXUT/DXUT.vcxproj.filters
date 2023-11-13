@@ -193,6 +193,9 @@
     <ClCompile Include="MCS.cpp">
       <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileHandler.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -356,6 +359,9 @@
     </ClInclude>
     <ClInclude Include="MCS.h">
       <Filter>Develop\Games\MissionariesCannibalsProblem\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileHandler.h">
+      <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@
 #include "Timer.h"
 #include "SearchMethods.h"
 #include <iostream>
+#include "FileHandler.h"
 //------------------------------------------
 
 template<typename T>
@@ -54,6 +55,10 @@ void Agent<T>::Search(GenerateType generateType) {
 	timer = t.Elapsed();
 	///TODO: Clear - DEBUG
 	std::string res = path != nullptr? path->GetPath() : "";
+	std::string pathFile ="C:\\Users\\henri\\OneDrive\\Área de Trabalho\\MissionariesCannibalsProblem_"+ _finalState->Name() + ".txt";
+	FileHandler writer(pathFile);
+	writer.Write(res);
+	writer.Save();
 	pathLength = path != nullptr ? path->GetPathLength() : 0;
 }
 

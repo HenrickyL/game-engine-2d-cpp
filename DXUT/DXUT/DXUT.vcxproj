@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DirectionConverter.cpp" />
+    <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="MCAction.cpp" />
     <ClCompile Include="MCS.cpp" />
     <ClCompile Include="MCState.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="DXUT_Utils_Observer.h" />
     <ClInclude Include="DXUT_Utils.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="FileHandler.h" />
     <ClInclude Include="MCAction.h" />
     <ClInclude Include="MCS.h" />
     <ClInclude Include="MCState.h" />

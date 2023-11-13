@@ -18,7 +18,7 @@ public:
     float Compare(const MCS& other) const;
     void Move(int miss, int can);
     bool Equal(const MCS& other) const;
-    std::string ToString();
+    std::string ToString() const;
 
     std::size_t customHash() const override;
     bool operator==(const Hasheable& other) const override;

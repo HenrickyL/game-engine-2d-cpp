@@ -40,9 +40,8 @@ void MissionariesCannibalsProblem::Init()
 
 void MissionariesCannibalsProblem::Reset() {
     this->ClearMemory();
-    int value = this->problem;
-    int countMissionaries = value;
-    int countCannibals = value;
+    int countMissionaries = numMissionaries;
+    int countCannibals = numCannibals;
     this->SetInitial(MCS(countMissionaries, countCannibals));
     this->SetFinal(MCS(countMissionaries, countCannibals, 0, countMissionaries, countCannibals));
     this->SetCurrent(Initial());
@@ -55,9 +54,13 @@ void MissionariesCannibalsProblem::InputVerifyExit()
     // sai com o pressionamento da tecla ESC
     if (input->KeyPress(VK_ESCAPE))
         window->Close();
-    if (input->KeyPress(SPACE)) {
-        problem++;
+    if (input->KeyPress(KEY_M)) {
+        numMissionaries++;
     }
+    if (input->KeyPress(KEY_C)) {
+        numCannibals++;
+    }
+    
     if (input->KeyPress(KEY_R)) {
         Reset();
         this->Search();

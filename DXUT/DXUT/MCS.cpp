@@ -96,11 +96,11 @@ bool MCS::Equal(const MCS& other) const {
         cannibalsOtherSide == other.cannibalsOtherSide;
 }
 
-std::string MCS::ToString() {
+std::string MCS::ToString() const {
     std::string str = "(";
     str += std::to_string(missionariesOtherSide) +", ";
     str += std::to_string(cannibalsOtherSide) + ", ";
     str += std::to_string(boatOnLeft);
     str += ")";
-    return str;
+    return str.c_str();
 }

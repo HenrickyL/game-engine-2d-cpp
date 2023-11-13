@@ -8,7 +8,8 @@
 
 class MissionariesCannibalsProblem : public Game, private Agent<MCS>{
 private:
-	int problem = 1;
+	int numMissionaries = 1;
+	int numCannibals = 1;
 	bool viewScene = true;
 	bool viewBBox = false;
 	Sprite* pause = nullptr;
