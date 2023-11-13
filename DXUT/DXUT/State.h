@@ -43,25 +43,23 @@ public:
     State();
     State(std::string _name);
 
-    virtual bool IsGeneratedPossible() const = 0;
+    virtual bool IsPossibleToGenerate() const = 0;
     virtual bool Equal(State<T>* other) const = 0;
     virtual PairTypeAction<T> ChooseBestComparison(const std::vector<Action<T>*> actions, State<T>* target)const = 0;
     virtual void Generate(T key, Action<T>* action, Dictionary<T>* controlGenerated);
     virtual void GenerateByBestChoice(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated);
     virtual void GenerateForActions(const std::vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated);
-
-
+    virtual float GetHeuristic(State<T>* target) const;
+    virtual bool IsValid() const;
 
 
     void AddTransition(Transition<T>* transition);
 
     std::string Name() const;
     std::vector<Transition<T>*>* Edges() const;
-    virtual float GetHeuristic(State<T>* target) const;
     bool ExistActionInEdge(Action<T>* action) const;
     bool ExistInEdge(State<T>* _target) const;
     bool ExistInKeyInEdge(T _key) const;
-    virtual bool IsValid() const;
     ///TODO: validate whether the name 'Value' is the best, as it will be used as 'Key' later.
     T Value()const;
 };

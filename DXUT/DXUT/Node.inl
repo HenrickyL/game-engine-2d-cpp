@@ -88,8 +88,8 @@ void Node<T>::GenerateTransitions(const vector<Action<T>*> actions, State<T>* ta
 
 
 template<typename T>
-bool Node<T>::IsGeneratedPossible() const {
-    return this->state->IsGeneratedPossible();
+bool Node<T>::IsPossibleToGenerate() const {
+    return this->state->IsPossibleToGenerate();
 }
 
 

@@ -47,7 +47,7 @@ public:
     float Cost() const;
     State<T>* GetState() const;
     Node<T>* Father() const;
-    bool IsGeneratedPossible() const;
+    bool IsPossibleToGenerate() const;
     bool Equal(const Node<T>* other) const;
     bool operator<(const Node<T>& other) const;
     T Value() const;

@@ -47,7 +47,7 @@ Node<T>* SearchMethods<T>::HeuristicSearch(State<T>* _initial, State<T>* _final,
             return SearchMethods<T>::SearchAndHandleResult(node, _final, AllNodes, controlGenerated);
         }
 
-        if (node->IsGeneratedPossible() && !actions.empty()) {
+        if (node->IsPossibleToGenerate() && !actions.empty()) {
             node->GenerateTransitions(actions, _final, controlGenerated, generateType);
         }
 

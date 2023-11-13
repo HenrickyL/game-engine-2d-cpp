@@ -75,7 +75,7 @@ bool StatePosition::Equal(State<Position>* _other) const {
 }
 
 
-bool StatePosition::IsGeneratedPossible() const {
+bool StatePosition::IsPossibleToGenerate() const {
 	return true;
 }
 

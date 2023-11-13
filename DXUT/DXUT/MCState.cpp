@@ -6,7 +6,7 @@ MCState::MCState(MCS _value) {
 }
 
 
-bool MCState::IsGeneratedPossible() const {
+bool MCState::IsPossibleToGenerate() const {
 	return this->Value().IsValid();
 }
 
