@@ -2,7 +2,7 @@
 #define _MCS_H
 #include <string>
 #include "Hasheable.h"
-//Solution (0,0,0)
+//Solution (m,c,b)
 class MCS : public Hasheable{
 private:
     int missionariesOtherSide = 0;

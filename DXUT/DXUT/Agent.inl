@@ -55,11 +55,14 @@ void Agent<T>::Search(GenerateType generateType) {
 	timer = t.Elapsed();
 	///TODO: Clear - DEBUG
 	std::string res = path != nullptr? path->GetPath() : "";
-	std::string pathFile ="C:\\Users\\henri\\OneDrive\\Área de Trabalho\\MissionariesCannibalsProblem_"+ _finalState->Name() + ".txt";
-	FileHandler writer(pathFile);
-	writer.Write(res);
-	writer.Save();
 	pathLength = path != nullptr ? path->GetPathLength() : 0;
+	std::string pathFile ="C:\\Users\\henri\\OneDrive\\Área de Trabalho\\"+ _name +"\\solver"+ _finalState->Name() + ".txt";
+	FileHandler writer(pathFile);
+	writer.Append("#" + _finalState->Name());
+	writer.Append("time: " + std::to_string(timer) + "s");
+	writer.Append("steps: " + std::to_string(pathLength) + "\n-------------");
+	writer.Append(res);
+	writer.Save();
 }
 
 template<typename T>

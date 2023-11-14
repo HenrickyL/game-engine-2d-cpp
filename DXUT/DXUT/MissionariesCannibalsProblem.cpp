@@ -9,7 +9,8 @@ Scene* MissionariesCannibalsProblem::scene = nullptr;
 MissionariesCannibalsProblem::MissionariesCannibalsProblem()
 {
     window->Size(800, 500); 
-    window->Title("MissionariesCannibalsProblem");
+    _name = "MissionariesCannibalsProblem";
+    window->Title(_name);
     this->InstanceAgent();
     
     if (MissionariesCannibalsProblem::scene == nullptr) {
@@ -36,7 +37,6 @@ void MissionariesCannibalsProblem::Init()
     actuators->push_back(Move2Missionaries);
     actuators->push_back(Move2Canibals);
     actuators->push_back(MoveMissionaryAndCanibal);
-
 }
 
 
@@ -115,7 +115,7 @@ void MissionariesCannibalsProblem::InputVerifyExit()
     }
 
     if (input->KeyPress(SPACE)) {
-        if (pivot != nullptr) {
+        if (pivot != nullptr && pivot->GetState() != nullptr) {
             MCState* state = dynamic_cast<MCState*>(pivot->GetState());
             _current = state->Value();
             int n = pivot->GetPathLength();
@@ -131,6 +131,7 @@ void MissionariesCannibalsProblem::InputVerifyExit()
     if (input->KeyPress(KEY_R)) {
         Reset();
         this->Search();
+        pivot = path;
     }
 
 }
