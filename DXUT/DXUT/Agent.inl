@@ -54,7 +54,7 @@ void Agent<T>::Search(GenerateType generateType) {
 	t.Stop();
 	timer = t.Elapsed();
 	///TODO: Clear - DEBUG
-	std::string res = path != nullptr? path->GetPath() : "";
+	std::string res = path != nullptr? path->GetPath() : "NotFound";
 	pathLength = path != nullptr ? path->GetPathLength() : 0;
 	std::string pathFile ="C:\\Users\\henri\\OneDrive\\Área de Trabalho\\"+ _name +"\\solver"+ _finalState->Name() + ".txt";
 	FileHandler writer(pathFile);
