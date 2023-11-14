@@ -5,7 +5,7 @@ Scene* MissionariesCannibalsProblem::scene = nullptr;
 
 #include "MCAction.h"
 #include "MCState.h"
-
+#include "MCObj.h"
 MissionariesCannibalsProblem::MissionariesCannibalsProblem()
 {
     window->Size(800, 500); 
@@ -19,8 +19,10 @@ MissionariesCannibalsProblem::MissionariesCannibalsProblem()
 
 void MissionariesCannibalsProblem::Init()
 {
-    imgPlayer = new Image("Resources/player.png");
-    imgResult = new Image("Resources/x.png");
+    imgMissionary = new Image("Resources/missionary.png");
+    imgCannibal = new Image("Resources/cannibal.png");
+    imgBoat = new Image("Resources/boat.png");
+
     //---------------
     MCAction* MoveMissionary= new MCAction(1, 0);
     MCAction* MoveCanibal = new MCAction(0, 1);
@@ -40,12 +42,63 @@ void MissionariesCannibalsProblem::Init()
 
 void MissionariesCannibalsProblem::Reset() {
     this->ClearMemory();
+    
     int countMissionaries = numMissionaries;
     int countCannibals = numCannibals;
     this->SetInitial(MCS(countMissionaries, countCannibals));
     this->SetFinal(MCS(countMissionaries, countCannibals, 0, countMissionaries, countCannibals));
     this->SetCurrent(Initial());
+
+    UpdatePositionObj();
 }
+
+
+void MissionariesCannibalsProblem::UpdatePositionObj() {
+    scene->Clear();
+    float P12X = window->Center().X() / 3;
+    float POrigin = window->Center().Y();
+    float PTarget = window->Center().X() * 1.2;
+    float offSetX = 25.0f;
+
+
+    MCObj* obj;
+    for (int i = 0; i < _current.MissionariesOrigin(); i++) {
+        obj = new MCObj(imgMissionary);
+        Position p = Position(P12X, POrigin);
+        p.Translate(Vector(i * offSetX, -POrigin / 3));
+        obj->MoveTo(p);
+        scene->Add(obj, STATIC);
+    }
+    for (int i = 0; i < _current.CannibalsOrigin(); i++) {
+        obj = new MCObj(imgCannibal);
+        Position p = Position(P12X, POrigin);;
+        p.Translate(Vector(i * offSetX, POrigin / 2));
+        obj->MoveTo(p);
+        scene->Add(obj, STATIC);
+    }
+
+    for (int i = 0; i < _current.MissionariesTarget(); i++) {
+        obj = new MCObj(imgMissionary);
+        Position p = Position(P12X, POrigin);
+        p.Translate(Vector(i * offSetX + PTarget, -POrigin / 3));
+        obj->MoveTo(p);
+        scene->Add(obj, STATIC);
+    }
+    for (int i = 0; i < _current.CannibalsTarget(); i++) {
+        obj = new MCObj(imgCannibal);
+        Position p = Position(P12X, POrigin);;
+        p.Translate(Vector(i * offSetX + PTarget, POrigin / 2));
+        obj->MoveTo(p);
+        scene->Add(obj, STATIC);
+    }
+    obj = new MCObj(imgBoat, 0.05f);
+    Position p = window->Center();
+    p.Translate(Vector(_current.Boat() == 0 ? P12X : -P12X, 0));
+    obj->MoveTo(p);
+    scene->Add(obj, STATIC);
+
+}
+
 
 // ------------------------------------------------------------------------------
 
@@ -59,6 +112,20 @@ void MissionariesCannibalsProblem::InputVerifyExit()
     }
     if (input->KeyPress(KEY_C)) {
         numCannibals++;
+    }
+
+    if (input->KeyPress(SPACE)) {
+        if (pivot != nullptr) {
+            MCState* state = dynamic_cast<MCState*>(pivot->GetState());
+            _current = state->Value();
+            int n = pivot->GetPathLength();
+            pivot = pivot->Father();
+            window->Clear();
+            UpdatePositionObj();
+        }
+        else {
+            pivot = path;
+        }
     }
     
     if (input->KeyPress(KEY_R)) {
@@ -110,8 +177,8 @@ void MissionariesCannibalsProblem::Finalize()
 {
     if (pause)delete pause;
     //delete imgs
-    if (imgPlayer)delete imgPlayer;
-    if (imgResult)delete imgResult;
+    if (imgMissionary)delete imgMissionary;
+    if (imgCannibal)delete imgCannibal;
     // apaga sprites
     if (backg)delete backg;
     // apaga cena do jogo

@@ -79,6 +79,26 @@ uint Scene::Size()
 
 // ---------------------------------------------------------------------------------
 
+void Scene::Clear() {
+    // Limpa e deleta todos os objetos estáticos
+    for (auto obj : statics)
+        delete obj;
+
+    statics.clear();
+
+    // Limpa e deleta todos os objetos em movimento
+    for (auto obj : moving)
+        delete obj;
+
+    moving.clear();
+
+    // Limpa outras listas e realiza quaisquer outras operações necessárias
+    collisions.clear();
+    toDelete.clear();
+}
+
+// ---------------------------------------------------------------------------------
+
 void Scene::ProcessDeleted()
 {
     // remove objetos duplicados

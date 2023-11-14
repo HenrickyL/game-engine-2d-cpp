@@ -133,6 +133,7 @@
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="MCAction.cpp" />
+    <ClCompile Include="MCObj.cpp" />
     <ClCompile Include="MCS.cpp" />
     <ClCompile Include="MCState.cpp" />
     <ClCompile Include="MissionariesCannibalsProblem.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="MCAction.h" />
+    <ClInclude Include="MCObj.h" />
     <ClInclude Include="MCS.h" />
     <ClInclude Include="MCState.h" />
     <ClInclude Include="MissionariesCannibalsProblem.h" />

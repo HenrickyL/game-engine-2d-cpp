@@ -24,6 +24,22 @@ public:
     bool operator==(const Hasheable& other) const override;
     bool operator==(const MCS& other) const;
 
+    int MissionariesTarget()const;
+    int CannibalsTarget() const;
+
+    int MissionariesOrigin()const;
+    int CannibalsOrigin() const;
+
+    int Boat() const;
+
+
 };
+
+inline int MCS::MissionariesTarget()const { return missionariesOtherSide; }
+inline int MCS::CannibalsTarget() const { return cannibalsOtherSide; }
+inline int MCS::MissionariesOrigin()const { return missionaries - missionariesOtherSide; }
+inline int MCS::CannibalsOrigin() const { return cannibals - cannibalsOtherSide; }
+inline int MCS::Boat() const { return boatOnLeft; }
+
 
 #endif

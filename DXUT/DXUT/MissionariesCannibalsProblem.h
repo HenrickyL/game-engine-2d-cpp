@@ -15,8 +15,9 @@ private:
 	Sprite* pause = nullptr;
 	Sprite* backg = nullptr;
 	// --------------------------
-	Image* imgPlayer = nullptr;
-	Image* imgResult = nullptr;
+	Image* imgMissionary = nullptr;
+	Image* imgCannibal = nullptr;
+	Image* imgBoat = nullptr;
 
 	// --------------------------
 
@@ -33,6 +34,9 @@ public:
 	void Finalize();
 
 	void Reset();
+
+	void UpdatePositionObj();
+
 
 	void GenStates() override;
 
