@@ -26,7 +26,7 @@ private:
 public:
     static Node<T>* BreadthFirstSearch(State<T>* _initial, State<T>* _final);
     static Node<T>* DepthFirstSearch(State<T>* _initial, State<T>* _final);
-    static Node<T>* HeuristicSearch(State<T>* _initial, State<T>* _final, vector<Action<T>*> actions, Dictionary<T>* controlGenerated);
+    static Node<T>* HeuristicSearch(State<T>* _initial, State<T>* _final, vector<Action<T>*> actions, Dictionary<T>* controlGenerated, GenerateType generateType, bool useMinCost = true);
 };
 #include "SearchMethods.inl"
 #endif

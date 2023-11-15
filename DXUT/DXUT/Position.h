@@ -31,6 +31,7 @@ public:
 	bool		operator==(const Position& other) const;
 	Position	operator+(const Position& other) const;
 	Position	operator*(const float value) const;
+	Position	operator/(const float value) const;
 	Vector		operator-(const Position& other) const;
 
 	std::size_t customHash() const override;

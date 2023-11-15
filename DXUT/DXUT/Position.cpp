@@ -57,6 +57,11 @@ Position Position::operator+(const Position& other) const
 Position Position::operator*(const float value) const {
 	return Position(_x * value, _y * value, _z * value);
 }
+
+Position	Position::operator/(const float value) const {
+	return Position(_x / value, _y / value, _z / value);
+}
+
 Vector	Position::operator-(const Position& other) const
 {
 	return Vector(_x -other._x, _y - other._y, _z - other._z);

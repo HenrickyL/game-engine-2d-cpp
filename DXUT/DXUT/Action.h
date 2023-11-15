@@ -7,7 +7,7 @@ class State;
 template <typename T>
 class Action {
 protected:
-    float cost = 0.0f;
+    float cost = 1.0f;
     Action<T>* inverse = nullptr;
 
 public:
@@ -20,6 +20,7 @@ public:
 
     virtual State<T>* Generate(State<T>* _target) const = 0;
     virtual T Apply(const State<T>* _target) const = 0;
+    virtual bool IsValid(const T _target) const = 0;
 
 };
 

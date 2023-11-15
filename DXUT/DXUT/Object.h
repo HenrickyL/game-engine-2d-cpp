@@ -71,6 +71,8 @@ public:
     void SetSpeed(const Vector speed);
     void SetMagnitude(const float value);
     void SetSprite(Sprite* sprite);
+    void SetScale(float scale);
+
 
     // retorna tipo do objeto
     virtual uint Type() const;
@@ -109,6 +111,8 @@ inline  float Object::Top() const { return _sprite ? _position->Y() - _sprite->H
 inline  float Object::Down() const { return _sprite ? _position->Y() + _sprite->HalfHeight() : _position->Y(); }
 inline  float Object::Width() const { return _sprite->Width(); }
 inline  float Object::Height() const { return _sprite->Height(); }
+inline void Object::SetScale(float scale) { _sprite->SetScale(scale); }
+
 // -----------------------------------------------------------------------------
 
 #endif

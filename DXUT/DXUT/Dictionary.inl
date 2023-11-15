@@ -68,3 +68,11 @@ template<typename KeyType>
 State<KeyType>*& Dictionary<KeyType>::operator[](const KeyType& key) const {
     return dictionary[key];
 }
+
+
+template<typename T>
+void Dictionary<T>::Clear() {
+    if (IsEnabled()) {
+        dictionary.clear();
+    }
+}

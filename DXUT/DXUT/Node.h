@@ -36,7 +36,7 @@ public:
 
 
     void DeletePath();
-    void GenerateTransitions(const vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated);
+    void GenerateTransitions(const vector<Action<T>*> actions, State<T>* target, Dictionary<T>* controlGenerated, GenerateType type = Default);
     void SetHeuristicBy(State<T>* _target);
     void SetFather(Node<T>* _father);
     Node<T>* ReversePath();
@@ -47,7 +47,6 @@ public:
     float Cost() const;
     State<T>* GetState() const;
     Node<T>* Father() const;
-    bool IsGeneratedPossible() const;
     bool Equal(const Node<T>* other) const;
     bool operator<(const Node<T>& other) const;
     T Value() const;

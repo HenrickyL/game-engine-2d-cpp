@@ -16,7 +16,10 @@ enum InputKeys {
 	KEY_R = 0x52,
 	KEY_P = 0x50,
 	KEY_B = 0x42,
-	KEY_O = 0x4F
+	KEY_O = 0x4F,
+	KEY_M = 0x4D,
+	KEY_N = 0x4E,
+	KEY_C = 0x43
 };
 
 #endif

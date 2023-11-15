@@ -130,10 +130,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Agent.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
-    <ClCompile Include="Environment.cpp" />
-    <ClCompile Include="AiTest.cpp" />
+    <ClCompile Include="FileHandler.cpp" />
+    <ClCompile Include="MCAction.cpp" />
+    <ClCompile Include="MCObj.cpp" />
+    <ClCompile Include="MCS.cpp" />
+    <ClCompile Include="MCState.cpp" />
+    <ClCompile Include="MissionariesCannibalsProblem.cpp" />
+    <ClCompile Include="ShortPathProblem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Error.cpp" />
@@ -169,7 +173,13 @@
     <ClInclude Include="DXUT_Utils_Observer.h" />
     <ClInclude Include="DXUT_Utils.h" />
     <ClInclude Include="Environment.h" />
-    <ClInclude Include="AiTest.h" />
+    <ClInclude Include="FileHandler.h" />
+    <ClInclude Include="MCAction.h" />
+    <ClInclude Include="MCObj.h" />
+    <ClInclude Include="MCS.h" />
+    <ClInclude Include="MCState.h" />
+    <ClInclude Include="MissionariesCannibalsProblem.h" />
+    <ClInclude Include="ShortPathProblem.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />
     <ClInclude Include="Engine.h" />
@@ -215,7 +225,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Action.inl" />
+    <None Include="Agent.inl" />
     <None Include="Dictionary.inl" />
+    <None Include="Environment.inl" />
     <None Include="HowToCreateYourProblemAStar.md" />
     <None Include="Node.inl" />
     <None Include="PriorityQueueSearch.inl" />

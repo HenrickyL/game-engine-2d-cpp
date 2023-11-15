@@ -1,13 +1,14 @@
-#include "Environment.h"
+//#include "Environment.h"
 //------------------------------------------
 #include "Agent.h"
 //------------------------------------------
-
-Environment::Environment() {
+template<typename T>
+Environment<T>::Environment() {
 	agents = new std::vector<Agent>();
 }
 
 //------------------------------------------
-Environment::~Environment() {
+template<typename T>
+Environment<T>::~Environment() {
 	delete agents;
 }

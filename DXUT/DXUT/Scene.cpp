@@ -79,6 +79,26 @@ uint Scene::Size()
 
 // ---------------------------------------------------------------------------------
 
+void Scene::Clear() {
+    // Limpa e deleta todos os objetos estáticos
+    for (auto obj : statics)
+        delete obj;
+
+    statics.clear();
+
+    // Limpa e deleta todos os objetos em movimento
+    for (auto obj : moving)
+        delete obj;
+
+    moving.clear();
+
+    // Limpa outras listas e realiza quaisquer outras operações necessárias
+    collisions.clear();
+    toDelete.clear();
+}
+
+// ---------------------------------------------------------------------------------
+
 void Scene::ProcessDeleted()
 {
     // remove objetos duplicados
@@ -107,13 +127,17 @@ void Scene::Update()
 {
     // atualiza todos os objetos estáticos
     processing = STATIC;
-    for (it = statics.begin(); it != statics.end(); ++it)
-        (*it)->Update();
+    if (!statics.empty()) {
+        for (it = statics.begin(); it != statics.end(); ++it)
+            (*it)->Update();
+    }
 
     // atualiza todos os objetos em movimento
     processing = MOVING;
-    for (it = moving.begin(); it != moving.end(); ++it)
-        (*it)->Update();
+    if (!moving.empty()) {
+        for (it = moving.begin(); it != moving.end(); ++it)
+            (*it)->Update();
+    }
 
     ProcessDeleted();
 }
@@ -124,13 +148,17 @@ void Scene::Draw()
 {
     // desenha todos os objetos estáticos
     processing = STATIC;
-    for (it = statics.begin(); it != statics.end(); ++it)
-        (*it)->Draw();
+    if (!statics.empty()) {
+        for (it = statics.begin(); it != statics.end(); ++it)
+            (*it)->Draw();
+    }
 
     // desenha todos os objetos em movimento
     processing = MOVING;
-    for (it = moving.begin(); it != moving.end(); ++it)
-        (*it)->Draw();
+    if (!moving.empty()) {
+        for (it = moving.begin(); it != moving.end(); ++it)
+            (*it)->Draw();
+    }
 }
 
 // ---------------------------------------------------------------------------------
@@ -515,3 +543,7 @@ void Scene::CollisionDetection()
 }
 
 // --------------------------------------------------------------------------------
+
+bool Scene::Empty() const {
+    return statics.empty() && moving.empty();
+}

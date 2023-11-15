@@ -79,15 +79,6 @@
     <Filter Include="Develop\Games">
       <UniqueIdentifier>{f14da2e0-07e4-4277-9f45-128a67579b2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Develop\Games\AiTest">
-      <UniqueIdentifier>{d33d3356-b4a7-4aaf-9607-3b1027bb0a6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Develop\Games\AiTest\Header Files">
-      <UniqueIdentifier>{f1599941-7d84-4787-aa17-849610c2e237}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Develop\Games\AiTest\Source Files">
-      <UniqueIdentifier>{7f6c3cbd-0927-4348-a56a-c3bff3a2b892}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\AI\Header Files\Middleware">
       <UniqueIdentifier>{49240dda-a20b-42b3-9484-448e1a4fe5b9}</UniqueIdentifier>
     </Filter>
@@ -96,6 +87,24 @@
     </Filter>
     <Filter Include="Modules\AI\Header Files\Middleware\StatePosition">
       <UniqueIdentifier>{44175f06-f280-4108-9074-7f8720e367f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Develop\Games\ShortPathProblem">
+      <UniqueIdentifier>{d33d3356-b4a7-4aaf-9607-3b1027bb0a6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Develop\Games\ShortPathProblem\Header Files">
+      <UniqueIdentifier>{f1599941-7d84-4787-aa17-849610c2e237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Develop\Games\ShortPathProblem\Source Files">
+      <UniqueIdentifier>{7f6c3cbd-0927-4348-a56a-c3bff3a2b892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Develop\Games\MissionariesCannibalsProblem">
+      <UniqueIdentifier>{c161aba3-0d8f-4a58-b26f-520bce1feece}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Develop\Games\MissionariesCannibalsProblem\Header Files">
+      <UniqueIdentifier>{e9bff110-ac59-4c9e-b9e7-d5542d0f2813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Develop\Games\MissionariesCannibalsProblem\Source Files">
+      <UniqueIdentifier>{fd3459a3-455f-4383-9b42-159d318feade}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -123,12 +132,6 @@
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
       <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Agent.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Environment.cpp">
-      <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine\Source Files</Filter>
@@ -166,17 +169,35 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AiTest.cpp">
-      <Filter>Develop\Games\AiTest\Source Files</Filter>
+    <ClCompile Include="ShortPathProblem.cpp">
+      <Filter>Develop\Games\ShortPathProblem\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StatePosition.cpp">
       <Filter>Modules\AI\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Develop\Games\AiTest\Source Files</Filter>
+      <Filter>Develop\Games\ShortPathProblem\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Moviment.cpp">
       <Filter>Modules\AI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MissionariesCannibalsProblem.cpp">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MCState.cpp">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MCAction.cpp">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MCS.cpp">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileHandler.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MCObj.cpp">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -300,8 +321,8 @@
     <ClInclude Include="Position.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="AiTest.h">
-      <Filter>Develop\Games\AiTest\Header Files</Filter>
+    <ClInclude Include="ShortPathProblem.h">
+      <Filter>Develop\Games\ShortPathProblem\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PriorityQueueSearch.h">
       <Filter>Modules\AI\Header Files\Middleware\SearchStructures</Filter>
@@ -319,7 +340,7 @@
       <Filter>Modules\AI\Header Files\Middleware\StatePosition</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Develop\Games\AiTest\Header Files</Filter>
+      <Filter>Develop\Games\ShortPathProblem\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MovimentAction.h">
       <Filter>Modules\AI\Header Files\Middleware\StatePosition</Filter>
@@ -329,6 +350,24 @@
     </ClInclude>
     <ClInclude Include="Hasheable.h">
       <Filter>Modules\AI\Header Files\Middleware</Filter>
+    </ClInclude>
+    <ClInclude Include="MissionariesCannibalsProblem.h">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MCState.h">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MCAction.h">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MCS.h">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileHandler.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="MCObj.h">
+      <Filter>Develop\Games\MissionariesCannibalsProblem\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -372,6 +411,12 @@
     </None>
     <None Include="StackSearch.inl">
       <Filter>Modules\AI\Source Files</Filter>
+    </None>
+    <None Include="Agent.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </None>
+    <None Include="Environment.inl">
+      <Filter>Engine\Header Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

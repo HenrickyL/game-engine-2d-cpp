@@ -2,6 +2,8 @@
 #define DXUT_HASHEABLE_H
 
 #include <cstddef>
+#include <functional>
+
 class Hasheable {
 public:
     virtual std::size_t customHash() const = 0;

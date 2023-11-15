@@ -65,6 +65,7 @@ public:
     void Remove();                              // remove objeto sendo processado na cena sem deletar
     void Delete(Object* obj, ObjectGroup type);        // deleta objeto da lista indicada (STATIC ou MOVING)
     void Delete();                              // deleta o objeto cujo Update/Draw está sendo executado
+    void Clear();
 
     uint Size();                                // retorna a quantidade de objetos na cena
 
@@ -77,6 +78,7 @@ public:
 
     bool Collision(Object* oa, Object* ob);   // verifica se há colisão entre dois objetos
     void CollisionDetection();                  // trata a colisão entre objetos da cena
+    bool Empty() const;
 };
 // --------------------------------------------------------------------------------
 // Funções Membro Inline

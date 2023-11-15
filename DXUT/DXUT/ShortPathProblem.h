@@ -1,11 +1,11 @@
-#ifndef _BREAKOUT_H
-#define _BREAKOUT_H
+#ifndef _ShortPathProblem_H
+#define _ShortPathProblem_H
 
 #include "DXUT_2D.h"
 #include "DXUT_IA.h"
 #include <vector>
 using std::vector;
-class AiTest : public Game
+class ShortPathProblem : public Game
 {
 private:
 	bool viewScene = true;
@@ -28,7 +28,7 @@ private:
 
 public:
 	static Scene* scene;
-	AiTest();
+	ShortPathProblem();
 
 	void Init();
 	void Update();

@@ -5,7 +5,7 @@
 #include "Input.h"
 #include "Timer.h"
 #include "Renderer.h"
-
+#include <string>
 
 class Game {
 protected:
@@ -17,6 +17,7 @@ protected:
 	static float	& gameTime;					// tempo do último quadro
 
 	Sprite* _sptPause = nullptr;
+	std::string _name = "GameName";
 public:
 	Game();										// construtor
 	virtual ~Game();							// destrutor
@@ -34,6 +35,12 @@ public:
 	virtual void Update() = 0;                  // atualização do jogo
 	virtual void Draw() = 0;                    // desenho da cena
 	virtual void Finalize() = 0;                // finalização do jogo
+
+	std::string Name() const;
+
 };
+
+inline std::string Game::Name() const { return _name; }
+
 // ---------------------------------------------------------------------------------
 #endif
