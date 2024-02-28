@@ -16,6 +16,7 @@ public:
 	Position(Position* p);
 	~Position();
 
+	static Position Zero;
 	float		X() const;
 	float		Y() const;
 	float		Z() const;
