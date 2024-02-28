@@ -1,52 +1,53 @@
-#include "Window.h"
+#include "DirectXWindow.h"
 
 // -------------------------------------------------------------------------------
 // inicialização de membros estáticos da classe
 
-void (*Window::inFocus)() = nullptr;						// nenhuma ação ao ganhar foco
-void (*Window::lostFocus)() = nullptr;						// nenhuma ação ao perder foco
+void (*DirectXWindow::inFocus)() = nullptr;						// nenhuma ação ao ganhar foco
+void (*DirectXWindow::lostFocus)() = nullptr;						// nenhuma ação ao perder foco
 // -------------------------------------------------------------------------------
 // Construtor
 
-Window::Window()
+DirectXWindow::DirectXWindow()
 {
-    hInstance       = GetModuleHandle(NULL);                // identificador da aplicação
-    windowId	    = 0;									// id nulo porque a janela ainda não existe
-	windowWidth		= GetSystemMetrics(SM_CXSCREEN);		// a janela ocupa toda a tela (tela cheia)
-	windowHeight	= GetSystemMetrics(SM_CYSCREEN);		// a janela ocupa toda a tela (tela cheia)
-	windowIcon		= LoadIcon(NULL, IDI_APPLICATION);		// ícone padrão de uma aplicação
-	windowCursor	= LoadCursor(NULL, IDC_ARROW);			// cursor padrão de uma aplicação
-	windowColor	    = RGB(0,0,0);							// cor de fundo padrão é preta
-	windowTitle		= string("Windows App");				// título padrão da janela
-	windowStyle		= WS_POPUP | WS_VISIBLE;				// estilo para tela cheia
-	windowMode		= FULLSCREEN;							// modo padrão é tela cheia
-	windowPosX		= 0;									// posição inicial da janela no eixo x
-	windowPosY		= 0;									// posição inicial da janela no eixo y
-    center          = Position(windowWidth / 2.0f, windowHeight / 2.0f);
-	windowHdc		= { 0 };								// contexto do dispositivo
-	windowRect		= { 0, 0, 0, 0 };						// área cliente da janela
+    hInstance = GetModuleHandle(NULL);                // identificador da aplicação
+    windowId = 0;									// id nulo porque a janela ainda não existe
+    windowWidth = GetSystemMetrics(SM_CXSCREEN);		// a janela ocupa toda a tela (tela cheia)
+    windowHeight = GetSystemMetrics(SM_CYSCREEN);		// a janela ocupa toda a tela (tela cheia)
+    windowIcon = LoadIcon(NULL, IDI_APPLICATION);		// ícone padrão de uma aplicação
+    windowCursor = LoadCursor(NULL, IDC_ARROW);			// cursor padrão de uma aplicação
+    windowColor = RGB(0, 0, 0);							// cor de fundo padrão é preta
+    windowTitle = string("Windows App");				// título padrão da janela
+    windowStyle = WS_POPUP | WS_VISIBLE;				// estilo para tela cheia
+    windowMode = FULLSCREEN;							// modo padrão é tela cheia
+    windowPosX = 0;									// posição inicial da janela no eixo x
+    windowPosY = 0;									// posição inicial da janela no eixo y
+    center = Position(windowWidth / 2.0f, windowHeight / 2.0f);
+    windowHdc = { 0 };								// contexto do dispositivo
+    windowRect = { 0, 0, 0, 0 };						// área cliente da janela
 }
 // -------------------------------------------------------------------------------
-Window::~Window()
+DirectXWindow::~DirectXWindow()
 {
     // libera contexto do dispositivo
     if (windowHdc) ReleaseDC(windowId, windowHdc);
 }
 // -------------------------------------------------------------------------------
 
-void Window::Mode(WindowModes mode) {
+void DirectXWindow::Mode(WindowModes mode) {
     this->windowMode = mode;
     if (mode == WINDOWED) {
         // modo em janela
         windowStyle = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE;
 
-    }else{
+    }
+    else {
         // modo em tela cheia ou sem bordas
         windowStyle = WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE;
     }
 }
 
-void Window::Size(int width, int height)
+void DirectXWindow::Size(int width, int height)
 {
     // window size
     windowWidth = width;
@@ -60,43 +61,29 @@ void Window::Size(int width, int height)
     windowPosY = (GetSystemMetrics(SM_CYSCREEN) / 2) - (windowHeight / 2);
 }
 
-void Window::Print(string text, int x, int y, COLORREF color)
-{
-    // esta função exibe o texto na posição (x,y) da tela usando a cor especificada
-    // ela usa a GDI do Windows (lenta) e deve ser usada apenas para depuração
-
-    // define a cor do texto
-    SetTextColor(windowHdc, color);
-
-    // define o fundo do texto como transparente
-    SetBkMode(windowHdc, TRANSPARENT);
-
-    // mostra o texto
-    TextOut(windowHdc, x, y, text.c_str(), (int)text.size());
-}
 
 // -------------------------------------------------------------------------------
 
-bool Window::Create()
+bool DirectXWindow::Create()
 {
     // identificador da aplicação
     HINSTANCE appId = GetModuleHandle(NULL);
 
     // definindo uma classe de janela
     WNDCLASSEX wndClass;
-    wndClass.cbSize         = sizeof(WNDCLASSEX);
-    wndClass.style          = CS_DBLCLKS | CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-    wndClass.lpfnWndProc    = Window::WinProc;
-    wndClass.cbClsExtra     = 0;
-    wndClass.cbWndExtra     = 0;
-    wndClass.hInstance      = appId;
+    wndClass.cbSize = sizeof(WNDCLASSEX);
+    wndClass.style = CS_DBLCLKS | CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
+    wndClass.lpfnWndProc = DirectXWindow::WinProc;
+    wndClass.cbClsExtra = 0;
+    wndClass.cbWndExtra = 0;
+    wndClass.hInstance = appId;
     wndClass.hInstance = hInstance;
-    wndClass.hIcon          = windowIcon;
-    wndClass.hCursor        = windowCursor;
-    wndClass.hbrBackground  = (HBRUSH)CreateSolidBrush(windowColor);
-    wndClass.lpszMenuName   = NULL;
-    wndClass.lpszClassName  = "AppWindow";
-    wndClass.hIconSm        = windowIcon;
+    wndClass.hIcon = windowIcon;
+    wndClass.hCursor = windowCursor;
+    wndClass.hbrBackground = (HBRUSH)CreateSolidBrush(windowColor);
+    wndClass.lpszMenuName = NULL;
+    wndClass.lpszClassName = "AppWindow";
+    wndClass.hIconSm = windowIcon;
 
     // registrando classe "AppWindow"
     if (!RegisterClassEx(&wndClass))
@@ -155,23 +142,23 @@ bool Window::Create()
 }
 
 
-LRESULT CALLBACK Window::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DirectXWindow::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg)
     {
-    // janela perdeu o foco
+        // janela perdeu o foco
     case WM_KILLFOCUS:
         if (lostFocus)
             lostFocus();
         return 0;
 
-    // janela recebeu o foco
+        // janela recebeu o foco
     case WM_SETFOCUS:
         if (inFocus)
             inFocus();
         return 0;
 
-    // a janela foi destruida
+        // a janela foi destruida
     case WM_DESTROY:
         // envia uma mensagem WM_QUIT para encerrar o loop da aplicação
         PostQuitMessage(0);

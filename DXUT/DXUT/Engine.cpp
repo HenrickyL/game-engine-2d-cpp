@@ -19,7 +19,7 @@ Timer		Engine::timer;                      // medidor de tempo
 // ------------------------------------------------------------------------------
 Engine::Engine()
 {
-	window = new Window();
+	//window = new Window();
 	graphics = new Graphics(window);
 	renderer = new Renderer();
 }

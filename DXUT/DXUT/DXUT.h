@@ -9,5 +9,7 @@
 #include "Engine.h"
 #include "Error.h"
 
+#include "DirectXWindow.h"
+
 #include "DXUT_IA.h"
 #endif
