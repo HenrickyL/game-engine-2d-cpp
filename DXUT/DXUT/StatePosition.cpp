@@ -12,8 +12,8 @@ Window*& StatePosition::window = Engine::window;
 
 
 StatePosition::StatePosition(const Position& pos) {
-	int x = pos.X();
-	int y = pos.Y();
+	int x = pos.x();
+	int y = pos.y();
 	name = "(x: " + std::to_string(x) + ", y: " + std::to_string(y) + ")";
 	_position = Position(x, y);
 	value = _position;

@@ -6,10 +6,11 @@
 #include "Position.h"
 #include "Geometry.h"
 #include "Colors.h"
+#include "Movable.h"
 // ---------------------------------------------------------------------------------
 struct SpriteData
 {
-    Position* position;
+    Position position;
     float scale;
     float depth;
     float rotation;
@@ -30,16 +31,15 @@ struct Layer
 };
 
 // ---------------------------------------------------------------------------------
-class Sprite
+class Sprite : public Movable
 {
 private:
-    SpriteData sprite;              // dados do _sprite
-    Position* _position;
-    bool localImage;                // imagem local ou externa
-    Image* image;                   // ponteiro para uma imagem
+    SpriteData* _sprite;              // dados do _sprite
+    bool _localImage;                // imagem local ou externa
+    Image* _image;                   // ponteiro para uma imagem
 
-    const float scaleDefault = 1.0f,
-				rotationDefault = 0.0f;
+    const float _scaleDefault = 1.0f,
+				_rotationDefault = 0.0f;
 
 public:
     Sprite(string filename);        // constroi _sprite a partir de um arquivo
@@ -58,7 +58,6 @@ public:
     void    SetScale(float scale);
     void    SetImage(Image* img);
     void    SetImage(const std::string _filename);
-    void    SetPosition(const Position& p);
     void    SetLayer(float layer);
     void    SetOpacity(float value);
     void    SetFilterColor(Color color);
@@ -74,34 +73,34 @@ public:
     Circle*  GetCircle() const;
     Color   GetFilterColor() const;
 
-    Position*  GetPosition() const;
-
+    void MoveTo(const Position& position) override;
+    void MoveTo(Position* position) override;
+    void TranslateTo(const Vector& delta) override;
 
 };
 
 // ---------------------------------------------------------------------------------
 // Funções Inline
 
-inline float    Sprite::Width() const { return image->Width() * sprite.scale;}
-inline float    Sprite::Height() const { return image->Height() * sprite.scale;}
-inline Position*   Sprite::GetPosition() const { return _position; }
+inline float    Sprite::Width() const { return _image->Width() * _sprite->scale;}
+inline float    Sprite::Height() const { return _image->Height() * _sprite->scale;}
 inline float    Sprite::HalfWidth() const { return Width() / 2.0f; }
 inline float    Sprite::HalfHeight() const { return Height() / 2.0f; }
-inline Color    Sprite::GetFilterColor() const { return sprite.color; };
+inline Color    Sprite::GetFilterColor() const { return _sprite->color; };
 
 // ---------------------------------------------------------------------------------
 
-inline void Sprite::SetRotation(Direction rotation) { sprite.rotation = DirectionConverter::GetRadians(rotation); }
-inline void Sprite::SetRotation(float rotation) { sprite.rotation = rotation;}
-inline void Sprite::SetScale(float scale) { sprite.scale = scale; }
-inline void Sprite::SetLayer(float layer) { sprite.depth = layer; }
-inline void Sprite::SetOpacity(float value) { sprite.color.A = max(0.0f, min(1.0f, value)); }
-inline void Sprite::SetFilterColor(Color color) { sprite.color = color; }
+inline void Sprite::SetRotation(Direction rotation) { _sprite->rotation = DirectionConverter::GetRadians(rotation); }
+inline void Sprite::SetRotation(float rotation) { _sprite->rotation = rotation;}
+inline void Sprite::SetScale(float scale) { _sprite->scale = scale; }
+inline void Sprite::SetLayer(float layer) { _sprite->depth = layer; }
+inline void Sprite::SetOpacity(float value) { _sprite->color.A = max(0.0f, min(1.0f, value)); }
+inline void Sprite::SetFilterColor(Color color) { _sprite->color = color; }
 
 // ---------------------------------------------------------------------------------
 
-inline float Sprite::Rotation() const { return sprite.rotation;}
+inline float Sprite::Rotation() const { return _sprite->rotation;}
 
-inline float Sprite::Scale() const { return sprite.scale;}
+inline float Sprite::Scale() const { return _sprite->scale;}
 
 #endif

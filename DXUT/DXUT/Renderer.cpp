@@ -972,10 +972,7 @@ bool Renderer::Initialize(Window* window, Graphics* graphics)
     // ---------------------------------------------
     // Sprite 
     // ---------------------------------------------
-    if (pixelPlotSprite.position)
-        pixelPlotSprite.position->MoveTo(Position(0, 0));
-    else
-        pixelPlotSprite.position = new Position();
+    pixelPlotSprite.position.MoveTo(Position(0, 0));
     pixelPlotSprite.scale = 1.0f;
     pixelPlotSprite.depth = 0.0f;
     pixelPlotSprite.rotation = 0.0f;
@@ -1038,7 +1035,7 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
             XMVECTOR inverseTextureSize = XMVectorReciprocal(textureSize);
 
             // organiza informações do sprite
-            XMFLOAT2 positionxy(spriteData->position->X(), spriteData->position->Y());
+            XMFLOAT2 positionxy(spriteData->position.x(), spriteData->position.y());
             float scale = spriteData->scale;
             XMFLOAT2 center(0.0f, 0.0f);
             float rotation = spriteData->rotation;
@@ -1216,7 +1213,8 @@ void Renderer::Render()
 
 void Renderer::Draw(SpriteData* sprite)
 {
-    spriteVector.push_back(sprite);
+    if(sprite)
+        spriteVector.push_back(sprite);
 }
 
 

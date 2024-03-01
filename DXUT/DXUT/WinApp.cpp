@@ -19,7 +19,7 @@ void WinApp::Init()
 {
     pause = new Sprite("Resources/pause_screen.png");
     pause->SetScale(0.6f);
-    pause->SetPosition(window->Center());
+    pause->MoveTo(window->Center());
 ;}
 
 // ------------------------------------------------------------------------------

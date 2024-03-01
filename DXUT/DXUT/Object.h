@@ -79,10 +79,10 @@ inline uint Object::Type() const { return type;}
 // retorna a bounding box do objeto
 inline Geometry* Object::BBox() const{ return _bbox;}
 
-inline  float Object::Left() const { return _sprite ? _position.X() - _sprite->HalfWidth() : _position.X(); }
-inline  float Object::Right() const { return _sprite ? _position.X() + _sprite->HalfWidth() : _position.X(); }
-inline  float Object::Top() const { return _sprite ? _position.Y() - _sprite->HalfHeight() : _position.Y(); }
-inline  float Object::Down() const { return _sprite ? _position.Y() + _sprite->HalfHeight() : _position.Y(); }
+inline  float Object::Left() const { return _sprite ? _position.x() - _sprite->HalfWidth() : _position.x(); }
+inline  float Object::Right() const { return _sprite ? _position.x() + _sprite->HalfWidth() : _position.x(); }
+inline  float Object::Top() const { return _sprite ? _position.y() - _sprite->HalfHeight() : _position.y(); }
+inline  float Object::Down() const { return _sprite ? _position.y() + _sprite->HalfHeight() : _position.y(); }
 inline  float Object::Width() const { return _sprite->Width(); }
 inline  float Object::Height() const { return _sprite->Height(); }
 inline void Object::SetScale(float scale) { _sprite->SetScale(scale); }

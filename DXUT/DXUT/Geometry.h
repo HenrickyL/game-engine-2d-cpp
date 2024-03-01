@@ -33,8 +33,8 @@ public:
     Geometry();                                     // construtor
     virtual ~Geometry();                            // destrutor
 
-    float X() const { return _position.X(); }
-    float Y() const { return _position.Y(); }
+    float X() const { return _position.x(); }
+    float Y() const { return _position.y(); }
     virtual Position GetPosition() const;
     virtual uint Type() const;                       // retorna tipo 
     virtual void Translate(const Vector& delta);      // move a geometria pelo delta (dx,dy)
@@ -89,10 +89,10 @@ public:
     Rect(const Position& pa, const Position& pb);   // construtor usando pontos-flutuantes
     Rect(const Point& a, const Point& b);                       // construtor usando pontos
 
-    float Left() const { return _position.X() + left; }       // coordenadas do mundo do menor valor do eixo x
-    float Top() const { return _position.Y() + top; }        // coordenadas do mundo do menor valor do eixo y
-    float Right() const { return _position.X() + right; }      // coordenadas do mundo do maior valor do eixo x
-    float Bottom() const { return _position.Y() + bottom; }     // coordenadas do mundo do maior valor do eixo y
+    float Left() const { return _position.x() + left; }       // coordenadas do mundo do menor valor do eixo x
+    float Top() const { return _position.y() + top; }        // coordenadas do mundo do menor valor do eixo y
+    float Right() const { return _position.x() + right; }      // coordenadas do mundo do maior valor do eixo x
+    float Bottom() const { return _position.y() + bottom; }     // coordenadas do mundo do maior valor do eixo y
 };
 
 // --------------------------------------------------------------------------
@@ -107,8 +107,8 @@ public:
     Circle();                                       // construtor padrão
     Circle(float r);                                // contrutor com raio
 
-    float CenterX() const { return _position.X() ; }    // coordenadas do mundo do centro (eixo x)
-    float CenterY() const { return _position.Y(); }    // coordenadas do mundo do centro (eixo y)
+    float CenterX() const { return _position.x() ; }    // coordenadas do mundo do centro (eixo x)
+    float CenterY() const { return _position.y(); }    // coordenadas do mundo do centro (eixo y)
 };
 
 // --------------------------------------------------------------------------

@@ -55,9 +55,9 @@ void MissionariesCannibalsProblem::Reset() {
 
 void MissionariesCannibalsProblem::UpdatePositionObj() {
     scene->Clear();
-    float P12X = window->Center().X() / 3;
-    float POrigin = window->Center().Y();
-    float PTarget = window->Center().X() * 1.2;
+    float P12X = window->Center().x() / 3;
+    float POrigin = window->Center().y();
+    float PTarget = window->Center().x() * 1.2;
     float offSetX = 30.0f;
 
 
@@ -66,7 +66,7 @@ void MissionariesCannibalsProblem::UpdatePositionObj() {
     for (int i = 0; i < _current.MissionariesOrigin(); i++) {
         obj = new MCObj(imgMissionary);
         Position p = Position(P12X, POrigin);
-        if (p.X() < window->Center().X() * 2 / 3);
+        if (p.x() < window->Center().x() * 2 / 3);
             p.Translate(Vector(-i * offSetX, -POrigin / 3));
         obj->MoveTo(p);
         scene->Add(obj, STATIC);
@@ -74,7 +74,7 @@ void MissionariesCannibalsProblem::UpdatePositionObj() {
     for (int i = 0; i < _current.CannibalsOrigin(); i++) {
         obj = new MCObj(imgCannibal);
         Position p = Position(P12X, POrigin);
-        if (p.X() < window->Center().X() * 2 / 3);
+        if (p.x() < window->Center().x() * 2 / 3);
          p.Translate(Vector(-i * offSetX, POrigin / 2));
         obj->MoveTo(p);
         scene->Add(obj, STATIC);

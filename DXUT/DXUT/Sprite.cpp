@@ -9,33 +9,22 @@ const float Layer::LOWER    = 0.75f;
 const float Layer::BACK     = 0.99f;
 // ---------------------------------------------------------------------------------
 
-Sprite::Sprite(string filename)
+Sprite::Sprite(string filename): Movable(Position::Zero)
 {
     // carrega imagem
-    image = new Image(filename);
-    localImage = true;
-    _position = new Position();
-    if (sprite.position) {
-        sprite.position->MoveTo(_position);
-    }
-    else {
-        sprite.position = _position;
-
-    }
+    _image = new Image(filename);
+    _localImage = true;
     // configura registro sprite
     ResetSprite();
 }
 
 // ---------------------------------------------------------------------------------
 
-Sprite::Sprite(Image* img)
+Sprite::Sprite(Image* img): Movable(Position::Zero)
 {
     // aponta para imagem externa
-    image = img;
-    localImage = false;
-    _position = new Position();
-    sprite.position = _position;
-
+    _image = img;
+    _localImage = false;
     // configura registro sprite
     ResetSprite();
 
@@ -44,10 +33,11 @@ Sprite::Sprite(Image* img)
 // ---------------------------------------------------------------------------------
 
 Sprite::~Sprite()
-{
-    delete _position;
-    if (localImage)
-        delete image;
+{  
+    if (_sprite)
+        delete _sprite;
+    if (_localImage)
+        delete _image;
 }
 
 // ---------------------------------------------------------------------------------
@@ -55,33 +45,38 @@ Sprite::~Sprite()
 
 void Sprite::ResetSprite()
 {
-    sprite.texture = image->View();
-    sprite.width = image->Width();
-    sprite.height = image->Height();
-    sprite.scale = scaleDefault;
-    sprite.depth = Layer::MIDDLE;
-    sprite.rotation = rotationDefault;
-    sprite.anchorX = Width() / 2;
-    sprite.anchorY = Height() / 2;
-    sprite.color = Color();
+    if (_sprite == nullptr) {
+        _sprite = new SpriteData();
+    }
+    _sprite->texture = _image->View();
+    _sprite->width = _image->Width();
+    _sprite->height = _image->Height();
+    _sprite->scale = _scaleDefault;
+    _sprite->depth = Layer::MIDDLE;
+    _sprite->rotation = _rotationDefault;
+    _sprite->anchorX = Width() / 2;
+    _sprite->anchorY = Height() / 2;
+    _sprite->color = Color();
+    _sprite->position = _position;
 }
 
 
 void Sprite::Draw()
 {
     // adiciona o sprite na lista de desenho
-    Engine::renderer->Draw(&sprite);
+    if(this != nullptr)
+    Engine::renderer->Draw(_sprite);
 }
 
 // ---------------------------------------------------------------------------------
 
 void Sprite::SetImage(Image* img)
 {
-    if (img->Filename() != image->Filename()) {
-        image = img;
-        sprite.texture = image->View();
-        sprite.width = image->Width();
-        sprite.height = image->Height();
+    if (img->Filename() != _image->Filename()) {
+        _image = img;
+        _sprite->texture = _image->View();
+        _sprite->width = _image->Width();
+        _sprite->height = _image->Height();
     }
 }
 
@@ -89,30 +84,24 @@ void Sprite::SetImage(Image* img)
 
 void Sprite::SetImage(const std::string _filename)
 {
-    if (_filename != image->Filename()) {
-        image = new Image(_filename);
-        sprite.texture = image->View();
-        sprite.width = image->Width();
-        sprite.height = image->Height();
+    if (_filename != _image->Filename()) {
+        _image = new Image(_filename);
+        _sprite->texture = _image->View();
+        _sprite->width = _image->Width();
+        _sprite->height = _image->Height();
     }
 }
 
-// ---------------------------------------------------------------------------------
-
-void Sprite::SetPosition(const Position& p)
-{
-    _position->MoveTo(p);
-}
 // ---------------------------------------------------------------------------------
 
 Rect*  Sprite::GetRect() const 
 { 
     float w = HalfWidth();
     float h = HalfHeight();
-    float Ax = _position->X() - w;
-    float Ay = _position->Y() - h;
-    float Bx = _position->X() + w;
-    float By = _position->Y() + h;
+    float Ax = _position.x() - w;
+    float Ay = _position.y() - h;
+    float Bx = _position.x() + w;
+    float By = _position.y() + h;
     return new Rect(Position(Ax, Ay), Position(Bx, By));
 }
 
@@ -122,3 +111,15 @@ Circle*  Sprite::GetCircle() const
     return new Circle(r);
 }
 
+// ---------------------------------------------------------------------------------
+
+void Sprite::MoveTo(const Position& position) {
+    this->_sprite->position.MoveTo(position);
+}
+void Sprite::MoveTo(Position* position) {
+    this->_sprite->position.MoveTo(position);
+
+}
+void Sprite::TranslateTo(const Vector& delta) {
+    this->_sprite->position.Translate(delta);
+}

@@ -34,7 +34,7 @@ void Object::BBox(Geometry* bb)
 		delete _bbox;
 
 	_bbox = bb;
-	_bbox->Translate(Vector(_position.X(), _position.Y()));
+	_bbox->Translate(Vector(_position.x(), _position.y()));
 }
 // -------------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ void Object::SetSprite(Sprite* sprite)
 	if(_sprite != sprite)
 	{
 		_sprite = sprite;
-		_sprite->SetPosition(_position);
+		_sprite->MoveTo(_position);
 	}
 }
 
@@ -62,7 +62,7 @@ void Object::TranslateTo(const Vector& delta)
 {
 	this->_position.Translate(delta);
 	if(this->_sprite)
-		_sprite->SetPosition(_position);
+		_sprite->MoveTo(_position);
 	if (this->_bbox)
 		_bbox->Translate(delta);
 }
@@ -71,7 +71,7 @@ void Object::MoveTo(Position* position)
 {
 	_position.MoveTo(position);
 	if (_sprite)
-		_sprite->SetPosition(_position);
+		_sprite->MoveTo(_position);
 	if (_bbox)
 		_bbox->MoveTo(_position);
 };
@@ -80,7 +80,7 @@ void Object::MoveTo(const Position& position)
 {
 	_position.MoveTo(position);
 	if (_sprite)
-		_sprite->SetPosition(_position);
+		_sprite->MoveTo(_position);
 	if (_bbox)
 		_bbox->MoveTo(_position);
 };

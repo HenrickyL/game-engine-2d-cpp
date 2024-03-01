@@ -31,14 +31,14 @@ Position Movable::initialPosition() const{
     return this->_positionInitial;
 }
 int Movable::x() const{
-    return this->_position.X();
+    return this->_position.x();
 }
 int Movable::y() const{
-    return this->_position.Y();
+    return this->_position.y();
 
 }
 int Movable::z() const{
-    return this->_position.Z();
+    return this->_position.z();
 
 }
 Vector Movable::speed() const{

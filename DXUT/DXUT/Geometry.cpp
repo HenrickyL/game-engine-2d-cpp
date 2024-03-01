@@ -138,10 +138,10 @@ Rect::Rect()
 
 Rect::Rect(const Position& pa, const Position& pb)
 {
-    left = pa.X();
-    top = pa.Y();
-    right = pb.X();
-    bottom = pb.Y();
+    left = pa.x();
+    top = pa.y();
+    right = pb.x();
+    bottom = pb.y();
     _type = RECTANGLE_T;
 }
 
@@ -149,10 +149,10 @@ Rect::Rect(const Position& pa, const Position& pb)
 Rect::Rect(const Point& a, const Point& b)
 {
     // cria retângulo
-    left = a.GetPosition().X();
-    top = a.GetPosition().Y();
-    right = b.GetPosition().X();
-    bottom = b.GetPosition().Y();
+    left = a.GetPosition().x();
+    top = a.GetPosition().y();
+    right = b.GetPosition().x();
+    bottom = b.GetPosition().y();
     _type = RECTANGLE_T;
 }
 
