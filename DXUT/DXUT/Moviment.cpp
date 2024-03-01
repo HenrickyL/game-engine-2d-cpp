@@ -17,6 +17,6 @@ State<Position>* MovimentAction::Generate(State<Position>* _state) const {
 
 Position MovimentAction::Apply(const State<Position>* _target) const {
 	Position pos = _target->Value();
-	pos.Translate(direction * magnitude);
+	pos.TranslateTo(direction * magnitude);
 	return pos;
 }

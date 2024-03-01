@@ -35,7 +35,7 @@ float Position::Distance(const Position& p) const
 	return std::sqrt(difX * difX + difY * difY + difZ * difZ);
 }
 // ---------------------------------------------------------------------------------
-void Position::Translate(const Vector& delta)
+void Position::TranslateTo(const Vector& delta)
 {
 	_x += delta.x();
 	_y += delta.y();

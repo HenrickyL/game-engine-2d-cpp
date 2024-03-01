@@ -5,6 +5,7 @@
 #include "Types.h"                                  // tipos da engine
 #include <list>                                     // lista da STL
 #include "Position.h"
+#include "Movable.h"
 using std::list;                                    // usar list sem std::
 // ---------------------------------------------------------------------------
 
@@ -23,10 +24,9 @@ enum GeometryTypes
 // Geometry
 // ---------------------------------------------------------------------------
 
-class Geometry
+class Geometry : public Movable
 {
 protected:
-    Position _position;                  // posição da geometria
     uint _type;                                      // tipo da geometria
 
 public:
@@ -37,8 +37,10 @@ public:
     float Y() const { return _position.y(); }
     virtual Position GetPosition() const;
     virtual uint Type() const;                       // retorna tipo 
-    virtual void Translate(const Vector& delta);      // move a geometria pelo delta (dx,dy)
-    virtual void MoveTo(const Position& position);         // move a geometria para a posição (px,py)
+
+    virtual void MoveTo(const Position& position) override;
+    virtual void MoveTo(Position* position) override;
+    virtual void TranslateTo(const Vector& delta) override;
 };
 
 // --------------------------------------------------------------------------
@@ -145,8 +147,9 @@ public:
     void Insert(Geometry* s);                      // insere geometria na lista
     void Remove(Geometry* s);                      // remove geometria da lista
 
-    void Translate(const Vector& delta);             // move a geometria pelo delta (dx,dy)
-    void MoveTo(const Position& position);                // move a geometria para a posição (px,py)
+    virtual void MoveTo(const Position& position) override;
+    virtual void MoveTo(Position* position) override;
+    virtual void TranslateTo(const Vector& delta) override;
 };
 
 // --------------------------------------------------------------------------

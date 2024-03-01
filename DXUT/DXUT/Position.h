@@ -26,7 +26,7 @@ public:
 	void		SetZ(const float value);
 
 	float		Distance(const Position& p) const;
-	void		Translate(const Vector& delta);
+	void		TranslateTo(const Vector& delta);
 	void		MoveTo(const Position& position);
 
 	bool		operator==(const Position& other) const;

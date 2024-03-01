@@ -7,7 +7,7 @@
 // Geometry
 // --------------------------------------------------------------------------
 
-Geometry::Geometry()
+Geometry::Geometry() : Movable(Position::Zero)
 {
     _position = Position();
     _type = UNKNOWN_T;
@@ -31,12 +31,16 @@ Position Geometry::GetPosition() const
     return {_position};
 }
 
-void Geometry::Translate(const Vector& delta)
+void Geometry::TranslateTo(const Vector& delta)
 {
-    _position.Translate(delta);
+    _position.TranslateTo(delta);
 }
 
 void Geometry::MoveTo(const Position& position)
+{
+    _position.MoveTo(position);
+}
+void Geometry::MoveTo(Position* position)
 {
     _position.MoveTo(position);
 }
@@ -294,17 +298,25 @@ void Mixed::Remove(Geometry* s)
 
 // --------------------------------------------------------------------------
 
-void Mixed::Translate(const Vector& delta)
+void Mixed::TranslateTo(const Vector& delta)
 {
-    _position.Translate(delta);
-
+    _position.TranslateTo(delta);
     for (auto i : shapes)
-        i->Translate(delta);
+        i->TranslateTo(delta);
 }
 
 // --------------------------------------------------------------------------
 
 void Mixed::MoveTo(const Position& position)
+{
+    for (auto i : shapes)
+    {
+        i->MoveTo(position);
+    }
+    _position.MoveTo(position);
+}
+
+void Mixed::MoveTo(Position* position)
 {
     for (auto i : shapes)
     {

@@ -121,5 +121,5 @@ void Sprite::MoveTo(Position* position) {
 
 }
 void Sprite::TranslateTo(const Vector& delta) {
-    this->_sprite->position.Translate(delta);
+    this->_sprite->position.TranslateTo(delta);
 }

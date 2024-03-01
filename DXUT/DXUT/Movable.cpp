@@ -19,7 +19,7 @@ void Movable::MoveTo(Position* position) {
 }
 
 void Movable::TranslateTo(const Vector& delta) {
-    this->_position.Translate(delta);
+    this->_position.TranslateTo(delta);
 }
 
 
