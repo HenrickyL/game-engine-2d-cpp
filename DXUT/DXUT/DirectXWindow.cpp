@@ -11,7 +11,7 @@ void (*DirectXWindow::lostFocus)() = nullptr;						// nenhuma ação ao perder foc
 DirectXWindow::DirectXWindow()
 {
     hInstance = GetModuleHandle(NULL);                // identificador da aplicação
-    windowId = 0;									// id nulo porque a janela ainda não existe
+    windowId = 0;									    // id nulo porque a janela ainda não existe
     windowWidth = GetSystemMetrics(SM_CXSCREEN);		// a janela ocupa toda a tela (tela cheia)
     windowHeight = GetSystemMetrics(SM_CYSCREEN);		// a janela ocupa toda a tela (tela cheia)
     windowIcon = LoadIcon(NULL, IDI_APPLICATION);		// ícone padrão de uma aplicação

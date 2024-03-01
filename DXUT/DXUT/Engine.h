@@ -27,8 +27,8 @@ private:
 	static bool onGraphics;                 // Desabilitar Graphics
 	static Engine* instance;
 	
-	EngineGraphicsType _graphicType = EngineGraphicsType::E_DirectX;
-	EngineType _type = EngineType::T_2D;
+	EngineGraphicsType _graphicType = E_DirectX;
+	EngineType _type = T_2D;
 	float FrameTime();					// calcula o tempo do quadro
 	int Loop();							// laço principal do motor
 
@@ -54,7 +54,7 @@ public:
 	EngineGraphicsType graphicType() const;
 	EngineType engineType() const;
 
-	void GraphicType(EngineGraphicsType value);
+	void SetGraphicType(EngineGraphicsType value);
 	void SetType(EngineType value);
 
 
@@ -83,11 +83,11 @@ inline void Engine::DisableGraphics()
 inline void Engine::EnableGraphics()
 {	onGraphics = true;}
 
-EngineGraphicsType Engine::graphicType() const{ return this->_graphicType; }
-EngineType Engine::engineType() const { return this->_type; }
+inline EngineGraphicsType Engine::graphicType() const{ return this->_graphicType; }
+inline EngineType Engine::engineType() const { return this->_type; }
 
-void Engine::GraphicType(EngineGraphicsType value) { this->_graphicType = value; }
-void Engine::SetType(EngineType value) { this->_type = value; }
+inline void Engine::SetGraphicType(EngineGraphicsType value) { this->_graphicType = value; }
+inline void Engine::SetType(EngineType value) { this->_type = value; }
 
 //fps
 inline void Engine::SetGraphicsFPS(FPSType fps) 

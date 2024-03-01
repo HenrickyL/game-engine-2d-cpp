@@ -5,9 +5,10 @@
 #include "Error.h"
 using std::stringstream;
 
+
 // ------------------------------------------------------------------------------
 // Inicialização de variáveis estáticas da classe
-Game*		Engine::game			= nullptr;			// apontadador da aplicação
+Game*		Engine::game		= nullptr;			// apontadador da aplicação
 Window*		Engine::window		= nullptr;			// janela da aplicação
 Graphics*	Engine::graphics	= nullptr;			// dispositivo gráfico
 Engine*		Engine::instance	= nullptr;			// dispositivo gráfico
@@ -20,7 +21,7 @@ Timer		Engine::timer;                      // medidor de tempo
 // ------------------------------------------------------------------------------
 Engine::Engine()
 {
-	if (this->_graphicType == EngineGraphicsType::E_DirectX) {
+	if (this->_graphicType == E_DirectX) {
 		window = new DirectXWindow();
 	}
 	else {

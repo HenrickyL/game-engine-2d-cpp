@@ -1,6 +1,5 @@
-//#include "DXUT.h"
-//#include "MissionariesCannibalsProblem.h"
-//#include "Window.h"
+#include "DXUT.h"
+#include "MissionariesCannibalsProblem.h"
 #include "DirectXWindow.h"
 #include <sstream>
 
@@ -11,40 +10,42 @@ using std::stringstream;
 // ------------------------------------------------------------------------------
 
 
-//int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
-//	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
-//	try {
-//		// cria motor e configura a janela
-//		Engine* engine = Engine::Instance();
-//		// configura a janela
-//		engine->window->Mode(WINDOWED);
-//		engine->window->Size(800, 600);
-//		engine->window->Color(1, 1, 0);
-//		engine->window->Title("My Game");
-//		engine->window->Icon(IDI_ICON);
-//		//engine->window->Cursor(IDC_CURSOR);	
-//		engine->SetGraphicsFPS(FPS_MONITOR);
-//		// aplicação pausa/resume ao perder/ganhar o foco
-//		engine->window->LostFocus(Engine::Pause);
-//		engine->window->InFocus(Engine::Resume);
-//		// cria e executa a aplicação
-//		int exitCode = engine->Start(new MissionariesCannibalsProblem());
-//
-//		// finaliza execução
-//		delete engine;
-//		return exitCode;
-//	}
-//	catch (Error& e) {
-//		MessageBox(nullptr, e.ToString().data(), "DXGI DXUT", MB_OK);
-//		return 0;
-//	}
-//}
+int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
+	try {
+		// cria motor e configura a janela
+		Engine* engine = Engine::Instance();
+		// configura a janela
+		engine->window->Mode(WINDOWED);
+		engine->window->Size(800, 600);
+		engine->window->Color(1, 1, 0);
+		engine->window->Title("My Game");
+		engine->window->Icon(IDI_ICON);
+		//engine->window->Cursor(IDC_CURSOR);	
+		engine->SetGraphicsFPS(FPS_MONITOR);
+		// aplicação pausa/resume ao perder/ganhar o foco
+		engine->window->LostFocus(Engine::Pause);
+		engine->window->InFocus(Engine::Resume);
+		// cria e executa a aplicação
+		int exitCode = engine->Start(new MissionariesCannibalsProblem());
+
+		// finaliza execução
+		delete engine;
+		return exitCode;
+	}
+	catch (Error& e) {
+		MessageBox(nullptr, e.ToString().data(), "DXGI DXUT", MB_OK);
+		return 0;
+	}
+}
 
 
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
     // Crie uma instância da classe DirectXWindow
     DirectXWindow window;
+	window.Size(800, 600);
+	window.Mode(WINDOWED);
 
     // Tente criar a janela usando o método Create()
     if (window.Create()) {
