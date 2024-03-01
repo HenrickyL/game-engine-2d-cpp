@@ -106,11 +106,14 @@
     <Filter Include="Develop\Games\MissionariesCannibalsProblem\Source Files">
       <UniqueIdentifier>{fd3459a3-455f-4383-9b42-159d318feade}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Header Files\OpenGL">
+      <UniqueIdentifier>{af8d512e-b248-475d-a99d-e1c3520e31d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\DirectX">
+      <UniqueIdentifier>{9c1d2276-505b-48fd-98d7-a548ee515d04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Window.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
@@ -200,6 +203,9 @@
       <Filter>Develop\Games\MissionariesCannibalsProblem\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Movable.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXWindow.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -374,6 +380,9 @@
     </ClInclude>
     <ClInclude Include="Movable.h">
       <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXWindow.h">
+      <Filter>Engine\Header Files\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

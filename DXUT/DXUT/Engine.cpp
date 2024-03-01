@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "DirectXWindow.h"
 #include <windows.h>
 #include <sstream>
 #include "Error.h"
@@ -19,7 +20,13 @@ Timer		Engine::timer;                      // medidor de tempo
 // ------------------------------------------------------------------------------
 Engine::Engine()
 {
-	window = new Window();
+	if (this->_graphicType == EngineGraphicsType::E_DirectX) {
+		window = new DirectXWindow();
+	}
+	else {
+		///TODO: Add OpenGL
+		window = new DirectXWindow();
+	}
 	graphics = new Graphics(window);
 	renderer = new Renderer();
 }

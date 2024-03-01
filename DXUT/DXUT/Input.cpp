@@ -8,6 +8,7 @@ bool Input::ctrl[256] = { 0 };							// controle de liberação das teclas
 string Input::text; 									// guarda caracteres digitados
 Position*	Input::mousePosition = nullptr;
 short	Input::mouseWheel = 0;							// valor da roda do mouse
+WinProcType Input::winProcPtr = DirectXWindow::WinProc;
 
 // -------------------------------------------------------------------------------
 
@@ -24,7 +25,7 @@ Input::~Input()
 {
 	delete mousePosition;
 	// volta a usar a Window Procedure da classe Window
-	SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Window::WinProc);
+	SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)Input::winProcPtr);
 }
 
 // -------------------------------------------------------------------------------
@@ -160,7 +161,7 @@ LRESULT CALLBACK Input::InputProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	}
 
 
-	return CallWindowProc(Window::WinProc, hWnd, msg, wParam, lParam);
+	return CallWindowProc(Input::winProcPtr, hWnd, msg, wParam, lParam);
 }
 
 // -------------------------------------------------------------------------------
