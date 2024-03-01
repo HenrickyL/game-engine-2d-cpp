@@ -13,7 +13,7 @@ protected:
     Position _positionInitial;
     Position _position;
     Vector _speed = Vector::Zero;
-    double _speedMag;
+    double _magnitude;
 public:
     Movable(Position position, Vector speed = Vector::Zero);
     ~Movable();
@@ -24,18 +24,19 @@ public:
     int y() const;
     int z() const;
     Vector speed() const;
+    double magnitude() const;
     Vector FinalSpeed() const;
     double rotateAngle() const;
     Position anchor() const;
 
     void Speed(const Vector value);
-    void SpeedMag(const double value);
+    void Magnitude(const double value);
     void RotateAngle(const int value);
     void Anchor(Position pos);
-    void MoveTo(Position position);
-    void TranslateTo(Vector delta);
 
-
+    virtual void MoveTo(const Position& position);
+    virtual void MoveTo(Position* position);
+    virtual void TranslateTo(const Vector& delta);
 };
 
 #endif

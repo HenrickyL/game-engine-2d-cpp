@@ -4,17 +4,21 @@ Movable::Movable(Position position, Vector speed) {
     this->_position = position;
     this->_anchor = position;
     this->_speed = speed;
+    this->_magnitude = 0;
     this->_positionInitial = position;
 }
 
 Movable::~Movable() {}
 
-void Movable::MoveTo(Position position){
+void Movable::MoveTo(const Position& position) {
     this->_position.MoveTo(position);
-
 }
 
-void Movable::TranslateTo(Vector delta) {
+void Movable::MoveTo(Position* position) {
+    this->_position.MoveTo(position);
+}
+
+void Movable::TranslateTo(const Vector& delta) {
     this->_position.Translate(delta);
 }
 
@@ -40,8 +44,13 @@ int Movable::z() const{
 Vector Movable::speed() const{
     return this->_speed;
 }
+
+double Movable::magnitude() const {
+    return this->_magnitude;
+}
+
 Vector Movable::FinalSpeed() const{
-    return this->_speed * this->_speedMag;
+    return this->_speed * this->_magnitude;
 }
 double Movable::rotateAngle() const{
     return this->_rotateRad * 180 / M_PI;
@@ -53,8 +62,8 @@ Position Movable::anchor() const{
 void Movable::Speed(const Vector speed){
     this->_speed = speed;
 }
-void Movable::SpeedMag(const double value){
-    this->_speedMag = value;
+void Movable::Magnitude(const double value){
+    this->_magnitude = value;
 }
 void Movable::RotateAngle(const int angle){
     this->_rotateRad = angle * M_PI / 180;
