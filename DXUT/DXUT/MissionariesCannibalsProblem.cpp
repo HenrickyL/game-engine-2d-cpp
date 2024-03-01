@@ -55,9 +55,9 @@ void MissionariesCannibalsProblem::Reset() {
 
 void MissionariesCannibalsProblem::UpdatePositionObj() {
     scene->Clear();
-    float P12X = window->Center().X() / 3;
-    float POrigin = window->Center().Y();
-    float PTarget = window->Center().X() * 1.2;
+    float P12X = window->Center().x() / 3;
+    float POrigin = window->Center().y();
+    float PTarget = window->Center().x() * 1.2;
     float offSetX = 30.0f;
 
 
@@ -66,16 +66,16 @@ void MissionariesCannibalsProblem::UpdatePositionObj() {
     for (int i = 0; i < _current.MissionariesOrigin(); i++) {
         obj = new MCObj(imgMissionary);
         Position p = Position(P12X, POrigin);
-        if (p.X() < window->Center().X() * 2 / 3);
-            p.Translate(Vector(-i * offSetX, -POrigin / 3));
+        if (p.x() < window->Center().x() * 2 / 3);
+            p.TranslateTo(Vector(-i * offSetX, -POrigin / 3));
         obj->MoveTo(p);
         scene->Add(obj, STATIC);
     }
     for (int i = 0; i < _current.CannibalsOrigin(); i++) {
         obj = new MCObj(imgCannibal);
         Position p = Position(P12X, POrigin);
-        if (p.X() < window->Center().X() * 2 / 3);
-         p.Translate(Vector(-i * offSetX, POrigin / 2));
+        if (p.x() < window->Center().x() * 2 / 3);
+         p.TranslateTo(Vector(-i * offSetX, POrigin / 2));
         obj->MoveTo(p);
         scene->Add(obj, STATIC);
     }
@@ -83,20 +83,20 @@ void MissionariesCannibalsProblem::UpdatePositionObj() {
     for (int i = 0; i < _current.MissionariesTarget(); i++) {
         obj = new MCObj(imgMissionary);
         Position p = Position(P12X, POrigin);
-        p.Translate(Vector(i * offSetX + PTarget, -POrigin / 3));
+        p.TranslateTo(Vector(i * offSetX + PTarget, -POrigin / 3));
         obj->MoveTo(p);
         scene->Add(obj, STATIC);
     }
     for (int i = 0; i < _current.CannibalsTarget(); i++) {
         obj = new MCObj(imgCannibal);
         Position p = Position(P12X, POrigin);;
-        p.Translate(Vector(i * offSetX + PTarget, POrigin / 2));
+        p.TranslateTo(Vector(i * offSetX + PTarget, POrigin / 2));
         obj->MoveTo(p);
         scene->Add(obj, STATIC);
     }
     obj = new MCObj(imgBoat, 0.05f);
     Position p = window->Center();
-    p.Translate(Vector(_current.Boat() == 0 ? P12X : -P12X, 0));
+    p.TranslateTo(Vector(_current.Boat() == 0 ? P12X : -P12X, 0));
     obj->MoveTo(p);
     scene->Add(obj, STATIC);
 

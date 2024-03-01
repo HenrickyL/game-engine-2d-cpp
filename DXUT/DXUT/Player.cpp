@@ -54,7 +54,6 @@ Player::Player(Image* img, const Position& p) {
 }
 
 Player::~Player() {
-    if (_position) delete _position;
     if (_sprite) delete _sprite;
     if (_bbox) delete _bbox;
     for (Action<Position>* a : actions) {
@@ -86,23 +85,23 @@ void Player::Update() {
     }
     if (input->KeyDown(VK_RIGHT)) {
         _sprite->SetFilterColor(Color(255, 0, 0));
-        StatePosition p(GetPosition());
+        StatePosition p(position());
         Position current=actions[E]->Apply(&p);
         MoveTo(current);
     }else if (input->KeyDown(VK_LEFT)) {
         _sprite->SetFilterColor(Color(255, 0, 0));
-        StatePosition p(GetPosition());
+        StatePosition p(position());
         Position current = actions[W]->Apply(&p);
         MoveTo(current);
     }else if (input->KeyDown(VK_UP)) {
         _sprite->SetFilterColor(Color(255, 0, 0));
-        StatePosition p(GetPosition());
+        StatePosition p(position());
         Position current = actions[N]->Apply(&p);
         MoveTo(current);
     }
     else if (input->KeyDown(VK_DOWN)) {
         _sprite->SetFilterColor(Color(255, 0, 0));
-        StatePosition p(GetPosition());
+        StatePosition p(position());
         Position current = actions[S]->Apply(&p);
         MoveTo(current);
     }
@@ -113,7 +112,7 @@ void Player::Update() {
         if (pivot != nullptr) {
             _sprite->SetFilterColor(Color(255, 255, 255));
             StatePosition* state = dynamic_cast<StatePosition*>(pivot->GetState());
-            Position p = state->GetPosition();
+            Position p = state->position();
             this->MoveTo(p);
             int n = pivot->GetPathLength();
             pivot = pivot->Father();
@@ -142,7 +141,7 @@ void deletePath(Node<Position>* _path) {
 
 
 void Player::Search() {
-    StatePosition* A = new StatePosition(this->GetPosition());
+    StatePosition* A = new StatePosition(this->position());
     StatePosition* B = new StatePosition(target);
     if (path != nullptr) { 
         deletePath(path);

@@ -5,6 +5,9 @@
 #include <functional>
 // ---------------------------------------------------------------------------------
 
+Position Position::Zero = new Position(0, 0, 0);
+// ---------------------------------------------------------------------------------
+
 Position::Position() : _x(0), _y(0), _z(0) {}
 // ---------------------------------------------------------------------------------
 
@@ -19,26 +22,24 @@ Position::Position(Position* p)
 // ---------------------------------------------------------------------------------
 
 Position::~Position()
-{
-	
-}
+{}
 // ---------------------------------------------------------------------------------
 
 
 float Position::Distance(const Position& p) const
 {
-	float difX = p.X() - this->X();
-	float difY = p.Y() - this->Y();
-	float difZ = p.Z() - this->Z();
+	float difX = p.x() - this->x();
+	float difY = p.y() - this->y();
+	float difZ = p.z() - this->z();
 
 	return std::sqrt(difX * difX + difY * difY + difZ * difZ);
 }
 // ---------------------------------------------------------------------------------
-void Position::Translate(const Vector& delta)
+void Position::TranslateTo(const Vector& delta)
 {
-	_x += delta.X();
-	_y += delta.Y();
-	_z += delta.Z();
+	_x += delta.x();
+	_y += delta.y();
+	_z += delta.z();
 }
 // ---------------------------------------------------------------------------------
 
@@ -69,14 +70,14 @@ Vector	Position::operator-(const Position& other) const
 
 
 std::size_t Position::customHash() const {
-	std::size_t xHash = std::hash<int>{}(X());
-	std::size_t yHash = std::hash<int>{}(Y());
+	std::size_t xHash = std::hash<int>{}(x());
+	std::size_t yHash = std::hash<int>{}(y());
 	return xHash ^ (yHash << 1);
 }
 
 bool Position::operator==(const Hasheable& outra) const {
 	if (const Position* p = dynamic_cast<const Position*>(&outra)) {
-		return X() == p->X() && Y() == p->Y();
+		return x() == p->x() && y() == p->y();
 	}
 	return false;
 }

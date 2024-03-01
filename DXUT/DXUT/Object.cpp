@@ -11,7 +11,7 @@ float	&Object::gameTime	= Engine::frameTime;        // tempo do último quadro
 
 // -------------------------------------------------------------------------------
 
-Object::Object()
+Object::Object(): Movable(Position::Zero)
 {
 	//tipo do objeto
 	type = 0;
@@ -34,7 +34,7 @@ void Object::BBox(Geometry* bb)
 		delete _bbox;
 
 	_bbox = bb;
-	_bbox->Translate(Vector(_position->X(), _position->Y()));
+	_bbox->TranslateTo(Vector(_position.x(), _position.y()));
 }
 // -------------------------------------------------------------------------------
 
@@ -52,35 +52,35 @@ void Object::SetSprite(Sprite* sprite)
 	if(_sprite != sprite)
 	{
 		_sprite = sprite;
-		_sprite->SetPosition(_position);
+		_sprite->MoveTo(_position);
 	}
 }
 
 // -------------------------------------------------------------------------------
 
-void Object::Translate(const Vector& delta)
+void Object::TranslateTo(const Vector& delta)
 {
-	_position->Translate(delta);
-	if(_sprite)
-		_sprite->SetPosition(_position);
-	if (_bbox)
-		_bbox->Translate(delta);
+	this->_position.TranslateTo(delta);
+	if(this->_sprite)
+		_sprite->MoveTo(_position);
+	if (this->_bbox)
+		_bbox->TranslateTo(delta);
 }
 
 void Object::MoveTo(Position* position)
 {
-	_position->MoveTo(position);
+	_position.MoveTo(position);
 	if (_sprite)
-		_sprite->SetPosition(_position);
+		_sprite->MoveTo(_position);
 	if (_bbox)
 		_bbox->MoveTo(_position);
 };
 
-void Object::MoveTo(Position position)
+void Object::MoveTo(const Position& position)
 {
-	_position->MoveTo(position);
+	_position.MoveTo(position);
 	if (_sprite)
-		_sprite->SetPosition(_position);
+		_sprite->MoveTo(_position);
 	if (_bbox)
 		_bbox->MoveTo(_position);
 };

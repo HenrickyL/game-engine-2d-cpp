@@ -46,11 +46,11 @@ inline bool Input::KeyUp(int vkcode)
 
 // retorna a posição do mouse no eixo x
 inline int Input::MouseX() const
-{	return mousePosition->X();}
+{	return mousePosition->x();}
 
 // retorna a posição do mouse no eixo y
 inline int Input::MouseY() const
-{	return mousePosition->Y();}
+{	return mousePosition->y();}
 inline Position Input::MousePosition() const { return Position(Input::mousePosition); }
 
 // retorna conteúdo do texto lido

@@ -7,7 +7,7 @@
 // Geometry
 // --------------------------------------------------------------------------
 
-Geometry::Geometry()
+Geometry::Geometry() : Movable(Position::Zero)
 {
     _position = Position();
     _type = UNKNOWN_T;
@@ -31,12 +31,16 @@ Position Geometry::GetPosition() const
     return {_position};
 }
 
-void Geometry::Translate(const Vector& delta)
+void Geometry::TranslateTo(const Vector& delta)
 {
-    _position.Translate(delta);
+    _position.TranslateTo(delta);
 }
 
 void Geometry::MoveTo(const Position& position)
+{
+    _position.MoveTo(position);
+}
+void Geometry::MoveTo(Position* position)
 {
     _position.MoveTo(position);
 }
@@ -138,10 +142,10 @@ Rect::Rect()
 
 Rect::Rect(const Position& pa, const Position& pb)
 {
-    left = pa.X();
-    top = pa.Y();
-    right = pb.X();
-    bottom = pb.Y();
+    left = pa.x();
+    top = pa.y();
+    right = pb.x();
+    bottom = pb.y();
     _type = RECTANGLE_T;
 }
 
@@ -149,10 +153,10 @@ Rect::Rect(const Position& pa, const Position& pb)
 Rect::Rect(const Point& a, const Point& b)
 {
     // cria retângulo
-    left = a.GetPosition().X();
-    top = a.GetPosition().Y();
-    right = b.GetPosition().X();
-    bottom = b.GetPosition().Y();
+    left = a.GetPosition().x();
+    top = a.GetPosition().y();
+    right = b.GetPosition().x();
+    bottom = b.GetPosition().y();
     _type = RECTANGLE_T;
 }
 
@@ -294,17 +298,25 @@ void Mixed::Remove(Geometry* s)
 
 // --------------------------------------------------------------------------
 
-void Mixed::Translate(const Vector& delta)
+void Mixed::TranslateTo(const Vector& delta)
 {
-    _position.Translate(delta);
-
+    _position.TranslateTo(delta);
     for (auto i : shapes)
-        i->Translate(delta);
+        i->TranslateTo(delta);
 }
 
 // --------------------------------------------------------------------------
 
 void Mixed::MoveTo(const Position& position)
+{
+    for (auto i : shapes)
+    {
+        i->MoveTo(position);
+    }
+    _position.MoveTo(position);
+}
+
+void Mixed::MoveTo(Position* position)
 {
     for (auto i : shapes)
     {

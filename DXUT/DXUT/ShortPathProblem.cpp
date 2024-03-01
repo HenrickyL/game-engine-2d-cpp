@@ -32,7 +32,7 @@ void ShortPathProblem::Init()
     //---------------
     targetLocal = new Sprite(imgResult);
     targetLocal->SetScale(0.01f);
-    targetLocal->SetPosition(target);
+    targetLocal->MoveTo(target);
 }
 
 // ------------------------------------------------------------------------------
@@ -115,10 +115,10 @@ void ShortPathProblem::Reset() {
 
     pause = new Sprite("Resources/pause_screen.png");
     pause->SetScale(0.6f);
-    pause->SetPosition(window->Center());
+    pause->MoveTo(window->Center());
 
     backg = new Sprite("Resources/Background.jpg");
-    backg->SetPosition(window->Center());
+    backg->MoveTo(window->Center());
     backg->SetLayer(Layer::BACK);
 
     // --------------------------

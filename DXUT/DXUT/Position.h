@@ -16,16 +16,17 @@ public:
 	Position(Position* p);
 	~Position();
 
-	float		X() const;
-	float		Y() const;
-	float		Z() const;
+	static Position Zero;
+	float		x() const;
+	float		y() const;
+	float		z() const;
 
 	void		SetX(const float value);
 	void		SetY(const float value);
 	void		SetZ(const float value);
 
 	float		Distance(const Position& p) const;
-	void		Translate(const Vector& delta);
+	void		TranslateTo(const Vector& delta);
 	void		MoveTo(const Position& position);
 
 	bool		operator==(const Position& other) const;
@@ -40,9 +41,9 @@ public:
 // ---------------------------------------------------------------------------------
 //inline
 
-inline float	Position::X() const {return _x;}
-inline float	Position::Y() const {return _y;}
-inline float	Position::Z() const {return _z;}
+inline float	Position::x() const {return _x;}
+inline float	Position::y() const {return _y;}
+inline float	Position::z() const {return _z;}
 
 inline void		Position::SetX(const float value) { _x = value; }
 inline void		Position::SetY(const float value) { _y = value; }
@@ -50,9 +51,9 @@ inline void		Position::SetZ(const float value) { _z = value; }
 
 inline bool		Position::operator==(const Position& other) const {
 	return
-		this->X() == other.X() &&
-		this->Y() == other.Y() &&
-		this->Z() == other.Z();
+		this->x() == other.x() &&
+		this->y() == other.y() &&
+		this->z() == other.z();
 }
 
 

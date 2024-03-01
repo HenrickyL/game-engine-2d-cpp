@@ -12,15 +12,14 @@ Window*& StatePosition::window = Engine::window;
 
 
 StatePosition::StatePosition(const Position& pos) {
-	int x = pos.X();
-	int y = pos.Y();
+	int x = pos.x();
+	int y = pos.y();
 	name = "(x: " + std::to_string(x) + ", y: " + std::to_string(y) + ")";
-	_position = new Position(x, y);
-	value = *_position;
+	_position = Position(x, y);
+	value = _position;
 }
 
 StatePosition::~StatePosition() {
-	if (_position) delete _position;
 	if (_sprite) delete _sprite;
 	if (_bbox) delete _bbox;
 	DeleteEdges();
@@ -30,7 +29,7 @@ StatePosition::~StatePosition() {
 //void StatePosition::Generate(const vector<Action<Position>*> actions, Dictionary<Position>* controlGenerated){
 //	for (auto* action : actions) {
 //		StatePosition* currentGenerated = dynamic_cast<StatePosition*>(action->Generate(this));
-//		Position currentPosition = currentGenerated->GetPosition();
+//		Position currentPosition = currentGenerated->position();
 //		if (controlGenerated) {
 //			if (currentGenerated && !this->ExistInEdge(currentGenerated) && !controlGenerated->Contains(currentPosition)) {
 //				AddTransition(new Transition<Position>(this, currentGenerated, action));
@@ -55,8 +54,8 @@ StatePosition::~StatePosition() {
 float StatePosition::GetHeuristic(State<Position>* _target) const {
 	StatePosition* target = dynamic_cast<StatePosition*>(_target);
 	if (target) {
-		Position p = target->GetPosition();
-		return this->GetPosition().Distance(p);
+		Position p = target->position();
+		return this->position().Distance(p);
 	}
 	return 0.0f;
 }
@@ -69,7 +68,7 @@ void StatePosition::Update() {
 bool StatePosition::Equal(State<Position>* _other) const {
 	StatePosition* other = dynamic_cast<StatePosition*>(_other);
 	if (other) {
-		return this->GetPosition() == other->GetPosition() || this == _other;
+		return this->position() == other->position() || this == _other;
 	}
 	return false;
 }
