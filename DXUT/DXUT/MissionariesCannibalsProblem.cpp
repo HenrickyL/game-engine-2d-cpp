@@ -31,7 +31,6 @@ void MissionariesCannibalsProblem::Init()
     MCAction* Move2Canibals = new MCAction(0, 2);
     MCAction* MoveMissionaryAndCanibal = new MCAction(1, 1);
 
-
     actuators->push_back(MoveMissionary);
     actuators->push_back(MoveCanibal);
     actuators->push_back(Move2Missionaries);

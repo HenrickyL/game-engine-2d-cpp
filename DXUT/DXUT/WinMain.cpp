@@ -40,31 +40,37 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 }
 
 
+
+
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
-    // Crie uma instância da classe DirectXWindow
-    DirectXWindow window;
-	window.Size(800, 600);
-	window.Mode(WINDOWED);
 
-    // Tente criar a janela usando o método Create()
-    if (window.Create()) {
-        // A janela foi criada com sucesso
-        // Agora você pode adicionar código aqui para interagir com a janela, como desenhar na tela, responder a eventos, etc.
+	return UseEngine( hInstance, hPrevInstance,
+		lpCmdLine,  nCmdShow);
 
-        // Por exemplo, você pode manter a janela aberta até que o usuário a feche:
-        MSG msg;
-        while (GetMessage(&msg, NULL, 0, 0)) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-    }
-    else {
-        // A criação da janela falhou
-        // Trate o erro de acordo com sua lógica de aplicativo
-    }
+ //   // Crie uma instância da classe DirectXWindow
+ //   DirectXWindow window;
+	//window.Size(800, 600);
+	//window.Mode(WINDOWED);
 
-    return 0;
+ //   // Tente criar a janela usando o método Create()
+ //   if (window.Create()) {
+ //       // A janela foi criada com sucesso
+ //       // Agora você pode adicionar código aqui para interagir com a janela, como desenhar na tela, responder a eventos, etc.
+
+ //       // Por exemplo, você pode manter a janela aberta até que o usuário a feche:
+ //       MSG msg;
+ //       while (GetMessage(&msg, NULL, 0, 0)) {
+ //           TranslateMessage(&msg);
+ //           DispatchMessage(&msg);
+ //       }
+ //   }
+ //   else {
+ //       // A criação da janela falhou
+ //       // Trate o erro de acordo com sua lógica de aplicativo
+ //   }
+
+ //   return 0;
 	
 }
 //OutputDebugString(s.str().c_str());
