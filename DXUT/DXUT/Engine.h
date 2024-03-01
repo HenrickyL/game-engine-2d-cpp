@@ -10,6 +10,16 @@
 
 // ---------------------------------------------------------------------------------
 
+enum EngineGraphicsType {
+	DirectX,
+	OpenGL
+};
+
+enum EngineType {
+	T_2D,
+	T_3D
+};
+
 class Engine{ //singleton
 private:
 	static Timer timer;                 // medidor de tempo
