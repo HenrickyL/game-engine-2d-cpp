@@ -1,4 +1,6 @@
 # AI concepts
+ - PT/BR
+
 
 ![agent Environment](Resources/doc/agent-enviromnet.png)
 
