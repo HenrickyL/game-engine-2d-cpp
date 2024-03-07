@@ -208,9 +208,6 @@
     <ClCompile Include="DirectXWindow.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AIConcepts.md">
-      <Filter>Modules\Docs</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -435,6 +432,9 @@
     </None>
     <None Include="Environment.inl">
       <Filter>Engine\Header Files</Filter>
+    </None>
+    <None Include="AIConcepts.md">
+      <Filter>Modules\Docs</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

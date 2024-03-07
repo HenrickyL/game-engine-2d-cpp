@@ -130,7 +130,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AIConcepts.md" />
+    <None Include="AIConcepts.md">
+      <FileType>Document</FileType>
+    </None>
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="DirectXWindow.cpp" />
     <ClCompile Include="FileHandler.cpp" />
