@@ -3,6 +3,7 @@
 #include "DirectXWindow.h"
 #include <sstream>
 
+#include <GLFW/glfw3.h>
 using std::stringstream;
 
 // ------------------------------------------------------------------------------
@@ -45,32 +46,46 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 
-	return UseEngine( hInstance, hPrevInstance,
-		lpCmdLine,  nCmdShow);
+	// Inicializar GLFW
+	if (!glfwInit()) {
+		// Se a inicialização falhar, exibir uma mensagem de erro e encerrar
+		MessageBox(nullptr, "Failed to initialize GLFW", "Error", MB_OK | MB_ICONERROR);
+		return -1;
+	}
 
- //   // Crie uma instância da classe DirectXWindow
- //   DirectXWindow window;
-	//window.Size(800, 600);
-	//window.Mode(WINDOWED);
+	// Criar uma janela GLFW
+	GLFWwindow* window = glfwCreateWindow(800, 600, "Minha Janela GLFW", nullptr, nullptr);
+	if (!window) {
+		// Se a criação da janela falhar, exibir uma mensagem de erro e encerrar
+		MessageBox(nullptr, "Failed to create GLFW window", "Error", MB_OK | MB_ICONERROR);
+		glfwTerminate();
+		return -1;
+	}
 
- //   // Tente criar a janela usando o método Create()
- //   if (window.Create()) {
- //       // A janela foi criada com sucesso
- //       // Agora você pode adicionar código aqui para interagir com a janela, como desenhar na tela, responder a eventos, etc.
+	// Definir o contexto da janela como o contexto atual
+	glfwMakeContextCurrent(window);
 
- //       // Por exemplo, você pode manter a janela aberta até que o usuário a feche:
- //       MSG msg;
- //       while (GetMessage(&msg, NULL, 0, 0)) {
- //           TranslateMessage(&msg);
- //           DispatchMessage(&msg);
- //       }
- //   }
- //   else {
- //       // A criação da janela falhou
- //       // Trate o erro de acordo com sua lógica de aplicativo
- //   }
+	// Loop principal
+	while (!glfwWindowShouldClose(window)) {
+		// Processar eventos
+		glfwPollEvents();
 
- //   return 0;
+		// Renderizar aqui
+
+		// Trocar os buffers
+		glfwSwapBuffers(window);
+	}
+
+	// Encerrar GLFW
+	glfwTerminate();
+
+	return 0;
+
+
+
+	/*return UseEngine( hInstance, hPrevInstance,
+		lpCmdLine,  nCmdShow);*/
+
 	
 }
 //OutputDebugString(s.str().c_str());
