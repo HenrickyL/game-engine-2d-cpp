@@ -181,6 +181,7 @@
     <ClInclude Include="DXUT_Utils.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileHandler.h" />
+    <ClInclude Include="GLWindow.h" />
     <ClInclude Include="MCAction.h" />
     <ClInclude Include="MCObj.h" />
     <ClInclude Include="MCS.h" />

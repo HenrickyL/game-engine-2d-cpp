@@ -38,7 +38,7 @@ public:
     DirectXWindow();                                               // construtor
     ~DirectXWindow();												// destrutor
 
-    HINSTANCE AppId() const override;                                      // retorna o identificador da aplicação
+    //HINSTANCE AppId() const override;                                      // retorna o identificador da aplicação
     HWND Id() const override;                                         // retorna o identificador da janela
     int Width() const override;                                       // retorna a largura atual da janela
     int Height() const override;                                      // retorna a altura atual da janela
@@ -73,10 +73,10 @@ public:
 
 // Inline Member Functions
 // retorna identificador da aplicação
-inline HINSTANCE DirectXWindow::AppId() const
-{
-    return hInstance;
-}
+//inline HINSTANCE DirectXWindow::AppId() const
+//{
+//    return hInstance;
+//}
 // retorna o identificador da janela do jogo
 inline HWND DirectXWindow::Id() const
 {

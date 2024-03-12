@@ -21,7 +21,7 @@ class Window {
 public:
     virtual ~Window() {}
 
-    virtual HINSTANCE AppId() const = 0;
+    //virtual HINSTANCE AppId() const = 0;
     virtual HWND Id() const = 0;
     virtual int Width() const = 0;
     virtual int Height() const = 0;

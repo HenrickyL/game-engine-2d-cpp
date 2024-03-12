@@ -384,6 +384,9 @@
     <ClInclude Include="DirectXWindow.h">
       <Filter>Engine\Header Files\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="GLWindow.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
