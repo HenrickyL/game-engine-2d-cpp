@@ -38,6 +38,7 @@ public:
     void InFocus(void(*func)()) override;
     void LostFocus(void(*func)()) override;
 
+    GLFWwindow* GetWindow()const;
     void Close() override;
     void Clear() override;
     bool Create() override;

@@ -49,14 +49,24 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 	GLWindow window;
 	window.Create();
-	window.SetColor(Color::RED);
-
+	window.SetColor(Color(0.0,0.15,0.35));
+	auto win = window.GetWindow();
 	while (!window.ShouldClose()) {
-		window.Clear();
 		// Processa eventos
 		glfwPollEvents();
+		if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+			glfwSetWindowShouldClose(win, GLFW_TRUE);
+		}
 
 		// Renderização aqui
+		window.Clear();
+		
+		glColor3f(1.0, 0.0, 0.0);
+		glBegin(GL_TRIANGLES);
+			glVertex3f(0.0, 0.5, 0.0);
+			glVertex3f(-0.5, -0.5, 0.0);
+			glVertex3f(0.5, -0.5, 0.0);
+		glEnd();
 
 		// Troca os buffers
 		window.SwapBuffers();
