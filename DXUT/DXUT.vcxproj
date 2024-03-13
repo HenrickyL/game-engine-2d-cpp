@@ -135,9 +135,11 @@
     <None Include="AIConcepts.md">
       <FileType>Document</FileType>
     </None>
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="DirectXWindow.cpp" />
     <ClCompile Include="FileHandler.cpp" />
+    <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="MCAction.cpp" />
     <ClCompile Include="MCObj.cpp" />
     <ClCompile Include="MCS.cpp" />
@@ -171,7 +173,7 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
-    <ClInclude Include="Colors.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DirectXWindow.h" />
     <ClInclude Include="DXUT_Utils_Direction_.h" />

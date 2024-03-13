@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
-#include "Colors.h"
+#include "Color.h"
 using namespace DirectX;
 // ---------------------------------------------------------------------------------
 
@@ -1048,10 +1048,10 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
             // carrega informações do sprite em registros SIMD
             XMVECTOR source = XMVectorSet(0, 0, 1, 1);
             XMVECTOR destination = XMVectorPermute<0, 1, 4, 4>(XMLoadFloat2(&positionxy), XMLoadFloat(&scale));
-            float r = filterColor.R;
-            float g = filterColor.G;
-            float b = filterColor.B;
-            float a = filterColor.A;
+            float r = filterColor.r();
+            float g = filterColor.g();
+            float b = filterColor.b();
+            float a = filterColor.alpha();
 
             //XMVECTOR color = XMVectorSet(r, g, b, a);
             /*#ifdef _DEBUG

@@ -5,7 +5,7 @@
 #include "DXUT_Utils_Direction_.h"
 #include "Position.h"
 #include "Geometry.h"
-#include "Colors.h"
+#include "Color.h"
 #include "Movable.h"
 // ---------------------------------------------------------------------------------
 struct SpriteData
@@ -94,7 +94,7 @@ inline void Sprite::SetRotation(Direction rotation) { _sprite->rotation = Direct
 inline void Sprite::SetRotation(float rotation) { _sprite->rotation = rotation;}
 inline void Sprite::SetScale(float scale) { _sprite->scale = scale; }
 inline void Sprite::SetLayer(float layer) { _sprite->depth = layer; }
-inline void Sprite::SetOpacity(float value) { _sprite->color.A = max(0.0f, min(1.0f, value)); }
+inline void Sprite::SetOpacity(float value) { _sprite->color.setAlpha(max(0.0f, min(1.0f, value))); }
 inline void Sprite::SetFilterColor(Color color) { _sprite->color = color; }
 
 // ---------------------------------------------------------------------------------

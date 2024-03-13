@@ -1,6 +1,8 @@
 #include "DXUT.h"
 #include "MissionariesCannibalsProblem.h"
 #include "DirectXWindow.h"
+#include "GLWindow.h"
+
 #include <sstream>
 
 #include <GLFW/glfw3.h>
@@ -19,7 +21,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		// configura a janela
 		engine->window->Mode(WINDOWED);
 		engine->window->Size(800, 600);
-		engine->window->Color(1, 1, 0);
+		engine->window->SetColor(Color(1, 1, 0));
 		engine->window->Title("My Game");
 		engine->window->Icon(IDI_ICON);
 		//engine->window->Cursor(IDC_CURSOR);	
@@ -45,41 +47,57 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
+	GLWindow window;
+	window.Create();
+	window.SetColor(Color::RED);
 
-	// Inicializar GLFW
-	if (!glfwInit()) {
-		// Se a inicialização falhar, exibir uma mensagem de erro e encerrar
-		MessageBox(nullptr, "Failed to initialize GLFW", "Error", MB_OK | MB_ICONERROR);
-		return -1;
-	}
-
-	// Criar uma janela GLFW
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Minha Janela GLFW", nullptr, nullptr);
-	if (!window) {
-		// Se a criação da janela falhar, exibir uma mensagem de erro e encerrar
-		MessageBox(nullptr, "Failed to create GLFW window", "Error", MB_OK | MB_ICONERROR);
-		glfwTerminate();
-		return -1;
-	}
-
-	// Definir o contexto da janela como o contexto atual
-	glfwMakeContextCurrent(window);
-
-	// Loop principal
-	while (!glfwWindowShouldClose(window)) {
-		// Processar eventos
+	while (!window.ShouldClose()) {
+		window.Clear();
+		// Processa eventos
 		glfwPollEvents();
 
-		// Renderizar aqui
+		// Renderização aqui
 
-		// Trocar os buffers
-		glfwSwapBuffers(window);
+		// Troca os buffers
 	}
 
-	// Encerrar GLFW
-	glfwTerminate();
-
 	return 0;
+
+
+	//// Inicializar GLFW
+	//if (!glfwInit()) {
+	//	// Se a inicialização falhar, exibir uma mensagem de erro e encerrar
+	//	MessageBox(nullptr, "Failed to initialize GLFW", "Error", MB_OK | MB_ICONERROR);
+	//	return -1;
+	//}
+
+	//// Criar uma janela GLFW
+	//GLFWwindow* window = glfwCreateWindow(800, 600, "Minha Janela GLFW", nullptr, nullptr);
+	//if (!window) {
+	//	// Se a criação da janela falhar, exibir uma mensagem de erro e encerrar
+	//	MessageBox(nullptr, "Failed to create GLFW window", "Error", MB_OK | MB_ICONERROR);
+	//	glfwTerminate();
+	//	return -1;
+	//}
+
+	//// Definir o contexto da janela como o contexto atual
+	//glfwMakeContextCurrent(window);
+
+	//// Loop principal
+	//while (!glfwWindowShouldClose(window)) {
+	//	// Processar eventos
+	//	glfwPollEvents();
+
+	//	// Renderizar aqui
+
+	//	// Trocar os buffers
+	//	glfwSwapBuffers(window);
+	//}
+
+	//// Encerrar GLFW
+	//glfwTerminate();
+
+	//return 0;
 
 	/*return UseEngine( hInstance, hPrevInstance,
 		lpCmdLine,  nCmdShow);*/

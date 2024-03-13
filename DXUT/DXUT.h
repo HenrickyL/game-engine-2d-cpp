@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "Engine.h"
 #include "Error.h"
+#include "Color.h"
 
 #include "DXUT_IA.h"
 #endif

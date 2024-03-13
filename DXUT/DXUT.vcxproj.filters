@@ -208,6 +208,12 @@
     <ClCompile Include="DirectXWindow.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GLWindow.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -306,7 +312,7 @@
     <ClInclude Include="DXUT_Utils_Direction_.h">
       <Filter>Modules\Utils\Header Files\Direction</Filter>
     </ClInclude>
-    <ClInclude Include="Colors.h">
+    <ClInclude Include="Color.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Error.h">

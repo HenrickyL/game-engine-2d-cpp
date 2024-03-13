@@ -120,11 +120,11 @@ bool Graphics::Initialize()
 
     // ajusta a cor de fundo do backbuffer
     // para a mesma cor de fundo da janela
-    COLORREF color = window->Color();
+    Color color = window->GetColor();
 
-    bgColor[0] = GetRValue(color) / 255.0f;     // Red
-    bgColor[1] = GetGValue(color) / 255.0f;     // Green
-    bgColor[2] = GetBValue(color) / 255.0f;     // Blue
+    bgColor[0] = color.r() / 255.0f;     // Red
+    bgColor[1] = color.g() / 255.0f;     // Green
+    bgColor[2] = color.b() / 255.0f;     // Blue
     bgColor[3] = 1.0f;                        // Alpha (1 = cor sólida)
 
     // -------------------------------

@@ -2,7 +2,7 @@
 #define DXUT_2D_H
 
 #include "Game.h"
-#include "Colors.h"
+#include "Color.h"
 #include "Image.h"
 #include "Sprite.h"
 #include "Object.h"

@@ -39,22 +39,22 @@ public:
     ~DirectXWindow();												// destrutor
 
     //HINSTANCE AppId() const override;                                      // retorna o identificador da aplicação
-    HWND Id() const override;                                         // retorna o identificador da janela
+    HWND Id() const;                                         // retorna o identificador da janela
     int Width() const override;                                       // retorna a largura atual da janela
     int Height() const override;                                      // retorna a altura atual da janela
-    int Mode() const override;                                        // retorna o modo atual da janela (FULLSCREEN/WINDOWED)
+    WindowModes Mode() const override;                                        // retorna o modo atual da janela (FULLSCREEN/WINDOWED)
 
     Position Center() const override;
 
     std::string Title() const override;                               // retorna título da janela
-    COLORREF Color() const override;                                   // retorna a cor de fundo da janela
+    Color GetColor() const override;                                   // retorna a cor de fundo da janela
 
     void Icon(const uint icon) override;                              // define o ícone da janela
     void Cursor(const uint cursor) override;                          // define o cursor da janela
     void Title(const std::string title) override;                     // define o título da janela 
     void Size(int width, int height) override;                        // define o tamanho (largura e altura) da janela
     void Mode(WindowModes mode) override;                                    // define o modo da janela (FULLSCREEN/WINDOWED)
-    void Color(int r, int g, int b) override;                         // define a cor de fundo da janela
+    void SetColor(Color color) override;                         // define a cor de fundo da janela
 
     void HideCursor(bool hide) override;                              // habilita ou desabilita a exibição do cursor
     //void Print(const std::string& text, int x, int y, COLORREF color = C_BLACK) override;  // mostra texto na janela	
@@ -95,9 +95,9 @@ inline int DirectXWindow::Height() const
 }
 
 // retorna o modo atual da janela (FULLSCREEN/WINDOWED)
-inline int DirectXWindow::Mode() const
+inline WindowModes DirectXWindow::Mode() const
 {
-    return windowMode;
+    return _mode;
 }
 
 
@@ -108,9 +108,9 @@ inline string DirectXWindow::Title() const
 }
 
 // retorna a cor de fundo da janela
-inline COLORREF DirectXWindow::Color() const
+inline Color DirectXWindow::GetColor() const
 {
-    return windowColor;
+    return _color;
 }
 
 inline Position DirectXWindow::Center() const
@@ -139,9 +139,9 @@ inline void DirectXWindow::Title(const string title)
 }
 
 // define a cor de fundo da janela
-inline void DirectXWindow::Color(int r, int g, int b)
+inline void DirectXWindow::SetColor(Color color)
 {
-    windowColor = RGB(r, g, b);
+    _color = color;
 }
 
 // ----------------------------------------------------------
