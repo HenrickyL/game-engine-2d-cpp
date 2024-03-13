@@ -4,7 +4,7 @@
 #include "GLWindow.h"
 
 #include <sstream>
-
+#include <vector>
 #include <GLFW/glfw3.h>
 using std::stringstream;
 
@@ -43,19 +43,44 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 }
 
 
+void drawTriangle() {
+	glColor3f(1.0, 0.0, 0.0);
+	glBegin(GL_TRIANGLES);
+	glVertex3f(0.0, 0.5, 0.0);
+	glVertex3f(-0.5, -0.5, 0.0);
+	glVertex3f(0.5, -0.5, 0.0);
+	glEnd();
+}
 
+void drawQuad() {
+	glColor3f(1.f, 0.f, 0.f);
+	glBegin(GL_QUADS);
+	glVertex3f(-2.5, -2.5, 0);
+	glVertex3f(2.5, -2.5, 0);
+	glVertex3f(2.5, 2.5, 0);
+	glVertex3f(-2.5, 2.5, 0);
+	glEnd();
+}
 
-int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
+int GLWindowTest() {
+
 	GLWindow window;
 	window.Create();
 	window.SetColor(Color(0.0,0.15,0.35));
 	auto win = window.GetWindow();
 
-	//contorno
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 	bool onMode = true;
+
+	std::vector<void (*)()> functionVector;
+	int index = 0;
+	functionVector.push_back(drawTriangle);
+	functionVector.push_back(drawQuad);
+
+
+	//projection
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-10.f, 10.f, -10.f, 10.f, 1.f, -1.f);
 
 
 	while (!window.ShouldClose()) {
@@ -65,7 +90,8 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 			glfwSetWindowShouldClose(win, GLFW_TRUE);
 		}
 
-		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_PRESS) {
+		if (glfwGetKey(win, GLFW_KEY_BACKSPACE) == GLFW_PRESS) {
+			//Contorno - posso usar para mostrar a malha
 			if (onMode) {
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			}else {
@@ -74,60 +100,35 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 			onMode = !onMode;
 		}
 
+		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_PRESS) {
+			index++;
+			if (index >= functionVector.size()) {
+				index = 0;
+			}
+		}
+
 		// Renderização aqui
 		window.Clear();
-		
-		glColor3f(1.0, 0.0, 0.0);
-		glBegin(GL_TRIANGLES);
-			glVertex3f(0.0, 0.5, 1.0);
-			glVertex3f(-0.5, -0.5, 0.0);
-			glVertex3f(0.5, -0.5, 0.0);
-		glEnd();
+
+		functionVector[index]();
 
 		// Troca os buffers
 		window.SwapBuffers();
 	}
 	window.Close();
 	return 0;
+}
 
 
-	//// Inicializar GLFW
-	//if (!glfwInit()) {
-	//	// Se a inicialização falhar, exibir uma mensagem de erro e encerrar
-	//	MessageBox(nullptr, "Failed to initialize GLFW", "Error", MB_OK | MB_ICONERROR);
-	//	return -1;
-	//}
 
-	//// Criar uma janela GLFW
-	//GLFWwindow* window = glfwCreateWindow(800, 600, "Minha Janela GLFW", nullptr, nullptr);
-	//if (!window) {
-	//	// Se a criação da janela falhar, exibir uma mensagem de erro e encerrar
-	//	MessageBox(nullptr, "Failed to create GLFW window", "Error", MB_OK | MB_ICONERROR);
-	//	glfwTerminate();
-	//	return -1;
-	//}
 
-	//// Definir o contexto da janela como o contexto atual
-	//glfwMakeContextCurrent(window);
+int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
+	
+	return GLWindowTest();
 
-	//// Loop principal
-	//while (!glfwWindowShouldClose(window)) {
-	//	// Processar eventos
-	//	glfwPollEvents();
-
-	//	// Renderizar aqui
-
-	//	// Trocar os buffers
-	//	glfwSwapBuffers(window);
-	//}
-
-	//// Encerrar GLFW
-	//glfwTerminate();
-
-	//return 0;
-
-	/*return UseEngine( hInstance, hPrevInstance,
-		lpCmdLine,  nCmdShow);*/
+	//return UseEngine( hInstance, hPrevInstance,
+	//	lpCmdLine,  nCmdShow);
 
 	
 }
