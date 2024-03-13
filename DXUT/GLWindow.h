@@ -42,6 +42,7 @@ public:
     void Clear() override;
     bool Create() override;
     bool ShouldClose() const;
+    void SwapBuffers() const;
 
 };
 

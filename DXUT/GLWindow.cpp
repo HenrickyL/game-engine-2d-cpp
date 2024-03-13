@@ -76,10 +76,7 @@ void GLWindow::Mode(WindowModes mode) {
 void GLWindow::SetColor(Color color) {
     onWindowCreate("GLFW window was not created");
     // Define a cor de fundo da janela
-    glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_TRUE); // Certifica-se de que a janela é decorada
-    glfwSetWindowAttrib(window, GLFW_RED_BITS, color.r());
-    glfwSetWindowAttrib(window, GLFW_GREEN_BITS, color.g());
-    glfwSetWindowAttrib(window, GLFW_BLUE_BITS, color.b());
+    glClearColor(color.r(), color.g(), color.b(), color.alpha());
 }
 
 void GLWindow::HideCursor(bool hide) {
@@ -87,11 +84,12 @@ void GLWindow::HideCursor(bool hide) {
 }
 
 void GLWindow::Close() {
-    glfwSetWindowShouldClose(window, GLFW_TRUE);
+    glfwTerminate();
 }
 
 void GLWindow::Clear() {
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 }
 
 bool GLWindow::Create() {
@@ -128,6 +126,10 @@ bool GLWindow::onWindowCreate(const string message) const {
 bool GLWindow::ShouldClose() const {
     return glfwWindowShouldClose(window);
 }
+void GLWindow::SwapBuffers() const {
+    glfwSwapBuffers(window);
+}
+
 
 
 void GLWindow::InFocus(void(*func)()) {
