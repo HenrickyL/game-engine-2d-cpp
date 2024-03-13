@@ -51,6 +51,13 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	window.Create();
 	window.SetColor(Color(0.0,0.15,0.35));
 	auto win = window.GetWindow();
+
+	//contorno
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	bool onMode = true;
+
+
 	while (!window.ShouldClose()) {
 		// Processa eventos
 		glfwPollEvents();
@@ -58,12 +65,21 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 			glfwSetWindowShouldClose(win, GLFW_TRUE);
 		}
 
+		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_PRESS) {
+			if (onMode) {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}else {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			onMode = !onMode;
+		}
+
 		// Renderização aqui
 		window.Clear();
 		
 		glColor3f(1.0, 0.0, 0.0);
 		glBegin(GL_TRIANGLES);
-			glVertex3f(0.0, 0.5, 0.0);
+			glVertex3f(0.0, 0.5, 1.0);
 			glVertex3f(-0.5, -0.5, 0.0);
 			glVertex3f(0.5, -0.5, 0.0);
 		glEnd();
