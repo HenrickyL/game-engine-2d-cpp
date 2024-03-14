@@ -205,13 +205,19 @@
     <ClCompile Include="Movable.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXWindow.cpp">
+    <ClCompile Include="DXWindow.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GLWindow.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Color.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLInput.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DXInput.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -387,11 +393,17 @@
     <ClInclude Include="Movable.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXWindow.h">
+    <ClInclude Include="DXWindow.h">
       <Filter>Engine\Header Files\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="GLWindow.h">
       <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="GLInput.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="DXInput.h">
+      <Filter>Engine\Header Files\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

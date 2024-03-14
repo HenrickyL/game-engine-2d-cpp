@@ -1,14 +1,14 @@
-#include "DirectXWindow.h"
+#include "DXWindow.h"
 
 // -------------------------------------------------------------------------------
 // inicialização de membros estáticos da classe
 
-void (*DirectXWindow::inFocus)() = nullptr;						// nenhuma ação ao ganhar foco
-void (*DirectXWindow::lostFocus)() = nullptr;						// nenhuma ação ao perder foco
+void (*DXWindow::inFocus)() = nullptr;						// nenhuma ação ao ganhar foco
+void (*DXWindow::lostFocus)() = nullptr;						// nenhuma ação ao perder foco
 // -------------------------------------------------------------------------------
 // Construtor
 
-DirectXWindow::DirectXWindow()
+DXWindow::DXWindow()
 {
     hInstance = GetModuleHandle(NULL);                // identificador da aplicação
     windowId = 0;									    // id nulo porque a janela ainda não existe
@@ -27,14 +27,14 @@ DirectXWindow::DirectXWindow()
     windowRect = { 0, 0, 0, 0 };						// área cliente da janela
 }
 // -------------------------------------------------------------------------------
-DirectXWindow::~DirectXWindow()
+DXWindow::~DXWindow()
 {
     // libera contexto do dispositivo
     if (windowHdc) ReleaseDC(windowId, windowHdc);
 }
 // -------------------------------------------------------------------------------
 
-void DirectXWindow::Mode(WindowModes mode) {
+void DXWindow::Mode(WindowModes mode) {
     this->windowMode = mode;
     if (mode == WINDOWED) {
         // modo em janela
@@ -47,7 +47,7 @@ void DirectXWindow::Mode(WindowModes mode) {
     }
 }
 
-void DirectXWindow::Size(int width, int height)
+void DXWindow::Size(int width, int height)
 {
     // window size
     windowWidth = width;
@@ -64,7 +64,7 @@ void DirectXWindow::Size(int width, int height)
 
 // -------------------------------------------------------------------------------
 
-bool DirectXWindow::Create()
+bool DXWindow::Create()
 {
     // identificador da aplicação
     HINSTANCE appId = GetModuleHandle(NULL);
@@ -73,7 +73,7 @@ bool DirectXWindow::Create()
     WNDCLASSEX wndClass;
     wndClass.cbSize = sizeof(WNDCLASSEX);
     wndClass.style = CS_DBLCLKS | CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-    wndClass.lpfnWndProc = DirectXWindow::WinProc;
+    wndClass.lpfnWndProc = DXWindow::WinProc;
     wndClass.cbClsExtra = 0;
     wndClass.cbWndExtra = 0;
     wndClass.hInstance = appId;
@@ -142,7 +142,7 @@ bool DirectXWindow::Create()
 }
 
 
-LRESULT CALLBACK DirectXWindow::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DXWindow::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg)
     {

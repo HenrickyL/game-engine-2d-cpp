@@ -1,14 +1,13 @@
 #ifndef DXUT_INPUT_H
 #define DXUT_INPUT_H
 
-#include "DirectXWindow.h"
 #include "InputKeys.h"
-
-typedef LRESULT(*WinProcType)(HWND, UINT, WPARAM, LPARAM);
+#include "Position.h"
+#include <string>
+using std::string;
 
 class Input {
-private:
-	static WinProcType winProcPtr;
+protected:
 	static bool	keys[256];				// estado das teclas do teclado/mouse
 	static bool ctrl[256];				// controle da liberação de teclas
 	static string text;					// armazenamento para os caracteres digitados
@@ -29,12 +28,10 @@ public:
 
 	short MouseWheel();					// retorna rotação da roda do mouse
 
-	void  Read();						// armazena texto digitado até o próximo ENTER ou TAB
+	virtual void  Read() = 0;						// armazena texto digitado até o próximo ENTER ou TAB
 	static const char* Text();			// retorna endereço do texto armazenada
 
-	// trata eventos do Windows
-	static LRESULT CALLBACK Reader(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK InputProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	
 };
 // ---------------------------------------------------------------------------------
 // Inline Member Functions

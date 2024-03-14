@@ -1,6 +1,6 @@
 // DirectXWindow.h
-#ifndef DXUT_DIRECTXWINDOW_H
-#define DXUT_DIRECTXWINDOW_H
+#ifndef DXUT_DXWINDOW_H
+#define DXUT_DWINDOW_H
 
 
 // ---------------------------------------------------------------------------------
@@ -11,7 +11,7 @@
 
 // ---------------------------------------------------------------------------------
 
-class DirectXWindow : public Window {
+class DXWindow : public Window {
 private:
     HINSTANCE   hInstance;                                  // identificador da aplicação
     HDC			windowHdc;									// contexto do dispositivo
@@ -35,8 +35,8 @@ private:
 
 
 public:
-    DirectXWindow();                                               // construtor
-    ~DirectXWindow();												// destrutor
+    DXWindow();                                               // construtor
+    ~DXWindow();												// destrutor
 
     //HINSTANCE AppId() const override;                                      // retorna o identificador da aplicação
     HWND Id() const;                                         // retorna o identificador da janela
@@ -78,42 +78,42 @@ public:
 //    return hInstance;
 //}
 // retorna o identificador da janela do jogo
-inline HWND DirectXWindow::Id() const
+inline HWND DXWindow::Id() const
 {
     return windowId;
 }
 // retorna a largura atual da janela
-inline int DirectXWindow::Width() const
+inline int DXWindow::Width() const
 {
     return windowWidth;
 }
 
 // retorna a altura atual da janela
-inline int DirectXWindow::Height() const
+inline int DXWindow::Height() const
 {
     return windowHeight;
 }
 
 // retorna o modo atual da janela (FULLSCREEN/WINDOWED)
-inline WindowModes DirectXWindow::Mode() const
+inline WindowModes DXWindow::Mode() const
 {
     return _mode;
 }
 
 
 // retorna título da janela
-inline string DirectXWindow::Title() const
+inline string DXWindow::Title() const
 {
     return windowTitle;
 }
 
 // retorna a cor de fundo da janela
-inline Color DirectXWindow::GetColor() const
+inline Color DXWindow::GetColor() const
 {
     return _color;
 }
 
-inline Position DirectXWindow::Center() const
+inline Position DXWindow::Center() const
 {
     return center;
 }
@@ -122,24 +122,24 @@ inline Position DirectXWindow::Center() const
 // ----------------------------------------------------------
 
 // define o ícone da janela
-inline void DirectXWindow::Icon(const uint icon)
+inline void DXWindow::Icon(const uint icon)
 {
     windowIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(icon));
 }
 // define o cursor da janela
-inline void DirectXWindow::Cursor(const uint cursor)
+inline void DXWindow::Cursor(const uint cursor)
 {
     windowCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(cursor));
 }
 
 // define o título da janela 
-inline void DirectXWindow::Title(const string title)
+inline void DXWindow::Title(const string title)
 {
     windowTitle = title;
 }
 
 // define a cor de fundo da janela
-inline void DirectXWindow::SetColor(Color color)
+inline void DXWindow::SetColor(Color color)
 {
     _color = color;
 }
@@ -147,19 +147,19 @@ inline void DirectXWindow::SetColor(Color color)
 // ----------------------------------------------------------
 
 // habilita ou desabilita a exbição do cursor
-inline void DirectXWindow::HideCursor(bool hide)
+inline void DXWindow::HideCursor(bool hide)
 {
     ShowCursor(!hide);
 }
 
 // fecha a janela e sai do jogo 
-inline void DirectXWindow::Close()
+inline void DXWindow::Close()
 {
     PostMessage(windowId, WM_DESTROY, 0, 0);
 }
 
 // limpa a área cliente
-inline void DirectXWindow::Clear()
+inline void DXWindow::Clear()
 {
     //FillRect(windowHdc, &windowRect, CreateSolidBrush(Color()));
     InvalidateRect(Id(), NULL, TRUE);
@@ -169,13 +169,13 @@ inline void DirectXWindow::Clear()
 // ---------------------------------------------------------------------------------
 
 // altera função executada no ganho de foco
-inline void DirectXWindow::InFocus(void(*func)())
+inline void DXWindow::InFocus(void(*func)())
 {
     inFocus = func;
 }
 
 // altera função executada na perda de foco
-inline void DirectXWindow::LostFocus(void(*func)())
+inline void DXWindow::LostFocus(void(*func)())
 {
     lostFocus = func;
 }

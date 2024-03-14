@@ -22,11 +22,11 @@ Timer		Engine::timer;                      // medidor de tempo
 Engine::Engine()
 {
 	if (this->_graphicType == E_DirectX) {
-		window = new DirectXWindow();
+		window = new DXWindow();
 	}
 	else {
 		///TODO: Add OpenGL
-		window = new DirectXWindow();
+		window = new DXWindow();
 	}
 	graphics = new Graphics(window);
 	renderer = new Renderer();

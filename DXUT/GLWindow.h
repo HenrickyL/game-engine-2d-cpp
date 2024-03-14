@@ -45,6 +45,8 @@ public:
     bool ShouldClose() const;
     void SwapBuffers() const;
 
+    // tratamento de eventos do Windows
+    static void GlProcCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 };
 
 #endif
