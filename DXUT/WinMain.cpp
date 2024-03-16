@@ -42,23 +42,28 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	}
 }
 
+struct Obj {
+	int x = 0;
+	int y = 0;
+};
 
-void drawTriangle() {
+
+void drawTriangle(Obj pos) {
 	glColor3f(1.0, 0.0, 0.0);
 	glBegin(GL_TRIANGLES);
-	glVertex3f(0.0, 0.5, 0.0);
-	glVertex3f(-0.5, -0.5, 0.0);
-	glVertex3f(0.5, -0.5, 0.0);
+	glVertex3f(pos.x,		pos.y+0.5, 0.0);
+	glVertex3f(pos.x+0.5,	pos.y -0.5, 0.0);
+	glVertex3f(pos.x-0.5,	pos.y -0.5, 0.0);
 	glEnd();
 }
 
-void drawQuad() {
+void drawQuad(Obj pos) {
 	glColor3f(1.f, 0.f, 0.f);
 	glBegin(GL_QUADS);
-	glVertex3f(-2.5, -2.5, 0);
-	glVertex3f(2.5, -2.5, 0);
-	glVertex3f(2.5, 2.5, 0);
-	glVertex3f(-2.5, 2.5, 0);
+	glVertex3f(pos.x-2.5,pos.y -2.5, 0);
+	glVertex3f(pos.x+2.5,pos.y -2.5, 0);
+	glVertex3f(pos.x+2.5, pos.y+ 2.5, 0);
+	glVertex3f(pos.x-2.5,pos.y+ 2.5, 0);
 	glEnd();
 }
 
@@ -71,11 +76,11 @@ int GLWindowTest() {
 
 	bool onMode = true;
 
-	std::vector<void (*)()> functionVector;
+	std::vector<void (*)(Obj)> functionVector;
 	int index = 0;
-	functionVector.push_back(drawTriangle);
 	functionVector.push_back(drawQuad);
-
+	functionVector.push_back(drawTriangle);
+	Obj obj;
 
 	//projection
 	glMatrixMode(GL_PROJECTION);
@@ -99,6 +104,13 @@ int GLWindowTest() {
 			onMode = !onMode;
 		}
 
+		if (Input::KeyPress(LEFT)) {
+			obj.x -= 1;
+		}
+
+		if (Input::KeyPress(RIGHT)) {
+			obj.x += 1;
+		}
 
 		if (Input::KeyPress(SPACE)) {
 			index++;
@@ -110,7 +122,7 @@ int GLWindowTest() {
 		// Renderização aqui
 		window.Clear();
 
-		functionVector[index]();
+		functionVector[index](obj);
 
 		// Troca os buffers
 		window.SwapBuffers();
@@ -125,9 +137,9 @@ int GLWindowTest() {
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 	
-	//return GLWindowTest();
+	return GLWindowTest();
 
-	return UseEngine( hInstance, hPrevInstance,lpCmdLine,  nCmdShow);
+	//return UseEngine( hInstance, hPrevInstance,lpCmdLine,  nCmdShow);
 
 	
 }
