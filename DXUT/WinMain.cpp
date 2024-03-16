@@ -106,8 +106,19 @@ int GLWindowTest() {
 
 		if (Input::KeyPress(LEFT)) {
 			Position p = Input::MousePosition();
+			Position p2 = Input::MouseClick();
+
 			short w = Input::MouseWheel();
+			bool click = Input::OnClick();
+			bool aaa = Input::OnDrag();
+			int x = Input::DragX();
+			int y = Input::DragY();
+
 			obj.x -= 1;
+		}
+
+		if (Input::MouseWheel() != 0) {
+			obj.y = Input::MouseWheel();
 		}
 
 		if (Input::KeyPress(RIGHT)) {

@@ -4,7 +4,12 @@
 #include "InputKeys.h"
 #include "Position.h"
 #include <string>
+//#include <chrono>
 using std::string;
+
+
+//using TimeType = std::chrono::steady_clock::time_point;
+
 
 class Input {
 protected:
@@ -14,7 +19,16 @@ protected:
 
 	static Position		mousePosition;
 	static Position		mouseClick;
+	static Position		lastMouseClick;
+	static short		dragY;
+	static short		dragX;
+	static short		dragOffset;
 	static short		mouseWheel;		// valor da roda do mouse
+	static bool			onClick;
+	//static TimeType		lastTime;
+	static short		timeOffset;
+
+
 public:
 	//Input();							// construtor
 	//~Input();							// destrutor
@@ -26,6 +40,13 @@ public:
 	static int   MouseX();						// retorna posição x do mouse
 	static int   MouseY();						// retorna posição y do mouse
 	static Position MousePosition();
+	static Position MouseClick();
+	static bool OnDrag();
+	static int DragX();
+	static int DragY();
+
+
+	static bool OnClick();
 
 	static short MouseWheel();					// retorna rotação da roda do mouse
 

@@ -1,5 +1,11 @@
 #include "GLInput.h"
 #include "GLKeyMap.h"
+#include <cstdlib>
+#include <chrono>
+using TimeType = std::chrono::steady_clock::time_point;
+
+
+
 
 void GLInput::InputKeysCallback(GLFWwindow* window, int key, int scancode, int action, int mods){
     // Ignore as teclas desconhecidas
@@ -32,18 +38,53 @@ void GLInput::InputKeysCallback(GLFWwindow* window, int key, int scancode, int a
 
 void GLInput::InputMouseClickCallback(GLFWwindow* window, int button, int action, int mods) {
     double xpos, ypos;
+    lastMouseClick.SetX(mouseClick.x());
+    lastMouseClick.SetY(mouseClick.y());
+    
+    onClick = action != GLFW_RELEASE && button == GLFW_MOUSE_BUTTON_LEFT;
+
     glfwGetCursorPos(window, &xpos, &ypos);
     mouseClick.SetX(xpos);
     mouseClick.SetY(ypos);
+
 }
 
 void GLInput::InputMousePositionCallback(GLFWwindow* window, double xpos, double ypos) {
     mousePosition.SetX(xpos);
     mousePosition.SetY(ypos);
+
+
+    if (onClick) {
+        //drag
+        short diffX = abs(mouseClick.x() - mousePosition.x());
+        short diffY = abs(mouseClick.y() - mousePosition.y());
+
+        if (diffX > dragOffset) {
+            dragX = diffX;
+        }
+
+        if (diffY > dragOffset) {
+            dragY = diffY;
+        }
+    }
+    else {
+        dragX = 0;
+        dragY = 0;
+    }
 }
 
 void GLInput::InputMouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
     mouseWheel += (short)yoffset;
+    static TimeType _LAST_TIME_ = std::chrono::steady_clock::now();
+
+    auto timeNow = std::chrono::steady_clock::now();
+    auto diff = timeNow - _LAST_TIME_;
+    auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff);
+
+    if (diff_ms.count() > timeOffset) {
+        mouseWheel = (short)yoffset;
+    }
+    _LAST_TIME_ = timeNow;
 }
 
 

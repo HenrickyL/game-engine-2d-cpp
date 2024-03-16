@@ -6,8 +6,17 @@ bool		Input::keys[256] = { 0 };						// estado do teclado/mouse
 bool		Input::ctrl[256] = { 0 };						// controle de liberação das teclas
 string		Input::text; 									// guarda caracteres digitados
 short		Input::mouseWheel = 0;							// valor da roda do mouse
+short		Input::dragX = 0;
+short		Input::dragY = 0;
+short		Input::dragOffset = 10;
 Position	Input::mousePosition;
 Position	Input::mouseClick;
+Position	Input::lastMouseClick;
+bool		Input::onClick = false;
+
+//TimeType	Input::lastTime = std::chrono::steady_clock::now();
+short		Input::timeOffset = 600;
+
 
 // -------------------------------------------------------------------------------
 
@@ -43,9 +52,7 @@ bool Input::KeyPress(InputKeys vkcode) {
 
 short Input::MouseWheel()
 {
-	short val = mouseWheel;
-	mouseWheel = 0;
-	return val;
+	return mouseWheel;
 }
 
 // -------------------------------------------------------------------------------
@@ -76,7 +83,26 @@ short Input::MouseWheel()
  Position Input::MousePosition() 
  { return Input::mousePosition; }
 
+ Position Input::MouseClick() {
+	 return Input::mouseClick;
+ }
+
 // retorna conteúdo do texto lido
  const char* Input::Text()
 {return text.c_str();}
 
+
+ bool  Input::OnClick() {
+	 return onClick;
+}
+
+bool Input::OnDrag() {
+	return dragX > dragOffset || dragY > dragOffset;
+}
+
+int Input::DragX() {
+	return dragX;
+}
+int Input::DragY() {
+	return dragY;
+}
