@@ -42,6 +42,11 @@ void GLInput::InputMousePositionCallback(GLFWwindow* window, double xpos, double
     mousePosition.SetY(ypos);
 }
 
+void GLInput::InputMouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+    mouseWheel += (short)yoffset;
+}
+
+
 InputKeys GLInput::GetKey(int key) {
     auto res = GLKeyMap[key];
     return res;

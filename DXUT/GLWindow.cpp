@@ -19,6 +19,7 @@ void GLWindow::setupWindowInputCallback() {
         glfwSetKeyCallback(window, GLInput::InputKeysCallback);
         glfwSetMouseButtonCallback(window, GLInput::InputMouseClickCallback);
         glfwSetCursorPosCallback(window, GLInput::InputMousePositionCallback);
+        glfwSetScrollCallback(window, GLInput::InputMouseScrollCallback);
     }
 }
 

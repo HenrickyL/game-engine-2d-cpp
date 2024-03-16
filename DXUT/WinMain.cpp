@@ -106,6 +106,7 @@ int GLWindowTest() {
 
 		if (Input::KeyPress(LEFT)) {
 			Position p = Input::MousePosition();
+			short w = Input::MouseWheel();
 			obj.x -= 1;
 		}
 
