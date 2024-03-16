@@ -16,6 +16,7 @@ private:
     static void onFocus(GLFWwindow* window, int focused);
 
     bool onWindowCreate(const string message = "Failed to create GLFW window") const;
+    void setupWindowInputCallback();
 
 public:
     GLWindow(); // Construtor

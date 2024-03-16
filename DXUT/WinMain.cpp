@@ -1,6 +1,6 @@
 #include "DXUT.h"
 #include "MissionariesCannibalsProblem.h"
-#include "DirectXWindow.h"
+#include "DXWindow.h"
 #include "GLWindow.h"
 
 #include <sstream>
@@ -98,6 +98,10 @@ int GLWindowTest() {
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			}
 			onMode = !onMode;
+		}
+
+		if (Input::KeyDown(GLFW_KEY_A)) {
+			Input::KeyDown(GLFW_KEY_A);
 		}
 
 		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_PRESS) {

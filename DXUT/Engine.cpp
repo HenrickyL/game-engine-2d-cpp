@@ -1,8 +1,11 @@
 #include "Engine.h"
-#include "DirectXWindow.h"
+
+#include "DXWindow.h"
 #include <windows.h>
 #include <sstream>
 #include "Error.h"
+#include "DXInput.h"
+
 using std::stringstream;
 
 
@@ -222,7 +225,7 @@ LRESULT CALLBACK Engine::EngineProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	// janela precisa ser repintada
 	if (msg == WM_PAINT) {
 	}
-	return CallWindowProc(Input::InputProc, hWnd, msg, wParam, lParam);
+	return CallWindowProc(DXInput::InputKeysProc, hWnd, msg, wParam, lParam);
 }
 
 // -----------------------------------------------------------------------------

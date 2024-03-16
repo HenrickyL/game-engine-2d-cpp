@@ -1,6 +1,6 @@
 // DirectXWindow.h
 #ifndef DXUT_DXWINDOW_H
-#define DXUT_DWINDOW_H
+#define DXUT_DXWINDOW_H
 
 
 // ---------------------------------------------------------------------------------

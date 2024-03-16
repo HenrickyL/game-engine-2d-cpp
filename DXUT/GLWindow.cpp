@@ -1,5 +1,5 @@
 #include "GLWindow.h"
-
+#include "GLInput.h"
 // GLWindow.cpp
 
 GLFWwindow* GLWindow::window = nullptr;// Ponteiro para a janela GLFW
@@ -13,6 +13,14 @@ GLWindow::~GLWindow() {
         glfwTerminate();
     }
 }
+
+void GLWindow::setupWindowInputCallback() {
+    if (window) {
+        glfwSetMouseButtonCallback(window, GLInput::InputMousePositionCallback);
+        glfwSetKeyCallback(window, GLInput::InputKeysCallback);
+    }
+}
+
 
 
 int GLWindow::Width() const {
@@ -109,7 +117,7 @@ bool GLWindow::Create() {
     // Crie uma janela GLFW
     window = glfwCreateWindow(_width, _height, _title.c_str(), NULL, NULL);
     onWindowCreate();
-
+    setupWindowInputCallback();
 
     // Tornar o contexto da janela atual - mudar se for trabalhar com mais janelas
     glfwMakeContextCurrent(window);

@@ -141,7 +141,6 @@
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="GLInput.cpp" />
-    <ClCompile Include="GLKeyMap.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="MCAction.cpp" />
     <ClCompile Include="MCObj.cpp" />

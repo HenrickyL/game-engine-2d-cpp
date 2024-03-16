@@ -9,6 +9,7 @@
 #include "Window.h"          // cria e configura uma janela do Windows
 #include "Types.h"           // tipos específicos da engine
 #include "GraphicsFPS.h"
+
 // --------------------------------------------------------------------------------
 
 

@@ -12,50 +12,25 @@ protected:
 	static bool ctrl[256];				// controle da liberação de teclas
 	static string text;					// armazenamento para os caracteres digitados
 
-	static Position*	mousePosition;
+	static Position		mousePosition;
+	static Position		mouseClick;
 	static short		mouseWheel;		// valor da roda do mouse
 public:
-	Input();							// construtor
-	~Input();							// destrutor
+	//Input();							// construtor
+	//~Input();							// destrutor
 
-	bool KeyDown(int vkcode);		    // retorna se tecla está pressionada
-	bool KeyUp(int vkcode);			    // retorna se tecla está liberada
-	bool KeyPress(int vkcode);		    // novo pressionamento somente após liberação		
+	static bool KeyDown(int vkcode);		    // retorna se tecla está pressionada
+	static bool KeyUp(int vkcode);			    // retorna se tecla está liberada
+	static bool KeyPress(int vkcode);		    // novo pressionamento somente após liberação		
 
-	int   MouseX() const;						// retorna posição x do mouse
-	int   MouseY() const;						// retorna posição y do mouse
-	Position MousePosition() const;
+	static int   MouseX();						// retorna posição x do mouse
+	static int   MouseY();						// retorna posição y do mouse
+	static Position MousePosition();
 
-	short MouseWheel();					// retorna rotação da roda do mouse
+	static short MouseWheel();					// retorna rotação da roda do mouse
 
-	virtual void  Read() = 0;						// armazena texto digitado até o próximo ENTER ou TAB
+	static void  Read();						// armazena texto digitado até o próximo ENTER ou TAB
 	static const char* Text();			// retorna endereço do texto armazenada
-
-	
 };
-// ---------------------------------------------------------------------------------
-// Inline Member Functions
-
-// retorna verdadeiro se a tecla está pressionada
-inline bool Input::KeyDown(int vkcode)
-{	return keys[vkcode];}
-
-// retorna verdadeiro se a tecla está liberada
-inline bool Input::KeyUp(int vkcode)
-{	return !(keys[vkcode]);}
-
-// retorna a posição do mouse no eixo x
-inline int Input::MouseX() const
-{	return mousePosition->x();}
-
-// retorna a posição do mouse no eixo y
-inline int Input::MouseY() const
-{	return mousePosition->y();}
-inline Position Input::MousePosition() const { return Position(Input::mousePosition); }
-
-// retorna conteúdo do texto lido
-inline const char* Input::Text()
-{	return text.c_str();}
-
 
 #endif

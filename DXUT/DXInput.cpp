@@ -2,12 +2,12 @@
 
 DXProcType DXInput::winProcPtr = DXWindow::WinProc;
 
-void DXInput::Read() {
-	// apaga texto armazenado
-	text.clear();
-	// altera a window procedure da janela ativa
-	SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)DXInput::Reader);
-}
+//void DXInput::Read() {
+//	// apaga texto armazenado
+//	text.clear();
+//	// altera a window procedure da janela ativa
+//	SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)DXInput::Reader);
+//}
 
 
 LRESULT CALLBACK DXInput::Reader(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -60,8 +60,8 @@ LRESULT CALLBACK DXInput::InputKeysProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 		// movimento do mouse
 	case WM_MOUSEMOVE:
-		mousePosition->SetX((int)GET_X_LPARAM(lParam));
-		mousePosition->SetY((int)GET_Y_LPARAM(lParam));
+		mousePosition.SetX((int)GET_X_LPARAM(lParam));
+		mousePosition.SetY((int)GET_Y_LPARAM(lParam));
 		return 0;
 
 		// movimento da roda do mouse

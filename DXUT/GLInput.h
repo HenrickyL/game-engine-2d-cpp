@@ -8,12 +8,11 @@ typedef void(*GLKeyCallbackType)(GLFWwindow*, int, int, int, int);
 
 class GLInput : public Input {
 private:
-	static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 public:
-	GLInput();
-	void  Read() override;
 	static GLKeyCallbackType keyCallbackPtr;
 
-	static void InputKeysProc(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void InputKeysCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void InputMousePositionCallback(GLFWwindow* window, int button, int action, int mods);
+
 };
 #endif
