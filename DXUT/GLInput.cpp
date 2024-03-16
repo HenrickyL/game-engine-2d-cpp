@@ -56,20 +56,21 @@ void GLInput::InputMousePositionCallback(GLFWwindow* window, double xpos, double
 
     if (onClick) {
         //drag
-        short diffX = abs(mouseClick.x() - mousePosition.x());
-        short diffY = abs(mouseClick.y() - mousePosition.y());
+        short diffX = -mouseClick.x() + mousePosition.x();
+        short diffY = -mouseClick.y() + mousePosition.y();
 
-        if (diffX > dragOffset) {
-            dragX = diffX;
+        if (abs(diffX) > dragOffset) {
+            drag.SetX(diffX);
         }
 
-        if (diffY > dragOffset) {
-            dragY = diffY;
+        if (abs(diffY) > dragOffset) {
+            drag.SetY(diffY);
         }
     }
     else {
-        dragX = 0;
-        dragY = 0;
+        drag.SetX(0);
+        drag.SetY(0);
+
     }
 }
 

@@ -6,13 +6,12 @@ bool		Input::keys[256] = { 0 };						// estado do teclado/mouse
 bool		Input::ctrl[256] = { 0 };						// controle de liberação das teclas
 string		Input::text; 									// guarda caracteres digitados
 short		Input::mouseWheel = 0;							// valor da roda do mouse
-short		Input::dragX = 0;
-short		Input::dragY = 0;
 short		Input::dragOffset = 10;
 Position	Input::mousePosition;
 Position	Input::mouseClick;
 Position	Input::lastMouseClick;
 bool		Input::onClick = false;
+Vector		Input::drag = Vector::Zero;
 
 //TimeType	Input::lastTime = std::chrono::steady_clock::now();
 short		Input::timeOffset = 600;
@@ -97,12 +96,9 @@ short Input::MouseWheel()
 }
 
 bool Input::OnDrag() {
-	return dragX > dragOffset || dragY > dragOffset;
+	return drag.x() > dragOffset || drag.y() > dragOffset;
 }
 
-int Input::DragX() {
-	return dragX;
-}
-int Input::DragY() {
-	return dragY;
+Vector Input::Drag() {
+	return drag;
 }

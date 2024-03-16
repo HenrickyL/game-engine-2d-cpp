@@ -103,18 +103,27 @@ int GLWindowTest() {
 			}
 			onMode = !onMode;
 		}
-
-		if (Input::KeyPress(LEFT)) {
+		if (Input::KeyPress(KEY_G)) {
 			Position p = Input::MousePosition();
 			Position p2 = Input::MouseClick();
 
 			short w = Input::MouseWheel();
 			bool click = Input::OnClick();
 			bool aaa = Input::OnDrag();
-			int x = Input::DragX();
-			int y = Input::DragY();
+			Vector x = Input::Drag();
+			int zzz;
+		}
+
+		if (Input::KeyPress(LEFT)) {
+			
 
 			obj.x -= 1;
+		}
+
+		if (Input::OnDrag()) {
+			Vector d = Input::Drag();
+			obj.x = d.x()/ 50;
+			obj.y = d.y() / 50;
 		}
 
 		if (Input::MouseWheel() != 0) {

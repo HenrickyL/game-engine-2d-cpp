@@ -3,6 +3,7 @@
 
 #include "InputKeys.h"
 #include "Position.h"
+#include "Vector.h"
 #include <string>
 //#include <chrono>
 using std::string;
@@ -20,8 +21,7 @@ protected:
 	static Position		mousePosition;
 	static Position		mouseClick;
 	static Position		lastMouseClick;
-	static short		dragY;
-	static short		dragX;
+	static Vector		drag;
 	static short		dragOffset;
 	static short		mouseWheel;		// valor da roda do mouse
 	static bool			onClick;
@@ -42,8 +42,7 @@ public:
 	static Position MousePosition();
 	static Position MouseClick();
 	static bool OnDrag();
-	static int DragX();
-	static int DragY();
+	static Vector Drag();
 
 
 	static bool OnClick();
