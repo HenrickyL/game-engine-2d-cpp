@@ -13,5 +13,7 @@ public:
 	// trata eventos do Windows
 	static LRESULT CALLBACK Reader(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK InputKeysProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static InputKeys GetKey(WPARAM key);
+
 };
 #endif

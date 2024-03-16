@@ -408,6 +408,9 @@
     <ClInclude Include="GLKeyMap.h">
       <Filter>Engine\Header Files\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="DXKeyMap.h">
+      <Filter>Engine\Header Files\DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">

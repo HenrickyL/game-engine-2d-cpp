@@ -178,6 +178,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DXInput.h" />
+    <ClInclude Include="DXKeyMap.h" />
     <ClInclude Include="DXWindow.h" />
     <ClInclude Include="DXUT_Utils_Direction_.h" />
     <ClInclude Include="DXUT_2D.h" />

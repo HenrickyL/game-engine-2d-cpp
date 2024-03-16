@@ -1,5 +1,5 @@
 #include "DXInput.h"
-
+#include "DXKeyMap.h"
 DXProcType DXInput::winProcPtr = DXWindow::WinProc;
 
 //void DXInput::Read() {
@@ -8,6 +8,11 @@ DXProcType DXInput::winProcPtr = DXWindow::WinProc;
 //	// altera a window procedure da janela ativa
 //	SetWindowLongPtr(GetActiveWindow(), GWLP_WNDPROC, (LONG_PTR)DXInput::Reader);
 //}
+
+
+InputKeys DXInput::GetKey(WPARAM key) {
+	return DXKeyMap[key];
+}
 
 
 LRESULT CALLBACK DXInput::Reader(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -46,16 +51,18 @@ LRESULT CALLBACK DXInput::Reader(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 // -------------------------------------------------------------------------------
 LRESULT CALLBACK DXInput::InputKeysProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	InputKeys keyCode = GetKey(wParam);
+
 	switch (msg)
 	{
 		// tecla pressionada
 	case WM_KEYDOWN:
-		keys[wParam] = true;
+		keys[keyCode] = true;
 		return 0;
 
 		// tecla liberada
 	case WM_KEYUP:
-		keys[wParam] = false;
+		keys[keyCode] = false;
 		return 0;
 
 		// movimento do mouse
@@ -72,34 +79,34 @@ LRESULT CALLBACK DXInput::InputKeysProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		// botão esquerdo do mouse pressionado
 	case WM_LBUTTONDOWN:
 	case WM_LBUTTONDBLCLK:
-		keys[VK_LBUTTON] = true;
+		keys[GetKey(VK_LBUTTON)] = true;
 		return 0;
 
 		// botão do meio do mouse pressionado
 	case WM_MBUTTONDOWN:
 	case WM_MBUTTONDBLCLK:
-		keys[VK_MBUTTON] = true;
+		keys[GetKey(VK_MBUTTON)] = true;
 		return 0;
 
 		// botão direito do mouse pressionado
 	case WM_RBUTTONDOWN:
 	case WM_RBUTTONDBLCLK:
-		keys[VK_RBUTTON] = true;
+		keys[GetKey(VK_RBUTTON)] = true;
 		return 0;
 
 		// botão esquerdo do mouse liberado
 	case WM_LBUTTONUP:
-		keys[VK_LBUTTON] = false;
+		keys[GetKey(VK_LBUTTON)] = false;
 		return 0;
 
 		// botão do meio do mouse liberado
 	case WM_MBUTTONUP:
-		keys[VK_MBUTTON] = false;
+		keys[GetKey(VK_MBUTTON)] = false;
 		return 0;
 
 		// botão direito do mouse liberado
 	case WM_RBUTTONUP:
-		keys[VK_RBUTTON] = false;
+		keys[GetKey(VK_RBUTTON)] = false;
 		return 0;
 		//desabilitar Alt+f4
 		/*case WM_SYSKEYDOWN:
