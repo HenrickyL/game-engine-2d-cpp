@@ -30,18 +30,17 @@ void GLInput::InputKeysCallback(GLFWwindow* window, int key, int scancode, int a
     GLFW_MOD_SHIFT, GLFW_MOD_CONTROL, GLFW_MOD_ALT, e GLFW_MOD_SUPER
 */
 
-void GLInput::InputMousePositionCallback(GLFWwindow* window, int button, int action, int mods) {
+void GLInput::InputMouseClickCallback(GLFWwindow* window, int button, int action, int mods) {
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
-    mousePosition.SetX(xpos);
-    mousePosition.SetY(ypos);
-
-    if (action == GLFW_PRESS && GLFW_MOUSE_BUTTON_LEFT) {
-        mouseClick.SetX(xpos);
-        mouseClick.SetY(ypos);
-    }
+    mouseClick.SetX(xpos);
+    mouseClick.SetY(ypos);
 }
 
+void GLInput::InputMousePositionCallback(GLFWwindow* window, double xpos, double ypos) {
+    mousePosition.SetX(xpos);
+    mousePosition.SetY(ypos);
+}
 
 InputKeys GLInput::GetKey(int key) {
     auto res = GLKeyMap[key];

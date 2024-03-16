@@ -16,8 +16,9 @@ GLWindow::~GLWindow() {
 
 void GLWindow::setupWindowInputCallback() {
     if (window) {
-        glfwSetMouseButtonCallback(window, GLInput::InputMousePositionCallback);
         glfwSetKeyCallback(window, GLInput::InputKeysCallback);
+        glfwSetMouseButtonCallback(window, GLInput::InputMouseClickCallback);
+        glfwSetCursorPosCallback(window, GLInput::InputMousePositionCallback);
     }
 }
 
