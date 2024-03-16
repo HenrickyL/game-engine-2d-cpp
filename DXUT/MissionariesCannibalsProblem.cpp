@@ -107,7 +107,7 @@ void MissionariesCannibalsProblem::UpdatePositionObj() {
 void MissionariesCannibalsProblem::InputVerifyExit()
 {
     // sai com o pressionamento da tecla ESC
-    if (input->KeyPress(VK_ESCAPE))
+    if (input->KeyPress(ESCAPE))
         window->Close();
     if (input->KeyPress(KEY_M)) {
         numMissionaries++;

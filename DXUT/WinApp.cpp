@@ -27,7 +27,7 @@ void WinApp::Init()
 void WinApp::InputVerifyExit()
 {
     // sai com o pressionamento da tecla ESC
-    if (input->KeyPress(VK_ESCAPE))
+    if (input->KeyPress(ESCAPE))
         window->Close();
 
 }

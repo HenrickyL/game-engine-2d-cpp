@@ -83,23 +83,23 @@ void Player::Update() {
         interTimer->Stop();
         interTimer->Start();
     }
-    if (input->KeyDown(VK_RIGHT)) {
+    if (input->KeyDown(RIGHT)) {
         _sprite->SetFilterColor(Color(255, 0, 0));
         StatePosition p(position());
         Position current=actions[E]->Apply(&p);
         MoveTo(current);
-    }else if (input->KeyDown(VK_LEFT)) {
+    }else if (input->KeyDown(LEFT)) {
         _sprite->SetFilterColor(Color(255, 0, 0));
         StatePosition p(position());
         Position current = actions[W]->Apply(&p);
         MoveTo(current);
-    }else if (input->KeyDown(VK_UP)) {
+    }else if (input->KeyDown(UP)) {
         _sprite->SetFilterColor(Color(255, 0, 0));
         StatePosition p(position());
         Position current = actions[N]->Apply(&p);
         MoveTo(current);
     }
-    else if (input->KeyDown(VK_DOWN)) {
+    else if (input->KeyDown(DOWN)) {
         _sprite->SetFilterColor(Color(255, 0, 0));
         StatePosition p(position());
         Position current = actions[S]->Apply(&p);

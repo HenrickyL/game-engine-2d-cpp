@@ -2,7 +2,6 @@
 
 // -------------------------------------------------------------------------------
 // inicialização de membros estáticos da classe
-
 bool		Input::keys[256] = { 0 };						// estado do teclado/mouse
 bool		Input::ctrl[256] = { 0 };						// controle de liberação das teclas
 string		Input::text; 									// guarda caracteres digitados
@@ -28,7 +27,7 @@ Position	Input::mouseClick;
 
 // -------------------------------------------------------------------------------
 
-bool Input::KeyPress(int vkcode) {
+bool Input::KeyPress(InputKeys vkcode) {
 	if (ctrl[vkcode]) {
 		if (KeyDown(vkcode)) {
 			ctrl[vkcode] = false;
@@ -53,13 +52,13 @@ short Input::MouseWheel()
 
 
 // retorna verdadeiro se a tecla está pressionada
- bool Input::KeyDown(int vkcode)
+ bool Input::KeyDown(InputKeys vkcode)
 {
 	return Input::keys[vkcode];
 }
 
 // retorna verdadeiro se a tecla está liberada
- bool Input::KeyUp(int vkcode)
+ bool Input::KeyUp(InputKeys vkcode)
 {
 	return !(Input::keys[vkcode]);
 }
@@ -72,14 +71,12 @@ short Input::MouseWheel()
 
 // retorna a posição do mouse no eixo y
  int Input::MouseY()
-{
-	return mousePosition.y();
-}
- Position Input::MousePosition() { return Input::mousePosition; }
+{return mousePosition.y();}
+
+ Position Input::MousePosition() 
+ { return Input::mousePosition; }
 
 // retorna conteúdo do texto lido
  const char* Input::Text()
-{
-	return text.c_str();
-}
+{return text.c_str();}
 

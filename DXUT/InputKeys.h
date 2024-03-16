@@ -3,9 +3,15 @@
 
 
 enum InputKeys {
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
 	BACKSPACE,
 	TAB,
 	SPACE,
+	PAUSE,
+	ESCAPE,
 	ENTER,
 	KEY_A,
 	KEY_B,
@@ -33,7 +39,6 @@ enum InputKeys {
 	KEY_W,
 	KEY_Y,
 	KEY_Z,
-	UNKNOWN
 };
 
 #endif

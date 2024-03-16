@@ -82,15 +82,14 @@ int GLWindowTest() {
 	glLoadIdentity();
 	glOrtho(-10.f, 10.f, -10.f, 10.f, 1.f, -1.f);
 
-
 	while (!window.ShouldClose()) {
 		// Processa eventos
 		glfwPollEvents();
-		if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		if (Input::KeyDown(ESCAPE)) {
 			glfwSetWindowShouldClose(win, GLFW_TRUE);
 		}
 
-		if (glfwGetKey(win, GLFW_KEY_BACKSPACE) == GLFW_PRESS) {
+		if (Input::KeyPress(BACKSPACE)) {
 			//Contorno - posso usar para mostrar a malha
 			if (onMode) {
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -100,11 +99,8 @@ int GLWindowTest() {
 			onMode = !onMode;
 		}
 
-		if (Input::KeyDown(GLFW_KEY_A)) {
-			Input::KeyDown(GLFW_KEY_A);
-		}
 
-		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_PRESS) {
+		if (Input::KeyPress(SPACE)) {
 			index++;
 			if (index >= functionVector.size()) {
 				index = 0;

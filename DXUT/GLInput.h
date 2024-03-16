@@ -14,5 +14,7 @@ public:
 	static void InputKeysCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void InputMousePositionCallback(GLFWwindow* window, int button, int action, int mods);
 
+	static InputKeys GetKey(int key);
+
 };
 #endif

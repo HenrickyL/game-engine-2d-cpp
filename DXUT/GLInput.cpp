@@ -1,18 +1,20 @@
 #include "GLInput.h"
+#include "GLKeyMap.h"
 
 void GLInput::InputKeysCallback(GLFWwindow* window, int key, int scancode, int action, int mods){
     // Ignore as teclas desconhecidas
     if (key == GLFW_KEY_UNKNOWN) return;
 
     // Certifique-se de que a chave está dentro do intervalo do array
-    if (key >= 0 && key < 256) {
+    InputKeys keyCode = GetKey(key);
+    //if (key >= 0 && key < 256) {
         if (action == GLFW_PRESS) {
-            keys[key] = true;
+            keys[keyCode] = true;
         }
         else if (action == GLFW_RELEASE) {
-            keys[key] = false;
+            keys[keyCode] = false;
         }
-    }
+    //}
 }
 
 /*
@@ -38,4 +40,10 @@ void GLInput::InputMousePositionCallback(GLFWwindow* window, int button, int act
         mouseClick.SetX(xpos);
         mouseClick.SetY(ypos);
     }
+}
+
+
+InputKeys GLInput::GetKey(int key) {
+    auto res = GLKeyMap[key];
+    return res;
 }

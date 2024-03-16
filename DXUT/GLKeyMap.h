@@ -5,8 +5,16 @@
 #include "InputKeys.h"
 #include <GLFW/glfw3.h>
 
-std::unordered_map<InputKeys, int> GLKeyMap = { // Definição
-    {SPACE, GLFW_KEY_SPACE},
+std::unordered_map<int, InputKeys> GLKeyMap = { // Definição
+    {GLFW_KEY_SPACE, SPACE},
+    {GLFW_KEY_BACKSPACE, BACKSPACE},
+    {GLFW_KEY_A, KEY_A},
+    {GLFW_KEY_PAUSE, PAUSE},
+    {GLFW_KEY_ESCAPE, ESCAPE},
+    {GLFW_KEY_LEFT, LEFT},
+    {GLFW_KEY_RIGHT, RIGHT},
+    {GLFW_KEY_UP, UP},
+    {GLFW_KEY_DOWN, DOWN},
 };
 
 #endif 

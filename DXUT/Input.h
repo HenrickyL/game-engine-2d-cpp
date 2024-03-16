@@ -19,9 +19,9 @@ public:
 	//Input();							// construtor
 	//~Input();							// destrutor
 
-	static bool KeyDown(int vkcode);		    // retorna se tecla está pressionada
-	static bool KeyUp(int vkcode);			    // retorna se tecla está liberada
-	static bool KeyPress(int vkcode);		    // novo pressionamento somente após liberação		
+	static bool KeyDown(InputKeys vkcode);		    // retorna se tecla está pressionada
+	static bool KeyUp(InputKeys vkcode);			    // retorna se tecla está liberada
+	static bool KeyPress(InputKeys vkcode);		    // novo pressionamento somente após liberação		
 
 	static int   MouseX();						// retorna posição x do mouse
 	static int   MouseY();						// retorna posição y do mouse

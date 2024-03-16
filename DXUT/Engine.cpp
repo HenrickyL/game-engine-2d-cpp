@@ -120,7 +120,7 @@ int Engine::Loop()
 			// Pausa/Resume Jogo
 			// -----------------------------------------------
 
-			if (input->KeyPress(VK_PAUSE))
+			if (input->KeyPress(PAUSE))
 			{
 				if (paused)
 					Resume();
