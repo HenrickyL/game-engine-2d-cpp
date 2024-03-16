@@ -2,7 +2,10 @@
 
 // GLWindow.cpp
 
-GLWindow::GLWindow() : window(nullptr) {}
+GLFWwindow* GLWindow::window = nullptr;// Ponteiro para a janela GLFW
+
+
+GLWindow::GLWindow(){}
 
 GLWindow::~GLWindow() {
     if (window) {
@@ -108,7 +111,7 @@ bool GLWindow::Create() {
     onWindowCreate();
 
 
-    // Tornar o contexto da janela atual
+    // Tornar o contexto da janela atual - mudar se for trabalhar com mais janelas
     glfwMakeContextCurrent(window);
 
     //// Configurações adicionais do OpenGL

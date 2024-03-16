@@ -13,7 +13,7 @@ protected:
 	static string text;					// armazenamento para os caracteres digitados
 
 	static Position*	mousePosition;
-	static short	mouseWheel;			// valor da roda do mouse
+	static short		mouseWheel;		// valor da roda do mouse
 public:
 	Input();							// construtor
 	~Input();							// destrutor

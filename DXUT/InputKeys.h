@@ -1,6 +1,7 @@
 #ifndef DXUT_INPUT_KEYS_H
 #define DXUT_INPUT_KEYS_H
 
+
 enum InputKeys {
 	BACKSPACE,
 	TAB,

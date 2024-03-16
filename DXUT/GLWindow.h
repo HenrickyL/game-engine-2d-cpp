@@ -9,7 +9,7 @@
 
 class GLWindow : public Window {
 private:
-    GLFWwindow* window;// Ponteiro para a janela GLFW
+    static GLFWwindow* window;// Ponteiro para a janela GLFW
 
     // Funções estáticas para manipulação de eventos GLFW
     static void onResize(GLFWwindow* window, int width, int height);
@@ -45,8 +45,8 @@ public:
     bool ShouldClose() const;
     void SwapBuffers() const;
 
-    // tratamento de eventos do Windows
-    static void GlProcCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    //// tratamento de eventos do Windows
+    //static void GlProcCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 };
 
 #endif

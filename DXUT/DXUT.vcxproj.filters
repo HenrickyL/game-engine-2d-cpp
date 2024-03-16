@@ -220,6 +220,9 @@
     <ClCompile Include="DXInput.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GLKeyMap.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -404,6 +407,9 @@
     </ClInclude>
     <ClInclude Include="DXInput.h">
       <Filter>Engine\Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="GLKeyMap.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
