@@ -5,11 +5,18 @@
 
 #include "Window.h"
 #include <GLFW/glfw3.h>
+#include <gl/GLU.h>
 
 
 class GLWindow : public Window {
 private:
     static GLFWwindow* window;// Ponteiro para a janela GLFW
+
+    //perspective
+    static GLdouble _fovy; //angle degree
+    static double _aspect; //proporsion
+    static GLdouble _zNear ; 
+    static GLdouble _zFar;
 
     // Funções estáticas para manipulação de eventos GLFW
     static void onResize(GLFWwindow* window, int width, int height);

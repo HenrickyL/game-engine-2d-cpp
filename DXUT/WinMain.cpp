@@ -45,26 +45,66 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 struct Obj {
 	int x = 0;
 	int y = 0;
+	float z = 0;
 };
 
 
 void drawTriangle(Obj pos) {
 	glColor3f(1.0, 0.0, 0.0);
 	glBegin(GL_TRIANGLES);
-	glVertex3f(pos.x,		pos.y+0.5, 0.0);
-	glVertex3f(pos.x+0.5,	pos.y -0.5, 0.0);
-	glVertex3f(pos.x-0.5,	pos.y -0.5, 0.0);
+	glVertex3f(pos.x,		pos.y+0.5, pos.z);
+	glVertex3f(pos.x+0.5,	pos.y -0.5, pos.z);
+	glVertex3f(pos.x-0.5,	pos.y -0.5, pos.z);
 	glEnd();
 }
 
 void drawQuad(Obj pos) {
 	glColor3f(1.f, 0.f, 0.f);
 	glBegin(GL_QUADS);
-	glVertex3f(pos.x-2.5,pos.y -2.5, 0);
-	glVertex3f(pos.x+2.5,pos.y -2.5, 0);
-	glVertex3f(pos.x+2.5, pos.y+ 2.5, 0);
-	glVertex3f(pos.x-2.5,pos.y+ 2.5, 0);
+	glVertex3f(pos.x-2.5,pos.y -2.5, pos.z);
+	glVertex3f(pos.x+2.5,pos.y -2.5, pos.z);
+	glVertex3f(pos.x+2.5, pos.y+ 2.5, pos.z);
+	glVertex3f(pos.x-2.5,pos.y+ 2.5, pos.z);
 	glEnd();
+}
+
+
+void Rect(float p1[3], float p2[3], float p3[3], float p4[3] , Color c) {
+	float cs[3] = { c.r(), c.g(), c.b() };
+	glColor3fv(cs);
+	glBegin(GL_QUADS);
+		glVertex3fv(p1);
+		glVertex3fv(p2);
+		glVertex3fv(p3);
+		glVertex3fv(p4);
+	glEnd();
+}
+void drawCube(Obj pos, float size = 2.5f) {
+	float d = size / 2;
+	glColor3f(1.f, 0.f, 0.f);
+	float v1[3] = { pos.x -d,		pos.y +d,		pos.z + d };
+	float v2[3] = { pos.x -d,		pos.y -d,		pos.z + d };
+	float v3[3] = { pos.x +  d,		pos.y -d,		pos.z + d };
+	float v4[3] = { pos.x +  d,		pos.y +d,		pos.z + d };
+	float v5[3] = { pos.x +  d,		pos.y +d,		pos.z -d };
+	float v6[3] = { pos.x +  d,		pos.y -d,		pos.z -d };
+	float v7[3] = { pos.x -d,		pos.y -d,		pos.z -d };
+	float v8[3] = { pos.x -d,		pos.y +d,		pos.z -d };
+	
+
+	//frente
+	Rect(v1, v2, v3, v4, Color::RED);
+
+	Rect(v4, v3, v6, v5, Color::BLUE);
+
+	Rect(v5, v8, v7, v6, Color::GREEN);
+
+	Rect(v1, v8, v7, v2, Color::YELLOW);
+
+	Rect(v1, v4, v5, v8, Color::MAGENTA);
+
+	Rect(v2, v7, v6, v3, Color::WHITE);
+
 }
 
 int GLWindowTest() {
@@ -78,8 +118,10 @@ int GLWindowTest() {
 
 	std::vector<void (*)(Obj)> functionVector;
 	int index = 0;
+
 	functionVector.push_back(drawQuad);
 	functionVector.push_back(drawTriangle);
+	
 	Obj obj;
 
 
@@ -104,24 +146,35 @@ int GLWindowTest() {
 		}
 
 		if (Input::KeyPress(LEFT)) {
-			
-
 			obj.x -= 1;
-		}
-
-		if (Input::OnDrag()) {
-			Vector d = Input::Drag();
-			obj.x = d.x()/ 50;
-			obj.y = d.y() / 50;
-		}
-
-		if (Input::MouseWheel() != 0) {
-			obj.y = Input::MouseWheel();
 		}
 
 		if (Input::KeyPress(RIGHT)) {
 			obj.x += 1;
 		}
+		if (Input::KeyPress(UP)) {
+			obj.y += 1;
+		}
+		if (Input::KeyPress(DOWN)) {
+			obj.y -= 1;
+		}
+
+		if (Input::OnDrag()) {
+			Vector d = Input::Drag();
+			glLoadIdentity();
+			glTranslated( 0, 0, -25);
+			glRotated(d.x(), 1, 0, 0);
+			glRotated(d.y(), 0, 1, 0);
+
+		}
+
+		if (Input::MouseWheel() != 0) {
+			float aux = obj.z;
+			float value = Input::MouseWheel() * 0.5;
+			obj.z = value == 0 ? aux :  value;
+		}
+
+		
 
 		if (Input::KeyPress(SPACE)) {
 			index++;
@@ -133,7 +186,11 @@ int GLWindowTest() {
 		// Renderização aqui
 		window.Clear();
 
-		functionVector[index](obj);
+		//functionVector[index](obj);
+		
+
+		
+		drawCube(obj);
 
 		// Troca os buffers
 		window.SwapBuffers();

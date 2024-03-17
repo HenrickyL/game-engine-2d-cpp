@@ -3,7 +3,10 @@
 // GLWindow.cpp
 
 GLFWwindow* GLWindow::window = nullptr;// Ponteiro para a janela GLFW
-
+GLdouble GLWindow::_fovy = 45.0f ; //angle degree
+double GLWindow::_aspect = 0; //proporsion
+GLdouble GLWindow::_zNear = 0.1f;
+GLdouble GLWindow::_zFar = 500.0f;
 
 GLWindow::GLWindow(){}
 
@@ -18,7 +21,7 @@ GLWindow::~GLWindow() {
 void GLWindow::windowSizeCallback(GLFWwindow* window, int width, int height) {
     glfwSetWindowSize(window, width, height); 
     // Calcula a proporção da janela
-    float aspect = (float)width / height;
+    _aspect = (double)width / (double)height;
 
     // Define a viewport para corresponder ao novo tamanho da janela
     glViewport(0, 0, width, height);
@@ -28,15 +31,9 @@ void GLWindow::windowSizeCallback(GLFWwindow* window, int width, int height) {
     glLoadIdentity();
 
     // Ajusta a matriz de projeção para manter a proporção da cena
-    if (aspect >= 1.0f) {
-        // ajusta a largura
-        float orthoSize = 10.0f * aspect;
-        glOrtho(-orthoSize, orthoSize, -10.0f, 10.0f, -1.0f, 1.0f);
-    }
-    else {
-        float orthoSize = 10.0f / aspect;
-        glOrtho(-10.0f, 10.0f, -orthoSize, orthoSize, -1.0f, 1.0f);
-    }
+    gluPerspective(_fovy, _aspect, _zNear, _zFar);
+
+    glMatrixMode(GL_MODELVIEW);
 }
 
 void GLWindow::setupWindowCallbacks() {
@@ -154,7 +151,7 @@ bool GLWindow::Create() {
     glfwMakeContextCurrent(window);
     Size(_width, _height);
     //// Configurações adicionais do OpenGL
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 
     _onCreate = true;
     return true;

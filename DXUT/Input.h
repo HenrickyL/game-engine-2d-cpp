@@ -24,6 +24,7 @@ protected:
 	static Vector		drag;
 	static short		dragOffset;
 	static short		mouseWheel;		// valor da roda do mouse
+	static short		lastMouseWheel;
 	static bool			onClick;
 	//static TimeType		lastTime;
 	static short		timeOffset;
@@ -48,6 +49,9 @@ public:
 	static bool OnClick();
 
 	static short MouseWheel();					// retorna rotação da roda do mouse
+	static short MouseWheelDirection();	
+	static bool OnWheel();
+
 
 	static void  Read();						// armazena texto digitado até o próximo ENTER ou TAB
 	static const char* Text();			// retorna endereço do texto armazenada

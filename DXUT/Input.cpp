@@ -6,6 +6,7 @@ bool		Input::keys[256] = { 0 };						// estado do teclado/mouse
 bool		Input::ctrl[256] = { 0 };						// controle de liberação das teclas
 string		Input::text; 									// guarda caracteres digitados
 short		Input::mouseWheel = 0;							// valor da roda do mouse
+short		Input::lastMouseWheel = 0;
 short		Input::dragOffset = 10;
 Position	Input::mousePosition;
 Position	Input::mouseClick;
@@ -53,6 +54,16 @@ short Input::MouseWheel()
 {
 	return mouseWheel;
 }
+
+short Input::MouseWheelDirection() {
+	if (mouseWheel == 0) return 0;
+	return mouseWheel > 0 ? 1 : -1;
+}
+
+bool Input::OnWheel() {
+	return lastMouseWheel != mouseWheel;
+}
+
 
 // -------------------------------------------------------------------------------
 
