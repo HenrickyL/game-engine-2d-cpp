@@ -28,6 +28,8 @@ protected:
     int             _windowPosY;
     string          _title = "Title";
     Color           _color = Color::BLACK;
+    bool            _allowResize = false;
+    bool            _onCreate = false;
 
 public:
     virtual ~Window() {}
@@ -53,8 +55,12 @@ public:
     virtual bool Create() = 0;
     virtual void InFocus(void(*func)()) = 0;
     virtual void LostFocus(void(*func)()) = 0;
+
+    virtual void isResizeable(bool value);
+    virtual void PollEvents() const;
 };
 
 inline  HWND Window::Id() const { return 0; }
-
+inline void Window::isResizeable(bool value) { this->_allowResize = value; }
+inline void Window::PollEvents() const{}
 #endif // WINDOW_H

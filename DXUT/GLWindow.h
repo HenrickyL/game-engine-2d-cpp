@@ -16,7 +16,8 @@ private:
     static void onFocus(GLFWwindow* window, int focused);
 
     bool onWindowCreate(const string message = "Failed to create GLFW window") const;
-    void setupWindowInputCallback();
+    void setupWindowCallbacks();
+    static void windowSizeCallback(GLFWwindow* window, int width, int height);
 
 public:
     GLWindow(); // Construtor
@@ -38,6 +39,7 @@ public:
     void HideCursor(bool hide) override;
     void InFocus(void(*func)()) override;
     void LostFocus(void(*func)()) override;
+    void isResizeable(bool value) override;
 
     GLFWwindow* GetWindow()const;
     void Close() override;
@@ -45,6 +47,8 @@ public:
     bool Create() override;
     bool ShouldClose() const;
     void SwapBuffers() const;
+    void PollEvents() const override;
+
 
     //// tratamento de eventos do Windows
     //static void GlProcCallback(GLFWwindow* window, int key, int scancode, int action, int mods);

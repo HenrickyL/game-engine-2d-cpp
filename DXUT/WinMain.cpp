@@ -82,14 +82,10 @@ int GLWindowTest() {
 	functionVector.push_back(drawTriangle);
 	Obj obj;
 
-	//projection
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-10.f, 10.f, -10.f, 10.f, 1.f, -1.f);
 
 	while (!window.ShouldClose()) {
 		// Processa eventos
-		glfwPollEvents();
+		window.PollEvents();
 		if (Input::KeyDown(ESCAPE)) {
 			glfwSetWindowShouldClose(win, GLFW_TRUE);
 		}
@@ -104,14 +100,7 @@ int GLWindowTest() {
 			onMode = !onMode;
 		}
 		if (Input::KeyPress(KEY_G)) {
-			Position p = Input::MousePosition();
-			Position p2 = Input::MouseClick();
-
-			short w = Input::MouseWheel();
-			bool click = Input::OnClick();
-			bool aaa = Input::OnDrag();
-			Vector x = Input::Drag();
-			int zzz;
+			window.isResizeable(true);
 		}
 
 		if (Input::KeyPress(LEFT)) {

@@ -14,12 +14,40 @@ GLWindow::~GLWindow() {
     }
 }
 
-void GLWindow::setupWindowInputCallback() {
+
+void GLWindow::windowSizeCallback(GLFWwindow* window, int width, int height) {
+    glfwSetWindowSize(window, width, height); 
+    // Calcula a proporção da janela
+    float aspect = (float)width / height;
+
+    // Define a viewport para corresponder ao novo tamanho da janela
+    glViewport(0, 0, width, height);
+
+    // Configura a matriz de projeção
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    // Ajusta a matriz de projeção para manter a proporção da cena
+    if (aspect >= 1.0f) {
+        // ajusta a largura
+        float orthoSize = 10.0f * aspect;
+        glOrtho(-orthoSize, orthoSize, -10.0f, 10.0f, -1.0f, 1.0f);
+    }
+    else {
+        float orthoSize = 10.0f / aspect;
+        glOrtho(-10.0f, 10.0f, -orthoSize, orthoSize, -1.0f, 1.0f);
+    }
+}
+
+void GLWindow::setupWindowCallbacks() {
     if (window) {
         glfwSetKeyCallback(window, GLInput::InputKeysCallback);
         glfwSetMouseButtonCallback(window, GLInput::InputMouseClickCallback);
         glfwSetCursorPosCallback(window, GLInput::InputMousePositionCallback);
         glfwSetScrollCallback(window, GLInput::InputMouseScrollCallback);
+        // Verifica se o redimensionamento da janela é permitido - use null para não fazer ajustes
+        glfwSetWindowSizeCallback(window, GLWindow::windowSizeCallback);
+
     }
 }
 
@@ -67,6 +95,7 @@ void GLWindow::Size(int width, int height) {
     glfwSetWindowSize(window, width, height);
     _width = width;
     _height = height;
+    windowSizeCallback(window, _width, _height);
 }
 
 void GLWindow::Mode(WindowModes mode) {
@@ -115,18 +144,19 @@ bool GLWindow::Create() {
     if (!glfwInit()) {
         return false;
     }
-
+    isResizeable(_allowResize);
     // Crie uma janela GLFW
     window = glfwCreateWindow(_width, _height, _title.c_str(), NULL, NULL);
     onWindowCreate();
-    setupWindowInputCallback();
+    setupWindowCallbacks();
 
     // Tornar o contexto da janela atual - mudar se for trabalhar com mais janelas
     glfwMakeContextCurrent(window);
-
+    Size(_width, _height);
     //// Configurações adicionais do OpenGL
     //glEnable(GL_DEPTH_TEST);
 
+    _onCreate = true;
     return true;
 }
 
@@ -147,6 +177,16 @@ bool GLWindow::ShouldClose() const {
 void GLWindow::SwapBuffers() const {
     glfwSwapBuffers(window);
 }
+void GLWindow::PollEvents() const {
+    glfwPollEvents();
+}
+
+void GLWindow::isResizeable(bool value) {
+    if(_onCreate) MessageBox(nullptr, "You cannot set this method 'isResizeable' after the window has been created.", "Error", MB_OK | MB_ICONERROR);
+    _allowResize = value;
+    glfwWindowHint(GLFW_RESIZABLE, _allowResize ? GLFW_TRUE : GLFW_FALSE);
+}
+
 
 
 
