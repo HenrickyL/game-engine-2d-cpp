@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <GLFW/glfw3.h>
+#include <math.h>
 using std::stringstream;
 
 // ------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 struct Obj {
 	int x = 0;
 	int y = 0;
-	float z = 0;
+	float z =0;
 };
 
 
@@ -162,7 +163,7 @@ int GLWindowTest() {
 		if (Input::OnDrag()) {
 			Vector d = Input::Drag();
 			glLoadIdentity();
-			glTranslated( 0, 0, -25);
+			glTranslated(0, 0, -25);
 			glRotated(d.x(), 1, 0, 0);
 			glRotated(d.y(), 0, 1, 0);
 
@@ -189,7 +190,7 @@ int GLWindowTest() {
 		//functionVector[index](obj);
 		
 
-		
+
 		drawCube(obj);
 
 		// Troca os buffers

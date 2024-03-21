@@ -2,6 +2,7 @@
 #include "GLKeyMap.h"
 #include <cstdlib>
 #include <chrono>
+#include <iostream>
 using TimeType = std::chrono::steady_clock::time_point;
 
 
@@ -46,31 +47,28 @@ void GLInput::InputMouseClickCallback(GLFWwindow* window, int button, int action
     glfwGetCursorPos(window, &xpos, &ypos);
     mouseClick.SetX(xpos);
     mouseClick.SetY(ypos);
-
 }
 
 void GLInput::InputMousePositionCallback(GLFWwindow* window, double xpos, double ypos) {
     mousePosition.SetX(xpos);
     mousePosition.SetY(ypos);
 
-
     if (onClick) {
         //drag
-        short diffX = -mouseClick.x() + mousePosition.x();
-        short diffY = -mouseClick.y() + mousePosition.y();
-
-        if (abs(diffX) > dragOffset) {
+        short diffX = abs(mouseClick.x() - mousePosition.x());
+        short diffY = abs(mouseClick.y() - mousePosition.y());
+       
+        if (diffX > dragOffset) {
             drag.SetX(diffX);
         }
 
-        if (abs(diffY) > dragOffset) {
+        if (diffY > dragOffset) {
             drag.SetY(diffY);
         }
     }
     else {
         drag.SetX(0);
         drag.SetY(0);
-
     }
 }
 
