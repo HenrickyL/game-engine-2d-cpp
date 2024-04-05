@@ -2,6 +2,8 @@
 #include "MissionariesCannibalsProblem.h"
 #include "DXWindow.h"
 #include "GLWindow.h"
+#include "Geometry.h"
+#include "GLDrawGeometry.h"
 
 #include <sstream>
 #include <vector>
@@ -46,7 +48,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 struct Obj {
 	int x = 0;
 	int y = 0;
-	float z =0;
+	float z = -25;
 };
 
 
@@ -70,7 +72,7 @@ void drawQuad(Obj pos) {
 }
 
 
-void Rect(float p1[3], float p2[3], float p3[3], float p4[3] , Color c) {
+void DrawRect(float p1[3], float p2[3], float p3[3], float p4[3] , Color c) {
 	float cs[3] = { c.r(), c.g(), c.b() };
 	glColor3fv(cs);
 	glBegin(GL_QUADS);
@@ -94,17 +96,17 @@ void drawCube(Obj pos, float size = 2.5f) {
 	
 
 	//frente
-	Rect(v1, v2, v3, v4, Color::RED);
+	DrawRect(v1, v2, v3, v4, Color::RED);
 
-	Rect(v4, v3, v6, v5, Color::BLUE);
+	DrawRect(v4, v3, v6, v5, Color::BLUE);
 
-	Rect(v5, v8, v7, v6, Color::GREEN);
+	DrawRect(v5, v8, v7, v6, Color::GREEN);
 
-	Rect(v1, v8, v7, v2, Color::YELLOW);
+	DrawRect(v1, v8, v7, v2, Color::YELLOW);
 
-	Rect(v1, v4, v5, v8, Color::MAGENTA);
+	DrawRect(v1, v4, v5, v8, Color::MAGENTA);
 
-	Rect(v2, v7, v6, v3, Color::WHITE);
+	DrawRect(v2, v7, v6, v3, Color::WHITE);
 
 }
 
@@ -124,6 +126,9 @@ int GLWindowTest() {
 	functionVector.push_back(drawTriangle);
 	
 	Obj obj;
+	Rect r(Position(0,0,0), 1, 1);
+	GLDrawGeometry drawner;
+	float delta = 0.1;
 
 
 	while (!window.ShouldClose()) {
@@ -148,31 +153,43 @@ int GLWindowTest() {
 
 		if (Input::KeyPress(LEFT)) {
 			obj.x -= 1;
+			r.TranslateTo(Vector::Left* delta);
 		}
 
 		if (Input::KeyPress(RIGHT)) {
 			obj.x += 1;
+			r.TranslateTo(Vector::Right* delta);
 		}
 		if (Input::KeyPress(UP)) {
 			obj.y += 1;
+			r.TranslateTo(Vector::Backward);
 		}
 		if (Input::KeyPress(DOWN)) {
 			obj.y -= 1;
+			r.TranslateTo(Vector::Forward);
 		}
 
 		if (Input::OnDrag()) {
 			Vector d = Input::Drag();
 			glLoadIdentity();
-			glTranslated(0, 0, -25);
-			glRotated(d.x(), 1, 0, 0);
-			glRotated(d.y(), 0, 1, 0);
+			//glTranslatef(obj.x, obj.y, obj.z);+
+			glRotatef(d.x(), 1, 0, 0);
+			glRotatef(d.y(), 0, 1, 0);
+			//glTranslatef(-obj.x, -obj.y, -obj.z);
 
 		}
 
 		if (Input::MouseWheel() != 0) {
 			float aux = obj.z;
-			float value = Input::MouseWheel() * 0.5;
-			obj.z = value == 0 ? aux :  value;
+			float value = 1 - abs(Input::MouseWheel() * 0.1);
+			/*glLoadIdentity();
+			glScaled(value, value, value);*/
+			//obj.z = value == 0 ? aux :  value;
+
+		}
+
+		if (Input::OnWheel()) {
+			r.TranslateTo(Vector::Forward * Input::MouseWheel() * 0.1);
 		}
 
 		
@@ -189,9 +206,14 @@ int GLWindowTest() {
 
 		//functionVector[index](obj);
 		
+		glLoadIdentity();
 
+		gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
 
-		drawCube(obj);
+		glTranslatef(0, 0, 0);
+
+		//drawCube(obj);
+		drawner.Draw(r);
 
 		// Troca os buffers
 		window.SwapBuffers();

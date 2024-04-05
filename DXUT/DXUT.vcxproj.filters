@@ -220,6 +220,9 @@
     <ClCompile Include="DXInput.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GLDrawGemeotry.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -410,6 +413,12 @@
     </ClInclude>
     <ClInclude Include="DXKeyMap.h">
       <Filter>Engine\Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawGeometry.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="GLDrawGeometry.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

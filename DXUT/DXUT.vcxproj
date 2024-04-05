@@ -140,6 +140,7 @@
     <ClCompile Include="DXWindow.cpp" />
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="FileHandler.cpp" />
+    <ClCompile Include="GLDrawGemeotry.cpp" />
     <ClCompile Include="GLInput.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="MCAction.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Dictionary.h" />
+    <ClInclude Include="DrawGeometry.h" />
     <ClInclude Include="DXInput.h" />
     <ClInclude Include="DXKeyMap.h" />
     <ClInclude Include="DXWindow.h" />
@@ -187,6 +189,7 @@
     <ClInclude Include="DXUT_Utils.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileHandler.h" />
+    <ClInclude Include="GLDrawGeometry.h" />
     <ClInclude Include="GLInput.h" />
     <ClInclude Include="GLKeyMap.h" />
     <ClInclude Include="GLWindow.h" />

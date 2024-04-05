@@ -6,6 +6,7 @@
 #include <list>                                     // lista da STL
 #include "Position.h"
 #include "Movable.h"
+#include "Color.h"
 using std::list;                                    // usar list sem std::
 // ---------------------------------------------------------------------------
 
@@ -28,6 +29,7 @@ class Geometry : public Movable
 {
 protected:
     uint _type;                                      // tipo da geometria
+    Color _color = Color::GREEN;
 
 public:
     Geometry();                                     // construtor
@@ -36,7 +38,10 @@ public:
     float X() const { return _position.x(); }
     float Y() const { return _position.y(); }
     virtual Position GetPosition() const;
-    virtual uint Type() const;                       // retorna tipo 
+    virtual uint Type() const;                       // retorna tipo
+    virtual Color GetColor() const;
+
+    virtual void SetColor(Color color);
 
     virtual void MoveTo(const Position& position) override;
     virtual void MoveTo(Position* position) override;
@@ -81,20 +86,29 @@ public:
 
 class Rect : public Geometry
 {
-public:
+protected:
     float left;                                     // coordenada esquerda do retângulo
     float top;                                      // coordenada superior do retângulo
     float right;                                    // coordenada direita do retângulo
     float bottom;                                   // coordenada inferior do retângulo
 
+    float _width;
+    float _height;
+
+public:
+
     Rect();                                         // construtor padrão
     Rect(const Position& pa, const Position& pb);   // construtor usando pontos-flutuantes
     Rect(const Point& a, const Point& b);                       // construtor usando pontos
+    Rect(const Position& center, float width, float height);
 
     float Left() const { return _position.x() + left; }       // coordenadas do mundo do menor valor do eixo x
     float Top() const { return _position.y() + top; }        // coordenadas do mundo do menor valor do eixo y
     float Right() const { return _position.x() + right; }      // coordenadas do mundo do maior valor do eixo x
     float Bottom() const { return _position.y() + bottom; }     // coordenadas do mundo do maior valor do eixo y
+
+    float Width() const { return this->_width; }
+    float Height() const { return this->_height; }
 };
 
 // --------------------------------------------------------------------------

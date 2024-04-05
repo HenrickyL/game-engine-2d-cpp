@@ -20,6 +20,14 @@ Geometry::~Geometry()
 }
 
 // --------------------------------------------------------------------------
+Color Geometry::GetColor() const {
+    return this->_color;
+}
+
+void Geometry::SetColor(Color color) {
+    this->_color = color;
+}
+
 
 uint Geometry::Type() const
 {
@@ -142,23 +150,52 @@ Rect::Rect()
 
 Rect::Rect(const Position& pa, const Position& pb)
 {
-    left = pa.x();
-    top = pa.y();
-    right = pb.x();
-    bottom = pb.y();
+    float xA = pa.x();
+    float xB = pb.x();
+    float yA = pa.y();
+    float yB = pb.y();
+
+    left = xA;
+    top = yA;
+    right = xB;
+    bottom = yB;
+    _width = std::abs(xB - xA);
+    _height = std::abs(yB - yA);
+
     _type = RECTANGLE_T;
 }
 
 // --------------------------------------------------------------------------
 Rect::Rect(const Point& a, const Point& b)
 {
+    float xA = a.GetPosition().x();
+    float xB = b.GetPosition().x();
+    float yA = a.GetPosition().y();
+    float yB = b.GetPosition().y();
+
     // cria retângulo
-    left = a.GetPosition().x();
-    top = a.GetPosition().y();
-    right = b.GetPosition().x();
-    bottom = b.GetPosition().y();
+    left = xA;
+    top = yA;
+    right = xB;
+    bottom = yB;
+    _width = std::abs(xB - xA);
+    _height = std::abs(yB - yA);
     _type = RECTANGLE_T;
 }
+
+Rect::Rect(const Position& center, float width, float height) {
+    _width = width;
+    _height = height;
+    float halfWidth = _width / 2;
+    float halfHeight = _height / 2;
+    left = center.x() - halfWidth;
+    top = center.y() - halfHeight;
+    right = center.x() + halfWidth;
+    bottom = center.y() + halfHeight;
+    _type = RECTANGLE_T;
+    MoveTo(center);
+}
+
 
 // --------------------------------------------------------------------------
 // Circle  
