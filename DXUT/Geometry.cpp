@@ -6,10 +6,13 @@
 // --------------------------------------------------------------------------
 // Geometry
 // --------------------------------------------------------------------------
-
-Geometry::Geometry() : Movable(Position::Zero)
+Geometry::Geometry() : Movable(Position::Zero){
+    _color = Color::GREEN;
+    _type = UNKNOWN_T;
+}
+Geometry::Geometry(const Position& position, const Color color) : Movable(position)
 {
-    _position = Position();
+    _color = color;
     _type = UNKNOWN_T;
 }
 
@@ -183,7 +186,7 @@ Rect::Rect(const Point& a, const Point& b)
     _type = RECTANGLE_T;
 }
 
-Rect::Rect(const Position& center, float width, float height) {
+Rect::Rect(const Position& center, float width, float height, Color color) : Geometry(center, color) {
     _width = width;
     _height = height;
     float halfWidth = _width / 2;
@@ -193,7 +196,6 @@ Rect::Rect(const Position& center, float width, float height) {
     right = center.x() + halfWidth;
     bottom = center.y() + halfHeight;
     _type = RECTANGLE_T;
-    MoveTo(center);
 }
 
 

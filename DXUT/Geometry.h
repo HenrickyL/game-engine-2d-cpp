@@ -32,7 +32,8 @@ protected:
     Color _color = Color::GREEN;
 
 public:
-    Geometry();                                     // construtor
+    Geometry();// construtor
+    Geometry(const Position& position, const Color color);// construtor
     virtual ~Geometry();                            // destrutor
 
     float X() const { return _position.x(); }
@@ -100,7 +101,7 @@ public:
     Rect();                                         // construtor padrão
     Rect(const Position& pa, const Position& pb);   // construtor usando pontos-flutuantes
     Rect(const Point& a, const Point& b);                       // construtor usando pontos
-    Rect(const Position& center, float width, float height);
+    Rect(const Position& center, float width, float height, Color color = Color::GREEN);
 
     float Left() const { return _position.x() + left; }       // coordenadas do mundo do menor valor do eixo x
     float Top() const { return _position.y() + top; }        // coordenadas do mundo do menor valor do eixo y
