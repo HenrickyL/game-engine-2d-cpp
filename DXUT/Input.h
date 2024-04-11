@@ -26,6 +26,7 @@ protected:
 	static short		mouseWheel;		// valor da roda do mouse
 	static short		lastMouseWheel;
 	static bool			onClick;
+	static bool			_onWheel;
 	//static TimeType		lastTime;
 	static short		timeOffset;
 

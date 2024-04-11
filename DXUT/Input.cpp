@@ -12,6 +12,7 @@ Position	Input::mousePosition;
 Position	Input::mouseClick;
 Position	Input::lastMouseClick;
 bool		Input::onClick = false;
+bool		Input::_onWheel = false;
 Vector		Input::drag = Vector::Zero;
 
 //TimeType	Input::lastTime = std::chrono::steady_clock::now();
@@ -61,7 +62,9 @@ short Input::MouseWheelDirection() {
 }
 
 bool Input::OnWheel() {
-	return lastMouseWheel != mouseWheel;
+	bool result = _onWheel;
+	_onWheel = false;
+	return result;
 }
 
 

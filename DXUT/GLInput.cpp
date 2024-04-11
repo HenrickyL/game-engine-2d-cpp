@@ -77,7 +77,8 @@ void GLInput::InputMouseScrollCallback(GLFWwindow* window, double xoffset, doubl
 
     lastMouseWheel = mouseWheel;
     mouseWheel += (short)yoffset;
-
+    _onWheel = yoffset != 0;
+    
     auto timeNow = std::chrono::steady_clock::now();
     auto diff = timeNow - _LAST_TIME_;
     auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff);
