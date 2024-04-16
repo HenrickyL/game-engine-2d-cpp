@@ -55,12 +55,17 @@ public:
 
 class Point : public Geometry
 {
+private:
+    float _size = 1.0f;
 public:
-    Point();                                        // construtor padrão
-    Point(float x, float y);                        // construtor usando float
-    Point(const Position& position);                // construtor usando pontos-flutuantes
+    Point();                                                    // construtor padrão
+    Point(float x, float y, Color color = Color::RED);                       // construtor usando float
+    Point(const Position& position, Color color = Color::RED);  // construtor usando pontos-flutuantes
 
-    float Distance(const Point& p) const;          // calcula a distância até outro ponto
+    float Distance(const Point& p) const;                       // calcula a distância até outro ponto
+    float Size() const;
+
+    void setSize(float value);
 };
 
 // --------------------------------------------------------------------------

@@ -125,7 +125,7 @@ int GLWindowTest() {
 	functionVector.push_back(drawQuad);
 	functionVector.push_back(drawTriangle);
 	
-	Obj obj;
+	Geometry* obj;
 	Rect r(Position(0,0,0), 1, 1);
 	Rect r2(Position(-0.5, 0, 0), 1, 1);
 	Rect r3(Position(0.5, 0, 0), 1, 1);
@@ -138,6 +138,13 @@ int GLWindowTest() {
 	GLDrawGeometry drawner;
 	float delta = 0.1;
 
+	Point p;
+	p.setSize(5);
+
+	obj = &p;
+
+
+	std:string s = "";
 
 	float globalRotation = 0;
 
@@ -171,25 +178,29 @@ int GLWindowTest() {
 		}
 
 		if (Input::KeyPress(LEFT)) {
-			obj.x -= 1;
-			r.TranslateTo(Vector::Left* delta);
+			obj->TranslateTo(Vector::Left* delta);
+
+			Position ppp = obj->GetPosition();
+			s = "PosObj( x:  " + std::to_string(ppp.x()) + "y: " + std::to_string(ppp.y()) + "z: " + std::to_string(ppp.z()) + ")\n";
+			OutputDebugString(s.c_str());
 		}
 
 		if (Input::KeyPress(RIGHT)) {
-			obj.x += 1;
-			r.TranslateTo(Vector::Right* delta);
+			obj->TranslateTo(Vector::Right* delta);
+
+			Position ppp = obj->GetPosition();
+			s = "PosObj( x:  " + std::to_string(ppp.x()) + "y: " + std::to_string(ppp.y()) + "z: " + std::to_string(ppp.z()) + ")\n";
+			OutputDebugString(s.c_str());
 		}
 		if (Input::KeyPress(UP)) {
-			obj.y += 1;
-			r.TranslateTo(Vector::Backward);
+			obj->TranslateTo(Vector::Backward);
 		}
 		if (Input::KeyPress(DOWN)) {
-			obj.y -= 1;
-			r.TranslateTo(Vector::Forward);
+			obj->TranslateTo(Vector::Forward);
 		}
-
 		if (Input::OnDrag()) {
 			Vector d = Input::Drag();
+			
 			glLoadIdentity();
 			//glTranslatef(obj.x, obj.y, obj.z);+
 			glRotatef(d.x(), 1, 0, 0);
@@ -236,11 +247,28 @@ int GLWindowTest() {
 		glTranslatef(0, 0, 0);
 		glRotatef(globalRotation, 0, 0, 1);
 
+		/*float w = window.Width();
+		float h = window.Height();
+		float aspect = window.Aspect();
 
+		Position ppp = Input::MousePosition();
+
+		Position local = Position(ppp.x()/w, -ppp.y()/h);
+
+		p.MoveTo(local*aspect);
+
+		s = "Pos( x:  " + std::to_string(ppp.x()) + "y: " + std::to_string(ppp.y()) + "z: " + std::to_string(ppp.z()) + ")\n";
+		OutputDebugString(s.c_str());
+		ppp = local;
+		s = "PosObj( x:  " + std::to_string(ppp.x()) + "y: " + std::to_string(ppp.y()) + "z: " + std::to_string(ppp.z()) + ")\n";
+		OutputDebugString(s.c_str());*/
+
+		
 		//drawCube(obj);
-		drawner.Draw(r);
+		/*drawner.Draw(r);
 		drawner.Draw(r2);
-		drawner.Draw(r3);
+		drawner.Draw(r3);*/
+		drawner.Draw(p);
 
 
 		// Troca os buffers

@@ -36,11 +36,11 @@ public:
 
     //virtual HINSTANCE AppId() const = 0;
     virtual HWND Id() const;
-    virtual int Width() const = 0;
-    virtual int Height() const = 0;
-    virtual WindowModes Mode() const = 0;
-    virtual Position Center() const = 0;
-    virtual std::string Title() const = 0;
+    virtual int Width() const ;
+    virtual int Height() const;
+    virtual WindowModes Mode() const ;
+    virtual Position Center() const ;
+    virtual std::string Title() const;
     virtual Color GetColor() const = 0;
     virtual void Icon(const uint icon) = 0;
     virtual void Cursor(const uint cursor) = 0;
@@ -63,4 +63,10 @@ public:
 inline  HWND Window::Id() const { return 0; }
 inline void Window::isResizeable(bool value) { this->_allowResize = value; }
 inline void Window::PollEvents() const{}
+
+inline int Window::Width() const {return _width;}
+inline int Window::Height() const {return _height;}
+inline WindowModes Window::Mode() const {return _mode;}
+inline std::string Window::Title() const {return _title;}
+inline Position Window::Center() const { return Position(_width / 2, _height / 2); }
 #endif // WINDOW_H

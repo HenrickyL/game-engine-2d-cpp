@@ -50,26 +50,6 @@ void GLWindow::setupWindowCallbacks() {
 
 
 
-int GLWindow::Width() const {
-    return _width;
-}
-
-int GLWindow::Height() const{
-    return _height;
-}
-
-WindowModes GLWindow::Mode() const {
-    return _mode;
-}
-
-Position GLWindow::Center() const {
-    // Implemente lógica para obter o centro da janela com GLFW
-    return Position(); // Retorno padrão
-}
-
-std::string GLWindow::Title() const {
-    return _title;
-}
 
 Color GLWindow::GetColor() const {
     // Implemente lógica para obter a cor de fundo da janela com GLFW
@@ -129,6 +109,11 @@ void GLWindow::Close() {
 GLFWwindow* GLWindow::GetWindow()const {
     return window;
 }
+
+double GLWindow::Aspect() const {
+    return _aspect;
+}
+
 
 
 void GLWindow::Clear() {

@@ -31,11 +31,6 @@ public:
     ~GLWindow(); // Destrutor
 
     // Overrides dos métodos da classe Window
-    int Width() const override;
-    int Height() const override;
-    WindowModes Mode() const override;
-    Position Center() const override;
-    std::string Title() const override;
     Color GetColor() const override;
     void Icon(const uint icon) override;
     void Cursor(const uint cursor) override;
@@ -49,6 +44,7 @@ public:
     void isResizeable(bool value) override;
 
     GLFWwindow* GetWindow()const;
+    double Aspect() const;
     void Close() override;
     void Clear() override;
     bool Create() override;

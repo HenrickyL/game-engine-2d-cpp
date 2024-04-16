@@ -7,7 +7,9 @@
 
 class GLDrawGeometry : public DrawGeometry {
 private:
-	void DrawRect(const Rect& rect) override;
+	void DrawRect(const Rect& rect) const override;
+	void DrawPoint(const Point& point)const override;
+
 
 public:
 	void Draw(const Geometry& g) override;

@@ -61,24 +61,21 @@ void Geometry::MoveTo(Position* position)
 // Point
 // --------------------------------------------------------------------------
 
-Point::Point()
+Point::Point(): Geometry(Position::Zero, Color::RED)
 {
-    _position = Position();
     _type = POINT_T;
 }
 
 // --------------------------------------------------------------------------
 
-Point::Point(const Position& position)
+Point::Point(const Position& position, Color color): Geometry(position, color)
 {
-    MoveTo(position);
     _type = POINT_T;
 }
 
 // --------------------------------------------------------------------------
-Point::Point(float x, float y)
+Point::Point(float x, float y, Color color): Geometry(Position(x,y), color)
 {
-    MoveTo(Position(x, y));
     _type = POINT_T;
 }
 
@@ -87,6 +84,14 @@ Point::Point(float x, float y)
 float Point::Distance(const Point& p) const
 {
     return p.GetPosition().Distance(_position);
+}
+
+float Point::Size()const {
+    return this->_size;
+}
+
+void Point::setSize(float value) {
+    this->_size = value;
 }
 
 // --------------------------------------------------------------------------
