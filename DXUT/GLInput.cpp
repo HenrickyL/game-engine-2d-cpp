@@ -15,7 +15,7 @@ void GLInput::InputKeysCallback(GLFWwindow* window, int key, int scancode, int a
     // Certifique-se de que a chave está dentro do intervalo do array
     InputKeys keyCode = GetKey(key);
     //if (key >= 0 && key < 256) {
-        if (action == GLFW_PRESS) {
+        if (action == GLFW_PRESS && keyCode != UNKNOW) {
             keys[keyCode] = true;
         }
         else if (action == GLFW_RELEASE) {
@@ -92,6 +92,6 @@ void GLInput::InputMouseScrollCallback(GLFWwindow* window, double xoffset, doubl
 
 
 InputKeys GLInput::GetKey(int key) {
-    auto res = GLKeyMap[key];
-    return res;
+    auto res = GLKeyMap.find(key);
+    return res != GLKeyMap.end() ? res->second : InputKeys::UNKNOW;
 }

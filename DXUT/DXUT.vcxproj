@@ -176,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DrawGeometry.h" />

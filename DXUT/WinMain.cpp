@@ -127,8 +127,19 @@ int GLWindowTest() {
 	
 	Obj obj;
 	Rect r(Position(0,0,0), 1, 1);
+	Rect r2(Position(-0.5, 0, 0), 1, 1);
+	Rect r3(Position(0.5, 0, 0), 1, 1);
+
+
+	Rect rects[3] = { r, r2, r3 };
+
+	Rect selected = r;
+	r.RotationZ(1);
 	GLDrawGeometry drawner;
 	float delta = 0.1;
+
+
+	float globalRotation = 0;
 
 
 	while (!window.ShouldClose()) {
@@ -149,6 +160,14 @@ int GLWindowTest() {
 		}
 		if (Input::KeyPress(KEY_G)) {
 			window.isResizeable(true);
+		}
+
+		if (Input::KeyPress(KEY_A)) {
+			globalRotation -= 5;
+		}
+
+		if (Input::KeyPress(KEY_D)) {
+			globalRotation += 5;
 		}
 
 		if (Input::KeyPress(LEFT)) {
@@ -176,20 +195,23 @@ int GLWindowTest() {
 			glRotatef(d.x(), 1, 0, 0);
 			glRotatef(d.y(), 0, 1, 0);
 			//glTranslatef(-obj.x, -obj.y, -obj.z);
-
 		}
 
-		if (Input::MouseWheel() != 0) {
-			float aux = obj.z;
-			float value = 1 - abs(Input::MouseWheel() * 0.1);
-			/*glLoadIdentity();
-			glScaled(value, value, value);*/
-			//obj.z = value == 0 ? aux :  value;
-
-		}
 
 		if (Input::OnWheel()) {
-			r.TranslateTo(Vector::Forward * Input::MouseWheel() * 0.1);
+			float value = Input::MouseWheel() * 1.5;//1 - abs(Input::MouseWheel() * 0.1);
+			r.RotateAngle(value);
+
+			float aaa = r.rotateAngle();
+
+			std::string s = "Wheel: " + std::to_string(aaa) + '\n';
+
+			OutputDebugString(s.c_str());
+
+			Rect rect = r;
+			//glLoadIdentity();
+			//glRotatef(rect.rotateAngle(), rect.xRot(), rect.yRot(), rect.zRot()); // Rotaciona
+
 		}
 
 		
@@ -210,10 +232,16 @@ int GLWindowTest() {
 
 		gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
 
+
 		glTranslatef(0, 0, 0);
+		glRotatef(globalRotation, 0, 0, 1);
+
 
 		//drawCube(obj);
 		drawner.Draw(r);
+		drawner.Draw(r2);
+		drawner.Draw(r3);
+
 
 		// Troca os buffers
 		window.SwapBuffers();

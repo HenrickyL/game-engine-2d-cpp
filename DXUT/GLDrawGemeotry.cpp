@@ -8,15 +8,14 @@ void GLDrawGeometry::DrawRect(const Rect& rect) {
 
     glPushMatrix();
         glTranslatef(rect.x(), rect.y(), rect.z());
-    
-        // Desenhar o retângulo usando as coordenadas do mundo
+        glRotatef(rect.rotateAngle(), rect.xRot(), rect.yRot(), rect.zRot());
+
         glBegin(GL_QUADS);
-        glVertex3f(rect.Left(), rect.Top(), 0.0f); // Canto superior esquerdo
-        glVertex3f(rect.Right(), rect.Top(), 0.0f); // Canto superior direito
-        glVertex3f(rect.Right(), rect.Bottom(), 0.0f); // Canto inferior direito
-        glVertex3f(rect.Left(), rect.Bottom(), 0.0f); // Canto inferior esquerdo
+            glVertex3f(rect.Left(), rect.Top(), 0.0f); 
+            glVertex3f(rect.Right(), rect.Top(), 0.0f);
+            glVertex3f(rect.Right(), rect.Bottom(), 0.0f);
+            glVertex3f(rect.Left(), rect.Bottom(), 0.0f);
         glEnd();
-        glTranslatef(-rect.x(), -rect.y(), -rect.z());
     glPopMatrix();
 }
 

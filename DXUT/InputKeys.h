@@ -39,6 +39,7 @@ enum InputKeys {
 	KEY_W,
 	KEY_Y,
 	KEY_Z,
+	UNKNOW
 };
 
 #endif
