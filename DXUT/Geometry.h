@@ -132,14 +132,21 @@ public:
 
 class Circle : public Geometry
 {
+protected:
+    float _radius;                                   // raio do círculo
+    float _stroke = 1.0f;
+
 public:
-    float radius;                                   // raio do círculo
 
     Circle();                                       // construtor padrão
-    Circle(float r);                                // contrutor com raio
+    Circle(const Position& p, float r, Color color = Color::MAGENTA); // contrutor com raio
 
-    float CenterX() const { return _position.x() ; }    // coordenadas do mundo do centro (eixo x)
-    float CenterY() const { return _position.y(); }    // coordenadas do mundo do centro (eixo y)
+    float Radius() const;
+    float Stroke() const;
+
+    void setRadius(float value);
+    void setStroke(float value);
+
 };
 
 // --------------------------------------------------------------------------

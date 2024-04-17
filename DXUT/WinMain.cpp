@@ -143,10 +143,13 @@ int GLWindowTest() {
 
 	Line l(Position(-1,0), Position(1,0.5));
 	l.setStroke(5);
-	Point center = Point(l.position());
+
+	Circle c = Circle(Position(1,0), 1);
+
+	Point center = Point(c.position());
 	center.setSize(10);
 
-	obj = &l;
+	obj = &c;
 
 
 	std:string s = "";

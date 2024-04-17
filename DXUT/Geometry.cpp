@@ -149,9 +149,8 @@ void Line::setStroke(float value) {
 // Rect  
 // --------------------------------------------------------------------------
 
-Rect::Rect()
+Rect::Rect(): Geometry(Position::Zero, Color::GREEN)
 {
-    _position = Position();
     // cria retângulo de (0,0) até (0,0)
     left = right = 0.0f;
     top = bottom = 0.0f;
@@ -160,7 +159,7 @@ Rect::Rect()
 
 // --------------------------------------------------------------------------
 
-Rect::Rect(const Position& pa, const Position& pb)
+Rect::Rect(const Position& pa, const Position& pb) : Geometry(Position::CenterTo(pa, pb), Color::GREEN)
 {
     float xA = pa.x();
     float xB = pb.x();
@@ -212,23 +211,38 @@ Rect::Rect(const Position& center, float width, float height, Color color) : Geo
 // Circle  
 // --------------------------------------------------------------------------
 
-Circle::Circle()
+Circle::Circle() : Geometry(Position::Zero, Color::MAGENTA)
 {
-    _position = Position();
     // círculo padrão tem raio nulo
-    radius = 0;
+    _radius = 0;
     _type = CIRCLE_T;
 }
 
 // --------------------------------------------------------------------------
 
-Circle::Circle(float r)
+Circle::Circle(const Position& p, float r, Color color) : Geometry(p, color)
 {
-    // define círculo de raio r
-    radius = r;
-    _position = Position(r, r);
+    _radius = r;
     _type = CIRCLE_T;
 }
+
+float Circle::Radius() const {
+    return _radius;
+}
+
+void Circle::setRadius(float value) {
+    this->_radius = value;
+}
+
+float Circle::Stroke()const {
+    return this->_stroke;
+}
+
+void Circle::setStroke(float value) {
+    this->_stroke = value;
+}
+
+
 
 // --------------------------------------------------------------------------
 // Poly 

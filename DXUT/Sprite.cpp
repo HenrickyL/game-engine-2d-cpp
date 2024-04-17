@@ -108,7 +108,7 @@ Rect*  Sprite::GetRect() const
 Circle*  Sprite::GetCircle() const 
 {
     float r = (HalfHeight() + HalfWidth()) / 2;
-    return new Circle(r);
+    return new Circle(Position::Zero , r);
 }
 
 // ---------------------------------------------------------------------------------

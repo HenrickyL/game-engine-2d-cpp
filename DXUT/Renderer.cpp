@@ -667,10 +667,10 @@ void Renderer::Draw(Circle* circ, ulong color)
 {
     // Bresenham's circle algorithm
 
-    int xpos = int(circ->CenterX());
-    int ypos = int(circ->CenterY());
+    int xpos = int(circ->x());
+    int ypos = int(circ->y());
 
-    int r = int(circ->radius);
+    int r = int(circ->Radius());
 
     int p = 3 - (2 * r);
     int x = 0;

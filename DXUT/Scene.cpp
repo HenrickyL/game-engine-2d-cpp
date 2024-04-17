@@ -251,7 +251,7 @@ bool Scene::Collision(Point* p, Circle* c)
 {
     // se a distância entre o ponto e o centro do círculo
     // for menor que o raio do círculo então há colisão
-    if (p->Distance(Point(c->CenterX(), c->CenterY())) <= c->radius)
+    if (p->Distance(Point(c->x(), c->y())) <= c->Radius())
         return true;
     else
         return false;
@@ -279,22 +279,22 @@ bool Scene::Collision(Rect* r, Circle* c)
     float px, py;
 
     // eixo x
-    if (c->CenterX() < r->Left())
+    if (c->x() < r->Left())
         px = r->Left();
     else
-        if (c->CenterX() > r->Right())
+        if (c->x() > r->Right())
             px = r->Right();
         else
-            px = c->CenterX();
+            px = c->x();
 
     // eixo y
-    if (c->CenterY() < r->Top())
+    if (c->y() < r->Top())
         py = r->Top();
     else
-        if (c->CenterY() > r->Bottom())
+        if (c->y() > r->Bottom())
             py = r->Bottom();
         else
-            py = c->CenterY();
+            py = c->y();
 
     // verifica se há colisão entre este ponto e o círculo
     Point point(px, py);
@@ -307,15 +307,15 @@ bool Scene::Collision(Circle* ca, Circle* cb)
 {
     // deltas podem ser negativos se a subtração é feita na ordem errada
     // levando essa possibilidade em conta é melhor pegar os valores absolutos
-    float deltaX = abs(ca->CenterX() - cb->CenterX());
-    float deltaY = abs(ca->CenterY() - cb->CenterY());
+    float deltaX = abs(ca->x() - cb->x());
+    float deltaY = abs(ca->y() - cb->y());
 
     // calcule a distância entre os centros dos círculos
     float distance = float(sqrt(double(deltaX) * double(deltaX) + double(deltaY) * double(deltaY)));
 
     // se a distância é menor que a soma dos raios
     // existe colisão entre os círculos
-    if (distance <= (ca->radius + cb->radius))
+    if (distance <= (ca->Radius() + cb->Radius()))
         return true;
 
     // nenhum colisão detectada

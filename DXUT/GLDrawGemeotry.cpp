@@ -34,6 +34,22 @@ void GLDrawGeometry::DrawLine(const Line& line)const {
 }
 
 
+void GLDrawGeometry::DrawCircle(const Circle& circle)const {
+    GLfloat x, y, angle;
+    glPointSize(circle.Stroke());
+    glBegin(GL_POINTS);
+    for (angle = 0.0f; angle <= (2.0f * M_PI); angle += 0.01f)
+    {
+        x = circle.Radius() * sin(angle);
+        y = circle.Radius() * cos(angle);
+        glVertex3f(x, y, 0.0f);
+    }
+    glEnd();
+
+}
+
+
+
 
 void GLDrawGeometry::Draw(const Geometry& geometry){
     glPushMatrix(); //local
@@ -51,6 +67,9 @@ void GLDrawGeometry::Draw(const Geometry& geometry){
         }
         else if (const Line* line = dynamic_cast<const Line*>(&geometry)) {
             this->DrawLine(*line);
+        }
+        else if (const Circle* circle = dynamic_cast<const Circle*>(&geometry)) {
+            this->DrawCircle(*circle);
         }
     glPopMatrix();
 

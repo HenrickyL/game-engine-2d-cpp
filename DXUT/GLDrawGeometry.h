@@ -10,6 +10,7 @@ private:
 	void DrawRect(const Rect& rect) const override;
 	void DrawPoint(const Point& point)const override;
 	void DrawLine(const Line& line)const override;
+	void DrawCircle(const Circle& circle)const override;
 
 
 public:
