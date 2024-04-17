@@ -32,6 +32,7 @@ public:
     static const Color GREEN;
     static const Color YELLOW;
     static const Color WHITE;
+    static const Color GRAY;
     static const Color MAGENTA;
     static const Color _TRANSPARENT;
 
