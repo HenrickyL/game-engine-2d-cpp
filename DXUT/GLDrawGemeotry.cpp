@@ -38,7 +38,7 @@ void GLDrawGeometry::DrawCircle(const Circle& circle)const {
     GLfloat x, y, angle;
     glPointSize(circle.Stroke());
     glBegin(GL_POINTS);
-    for (angle = 0.0f; angle <= (2.0f * M_PI); angle += 0.01f)
+    for (angle = 0.0f; angle <= (2.0f * M_PI); angle += circle.OffSet())
     {
         x = circle.Radius() * sin(angle);
         y = circle.Radius() * cos(angle);

@@ -242,6 +242,10 @@ void Circle::setStroke(float value) {
     this->_stroke = value;
 }
 
+float Circle::OffSet() const {
+    return _offset;
+}
+
 
 
 // --------------------------------------------------------------------------

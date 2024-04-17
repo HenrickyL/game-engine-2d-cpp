@@ -135,6 +135,7 @@ class Circle : public Geometry
 protected:
     float _radius;                                   // raio do círculo
     float _stroke = 1.0f;
+    float _offset = 0.05f;
 
 public:
 
@@ -143,6 +144,7 @@ public:
 
     float Radius() const;
     float Stroke() const;
+    float OffSet() const;
 
     void setRadius(float value);
     void setStroke(float value);
