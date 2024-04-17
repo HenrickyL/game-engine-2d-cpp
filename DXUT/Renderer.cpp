@@ -711,34 +711,35 @@ void Renderer::Draw(Circle* circ, ulong color)
 
 void Renderer::Draw(Poly* pol, ulong color)
 {
-    // this function draws a Poly
-    float x1, y1, x2, y2;
-    uint i;
+    //// this function draws a Poly
+    //float x1, y1, x2, y2;
+    //uint i;
+    //list<Point> list = pol->vertexList();
 
-    // loop through and draw a line from vertices 1 to n-1
-    for (i = 0; i < pol->vertexCount - 1; ++i)
-    {
-        // draw line from ith to ith+1 vertex
-        x1 = pol->vertexList[i].x() + pol->x();
-        y1 = pol->vertexList[i].y() + pol->y();
-        x2 = pol->vertexList[i + 1].x() + pol->x();
-        y2 = pol->vertexList[i + 1].y() + pol->y();
+    //// loop through and draw a line from vertices 1 to n-1
+    //for (i = 0; i < pol->vertexCount - 1; ++i)
+    //{
+    //    // draw line from ith to ith+1 vertex
+    //    x1 = list[i].x() + pol->x();
+    //    y1 = list[i].y() + pol->y();
+    //    x2 = list[i + 1].x() + pol->x();
+    //    y2 = list[i + 1].y() + pol->y();
 
-        // draw a line clipping to viewport
-        Line line(x1, y1, x2, y2);
-        Draw(&line, color);
-    }
+    //    // draw a line clipping to viewport
+    //    Line line(x1, y1, x2, y2);
+    //    Draw(&line, color);
+    //}
 
-    // now close up polygon
-    // draw line from first to last vertex
-    x1 = pol->vertexList[0].x() + pol->x();
-    y1 = pol->vertexList[0].y() + pol->y();
-    x2 = pol->vertexList[i].x() + pol->x();
-    y2 = pol->vertexList[i].y() + pol->y();
+    //// now close up polygon
+    //// draw line from first to last vertex
+    //x1 = pol->vertexList[0].x() + pol->x();
+    //y1 = pol->vertexList[0].y() + pol->y();
+    //x2 = pol->vertexList[i].x() + pol->x();
+    //y2 = pol->vertexList[i].y() + pol->y();
 
-    // draw a line clipping to viewport
-    Line line(x1, y1, x2, y2);
-    Draw(&line, color);
+    //// draw a line clipping to viewport
+    //Line line(x1, y1, x2, y2);
+    //Draw(&line, color);
 }
 
 // -----------------------------------------------------------------------------

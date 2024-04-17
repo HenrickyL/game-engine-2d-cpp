@@ -10,6 +10,7 @@
 using std::list;                                    // usar list sem std::
 // ---------------------------------------------------------------------------
 
+
 enum GeometryTypes
 {
     UNKNOWN_T,                                      // desconhecido
@@ -30,6 +31,9 @@ class Geometry : public Movable
 protected:
     uint _type;                                      // tipo da geometria
     Color _color = Color::GREEN;
+    bool _filled = false;
+    float _stroke = 1.0f;
+    float _offset = 0.1f;
 
 public:
     Geometry();// construtor
@@ -38,12 +42,19 @@ public:
 
     virtual uint Type() const;                       // retorna tipo
     virtual Color GetColor() const;
+    virtual bool isFilled() const;
 
     virtual void SetColor(Color color);
+    virtual void setFilled(bool isFilled);
 
-    virtual void MoveTo(const Position& position) override;
+    float Stroke() const;
+
+    void setStroke(float value);
+
+
+    /*virtual void MoveTo(const Position& position) override;
     virtual void MoveTo(Position* position) override;
-    virtual void TranslateTo(const Vector& delta) override;
+    virtual void TranslateTo(const Vector& delta) override;*/
 };
 
 // --------------------------------------------------------------------------
@@ -73,7 +84,6 @@ class Line : public Geometry
 {
 protected:
     Point _a, _b;                                   // linha vai do ponto A ao ponto B
-    float _stroke = 1.0f;
 public:
 
 
@@ -84,15 +94,6 @@ public:
 
     Point A() const;          // Point A
     Point B() const;          // Point B
-
-    float Stroke() const;
-
-    void setStroke(float value);
-
-
-  /*  virtual float x() const override;
-    virtual float y() const override;
-    virtual Position GetPosition() const override;*/
 };
 
 // --------------------------------------------------------------------------
@@ -134,8 +135,6 @@ class Circle : public Geometry
 {
 protected:
     float _radius;                                   // raio do círculo
-    float _stroke = 1.0f;
-    float _offset = 0.05f;
 
 public:
 
@@ -143,11 +142,9 @@ public:
     Circle(const Position& p, float r, Color color = Color::MAGENTA); // contrutor com raio
 
     float Radius() const;
-    float Stroke() const;
     float OffSet() const;
 
     void setRadius(float value);
-    void setStroke(float value);
 
 };
 
@@ -157,16 +154,21 @@ public:
 
 class Poly : public Geometry
 {
+protected:
+    list<Point>  _vertexList;
 public:
-    uint    vertexCount;                          // número de vértices 
-    Point*  vertexList;                           // vetor de vértices do polígono
+    Poly();                                                              // construtor padrão
+    Poly(const Position& pos, Color color = Color::GRAY);                // construtor
 
-    Poly();                                         // construtor padrão
-    Poly(Point* vList, uint vCount);               // construtor
-    Poly(const Poly& p);                            // construtor de cópia
-    ~Poly();                                        // destructor
 
-    const Poly& operator=(const Poly& p);           // operador de atribuição
+    const list<Point> vertexList() const;
+    void setVertex(list<Point> vertices);
+    void addVertex(const Position& vertex, Color color = Color::GRAY);
+    void clear();
+
+    void MoveTo(Position* position) override;
+    void MoveTo(const Position& position) override;
+    void TranslateTo(const Vector& delta) override;
 };
 
 // --------------------------------------------------------------------------

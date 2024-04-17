@@ -36,16 +36,51 @@ void GLDrawGeometry::DrawLine(const Line& line)const {
 
 void GLDrawGeometry::DrawCircle(const Circle& circle)const {
     GLfloat x, y, angle;
-    glPointSize(circle.Stroke());
-    glBegin(GL_POINTS);
-    for (angle = 0.0f; angle <= (2.0f * M_PI); angle += circle.OffSet())
-    {
-        x = circle.Radius() * sin(angle);
-        y = circle.Radius() * cos(angle);
-        glVertex3f(x, y, 0.0f);
+    float radius = circle.Radius();
+    if (circle.isFilled()) {
+        // Desenha um círculo preenchido
+        glBegin(GL_TRIANGLE_FAN);
+        // Desenha pontos ao redor do centro para formar o círculo
+        for (angle = 0.0f; angle <= (2.0f * M_PI); angle += circle.OffSet()) {
+            x = radius * sin(angle);
+            y = radius * cos(angle);
+            glVertex3f(x, y, .0f);
+        }
+        glVertex3f(.0f, .0f, .0f);
+        glEnd();
     }
-    glEnd();
+    else {
+        glLineWidth(circle.Stroke());
+        //glPointSize
+        glBegin(GL_LINE_LOOP);
+        for (angle = 0.0f; angle <= (2.0f * M_PI); angle += circle.OffSet())
+        {
+            x = circle.Radius() * sin(angle);
+            y = circle.Radius() * cos(angle);
+            glVertex3f(x, y, 0.0f);
+        }
+        glEnd();
 
+    }
+}
+
+void GLDrawGeometry::DrawPolygon(const Poly& polygon)const {
+    if (polygon.isFilled()) {
+        glBegin(GL_TRIANGLE_FAN);
+        glBegin(GL_LINE_LOOP);
+        for (const Point p : polygon.vertexList()) {
+            glVertex3f(p.x(), p.y(), p.z());
+        }
+        glEnd();
+    }
+    else {
+        glLineWidth(polygon.Stroke());
+        glBegin(GL_LINE_LOOP);
+            for (const Point p : polygon.vertexList()) {
+                glVertex3f(p.x(), p.y(), p.z());
+            }
+        glEnd();
+    }
 }
 
 
@@ -70,6 +105,9 @@ void GLDrawGeometry::Draw(const Geometry& geometry){
         }
         else if (const Circle* circle = dynamic_cast<const Circle*>(&geometry)) {
             this->DrawCircle(*circle);
+        }
+        else if (const Poly* polygon = dynamic_cast<const Poly*>(&geometry)) {
+            this->DrawPolygon(*polygon);
         }
     glPopMatrix();
 

@@ -21,7 +21,13 @@ Geometry::Geometry(const Position& position, const Color color) : Movable(positi
 Geometry::~Geometry()
 {
 }
+float Geometry::Stroke()const {
+    return this->_stroke;
+}
 
+void Geometry::setStroke(float value) {
+    this->_stroke = value;
+}
 // --------------------------------------------------------------------------
 Color Geometry::GetColor() const {
     return this->_color;
@@ -38,18 +44,26 @@ uint Geometry::Type() const
 }
 
 
-void Geometry::TranslateTo(const Vector& delta)
-{
-    _position.TranslateTo(delta);
+//void Geometry::TranslateTo(const Vector& delta)
+//{
+//    _position.TranslateTo(delta);
+//}
+//
+//void Geometry::MoveTo(const Position& position)
+//{
+//    _position.MoveTo(position);
+//}
+//void Geometry::MoveTo(Position* position)
+//{
+//    _position.MoveTo(position);
+//}
+
+void Geometry::setFilled(bool isFilled) {
+    _filled = isFilled;
 }
 
-void Geometry::MoveTo(const Position& position)
-{
-    _position.MoveTo(position);
-}
-void Geometry::MoveTo(Position* position)
-{
-    _position.MoveTo(position);
+bool Geometry::isFilled() const {
+    return _filled;
 }
 
 
@@ -136,13 +150,6 @@ Point Line::B() const {
     return _b;
 }
 
-float Line::Stroke()const {
-    return this->_stroke;
-}
-
-void Line::setStroke(float value) {
-    this->_stroke = value;
-}
 
 
 // --------------------------------------------------------------------------
@@ -234,14 +241,6 @@ void Circle::setRadius(float value) {
     this->_radius = value;
 }
 
-float Circle::Stroke()const {
-    return this->_stroke;
-}
-
-void Circle::setStroke(float value) {
-    this->_stroke = value;
-}
-
 float Circle::OffSet() const {
     return _offset;
 }
@@ -252,78 +251,54 @@ float Circle::OffSet() const {
 // Poly 
 // --------------------------------------------------------------------------
 
-Poly::Poly()
+Poly::Poly() : Geometry(Position::Zero, Color::GRAY)
 {
-    _position = Position();
-    vertexCount = 0;                        // polígono não tem vértices
-    vertexList = nullptr;                    // inicialmente a lista de vértices é vazia
     _type = POLYGON_T;
 }
 
 // --------------------------------------------------------------------------
 
-Poly::Poly(Point* vList, uint vCount)
+Poly::Poly(const Position& pos, Color color ) : Geometry(pos, color)
 {
-    _position = Position();
-    // guarda número de vértices do polígono
-    vertexCount = vCount;
-
-    // aloca memória para os vértices
-    vertexList = new Point[vCount];
-
-    // guarda lista de vértices do polígono
-    for (uint i = 0; i < vCount; ++i)
-        vertexList[i].MoveTo(vList[i].position());
-
     _type = POLYGON_T;
 }
 
-// --------------------------------------------------------------------------
-
-Poly::Poly(const Poly& p)
-{
-    // guarda número de vértices do polígono
-    vertexCount = p.vertexCount;
-
-    // aloca memória para os vértices
-    vertexList = new Point[vertexCount];
-
-    // guarda lista de vértices do polígono
-    for (uint i = 0; i < vertexCount; ++i)
-        vertexList[i].MoveTo(p.vertexList[i].position());
-
-    _type = POLYGON_T;
+const list<Point> Poly::vertexList() const {
+    return _vertexList;
 }
 
-// --------------------------------------------------------------------------
-
-const Poly& Poly::operator=(const Poly& p)
-{
-    if (vertexList)
-        delete[] vertexList;
-
-    // guarda número de vértices do polígono
-    vertexCount = p.vertexCount;
-
-    // aloca memória para os vértices
-    vertexList = new Point[vertexCount];
-
-    // guarda lista de vértices do polígono
-    for (uint i = 0; i < vertexCount; ++i)
-        vertexList[i].MoveTo(p.vertexList[i].position());
-
-    _type = POLYGON_T;
-
-    return *this;
+void Poly::setVertex(list<Point> vertices) {
+    this->clear();
+    _vertexList = vertices;
+}
+void Poly::addVertex(const Position& vertex, Color color) {
+    _vertexList.push_back(Point(vertex, color));
 }
 
-// --------------------------------------------------------------------------
+void Poly::clear() {
+    _vertexList.clear();
+}
 
-Poly::~Poly()
-{
-    // libera memória alocada para os vértices
-    if (vertexList)
-        delete[] vertexList;
+void Poly::MoveTo(Position* position) {
+    _position.MoveTo(position);
+    for (Point& point : _vertexList){
+        Vector delta = *position - point.position();
+        point.TranslateTo(delta);
+    }
+}
+void Poly::MoveTo(const Position& position) {
+    _position.MoveTo(position);
+    for (Point& point : _vertexList) {
+        Vector delta = position - point.position();
+        point.TranslateTo(delta);
+    }
+
+}
+void Poly::TranslateTo(const Vector& delta) {
+    _position.TranslateTo(delta);
+    for (Point& point : _vertexList) {
+        point.TranslateTo(delta);
+    }
 }
 
 

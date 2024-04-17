@@ -145,11 +145,19 @@ int GLWindowTest() {
 	l.setStroke(5);
 
 	Circle c = Circle(Position(1,0), 1);
+	c.setStroke(3);
 
-	Point center = Point(c.position());
-	center.setSize(10);
+
+	Poly poly;
+	poly.setStroke(3);
+	poly.addVertex(Position(0, 0.5));
+	poly.addVertex(Position(0.5, -0.5));
+	poly.addVertex(Position(-0.5, -0.5));
 
 	obj = &c;
+
+	Point center = Point(obj->position());
+	center.setSize(10);
 
 
 	std:string s = "";

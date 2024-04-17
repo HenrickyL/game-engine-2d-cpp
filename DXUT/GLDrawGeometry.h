@@ -11,6 +11,8 @@ private:
 	void DrawPoint(const Point& point)const override;
 	void DrawLine(const Line& line)const override;
 	void DrawCircle(const Circle& circle)const override;
+	void DrawPolygon(const Poly& polygon)const override;
+
 
 
 public:
