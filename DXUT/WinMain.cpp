@@ -141,7 +141,12 @@ int GLWindowTest() {
 	Point p;
 	p.setSize(5);
 
-	obj = &p;
+	Line l(Position(-1,0), Position(1,0.5));
+	l.setStroke(5);
+	Point center = Point(l.position());
+	center.setSize(10);
+
+	obj = &l;
 
 
 	std:string s = "";
@@ -169,18 +174,18 @@ int GLWindowTest() {
 			window.isResizeable(true);
 		}
 
-		if (Input::KeyPress(KEY_A)) {
+		if (Input::KeyDown(KEY_A)) {
 			globalRotation -= 5;
 		}
 
-		if (Input::KeyPress(KEY_D)) {
+		if (Input::KeyDown(KEY_D)) {
 			globalRotation += 5;
 		}
 
 		if (Input::KeyPress(LEFT)) {
 			obj->TranslateTo(Vector::Left* delta);
 
-			Position ppp = obj->GetPosition();
+			Position ppp = obj->position();
 			s = "PosObj( x:  " + std::to_string(ppp.x()) + "y: " + std::to_string(ppp.y()) + "z: " + std::to_string(ppp.z()) + ")\n";
 			OutputDebugString(s.c_str());
 		}
@@ -188,7 +193,7 @@ int GLWindowTest() {
 		if (Input::KeyPress(RIGHT)) {
 			obj->TranslateTo(Vector::Right* delta);
 
-			Position ppp = obj->GetPosition();
+			Position ppp = obj->position();
 			s = "PosObj( x:  " + std::to_string(ppp.x()) + "y: " + std::to_string(ppp.y()) + "z: " + std::to_string(ppp.z()) + ")\n";
 			OutputDebugString(s.c_str());
 		}
@@ -268,7 +273,10 @@ int GLWindowTest() {
 		/*drawner.Draw(r);
 		drawner.Draw(r2);
 		drawner.Draw(r3);*/
-		drawner.Draw(p);
+		drawner.Draw(Point());
+		drawner.Draw(center);
+		drawner.Draw(*obj);
+
 
 
 		// Troca os buffers

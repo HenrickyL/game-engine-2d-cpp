@@ -36,9 +36,6 @@ public:
     Geometry(const Position& position, const Color color);// construtor
     virtual ~Geometry();                            // destrutor
 
-    float X() const { return _position.x(); }
-    float Y() const { return _position.y(); }
-    virtual Position GetPosition() const;
     virtual uint Type() const;                       // retorna tipo
     virtual Color GetColor() const;
 
@@ -74,16 +71,28 @@ public:
 
 class Line : public Geometry
 {
+protected:
+    Point _a, _b;                                   // linha vai do ponto A ao ponto B
+    float _stroke = 1.0f;
 public:
-    Point a, b;                                     // linha vai do ponto A ao ponto B
+
 
     Line();                                         // construtor padrão
-    Line(float x1, float y1, float x2, float y2);   // construtor usando pontos-flutuantes
-    Line(const Position& pa, const Position& pb);   // construtor usando pontos
-    Line(const Point& pa, const Point& pb);                     // construtor usando pontos
+    Line(float x1, float y1, float x2, float y2, Color color = Color::YELLOW);
+    Line(const Position& pa, const Position& pb, Color color = Color::YELLOW);   // construtor usando pontos
+    Line(const Point& pa, const Point& pb, Color color = Color::YELLOW);                     // construtor usando pontos
 
     Point A() const;          // Point A
     Point B() const;          // Point B
+
+    float Stroke() const;
+
+    void setStroke(float value);
+
+
+  /*  virtual float x() const override;
+    virtual float y() const override;
+    virtual Position GetPosition() const override;*/
 };
 
 // --------------------------------------------------------------------------

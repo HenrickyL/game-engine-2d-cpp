@@ -159,19 +159,19 @@ void Renderer::Draw(Geometry* shape, ulong color)
 
 void Renderer::Draw(Point* point, ulong color)
 {
-    if (point->X() >= 0 && point->X() < window->Width())
-        if (point->Y() >= 0 && point->Y() < window->Height())
-            PlotPixel(int(point->X()), int(point->Y()), color);
+    if (point->x() >= 0 && point->x() < window->Width())
+        if (point->y() >= 0 && point->y() < window->Height())
+            PlotPixel(int(point->x()), int(point->y()), color);
 }
 
 // -----------------------------------------------------------------------------
 
 void Renderer::Draw(Line* line, ulong color)
 {
-    int x1 = int(line->A().X());
-    int y1 = int(line->A().Y());
-    int x2 = int(line->B().X());
-    int y2 = int(line->B().Y());
+    int x1 = int(line->A().x());
+    int y1 = int(line->A().y());
+    int x2 = int(line->B().x());
+    int y2 = int(line->B().y());
 
     // desenha apenas a parte visível da linha
     if (ClipLine(x1, y1, x2, y2))
@@ -719,10 +719,10 @@ void Renderer::Draw(Poly* pol, ulong color)
     for (i = 0; i < pol->vertexCount - 1; ++i)
     {
         // draw line from ith to ith+1 vertex
-        x1 = pol->vertexList[i].X() + pol->X();
-        y1 = pol->vertexList[i].Y() + pol->Y();
-        x2 = pol->vertexList[i + 1].X() + pol->X();
-        y2 = pol->vertexList[i + 1].Y() + pol->Y();
+        x1 = pol->vertexList[i].x() + pol->x();
+        y1 = pol->vertexList[i].y() + pol->y();
+        x2 = pol->vertexList[i + 1].x() + pol->x();
+        y2 = pol->vertexList[i + 1].y() + pol->y();
 
         // draw a line clipping to viewport
         Line line(x1, y1, x2, y2);
@@ -731,10 +731,10 @@ void Renderer::Draw(Poly* pol, ulong color)
 
     // now close up polygon
     // draw line from first to last vertex
-    x1 = pol->vertexList[0].X() + pol->X();
-    y1 = pol->vertexList[0].Y() + pol->Y();
-    x2 = pol->vertexList[i].X() + pol->X();
-    y2 = pol->vertexList[i].Y() + pol->Y();
+    x1 = pol->vertexList[0].x() + pol->x();
+    y1 = pol->vertexList[0].y() + pol->y();
+    x2 = pol->vertexList[i].x() + pol->x();
+    y2 = pol->vertexList[i].y() + pol->y();
 
     // draw a line clipping to viewport
     Line line(x1, y1, x2, y2);

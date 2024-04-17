@@ -29,6 +29,8 @@ public:
 	void		TranslateTo(const Vector& delta);
 	void		MoveTo(const Position& position);
 
+	static Position CenterTo(const Position& p1, const Position& p2);
+
 	bool		operator==(const Position& other) const;
 	Position	operator+(const Position& other) const;
 	Position	operator*(const float value) const;

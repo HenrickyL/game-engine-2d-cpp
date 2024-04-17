@@ -18,6 +18,22 @@ void GLDrawGeometry::DrawPoint(const Point& point)const {
 
 }
 
+void GLDrawGeometry::DrawLine(const Line& line)const {
+    glLineWidth(line.Stroke());
+    Point a = line.A();
+    Point b = line.B();
+
+    float dx = std::abs(a.x() - b.x())/2;
+    float dy = std::abs(a.y() - b.y())/2;
+    
+
+    glBegin(GL_LINES);
+        glVertex2f(-dx, -dy);
+        glVertex2f(dx, dy);
+    glEnd();
+}
+
+
 
 void GLDrawGeometry::Draw(const Geometry& geometry){
     glPushMatrix(); //local
@@ -28,10 +44,13 @@ void GLDrawGeometry::Draw(const Geometry& geometry){
         glRotatef(geometry.rotateAngle(), geometry.xRot(), geometry.yRot(), geometry.zRot());
 
 	    if (const Rect* rect = dynamic_cast<const Rect*>(&geometry)) {
-		    DrawRect(*rect);
+            this->DrawRect(*rect);
         }
         else if (const Point* point = dynamic_cast<const Point*>(&geometry)) {
-            DrawPoint(*point);
+            this->DrawPoint(*point);
+        }
+        else if (const Line* line = dynamic_cast<const Line*>(&geometry)) {
+            this->DrawLine(*line);
         }
     glPopMatrix();
 

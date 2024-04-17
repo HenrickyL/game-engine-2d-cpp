@@ -225,7 +225,7 @@ Object* Scene::Next()
 bool Scene::Collision(Point* p, Point* q)
 {
     // se as coordenadas inteiras são iguais 
-    if (int(p->X()) == int(q->X()) && int(p->Y()) == int(q->Y()))
+    if (int(p->x()) == int(q->x()) && int(p->y()) == int(q->y()))
         return true;
 
     // caso contrário não há colisão
@@ -237,8 +237,8 @@ bool Scene::Collision(Point* p, Point* q)
 bool Scene::Collision(Point* p, Rect* r)
 {
     // se as coordenadas  do ponto estão dentro do retângulo
-    if (p->X() >= r->Left() && p->X() <= r->Right())
-        if (p->Y() >= r->Top() && p->Y() <= r->Bottom())
+    if (p->x() >= r->Left() && p->x() <= r->Right())
+        if (p->y() >= r->Top() && p->y() <= r->Bottom())
             return true;
 
     // caso contrário não há colisão

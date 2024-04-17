@@ -3,9 +3,25 @@
 #include "cmath"
 #include "Vector.h"
 #include <functional>
+#include <algorithm>
 // ---------------------------------------------------------------------------------
 
 Position Position::Zero = new Position(0, 0, 0);
+
+
+Position Position::CenterTo(const Position& p1, const Position& p2){
+	float dx = std::abs(p2.x() - p1.x());
+	float dy = std::abs(p2.y() - p1.y());
+	float dz = std::abs(p2.z() - p1.z());
+
+	float x = std::min(p1.x(), p2.x());
+	float y = std::min(p1.y(), p2.y());
+	float z = std::min(p1.z(), p2.z());
+
+	return Position(x + dx / 2, y + dy / 2, z + dz / 2);
+}
+
+
 // ---------------------------------------------------------------------------------
 
 Position::Position() : _x(0), _y(0), _z(0) {}

@@ -37,10 +37,6 @@ uint Geometry::Type() const
     return _type;
 }
 
-Position Geometry::GetPosition() const
-{
-    return {_position};
-}
 
 void Geometry::TranslateTo(const Vector& delta)
 {
@@ -83,7 +79,7 @@ Point::Point(float x, float y, Color color): Geometry(Position(x,y), color)
 
 float Point::Distance(const Point& p) const
 {
-    return p.GetPosition().Distance(_position);
+    return p.position().Distance(_position);
 }
 
 float Point::Size()const {
@@ -98,48 +94,56 @@ void Point::setSize(float value) {
 // Line
 // --------------------------------------------------------------------------
 
-Line::Line()
+Line::Line() : Geometry(Position::Zero, Color::YELLOW)
 {
     // linha padrão vai de (0,0) até (0,0)
-    a = Point();
-    b = Point();
+    _a = Point();
+    _b = Point();
     _type = LINE_T;
 }
 
 // --------------------------------------------------------------------------
 
-Line::Line(const Position& pa, const Position& pb)
+Line::Line(const Position& pa, const Position& pb, Color color) : Geometry(Position::CenterTo(pa, pb), color)
 {
     // cria linha de (x1,y1) até (x2,y2)
-    a = Point(pa);
-    b = Point(pb);
+    _a = Point(pa);
+    _b = Point(pb);
     _type = LINE_T;
 }
 // --------------------------------------------------------------------------
-
-Line::Line(float x1, float y1, float x2, float y2)
+Line::Line(float x1, float y1, float x2, float y2, Color color): Geometry(Position::CenterTo(Position(x1,y1), Position(x2, y2)), color)
 {
     // cria linha de (x1,y1) até (x2,y2)
-    a = Point(x1, y1);
-    b = Point(x2, y2);
+    _a = Point(x1, y1);
+    _b = Point(x2, y2);
     _type = LINE_T;
 }
 // --------------------------------------------------------------------------
 
-Line::Line(const Point& pa, const Point& pb)
+Line::Line(const Point& pa, const Point& pb, Color color): Geometry(Position::CenterTo(pa.position(), pb.position()), color)
 {
     // cria linha de pa até pb
-    a = pa;
-    b = pb;
+    _a = pa;
+    _b = pb;
     _type = LINE_T;
 }
 
 Point Line::A() const {
-    return a;
+    return _a;
 }
 Point Line::B() const {
-    return b;
+    return _b;
 }
+
+float Line::Stroke()const {
+    return this->_stroke;
+}
+
+void Line::setStroke(float value) {
+    this->_stroke = value;
+}
+
 
 // --------------------------------------------------------------------------
 // Rect  
@@ -176,10 +180,10 @@ Rect::Rect(const Position& pa, const Position& pb)
 // --------------------------------------------------------------------------
 Rect::Rect(const Point& a, const Point& b)
 {
-    float xA = a.GetPosition().x();
-    float xB = b.GetPosition().x();
-    float yA = a.GetPosition().y();
-    float yB = b.GetPosition().y();
+    float xA = a.position().x();
+    float xB = b.position().x();
+    float yA = a.position().y();
+    float yB = b.position().y();
 
     // cria retângulo
     left = xA;
@@ -251,7 +255,7 @@ Poly::Poly(Point* vList, uint vCount)
 
     // guarda lista de vértices do polígono
     for (uint i = 0; i < vCount; ++i)
-        vertexList[i].MoveTo(vList[i].GetPosition());
+        vertexList[i].MoveTo(vList[i].position());
 
     _type = POLYGON_T;
 }
@@ -268,7 +272,7 @@ Poly::Poly(const Poly& p)
 
     // guarda lista de vértices do polígono
     for (uint i = 0; i < vertexCount; ++i)
-        vertexList[i].MoveTo(p.vertexList[i].GetPosition());
+        vertexList[i].MoveTo(p.vertexList[i].position());
 
     _type = POLYGON_T;
 }
@@ -288,7 +292,7 @@ const Poly& Poly::operator=(const Poly& p)
 
     // guarda lista de vértices do polígono
     for (uint i = 0; i < vertexCount; ++i)
-        vertexList[i].MoveTo(p.vertexList[i].GetPosition());
+        vertexList[i].MoveTo(p.vertexList[i].position());
 
     _type = POLYGON_T;
 
