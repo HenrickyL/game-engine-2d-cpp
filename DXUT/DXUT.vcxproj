@@ -135,6 +135,7 @@
     <None Include="AIConcepts.md">
       <FileType>Document</FileType>
     </None>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="DXWindow.cpp" />

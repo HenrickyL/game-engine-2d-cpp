@@ -13,8 +13,6 @@ private:
 	void DrawCircle(const Circle& circle)const override;
 	void DrawPolygon(const Poly& polygon)const override;
 
-
-
 public:
 	void Draw(const Geometry& g) override;
 };
