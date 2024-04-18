@@ -141,6 +141,7 @@
     <ClCompile Include="DXWindow.cpp" />
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="FileHandler.cpp" />
+    <ClCompile Include="GLCamera.cpp" />
     <ClCompile Include="GLDrawGemeotry.cpp" />
     <ClCompile Include="GLInput.cpp" />
     <ClCompile Include="GLWindow.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="DXUT_Utils.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileHandler.h" />
+    <ClInclude Include="GLCamera.h" />
     <ClInclude Include="GLDrawGeometry.h" />
     <ClInclude Include="GLInput.h" />
     <ClInclude Include="GLKeyMap.h" />
