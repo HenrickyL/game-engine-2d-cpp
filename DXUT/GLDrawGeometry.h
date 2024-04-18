@@ -3,7 +3,6 @@
 
 #include "DrawGeometry.h"
 #include <GLFW/glfw3.h>
-//#include <gl/GLU.h>
 
 class GLDrawGeometry : public DrawGeometry {
 private:

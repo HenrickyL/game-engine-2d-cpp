@@ -100,7 +100,6 @@ float Timer::Elapsed()
 	{
 		// pega tempo transcorrido até a parada
 		elapsed = end.QuadPart - start.QuadPart;
-
 	}
 	else
 	{
