@@ -1,5 +1,6 @@
 #include "Input.h"
-
+#include <chrono>
+using TimeType = std::chrono::steady_clock::time_point;
 // -------------------------------------------------------------------------------
 // inicialização de membros estáticos da classe
 bool		Input::keys[256] = { 0 };						// estado do teclado/mouse
@@ -16,7 +17,7 @@ bool		Input::_onWheel = false;
 Vector		Input::drag = Vector::Zero;
 
 //TimeType	Input::lastTime = std::chrono::steady_clock::now();
-short		Input::timeOffset = 600;
+short		Input::timeOffset = 400;
 
 
 // -------------------------------------------------------------------------------
@@ -58,7 +59,7 @@ short Input::MouseWheel()
 
 short Input::MouseWheelDirection() {
 	if (mouseWheel == 0) return 0;
-	return mouseWheel > 0 ? 1 : -1;
+	return mouseWheel - lastMouseWheel > 0 ? 1 : -1;
 }
 
 bool Input::OnWheel() {
@@ -115,4 +116,16 @@ bool Input::OnDrag() {
 
 Vector Input::Drag() {
 	return drag;
+}
+
+
+bool Input::CheckElapsedTime() {
+	static TimeType _LAST_TIME_ = std::chrono::steady_clock::now();
+
+	auto timeNow = std::chrono::steady_clock::now();
+	auto diff = timeNow - _LAST_TIME_;
+	auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff);
+
+	_LAST_TIME_ = timeNow;
+	return diff_ms.count() > timeOffset;
 }

@@ -1,11 +1,7 @@
 #include "GLInput.h"
 #include "GLKeyMap.h"
 #include <cstdlib>
-#include <chrono>
 #include <iostream>
-using TimeType = std::chrono::steady_clock::time_point;
-
-
 
 
 void GLInput::InputKeysCallback(GLFWwindow* window, int key, int scancode, int action, int mods){
@@ -73,21 +69,14 @@ void GLInput::InputMousePositionCallback(GLFWwindow* window, double xpos, double
 }
 
 void GLInput::InputMouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
-    static TimeType _LAST_TIME_ = std::chrono::steady_clock::now();
-
     lastMouseWheel = mouseWheel;
     mouseWheel += (short)yoffset;
     _onWheel = yoffset != 0;
-    
-    auto timeNow = std::chrono::steady_clock::now();
-    auto diff = timeNow - _LAST_TIME_;
-    auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff);
 
-    if (diff_ms.count() > timeOffset) {
+    if (GLInput::CheckElapsedTime()) {
         mouseWheel = (short)yoffset;
         lastMouseWheel = mouseWheel;
     }
-    _LAST_TIME_ = timeNow;
 }
 
 

@@ -30,6 +30,7 @@ protected:
 	//static TimeType		lastTime;
 	static short		timeOffset;
 
+	static bool CheckElapsedTime();
 
 public:
 	//Input();							// construtor

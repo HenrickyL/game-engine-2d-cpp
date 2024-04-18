@@ -4,7 +4,7 @@
 #include "GLWindow.h"
 #include "Geometry.h"
 #include "GLDrawGeometry.h"
-
+#include "GLCamera.h"
 #include <sstream>
 #include <vector>
 #include <GLFW/glfw3.h>
@@ -82,17 +82,18 @@ void DrawRect(float p1[3], float p2[3], float p3[3], float p4[3] , Color c) {
 		glVertex3fv(p4);
 	glEnd();
 }
-void drawCube(Obj pos, float size = 2.5f) {
+
+void drawCube(Position pos, float size = 2.5f) {
 	float d = size / 2;
 	glColor3f(1.f, 0.f, 0.f);
-	float v1[3] = { pos.x -d,		pos.y +d,		pos.z + d };
-	float v2[3] = { pos.x -d,		pos.y -d,		pos.z + d };
-	float v3[3] = { pos.x +  d,		pos.y -d,		pos.z + d };
-	float v4[3] = { pos.x +  d,		pos.y +d,		pos.z + d };
-	float v5[3] = { pos.x +  d,		pos.y +d,		pos.z -d };
-	float v6[3] = { pos.x +  d,		pos.y -d,		pos.z -d };
-	float v7[3] = { pos.x -d,		pos.y -d,		pos.z -d };
-	float v8[3] = { pos.x -d,		pos.y +d,		pos.z -d };
+	float v1[3] = { pos.x() - d,		pos.y() + d,	pos.z() + d};
+	float v2[3] = { pos.x() -d,			pos.y() -d,		pos.z() + d };
+	float v3[3] = { pos.x() +  d,		pos.y() -d,		pos.z() + d };
+	float v4[3] = { pos.x() +  d,		pos.y() +d,		pos.z() + d };
+	float v5[3] = { pos.x() +  d,		pos.y() +d,		pos.z() -d };
+	float v6[3] = { pos.x() +  d,		pos.y() -d,		pos.z() -d };
+	float v7[3] = { pos.x() -d,			pos.y() -d,		pos.z() -d };
+	float v8[3] = { pos.x() -d,			pos.y() +d,		pos.z() -d };
 	
 
 	//frente
@@ -117,6 +118,16 @@ int GLWindowTest() {
 	window.SetColor(Color(0.0,0.15,0.35));
 	auto win = window.GetWindow();
 
+	Timer timer;
+	timer.Start();
+	float offsetTimer = 0.05;
+
+	GLCamera cam1(Position(0,0,5));
+	GLCamera cam2(Position(0, 0, 5));
+
+	GLCamera* cam = &cam1;
+
+
 	bool onMode = true;
 
 	std::vector<void (*)(Obj)> functionVector;
@@ -139,7 +150,7 @@ int GLWindowTest() {
 	float delta = 0.1;
 
 	Point p;
-	p.setSize(5);
+	p.setSize(1);
 
 	Line l(Position(-1,0), Position(1,0.5));
 	l.setStroke(5);
@@ -154,7 +165,7 @@ int GLWindowTest() {
 	poly.addVertex(Position(0.5, -0.5));
 	poly.addVertex(Position(-0.5, -0.5));
 
-	obj = &c;
+	obj = &poly;
 
 	Point center = Point(obj->position());
 	center.setSize(10);
@@ -193,52 +204,44 @@ int GLWindowTest() {
 			globalRotation += 5;
 		}
 
-		if (Input::KeyPress(LEFT)) {
-			obj->TranslateTo(Vector::Left* delta);
+		if (Input::KeyDown(LEFT) && timer.Elapsed(offsetTimer)) {
+			cam->TranslateTo(Vector::Left * delta);
 
-			Position ppp = obj->position();
-			s = "PosObj( x:  " + std::to_string(ppp.x()) + "y: " + std::to_string(ppp.y()) + "z: " + std::to_string(ppp.z()) + ")\n";
-			OutputDebugString(s.c_str());
+			timer.Reset();
+		}
+		if (Input::KeyDown(RIGHT) && timer.Elapsed(offsetTimer)) {
+			cam->TranslateTo(Vector::Right * delta);
+			timer.Reset();
+
+		}
+		if (Input::KeyDown(UP) && timer.Elapsed(offsetTimer)) {
+			cam->TranslateTo(Vector::Backward*delta);
+			timer.Reset();
+
+		}
+		if (Input::KeyDown(DOWN) && timer.Elapsed(offsetTimer)) {
+			cam->TranslateTo(Vector::Forward*delta);
+			timer.Reset();
 		}
 
-		if (Input::KeyPress(RIGHT)) {
-			obj->TranslateTo(Vector::Right* delta);
-
-			Position ppp = obj->position();
-			s = "PosObj( x:  " + std::to_string(ppp.x()) + "y: " + std::to_string(ppp.y()) + "z: " + std::to_string(ppp.z()) + ")\n";
-			OutputDebugString(s.c_str());
-		}
-		if (Input::KeyPress(UP)) {
-			obj->TranslateTo(Vector::Backward);
-		}
-		if (Input::KeyPress(DOWN)) {
-			obj->TranslateTo(Vector::Forward);
-		}
-		if (Input::OnDrag()) {
-			Vector d = Input::Drag();
+		if (Input::OnDrag() && timer.Elapsed(offsetTimer)) {
+			Position mp = Input::MousePosition();
+			float x = mp.x();
+			float y = mp.y();
 			
-			glLoadIdentity();
-			//glTranslatef(obj.x, obj.y, obj.z);+
-			glRotatef(d.x(), 1, 0, 0);
-			glRotatef(d.y(), 0, 1, 0);
-			//glTranslatef(-obj.x, -obj.y, -obj.z);
+			Position current = Position(x - window.Width()/2, y- window.Height()/2);
+
+			Vector d = Position::Zero - current;
+			if(d.Magnitude() != 0)
+			cam->TranslateLookAt(d.Unit() * delta);
+			timer.Reset();
 		}
 
 
 		if (Input::OnWheel()) {
-			float value = Input::MouseWheel() * 1.5;//1 - abs(Input::MouseWheel() * 0.1);
-			r.RotateAngle(value);
-
-			float aaa = r.rotateAngle();
-
-			std::string s = "Wheel: " + std::to_string(aaa) + '\n';
-
-			OutputDebugString(s.c_str());
-
-			Rect rect = r;
-			//glLoadIdentity();
-			//glRotatef(rect.rotateAngle(), rect.xRot(), rect.yRot(), rect.zRot()); // Rotaciona
-
+			int dir = Input::MouseWheelDirection();
+			if(dir != 0)
+				cam->TranslateTo((dir > 0 ? Vector::Up : Vector::Down) *delta);
 		}
 
 		
@@ -257,7 +260,7 @@ int GLWindowTest() {
 		
 		glLoadIdentity();
 
-		gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
+		cam->Update();
 
 
 		glTranslatef(0, 0, 0);
@@ -280,13 +283,13 @@ int GLWindowTest() {
 		OutputDebugString(s.c_str());*/
 
 		
-		//drawCube(obj);
+		drawCube(Position::Zero);
 		/*drawner.Draw(r);
 		drawner.Draw(r2);
 		drawner.Draw(r3);*/
-		drawner.Draw(Point());
-		drawner.Draw(center);
-		drawner.Draw(*obj);
+		//drawner.Draw(Point());
+		//drawner.Draw(center);
+		//drawner.Draw(*obj);
 
 
 

@@ -17,6 +17,5 @@ public:
 	static void InputMouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
 	static InputKeys GetKey(int key);
-
 };
 #endif

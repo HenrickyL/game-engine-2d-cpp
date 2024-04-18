@@ -31,7 +31,7 @@ class Geometry : public Movable
 protected:
     uint _type;                                      // tipo da geometria
     Color _color = Color::GREEN;
-    bool _filled = false;
+    bool _filled = true;
     float _stroke = 1.0f;
     float _offset = 0.1f;
 
