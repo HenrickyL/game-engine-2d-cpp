@@ -1,4 +1,4 @@
-// Window.h
+ // Window.h
 #ifndef DXUT_WINDOW_H
 #define DXUT_WINDOW_H
 
@@ -16,7 +16,6 @@ using std::string;      // permite usar o tipo string sem std::
 enum WindowModes { FULLSCREEN, WINDOWED, BORDERLESS };
 
 // ---------------------------------------------------------------------------------
-
 class Window {
 protected:
     int             _windowMode;

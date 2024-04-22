@@ -72,10 +72,7 @@ public:
 
 //inline functions
 inline void Engine::Pause()
-{
-	paused = true; timer.Stop(); game->OnPause();
-}
-
+{paused = true; timer.Stop(); game->OnPause();}
 inline void Engine::Resume()
 {	paused = false; timer.Start(); game->OnResume();}
 inline void Engine::DisableGraphics()

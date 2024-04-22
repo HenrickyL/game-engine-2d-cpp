@@ -138,6 +138,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
+    <ClCompile Include="DXGraphics.cpp" />
     <ClCompile Include="DXWindow.cpp" />
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="FileHandler.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DrawGeometry.h" />
+    <ClInclude Include="DXGraphics.h" />
     <ClInclude Include="DXInput.h" />
     <ClInclude Include="DXKeyMap.h" />
     <ClInclude Include="DXWindow.h" />

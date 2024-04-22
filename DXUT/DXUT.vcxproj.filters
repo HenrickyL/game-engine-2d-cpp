@@ -229,6 +229,9 @@
     <ClCompile Include="GLCamera.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DXGraphics.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -431,6 +434,9 @@
     </ClInclude>
     <ClInclude Include="GLCamera.h">
       <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="DXGraphics.h">
+      <Filter>Engine\Header Files\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

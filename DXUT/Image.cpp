@@ -1,5 +1,5 @@
 #include "Image.h"
-#include "Graphics.h"
+#include "DXGraphics.h"
 
 // -------------------------------------------------------------------------------
 
@@ -8,8 +8,8 @@ Image::Image(string _filename) : textureView(nullptr), width(0), height(0)
     filename = _filename;
     // cria sharer resource view da imagem em disco
     D3D11CreateTextureFromFile(
-        Graphics::device,               // dispositivo Direct3D
-        Graphics::context,              // contexto do dispositivo
+        DXGraphics::device,               // dispositivo Direct3D
+        DXGraphics::context,              // contexto do dispositivo
         _filename.c_str(),               // nome do arquivo de imagem
         nullptr,                        // retorna textura 
         &textureView,                   // retorna view da textura
