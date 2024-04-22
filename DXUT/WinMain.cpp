@@ -24,7 +24,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		// configura a janela
 		engine->window->Mode(WINDOWED);
 		engine->window->Size(800, 600);
-		engine->window->SetColor(Color(1, 1, 0));
+		engine->window->SetColor(Color(0.0, 0.15, 0.35));
 		engine->window->Title("My Game");
 		engine->window->Icon(IDI_ICON);
 		//engine->window->Cursor(IDC_CURSOR);	

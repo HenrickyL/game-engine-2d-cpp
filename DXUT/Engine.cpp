@@ -147,7 +147,7 @@ int Engine::Loop()
 	do
 	{
 		// trata todos os eventos antes de atualizar a aplicação
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		if (false && PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
@@ -157,7 +157,7 @@ int Engine::Loop()
 			// -----------------------------------------------
 			// Pausa/Resume Jogo
 			// -----------------------------------------------
-
+			window->PollEvents();
 			if (Input::KeyPress(PAUSE))
 			{
 				if (paused)
@@ -165,6 +165,7 @@ int Engine::Loop()
 				else
 					Pause();
 			}
+
 
 			// -----------------------------------------------
 			if (!paused) {

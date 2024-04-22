@@ -156,6 +156,11 @@ void GLWindow::SwapBuffers() const {
 }
 void GLWindow::PollEvents() const {
     glfwPollEvents();
+    #ifdef NDEBUG
+        if (Input::KeyDown(ESCAPE)) {
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
+        }
+    #endif
 }
 
 void GLWindow::isResizeable(bool value) {
