@@ -26,7 +26,7 @@ private:
 	GraphicContext* _context;
 	GraphicContext* _contextGL = nullptr;
 	GraphicContext* _contextDX = nullptr;
-	EngineGraphicsType _graphicType = E_DirectX;
+	EngineGraphicsType _graphicType = E_OpenGL;
 	GraphicType _type = T_2D;
 	float FrameTime();					// calcula o tempo do quadro
 	int Loop();							// laço principal do motor

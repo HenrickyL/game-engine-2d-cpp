@@ -6,6 +6,6 @@ GraphicContext::GraphicContext(Graphics* graphic, Window* window) :
 
 
 GraphicContext::~GraphicContext() {
-	delete _graphics;
-	delete _window;
+	if(_graphics)delete _graphics;
+	if(_window)delete _window;
 }

@@ -306,9 +306,9 @@ int GLWindowTest() {
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 	
-	return GLWindowTest();
+	//return GLWindowTest();
 
-	//return UseEngine( hInstance, hPrevInstance,lpCmdLine,  nCmdShow);
+	return UseEngine( hInstance, hPrevInstance,lpCmdLine,  nCmdShow);
 
 	
 }

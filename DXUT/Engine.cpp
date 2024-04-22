@@ -29,6 +29,7 @@ Timer		Engine::timer;                      // medidor de tempo
 Engine::Engine()
 {
 	_context = context();
+	window = _context->window();
 	//renderer = new Renderer();
 }
 

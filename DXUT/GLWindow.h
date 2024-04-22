@@ -37,12 +37,10 @@ public:
     void Title(const std::string title) override;
     void Size(int width, int height) override;
     void Mode(WindowModes mode) override;
-    void SetColor(Color color) override;
     void HideCursor(bool hide) override;
     void InFocus(void(*func)()) override;
     void LostFocus(void(*func)()) override;
     void isResizeable(bool value) override;
-
     GLFWwindow* GetWindow()const;
     double Aspect() const;
     void Close() override;

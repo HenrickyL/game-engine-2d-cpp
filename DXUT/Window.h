@@ -46,7 +46,7 @@ public:
     virtual void Title(const std::string title) = 0;
     virtual void Size(int width, int height) = 0;
     virtual void Mode(WindowModes mode) = 0;
-    virtual void SetColor(Color color) = 0;
+    virtual void SetColor(Color color);
     virtual void HideCursor(bool hide) = 0;
     //virtual void Print(const std::string& text, int x, int y, COLORREF color = C_BLACK) = 0;
     virtual void Close() = 0;
@@ -68,4 +68,5 @@ inline int Window::Height() const {return _height;}
 inline WindowModes Window::Mode() const {return _mode;}
 inline std::string Window::Title() const {return _title;}
 inline Position Window::Center() const { return Position(_width / 2, _height / 2); }
+inline void Window::SetColor(Color color){_color = color;}
 #endif // WINDOW_H
