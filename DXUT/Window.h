@@ -52,16 +52,17 @@ public:
     virtual void Close() = 0;
     virtual void Clear() = 0;
     virtual bool Create() = 0;
+    virtual bool ShouldClose() const = 0;
+
     virtual void InFocus(void(*func)()) = 0;
     virtual void LostFocus(void(*func)()) = 0;
 
     virtual void isResizeable(bool value);
-    virtual void PollEvents() const;
+    virtual void PollEvents() const = 0;
 };
 
 inline  HWND Window::Id() const { return 0; }
 inline void Window::isResizeable(bool value) { this->_allowResize = value; }
-inline void Window::PollEvents() const{}
 
 inline int Window::Width() const {return _width;}
 inline int Window::Height() const {return _height;}

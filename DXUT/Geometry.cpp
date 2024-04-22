@@ -156,7 +156,7 @@ Point Line::B() const {
 // Rect  
 // --------------------------------------------------------------------------
 
-Rect::Rect(): Geometry(Position::Zero, Color::GREEN)
+Rect::Rect(): Geometry(Position::Zero, Color::GREEN), _width(1), _height(1)
 {
     // cria retângulo de (0,0) até (0,0)
     left = right = 0.0f;

@@ -27,7 +27,6 @@ protected:
     GraphicType _type = T_3D;
 
 public:
-    virtual ~Graphics() {}
 
     virtual void VSync(bool state) = 0;
     virtual void Clear() = 0;

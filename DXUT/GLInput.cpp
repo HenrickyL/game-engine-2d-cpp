@@ -10,14 +10,12 @@ void GLInput::InputKeysCallback(GLFWwindow* window, int key, int scancode, int a
 
     // Certifique-se de que a chave está dentro do intervalo do array
     InputKeys keyCode = GetKey(key);
-    //if (key >= 0 && key < 256) {
-        if (action == GLFW_PRESS && keyCode != UNKNOW) {
-            keys[keyCode] = true;
-        }
-        else if (action == GLFW_RELEASE) {
-            keys[keyCode] = false;
-        }
-    //}
+    if (action == GLFW_PRESS && keyCode != UNKNOW) {
+        keys[keyCode] = true;
+    }
+    else if (action == GLFW_RELEASE) {
+        keys[keyCode] = false;
+    }
 }
 
 /*

@@ -41,12 +41,12 @@ public:
     void InFocus(void(*func)()) override;
     void LostFocus(void(*func)()) override;
     void isResizeable(bool value) override;
+    bool ShouldClose() const override;
     GLFWwindow* GetWindow()const;
     double Aspect() const;
     void Close() override;
     void Clear() override;
     bool Create() override;
-    bool ShouldClose() const;
     void SwapBuffers() const;
     void PollEvents() const override;
 

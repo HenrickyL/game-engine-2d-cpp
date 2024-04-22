@@ -67,7 +67,7 @@ public:
 	static void Resume();               // reinicia o motor
 
 	// trata eventos do Windows
-	static LRESULT CALLBACK EngineProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	//static LRESULT CALLBACK EngineProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
 //inline functions

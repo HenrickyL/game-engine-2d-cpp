@@ -167,3 +167,14 @@ LRESULT CALLBACK DXWindow::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 
     return DefWindowProc(hWnd, msg, wParam, lParam);
 }
+
+
+bool DXWindow::ShouldClose() const {
+    static MSG msg = { 0 };
+    bool result = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+    if (result) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+    return msg.message != WM_QUIT;
+}

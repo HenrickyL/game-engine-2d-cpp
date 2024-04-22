@@ -98,6 +98,7 @@ void GLWindow::HideCursor(bool hide) {
 }
 
 void GLWindow::Close() {
+    //glfwSetWindowShouldClose(GLWindow::window, GLFW_TRUE);
     glfwTerminate();
 }
 
@@ -149,18 +150,13 @@ bool GLWindow::onWindowCreate(const string message) const {
 
 
 bool GLWindow::ShouldClose() const {
-    return glfwWindowShouldClose(window);
+    return glfwWindowShouldClose(GLWindow::window);
 }
 void GLWindow::SwapBuffers() const {
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(GLWindow::window);
 }
-void GLWindow::PollEvents() const {
+ void GLWindow::PollEvents() const {
     glfwPollEvents();
-    #ifdef NDEBUG
-        if (Input::KeyDown(ESCAPE)) {
-            glfwSetWindowShouldClose(window, GLFW_TRUE);
-        }
-    #endif
 }
 
 void GLWindow::isResizeable(bool value) {

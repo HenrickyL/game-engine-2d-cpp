@@ -29,7 +29,7 @@ Timer		Engine::timer;                      // medidor de tempo
 Engine::Engine()
 {
 	_context = context();
-	window = _context->window();
+	Engine::window = _context->window();
 	//renderer = new Renderer();
 }
 
@@ -42,19 +42,19 @@ GraphicContext* Engine::context(){
 
 GraphicContext* Engine::getContextByType(EngineGraphicsType type) {
 	if (_graphicType == E_OpenGL) {
-		GLWindow* window = new GLWindow();
-		GLGraphics* graphics = new GLGraphics(window);
+		GLWindow* _window = new GLWindow();
+		GLGraphics* graphics = new GLGraphics(_window);
 
 		if (!_contextGL)
-			_contextGL = new GraphicContext(graphics, window);
+			_contextGL = new GraphicContext(graphics, _window);
 		return _contextGL;
 	}
 	else {
-		DXWindow* window = new DXWindow();
-		DXGraphics* graphics = new DXGraphics(window);
+		DXWindow* _window = new DXWindow();
+		DXGraphics* graphics = new DXGraphics(_window);
 
 		if (!_contextDX)
-			_contextDX = new GraphicContext(graphics, window);
+			_contextDX = new GraphicContext(graphics, _window);
 		return _contextDX;
 	}
 }
@@ -86,23 +86,23 @@ Engine::~Engine()
 
 	if(_contextDX) delete _contextDX;
 	if(_contextGL) delete _contextGL;
-	if(_context) delete _context;
 }
 
 // ------------------------------------------------------------------------------
 int Engine::Start(Game* level)
 {
 	game = level;
-
-	// cria janela do jogo
-	window->Create();
+	
+	Window * _window = _context->window();
+	_window->Create();
 
 	Graphics* graphics = _context->graphics();
+
 
 	// inicializa dispositivo gráfico
 	if (!graphics->Initialize())
 	{
-		MessageBox(window->Id(), "Falha na inicialização do dispositivo gráfico", "Engine", MB_OK);
+		MessageBox(_window->Id(), "Falha na inicialização do dispositivo gráfico", "Engine", MB_OK);
 		return EXIT_FAILURE;
 	}
 
@@ -114,7 +114,7 @@ int Engine::Start(Game* level)
 	}*/
 
 	// altera a window procedure da janela ativa para EngineProc
-	SetWindowLongPtr(window->Id(), GWLP_WNDPROC, (LONG_PTR)EngineProc);
+	//SetWindowLongPtr(window->Id(), GWLP_WNDPROC, (LONG_PTR)EngineProc);
 
 	// ajusta a resolução do Sleep para 1 milisegundo
 	// requer uso da biblioteca winmm.lib
@@ -124,6 +124,8 @@ int Engine::Start(Game* level)
 
 	// volta a resolução do Sleep ao valor original
 	timeEndPeriod(1);
+
+	_window->Close();
 
 	return exitCode;
 }
@@ -137,6 +139,7 @@ int Engine::Loop()
 	// mensagens do Windows
 	MSG msg = { 0 };
 
+	Window* _window = _context->window();
 	Graphics* graphics = _context->graphics();
 
 
@@ -144,57 +147,32 @@ int Engine::Loop()
 	game->Init();
 
 	// laço principal
-	do
+	while (!_window->ShouldClose())
 	{
-		// trata todos os eventos antes de atualizar a aplicação
-		if (false && PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		_window->PollEvents();
+
+		if (Input::KeyPress(PAUSE))
 		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+			if (paused)
+				Resume();
+			else
+				Pause();
 		}
-		else
-		{
-			// -----------------------------------------------
-			// Pausa/Resume Jogo
-			// -----------------------------------------------
-			window->PollEvents();
-			if (Input::KeyPress(PAUSE))
-			{
-				if (paused)
-					Resume();
-				else
-					Pause();
-			}
 
+		// -----------------------------------------------
+    	if (!paused) {
+			// calcula o tempo do quadro
+			frameTime = FrameTime();
 
-			// -----------------------------------------------
-			if (!paused) {
-				// calcula o tempo do quadro
-				frameTime = FrameTime();
+			// atualização da aplicação 
+			game->Update();
 
-				// atualização da aplicação 
-				game->Update();
+			if (onGraphics) {
+				// limpa a tela para o próximo quadro
+				graphics->Clear();
 
-				if (onGraphics) {
-					// limpa a tela para o próximo quadro
-					graphics->Clear();
-
-					// desenho da aplicação
-					game->Draw();
-
-					// renderiza sprites
-					//renderer->Render();
-
-					// apresenta o jogo na tela (troca backbuffer/frontbuffer)
-					graphics->Present();
-				}
-				else {
-					game->Draw();
-				}
-			}
-			else {
-
-				game->OnPause();
+				// desenho da aplicação
+				game->Draw();
 
 				// renderiza sprites
 				//renderer->Render();
@@ -202,9 +180,21 @@ int Engine::Loop()
 				// apresenta o jogo na tela (troca backbuffer/frontbuffer)
 				graphics->Present();
 			}
+			else {
+				game->Draw();
+			}
 		}
+		else {
 
-	} while (msg.message != WM_QUIT);
+			game->OnPause();
+
+			// renderiza sprites
+			//renderer->Render();
+
+			// apresenta o jogo na tela (troca backbuffer/frontbuffer)
+			graphics->Present();
+		}
+	};
 
 	// finalização do aplicação
 	game->Finalize();
@@ -260,12 +250,12 @@ float Engine::FrameTime()
 
 // -------------------------------------------------------------------------------
 
-LRESULT CALLBACK Engine::EngineProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	// janela precisa ser repintada
-	if (msg == WM_PAINT) {
-	}
-	return CallWindowProc(DXInput::InputKeysProc, hWnd, msg, wParam, lParam);
-}
+//LRESULT CALLBACK Engine::EngineProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+//{
+//	// janela precisa ser repintada
+//	if (msg == WM_PAINT) {
+//	}
+//	return CallWindowProc(DXInput::InputKeysProc, hWnd, msg, wParam, lParam);
+//}
 
 // -----------------------------------------------------------------------------

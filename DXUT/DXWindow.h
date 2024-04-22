@@ -64,6 +64,9 @@ public:
 
     void InFocus(void(*func)()) override;                             // altera função executada ao ganhar foco
     void LostFocus(void(*func)()) override;                           // altera função executada na perda de foco
+    bool ShouldClose() const override;
+    void PollEvents() const override;
+
 
     // tratamento de eventos do Windows
     static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -179,5 +182,7 @@ inline void DXWindow::LostFocus(void(*func)())
 {
     lostFocus = func;
 }
+
+inline void DXWindow::PollEvents() const {};
 // ---------------------------------------------------------------------------------
 #endif
