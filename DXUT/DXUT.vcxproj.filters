@@ -438,6 +438,9 @@
     <ClInclude Include="DXGraphics.h">
       <Filter>Engine\Header Files\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="GLGraphics.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
