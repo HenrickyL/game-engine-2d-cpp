@@ -154,6 +154,7 @@
     <ClCompile Include="MCState.cpp" />
     <ClCompile Include="MissionariesCannibalsProblem.cpp" />
     <ClCompile Include="Movable.cpp" />
+    <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="ShortPathProblem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="MCState.h" />
     <ClInclude Include="MissionariesCannibalsProblem.h" />
     <ClInclude Include="Movable.h" />
+    <ClInclude Include="MyGame.h" />
     <ClInclude Include="ShortPathProblem.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />

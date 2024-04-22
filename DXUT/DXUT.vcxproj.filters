@@ -112,6 +112,15 @@
     <Filter Include="Engine\Header Files\DirectX">
       <UniqueIdentifier>{9c1d2276-505b-48fd-98d7-a548ee515d04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Develop\Games\TestOpenGL_DX">
+      <UniqueIdentifier>{b207d84b-3ee5-4fab-9d2e-8559f41f4f1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Develop\Games\TestOpenGL_DX\Header Files">
+      <UniqueIdentifier>{289bdc8a-91eb-47e8-8641-1317a013b71f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Develop\Games\TestOpenGL_DX\Source Files">
+      <UniqueIdentifier>{4aca208c-53f8-4927-b965-f0a008d0d166}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input.cpp">
@@ -237,6 +246,9 @@
     </ClCompile>
     <ClCompile Include="GraphicContext.cpp">
       <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame.cpp">
+      <Filter>Develop\Games\TestOpenGL_DX\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -449,6 +461,9 @@
     </ClInclude>
     <ClInclude Include="GraphicContext.h">
       <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame.h">
+      <Filter>Develop\Games\TestOpenGL_DX\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
