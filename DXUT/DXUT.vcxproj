@@ -144,6 +144,7 @@
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="GLCamera.cpp" />
     <ClCompile Include="GLDrawGemeotry.cpp" />
+    <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="GLInput.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="MCAction.cpp" />

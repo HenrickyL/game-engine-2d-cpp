@@ -15,11 +15,6 @@ enum EngineGraphicsType {
 	E_OpenGL
 };
 
-enum EngineType {
-	T_2D,
-	T_3D
-};
-
 class Engine{ //singleton
 private:
 	static Timer timer;                 // medidor de tempo
@@ -28,7 +23,7 @@ private:
 	static Engine* instance;
 	
 	EngineGraphicsType _graphicType = E_DirectX;
-	EngineType _type = T_2D;
+	GraphicType _type = T_2D;
 	float FrameTime();					// calcula o tempo do quadro
 	int Loop();							// laço principal do motor
 
@@ -52,10 +47,10 @@ public:
 	FPSType GraphicsFPS() const;
 	
 	EngineGraphicsType graphicType() const;
-	EngineType engineType() const;
+	GraphicType engineType() const;
 
 	void SetGraphicType(EngineGraphicsType value);
-	void SetType(EngineType value);
+	void SetType(GraphicType value);
 
 
 	Engine* & GetInstance();
@@ -81,10 +76,10 @@ inline void Engine::EnableGraphics()
 {	onGraphics = true;}
 
 inline EngineGraphicsType Engine::graphicType() const{ return this->_graphicType; }
-inline EngineType Engine::engineType() const { return this->_type; }
+inline GraphicType Engine::engineType() const { return Engine::graphics->type(); }
 
 inline void Engine::SetGraphicType(EngineGraphicsType value) { this->_graphicType = value; }
-inline void Engine::SetType(EngineType value) { this->_type = value; }
+inline void Engine::SetType(GraphicType value) { Engine::graphics->SetType(value); }
 
 //fps
 inline void Engine::SetGraphicsFPS(FPSType fps) 

@@ -5,7 +5,7 @@
 #include "Graphics.h"
 #include "Window.h"
 #include <d3d11.h>
-
+#include "DXWindow.h"
 
 class DXGraphics : public Graphics {
 private:
@@ -25,19 +25,13 @@ public:
     static ID3D11DeviceContext* context;                    // contexto do dispositivo gráfico
     static D3D11_VIEWPORT        viewport;                  // viewport
 
-    DXGraphics(Window* window);
+    DXGraphics(DXWindow* window);
     ~DXGraphics();
 
     void VSync(bool state) override;
     void Clear() override;
     void Present() override;
     bool Initialize() override;
-    void SetViewportWidth(float width) override;
-    void SetViewportHeight(float height) override;
-    float ViewportWidth() const override;
-    float ViewportHeight() const override;
-    void SetFPS(FPSType fps) override;
-    FPSType FPS() const override;
 };
 
 #endif // DXGRAPHICS_H

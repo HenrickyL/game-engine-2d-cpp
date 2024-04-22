@@ -27,7 +27,7 @@ void DXGraphics::Present() {
 
 
 
-DXGraphics::DXGraphics(Window* window)
+DXGraphics::DXGraphics(DXWindow* window)
 {
     this->window = window;
     currentFPS = FPS_MAX;
