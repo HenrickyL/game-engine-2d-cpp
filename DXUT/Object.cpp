@@ -5,7 +5,6 @@
 // Inicialização de variáveis estáticas da classe
 
 Window	*&Object::window	= Engine::window;           // ponteiro para a janela
-Input	*&Object::input		= Engine::input;        // tempo do último quadro
 float	&Object::gameTime	= Engine::frameTime;        // tempo do último quadro
 
 

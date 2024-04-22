@@ -19,7 +19,7 @@ void DXGraphics::Present() {
     if (vSync) {
         int syncInterval = vSync;
     }
-    swapChain->Present(currentFPS, NULL);
+    swapChain->Present(syncInterval, NULL);
     context->OMSetRenderTargets(1, &renderTargetView, nullptr);
 }
 

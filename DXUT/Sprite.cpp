@@ -64,8 +64,8 @@ void Sprite::ResetSprite()
 void Sprite::Draw()
 {
     // adiciona o sprite na lista de desenho
-    if(this != nullptr)
-    Engine::renderer->Draw(_sprite);
+    //if(this != nullptr)
+    //Engine::renderer->Draw(_sprite);
 }
 
 // ---------------------------------------------------------------------------------

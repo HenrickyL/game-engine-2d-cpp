@@ -147,6 +147,7 @@
     <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="GLInput.cpp" />
     <ClCompile Include="GLWindow.cpp" />
+    <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="MCAction.cpp" />
     <ClCompile Include="MCObj.cpp" />
     <ClCompile Include="MCS.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="GLInput.h" />
     <ClInclude Include="GLKeyMap.h" />
     <ClInclude Include="GLWindow.h" />
+    <ClInclude Include="GraphicContext.h" />
     <ClInclude Include="MCAction.h" />
     <ClInclude Include="MCObj.h" />
     <ClInclude Include="MCS.h" />

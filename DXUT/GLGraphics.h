@@ -3,7 +3,7 @@
 #define UT_GLGRAPHICS_H
 
 #include "Graphics.h"
-#include <gl/glew.h>
+//#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "GLWindow.h"
 

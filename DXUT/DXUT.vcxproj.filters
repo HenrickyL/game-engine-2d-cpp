@@ -235,6 +235,9 @@
     <ClCompile Include="GLGraphics.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicContext.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -443,6 +446,9 @@
     </ClInclude>
     <ClInclude Include="GLGraphics.h">
       <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicContext.h">
+      <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

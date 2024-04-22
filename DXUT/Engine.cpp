@@ -1,10 +1,16 @@
 #include "Engine.h"
 
-#include "DXWindow.h"
 #include <windows.h>
 #include <sstream>
 #include "Error.h"
+
+#include "DXWindow.h"
 #include "DXInput.h"
+#include "DXGraphics.h" 
+
+#include "GLWindow.h"
+#include "GLInput.h"
+#include "GLGraphics.h" 
 
 using std::stringstream;
 
@@ -13,28 +19,55 @@ using std::stringstream;
 // Inicialização de variáveis estáticas da classe
 Game*		Engine::game		= nullptr;			// apontadador da aplicação
 Window*		Engine::window		= nullptr;			// janela da aplicação
-Graphics*	Engine::graphics	= nullptr;			// dispositivo gráfico
 Engine*		Engine::instance	= nullptr;			// dispositivo gráfico
 float		Engine::frameTime	= 0.0f;				// tempo do quadro atual
-Input*		Engine::input		= nullptr;			// dispositivos de entrada
 bool		Engine::paused		= false;			// estado do motor
 bool		Engine::onGraphics	= true;				// estado do motor
-Renderer*	Engine::renderer	= nullptr;     // renderizador de sprites 
+//Renderer*	Engine::renderer	= nullptr;     // renderizador de sprites 
 Timer		Engine::timer;                      // medidor de tempo
 // ------------------------------------------------------------------------------
 Engine::Engine()
 {
-	if (this->_graphicType == E_DirectX) {
-		window = new DXWindow();
+	_context = context();
+	//renderer = new Renderer();
+}
+
+// ------------------------------------------------------------------------------
+
+GraphicContext* Engine::context(){
+	return getContextByType(_graphicType);
+}
+
+
+GraphicContext* Engine::getContextByType(EngineGraphicsType type) {
+	if (_graphicType == E_OpenGL) {
+		GLWindow* window = new GLWindow();
+		GLGraphics* graphics = new GLGraphics(window);
+
+		if (!_contextGL)
+			_contextGL = new GraphicContext(graphics, window);
+		return _contextGL;
 	}
 	else {
-		///TODO: Add OpenGL
-		window = new DXWindow();
+		DXWindow* window = new DXWindow();
+		DXGraphics* graphics = new DXGraphics(window);
+
+		if (!_contextDX)
+			_contextDX = new GraphicContext(graphics, window);
+		return _contextDX;
 	}
-	graphics = new Graphics(window);
-	renderer = new Renderer();
 }
+
+
+
+void Engine::SetGraphicType(EngineGraphicsType value) { 
+	this->_graphicType = value; 
+
+	_context = getContextByType(value);
+}
+
 // ------------------------------------------------------------------------------
+
 
  Engine* Engine::Instance() {
 	if (Engine::instance == nullptr) {
@@ -48,11 +81,13 @@ Engine::Engine()
 Engine::~Engine()
 {
 	delete game;
-	delete renderer;
-	delete graphics;
-	delete input;
-	delete window;
+	//delete renderer;
+
+	if(_contextDX) delete _contextDX;
+	if(_contextGL) delete _contextGL;
+	if(_context) delete _context;
 }
+
 // ------------------------------------------------------------------------------
 int Engine::Start(Game* level)
 {
@@ -61,8 +96,7 @@ int Engine::Start(Game* level)
 	// cria janela do jogo
 	window->Create();
 
-	// inicializa dispositivos de entrada (deve ser feito após criação da janela)
-	input = new Input();
+	Graphics* graphics = _context->graphics();
 
 	// inicializa dispositivo gráfico
 	if (!graphics->Initialize())
@@ -72,11 +106,11 @@ int Engine::Start(Game* level)
 	}
 
 	// inicializa renderizador de sprites
-	if (!renderer->Initialize(window, graphics))
+	/*if (!renderer->Initialize(window, graphics))
 	{
 		MessageBox(window->Id(), "Falha na criação do renderizador", "Engine", MB_OK);
 		return EXIT_FAILURE;
-	}
+	}*/
 
 	// altera a window procedure da janela ativa para EngineProc
 	SetWindowLongPtr(window->Id(), GWLP_WNDPROC, (LONG_PTR)EngineProc);
@@ -102,6 +136,9 @@ int Engine::Loop()
 	// mensagens do Windows
 	MSG msg = { 0 };
 
+	Graphics* graphics = _context->graphics();
+
+
 	// inicialização da aplicação
 	game->Init();
 
@@ -120,7 +157,7 @@ int Engine::Loop()
 			// Pausa/Resume Jogo
 			// -----------------------------------------------
 
-			if (input->KeyPress(PAUSE))
+			if (Input::KeyPress(PAUSE))
 			{
 				if (paused)
 					Resume();
@@ -144,7 +181,7 @@ int Engine::Loop()
 					game->Draw();
 
 					// renderiza sprites
-					renderer->Render();
+					//renderer->Render();
 
 					// apresenta o jogo na tela (troca backbuffer/frontbuffer)
 					graphics->Present();
@@ -158,7 +195,8 @@ int Engine::Loop()
 				game->OnPause();
 
 				// renderiza sprites
-				renderer->Render();
+				//renderer->Render();
+
 				// apresenta o jogo na tela (troca backbuffer/frontbuffer)
 				graphics->Present();
 			}

@@ -165,25 +165,25 @@ void Scene::Draw()
 
 void Scene::DrawBBox()
 {
-    // inicia desenho de pixels
-    Engine::renderer->BeginPixels();
+    //// inicia desenho de pixels
+    //Engine::renderer->BeginPixels();
 
-    // desenha bounding box dos objetos estáticos
-    for (const auto& obj : statics)
-    {
-        if (obj->BBox())
-            Engine::renderer->Draw(obj->BBox(), 0xffff00ff);
-    }
+    //// desenha bounding box dos objetos estáticos
+    //for (const auto& obj : statics)
+    //{
+    //    if (obj->BBox())
+    //        Engine::renderer->Draw(obj->BBox(), 0xffff00ff);
+    //}
 
-    // desenha bounding box dos objetos em movimento
-    for (const auto& obj : moving)
-    {
-        if (obj->BBox())
-            Engine::renderer->Draw(obj->BBox(), 0xff00ffff);
-    }
+    //// desenha bounding box dos objetos em movimento
+    //for (const auto& obj : moving)
+    //{
+    //    if (obj->BBox())
+    //        Engine::renderer->Draw(obj->BBox(), 0xff00ffff);
+    //}
 
-    // finaliza desenho de pixels
-    Engine::renderer->EndPixels();
+    //// finaliza desenho de pixels
+    //Engine::renderer->EndPixels();
 }
 
 // ---------------------------------------------------------------------------------

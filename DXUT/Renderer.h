@@ -7,6 +7,9 @@
 #include "Geometry.h"
 #include <vector>
 #include <DirectXMath.h>                                        // tipos da biblioteca matemática do DirectX
+
+#include "DXGraphics.h"
+
 using std::vector;
 using namespace DirectX;
 // ---------------------------------------------------------------------------------
@@ -27,7 +30,7 @@ class Renderer
 {
 private:
     Window* window;                          // ponteiro para janela do jogo
-    Graphics* graphics;                        // ponteiro para dispositivo gráfico
+    DXGraphics* graphics;                        // ponteiro para dispositivo gráfico
 
     ID3D11InputLayout*      inputLayout;                 // input layout
     ID3D11VertexShader*     vertexShader;                // vertex shader
@@ -81,7 +84,7 @@ public:
     void Draw(Mixed* mul, ulong color);                        // desenha formas mistas
     void EndPixels();                                           // destrava a textura de plotagem de pixels
 
-    bool Initialize(Window* window, Graphics* graphics);  // inicializa o renderizador
+    bool Initialize(Window* window, DXGraphics* graphics);  // inicializa o renderizador
     void Draw(SpriteData* sprite);                         // adiciona _sprite na lista
     void Render();                                          // envia sprites para desenho
     void SetFillMode(const FillModeEnum value);

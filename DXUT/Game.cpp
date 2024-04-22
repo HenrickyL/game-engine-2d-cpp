@@ -4,8 +4,7 @@
 // Inicialização de membros estáticos da classe
 
 Window*		&Game::window = Engine::window;		// ponteiro para a janela
-Input		*Game::input = Engine::input;				// ponteiro para a entrada
-Renderer	*Game::renderer = Engine::renderer;				// ponteiro para a entrada
+//Renderer	*Game::renderer = Engine::renderer;				// ponteiro para a entrada
 Timer		Game::timer;                      // medidor de tempo
 
 

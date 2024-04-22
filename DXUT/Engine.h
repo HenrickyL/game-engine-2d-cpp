@@ -7,7 +7,7 @@
 #include "Timer.h"						// medidor de tempo
 #include "Game.h"						// aplicação gráfica
 #include "Renderer.h"                    // renderizador de sprites
-
+#include "GraphicContext.h"
 // ---------------------------------------------------------------------------------
 
 enum EngineGraphicsType {
@@ -21,7 +21,11 @@ private:
 	static bool paused;                 // estado do aplicação
 	static bool onGraphics;                 // Desabilitar Graphics
 	static Engine* instance;
-	
+
+
+	GraphicContext* _context;
+	GraphicContext* _contextGL = nullptr;
+	GraphicContext* _contextDX = nullptr;
 	EngineGraphicsType _graphicType = E_DirectX;
 	GraphicType _type = T_2D;
 	float FrameTime();					// calcula o tempo do quadro
@@ -29,12 +33,13 @@ private:
 
 	Engine();							// construtor
 
+	GraphicContext* getContextByType(EngineGraphicsType type);
+
+
 public:
 	static Game		* game;					// aplicação a ser executada
 	static Window	* window;				// janela da aplicação
-	static Input	* input;				// dispositivos de entrada da aplicação
-	static Graphics	* graphics;          // dispositivo gráfico
-	static Renderer	* renderer;          // renderizador de sprites
+	//static Renderer	* renderer;          // renderizador de sprites
 	static float	  frameTime;			// tempo do quadro atual
 
 	static Engine* Instance();
@@ -52,8 +57,8 @@ public:
 	void SetGraphicType(EngineGraphicsType value);
 	void SetType(GraphicType value);
 
+	GraphicContext* context();
 
-	Engine* & GetInstance();
 
 
 	int Start(Game* level);		// inicia o execução da aplicação
@@ -76,14 +81,16 @@ inline void Engine::EnableGraphics()
 {	onGraphics = true;}
 
 inline EngineGraphicsType Engine::graphicType() const{ return this->_graphicType; }
-inline GraphicType Engine::engineType() const { return Engine::graphics->type(); }
+inline GraphicType Engine::engineType() const { return _context->graphics()->type(); }
 
-inline void Engine::SetGraphicType(EngineGraphicsType value) { this->_graphicType = value; }
-inline void Engine::SetType(GraphicType value) { Engine::graphics->SetType(value); }
+
+inline void Engine::SetType(GraphicType value) { _context->graphics()->SetType(value); }
 
 //fps
 inline void Engine::SetGraphicsFPS(FPSType fps) 
-{this->graphics->SetFPS(fps);}
+{_context->graphics()->SetFPS(fps);}
+
 inline FPSType Engine::GraphicsFPS() const 
-{return graphics->FPS();}
+{return _context->graphics()->FPS();}
+
 #endif

@@ -764,7 +764,7 @@ void Renderer::EndPixels()
 // ---------------------------------------------------------------------------------
 
 
-bool Renderer::Initialize(Window* window, Graphics* graphics)
+bool Renderer::Initialize(Window* window, DXGraphics* graphics)
 {
     this->window = window;
     this->graphics = graphics;

@@ -12,12 +12,12 @@ GLGraphics::~GLGraphics() {}
 
 bool GLGraphics::Initialize() {
     // Inicialização do GLEW para carregar as funções do OpenGL
-    glewExperimental = GL_TRUE;
+    /*glewExperimental = GL_TRUE;
     GLenum glewError = glewInit();
     if (glewError != GLEW_OK) {
         MessageBox(nullptr, reinterpret_cast<LPCSTR>(glewGetErrorString(glewError)), "Erro ao inicializar GLEW", MB_OK);
         return false;
-    }
+    }*/
 
     // Configuração do OpenGL
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Cor de fundo preta
