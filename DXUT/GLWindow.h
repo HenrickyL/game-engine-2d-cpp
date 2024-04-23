@@ -11,11 +11,12 @@
 class GLWindow : public Window {
 private:
     static GLFWwindow* window;// Ponteiro para a janela GLFW
-
+    bool _onUpdate = true;
+    bool _onApply = false;
     //perspective
     static GLdouble _fovy; //angle degree
     static double _aspect; //proporsion
-    static GLdouble _zNear ; 
+    static GLdouble _zNear ;
     static GLdouble _zFar;
 
     // Funções estáticas para manipulação de eventos GLFW
@@ -26,6 +27,9 @@ private:
     void setupWindowCallbacks();
     static void windowSizeCallback(GLFWwindow* window, int width, int height);
 
+    void updateValues();
+    void resetApplyUpdate();
+
 public:
     GLWindow(); // Construtor
     ~GLWindow(); // Destrutor
@@ -34,7 +38,7 @@ public:
     Color GetColor() const override;
     void Icon(const uint icon) override;
     void Cursor(const uint cursor) override;
-    void Title(const std::string title) override;
+    void SetTitle(const std::string title) override;
     void Size(int width, int height) override;
     void Mode(WindowModes mode) override;
     void HideCursor(bool hide) override;
@@ -48,7 +52,7 @@ public:
     void Clear() override;
     bool Create() override;
     void SwapBuffers() const;
-    void PollEvents() const override;
+    void PollEvents() override;
 
 
     //// tratamento de eventos do Windows

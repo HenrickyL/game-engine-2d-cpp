@@ -43,7 +43,7 @@ public:
     virtual Color GetColor() const = 0;
     virtual void Icon(const uint icon) = 0;
     virtual void Cursor(const uint cursor) = 0;
-    virtual void Title(const std::string title) = 0;
+    virtual void SetTitle(const std::string title) = 0;
     virtual void Size(int width, int height) = 0;
     virtual void Mode(WindowModes mode) = 0;
     virtual void SetColor(Color color);
@@ -58,7 +58,7 @@ public:
     virtual void LostFocus(void(*func)()) = 0;
 
     virtual void isResizeable(bool value);
-    virtual void PollEvents() const = 0;
+    virtual void PollEvents() = 0;
 };
 
 inline  HWND Window::Id() const { return 0; }

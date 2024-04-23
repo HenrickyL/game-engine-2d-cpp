@@ -59,7 +59,7 @@ void Timer::Stop()
 
 // ------------------------------------------------------------------------------
 
-float Timer::Reset()
+double Timer::Reset()
 {
 	llong elapsed;
 
@@ -87,12 +87,12 @@ float Timer::Reset()
 	}
 
 	// converte tempo para segundos
-	return float(elapsed / double(freq.QuadPart));
+	return double(elapsed) / double(freq.QuadPart);
 }
 
 // ------------------------------------------------------------------------------
 
-float Timer::Elapsed()
+double Timer::ElapsedInSeconds()
 {
 	llong elapsed;
 
@@ -111,6 +111,10 @@ float Timer::Elapsed()
 	}
 
 	// converte tempo para segundos
-	return float(elapsed / double(freq.QuadPart));
+	return double(elapsed) / double(freq.QuadPart);
+}
+
+double Timer::Elapsed() {
+	return this->ElapsedInSeconds() * 1000;
 }
 // -------------------------------------------------------------------------------

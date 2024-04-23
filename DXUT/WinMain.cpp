@@ -25,7 +25,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->Mode(WINDOWED);
 		engine->window->Size(800, 600);
 		engine->window->SetColor(Color(0.0, 0.15, 0.35));
-		engine->window->Title("My Game");
+		engine->window->SetTitle("My Game");
 		engine->window->Icon(IDI_ICON);
 		//engine->window->Cursor(IDC_CURSOR);	
 		engine->SetGraphicsFPS(FPS_MONITOR);

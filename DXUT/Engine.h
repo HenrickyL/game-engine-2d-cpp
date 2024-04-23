@@ -15,6 +15,12 @@ enum EngineGraphicsType {
 	E_OpenGL
 };
 
+enum EngineFrameRateType {
+	CONSTANT,
+	VSYNC,
+	VARIABLE
+};
+
 class Engine{ //singleton
 private:
 	static Timer timer;                 // medidor de tempo
@@ -26,21 +32,28 @@ private:
 	GraphicContext* _context;
 	GraphicContext* _contextGL = nullptr;
 	GraphicContext* _contextDX = nullptr;
+
 	EngineGraphicsType _graphicType = E_OpenGL;
 	GraphicType _type = T_2D;
+	EngineFrameRateType _frameRateType = VARIABLE;
+	int _frameRateConstant = 60;
+	double _frameRate = 0;
+
+
 	float FrameTime();					// calcula o tempo do quadro
 	int Loop();							// laço principal do motor
 
 	Engine();							// construtor
 
 	GraphicContext* getContextByType(EngineGraphicsType type);
+	bool CheckTimeToSync();
 
 
 public:
 	static Game		* game;					// aplicação a ser executada
 	static Window	* window;				// janela da aplicação
 	//static Renderer	* renderer;          // renderizador de sprites
-	static float	  frameTime;			// tempo do quadro atual
+	static float	  _frameTime;			// tempo do quadro atual
 
 	static Engine* Instance();
 	~Engine();							// destrutor
@@ -56,6 +69,12 @@ public:
 
 	void SetGraphicType(EngineGraphicsType value);
 	void SetType(GraphicType value);
+
+	void SetFrameRateType(EngineFrameRateType type);
+	EngineFrameRateType frameRateType() const;
+
+	void SetFrameRate(ushort value);
+	int frameRate() const;
 
 	GraphicContext* context();
 
@@ -92,5 +111,7 @@ inline void Engine::SetGraphicsFPS(FPSType fps)
 
 inline FPSType Engine::GraphicsFPS() const 
 {return _context->graphics()->FPS();}
+
+inline EngineFrameRateType Engine::frameRateType() const { return this->_frameRateType; }
 
 #endif

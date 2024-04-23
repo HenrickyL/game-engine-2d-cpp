@@ -12,7 +12,7 @@
 WinApp::WinApp()
 {
     window->Size(640, 640);
-    window->Title("Galaga");
+    window->SetTitle("Galaga");
 }
 
 void WinApp::Init()

@@ -24,6 +24,8 @@ protected:
     static double _zNear;
     static double _zFar;
 
+    bool _onVSync = false;
+
     GraphicType _type = T_3D;
 
 public:

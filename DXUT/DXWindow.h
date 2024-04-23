@@ -51,7 +51,7 @@ public:
 
     void Icon(const uint icon) override;                              // define o ícone da janela
     void Cursor(const uint cursor) override;                          // define o cursor da janela
-    void Title(const std::string title) override;                     // define o título da janela 
+    void SetTitle(const std::string title) override;                     // define o título da janela 
     void Size(int width, int height) override;                        // define o tamanho (largura e altura) da janela
     void Mode(WindowModes mode) override;                                    // define o modo da janela (FULLSCREEN/WINDOWED)
     void SetColor(Color color) override;                         // define a cor de fundo da janela
@@ -65,7 +65,7 @@ public:
     void InFocus(void(*func)()) override;                             // altera função executada ao ganhar foco
     void LostFocus(void(*func)()) override;                           // altera função executada na perda de foco
     bool ShouldClose() const override;
-    void PollEvents() const override;
+    void PollEvents() override;
 
 
     // tratamento de eventos do Windows
@@ -136,7 +136,7 @@ inline void DXWindow::Cursor(const uint cursor)
 }
 
 // define o título da janela 
-inline void DXWindow::Title(const string title)
+inline void DXWindow::SetTitle(const string title)
 {
     windowTitle = title;
 }
@@ -183,6 +183,6 @@ inline void DXWindow::LostFocus(void(*func)())
     lostFocus = func;
 }
 
-inline void DXWindow::PollEvents() const {};
+inline void DXWindow::PollEvents() {};
 // ---------------------------------------------------------------------------------
 #endif

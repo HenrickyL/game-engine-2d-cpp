@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <sstream>
+#include <thread>
+
 #include "Error.h"
 
 #include "DXWindow.h"
@@ -20,7 +22,7 @@ using std::stringstream;
 Game*		Engine::game		= nullptr;			// apontadador da aplicação
 Window*		Engine::window		= nullptr;			// janela da aplicação
 Engine*		Engine::instance	= nullptr;			// dispositivo gráfico
-float		Engine::frameTime	= 0.0f;				// tempo do quadro atual
+float		Engine::_frameTime	= 0.0f;				// tempo do quadro atual
 bool		Engine::paused		= false;			// estado do motor
 bool		Engine::onGraphics	= true;				// estado do motor
 //Renderer*	Engine::renderer	= nullptr;     // renderizador de sprites 
@@ -160,9 +162,9 @@ int Engine::Loop()
 		}
 
 		// -----------------------------------------------
-    	if (!paused) {
+    	if (!paused && CheckTimeToSync()) {
 			// calcula o tempo do quadro
-			frameTime = FrameTime();
+			_frameTime = FrameTime();
 
 			// atualização da aplicação 
 			game->Update();
@@ -181,7 +183,7 @@ int Engine::Loop()
 				graphics->Present();
 			}
 			else {
-				game->Draw();
+					game->Draw();
 			}
 		}
 		else {
@@ -216,12 +218,12 @@ float Engine::FrameTime()
 #endif
 
 	// tempo do frame atual
-	frameTime = timer.Reset();
+	_frameTime = timer.Reset();
 
 #ifdef _DEBUG
 	// ----- START DEBUG ----------
 	// tempo acumulado dos frames
-	totalTime += frameTime;
+	totalTime += _frameTime;
 
 	// incrementa contador de frames
 	frameCount++;
@@ -235,7 +237,7 @@ float Engine::FrameTime()
 
 		text << window->Title().c_str() << "    "
 			<< "FPS: " << frameCount << "    "
-			<< "Frame Time: " << frameTime * 1000 << " (ms)";
+			<< "Frame Time: " << _frameTime * 1000 << " (ms)";
 
 		SetWindowText(window->Id(), text.str().c_str());
 
@@ -245,8 +247,45 @@ float Engine::FrameTime()
 	// ------ END DEBUG -----------
 #endif
 
-	return frameTime;
+	return _frameTime;
 }
+
+
+bool Engine::CheckTimeToSync() {
+	if (_frameRateType == CONSTANT) {
+		_frameTime = 1000.0 / _frameRateConstant;
+		double timeNow = timer.Elapsed();//ms
+		double timeToSync = _frameTime - timeNow;
+
+		if (timeToSync > 2) { // Se o tempo restante for maior que 2ms, use Sleep
+			std::this_thread::sleep_for(std::chrono::milliseconds(int(timeToSync)));
+		}
+		// Agora use um loop de espera ativa para o tempo restante
+		while (timer.Elapsed() < _frameTime) {
+			// Espera ativa
+		}
+		return true;
+	}
+	else {
+		return true;
+	}
+}
+
+
+void Engine::SetFrameRateType(EngineFrameRateType type) {
+	_context->graphics()->VSync(type == VSYNC);
+	_frameRateType = type;
+}
+
+void Engine::SetFrameRate(ushort value) {
+	_frameRateConstant = value;
+	_frameRate = 1000 / _frameRateConstant;
+
+}
+int Engine::frameRate() const{
+	return _frameRateType == CONSTANT ? _frameRateConstant : 1 / _frameTime;
+}
+
 
 // -------------------------------------------------------------------------------
 

@@ -11,7 +11,7 @@ Scene* ShortPathProblem::scene = nullptr;
 ShortPathProblem::ShortPathProblem()
 {
     window->Size(800, 500);
-    window->Title("ShortPathProblem");
+    window->SetTitle("ShortPathProblem");
 }
 
 void ShortPathProblem::Init()

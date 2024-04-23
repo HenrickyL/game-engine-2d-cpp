@@ -99,7 +99,7 @@ void MyGame::Init() {
 	Rect selected = r;
 	r.RotationZ(1);
 	
-	float delta = 0.1;
+	float delta = Engine::_frameTime;
 
 	Point p;
 	p.setSize(1);
@@ -133,11 +133,11 @@ void MyGame::Update(){
 	}
 
 	if (Input::KeyDown(KEY_A)) {
-		globalRotation -= 5;
+		globalRotation -= 1;
 	}
 
 	if (Input::KeyDown(KEY_D)) {
-		globalRotation += 5;
+		globalRotation += 1;
 	}
 
 	if (Input::KeyDown(LEFT)) {

@@ -8,7 +8,7 @@ Window*		&Game::window = Engine::window;		// ponteiro para a janela
 Timer		Game::timer;                      // medidor de tempo
 
 
-float& Game::gameTime = Engine::frameTime;		// tempo do último quadro
+float& Game::gameTime = Engine::_frameTime;		// tempo do último quadro
 
 // -------------------------------------------------------------------------------
 Game::Game()

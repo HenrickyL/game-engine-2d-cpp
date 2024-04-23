@@ -16,17 +16,19 @@ public:
 
 	void  Start();				// inicia/retoma contagem do tempo
 	void  Stop();				// para contagem do tempo
-	float Reset();				// reinicia contagem e retorna tempo transcorrido
-	float Elapsed();			// retorna tempo transcorrido em segundos	
-	bool  Elapsed(float secs);	// verifica se transcorreu "secs" segundos
+	double Reset();				// reinicia contagem e retorna tempo transcorrido
+	double ElapsedInSeconds();			// retorna tempo transcorrido em segundos	
+	double Elapsed();			// retorna tempo transcorrido em ms
+
+	bool  Elapsed(double secs);	// verifica se transcorreu "secs" segundos
 };
 // -------------------------------------------------------------------------------
 
 // Funções Inline
 
-inline bool Timer::Elapsed(float secs)
+inline bool Timer::Elapsed(double secs)
 {
-	return (Elapsed() >= secs ? true : false);
+	return (ElapsedInSeconds() >= secs ? true : false);
 }
 
 // -

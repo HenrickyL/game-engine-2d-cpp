@@ -31,11 +31,13 @@ bool GLGraphics::Initialize() {
         set2DRenderContext();
     }
 
+    VSync(_onVSync);
     return true; // Inicialização bem-sucedida
 }
 
 void GLGraphics::VSync(bool state) {
-    if (state) {
+    _onVSync = state;
+    if (_onVSync) {
         glfwSwapInterval(1); // Ativa o VSync
     }
     else {

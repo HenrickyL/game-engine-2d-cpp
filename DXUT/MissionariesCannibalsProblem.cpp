@@ -10,7 +10,7 @@ MissionariesCannibalsProblem::MissionariesCannibalsProblem()
 {
     window->Size(800, 500); 
     _name = "MissionariesCannibalsProblem";
-    window->Title(_name);
+    window->SetTitle(_name);
     this->InstanceAgent();
     
     if (MissionariesCannibalsProblem::scene == nullptr) {

@@ -64,8 +64,10 @@ void GLWindow::Cursor(const uint cursor) {
     // Implemente lógica para definir o cursor da janela com GLFW
 }
 
-void GLWindow::Title(const std::string title) {
-    glfwSetWindowTitle(window, title.c_str());
+void GLWindow::SetTitle(const std::string title) {
+    this->_title = title;
+    glfwSetWindowTitle(window, this->_title.c_str());
+    resetApplyUpdate();
 }
 
 void GLWindow::Size(int width, int height) {
@@ -155,8 +157,9 @@ bool GLWindow::ShouldClose() const {
 void GLWindow::SwapBuffers() const {
     glfwSwapBuffers(GLWindow::window);
 }
- void GLWindow::PollEvents() const {
+ void GLWindow::PollEvents() {
     glfwPollEvents();
+    updateValues();
 }
 
 void GLWindow::isResizeable(bool value) {
@@ -165,6 +168,19 @@ void GLWindow::isResizeable(bool value) {
     glfwWindowHint(GLFW_RESIZABLE, _allowResize ? GLFW_TRUE : GLFW_FALSE);
 }
 
+
+void GLWindow::updateValues() {
+    if (_onUpdate && !_onApply) {
+        SetTitle(this->_title);
+        _onUpdate = false;
+        _onApply = true;
+    }
+}
+
+void GLWindow::resetApplyUpdate() {
+    _onApply = false;
+    _onUpdate = true;
+}
 
 
 
