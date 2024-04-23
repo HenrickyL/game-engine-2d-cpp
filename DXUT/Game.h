@@ -32,7 +32,7 @@ public:
 		// implementados em todas as classes derivas de App.
 
 	virtual void Init() = 0;                    // inicialização do jogo
-	virtual void Update() = 0;                  // atualização do jogo
+	virtual void Update(double frameTime) = 0;  // atualização do jogo
 	virtual void Draw() = 0;                    // desenho da cena
 	virtual void Finalize() = 0;                // finalização do jogo
 

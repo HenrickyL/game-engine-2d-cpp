@@ -99,8 +99,6 @@ void MyGame::Init() {
 	Rect selected = r;
 	r.RotationZ(1);
 	
-	float delta = Engine::_frameTime;
-
 	Point p;
 	p.setSize(1);
 
@@ -125,7 +123,7 @@ void MyGame::Init() {
 	object = cam;
 
 }
-void MyGame::Update(){
+void MyGame::Update(double frameTime){
 
 
 	if (Input::KeyPress(KEY_G)) {
@@ -133,26 +131,26 @@ void MyGame::Update(){
 	}
 
 	if (Input::KeyDown(KEY_A)) {
-		globalRotation -= 1;
+		globalRotation -= frameTime*10;
 	}
 
 	if (Input::KeyDown(KEY_D)) {
-		globalRotation += 1;
+		globalRotation += frameTime * 10;
 	}
 
 	if (Input::KeyDown(LEFT)) {
-		object->TranslateTo(Vector::Left * delta);
+		object->TranslateTo(Vector::Left * frameTime);
 	}
 	if (Input::KeyDown(RIGHT) ) {
-		object->TranslateTo(Vector::Right * delta);
+		object->TranslateTo(Vector::Right * frameTime);
 
 	}
 	if (Input::KeyDown(UP) ) {
-		object->TranslateTo(Vector::Backward * delta);
+		object->TranslateTo(Vector::Backward * frameTime);
 
 	}
 	if (Input::KeyDown(DOWN)) {
-		object->TranslateTo(Vector::Forward * delta);
+		object->TranslateTo(Vector::Forward * frameTime);
 	}
 
 	if (Input::OnDrag() ) {
@@ -164,14 +162,14 @@ void MyGame::Update(){
 
 		Vector d = Position::Zero - current;
 		if (d.Magnitude() != 0)
-			cam->TranslateLookAt(d.Unit() * delta);
+			cam->TranslateLookAt(d.Unit() * frameTime);
 	}
 
 
 	if (Input::OnWheel()) {
 		int dir = Input::MouseWheelDirection();
 		if (dir != 0)
-			object->TranslateTo((dir > 0 ? Vector::Up : Vector::Down) * delta);
+			object->TranslateTo((dir > 0 ? Vector::Up : Vector::Down) * frameTime);
 	}
 
 
@@ -185,6 +183,8 @@ void MyGame::Update(){
 
 	glLoadIdentity();
 	cam->Update();
+	/*int count = 0;
+	while (count < 8000000) { count++; }*/
 
 
 	glTranslatef(0, 0, 0);

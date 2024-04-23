@@ -26,7 +26,6 @@ private:
 	GLCamera* cam;
 	string s = "";
 	float globalRotation = 0;
-	float delta = 0.1;
 	std::vector<void (*)(Obj)> functionVector;
 	int index = 0;
 	Movable* object;
@@ -35,7 +34,7 @@ private:
 
 public:
 	void Init() override;
-	void Update() override;
+	void Update(double frameTime) override;
 	void Draw() override;
 	void Finalize() override;
 };

@@ -46,7 +46,7 @@ private:
 	Engine();							// construtor
 
 	GraphicContext* getContextByType(EngineGraphicsType type);
-	bool CheckTimeToSync();
+	double CheckFrameSync();
 
 
 public:

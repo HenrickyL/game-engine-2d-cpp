@@ -162,12 +162,12 @@ int Engine::Loop()
 		}
 
 		// -----------------------------------------------
-    	if (!paused && CheckTimeToSync()) {
+    	if (!paused) {
 			// calcula o tempo do quadro
 			_frameTime = FrameTime();
 
 			// atualização da aplicação 
-			game->Update();
+			game->Update(_frameTime);
 
 			if (onGraphics) {
 				// limpa a tela para o próximo quadro
@@ -218,9 +218,10 @@ float Engine::FrameTime()
 #endif
 
 	// tempo do frame atual
-	_frameTime = timer.Reset();
+	_frameTime = CheckFrameSync();
 
 #ifdef _DEBUG
+	static string oldTitle = window->Title().c_str();
 	// ----- START DEBUG ----------
 	// tempo acumulado dos frames
 	totalTime += _frameTime;
@@ -234,12 +235,12 @@ float Engine::FrameTime()
 		stringstream text;			// fluxo de texto para mensagens
 		text << std::fixed;			// sempre mostra a parte fracionária
 		text.precision(3);			// três casas depois da vírgula
-
-		text << window->Title().c_str() << "    "
+		text << oldTitle << "   "
 			<< "FPS: " << frameCount << "    "
-			<< "Frame Time: " << _frameTime * 1000 << " (ms)";
+			<< "Frame Time: " << _frameTime*1000 << " (ms)";
 
 		SetWindowText(window->Id(), text.str().c_str());
+		_context->window()->SetTitle(text.str());
 
 		frameCount = 0;
 		totalTime -= 1.0f;
@@ -250,26 +251,32 @@ float Engine::FrameTime()
 	return _frameTime;
 }
 
+double _busyWait(double frameRateConstant, Timer& timer) {
+	double frameTime = 1.0 / frameRateConstant;
+	double timeNow = timer.ElapsedInSeconds();//ms
+	double timeToSync = frameTime - timeNow;
 
-bool Engine::CheckTimeToSync() {
+	if (timeToSync > 0.002) { // Se o tempo restante for maior que 2ms, use Sleep
+		std::this_thread::sleep_for(std::chrono::seconds(int(timeToSync)));
+	}
+	// Agora use um loop de espera ativa para o tempo restante
+	while (timer.ElapsedInSeconds() < frameTime) {
+		// Espera ativa
+	}
+
+	return frameTime;
+}
+
+double Engine::CheckFrameSync() {
 	if (_frameRateType == CONSTANT) {
-		_frameTime = 1000.0 / _frameRateConstant;
-		double timeNow = timer.Elapsed();//ms
-		double timeToSync = _frameTime - timeNow;
-
-		if (timeToSync > 2) { // Se o tempo restante for maior que 2ms, use Sleep
-			std::this_thread::sleep_for(std::chrono::milliseconds(int(timeToSync)));
-		}
-		// Agora use um loop de espera ativa para o tempo restante
-		while (timer.Elapsed() < _frameTime) {
-			// Espera ativa
-		}
-		return true;
+		return _busyWait(_frameRateConstant, timer);
 	}
 	else {
-		return true;
+		return _busyWait(300, timer);//or timer.Reset()
 	}
 }
+
+
 
 
 void Engine::SetFrameRateType(EngineFrameRateType type) {
