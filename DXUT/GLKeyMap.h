@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 #include "InputKeys.h"
-#include <GLFW/glfw3.h>
+#include "GLIncludes.h"
 
 std::unordered_map<int, InputKeys> GLKeyMap = { // Definição
     {GLFW_KEY_SPACE, SPACE},

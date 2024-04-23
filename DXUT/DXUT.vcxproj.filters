@@ -465,6 +465,9 @@
     <ClInclude Include="MyGame.h">
       <Filter>Develop\Games\TestOpenGL_DX\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GLIncludes.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">

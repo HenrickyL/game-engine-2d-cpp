@@ -4,8 +4,7 @@
 
 
 #include "Window.h"
-#include <GLFW/glfw3.h>
-#include <gl/GLU.h>
+#include "GLIncludes.h"
 
 
 class GLWindow : public Window {

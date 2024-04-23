@@ -2,10 +2,8 @@
 #ifndef UT_GLGRAPHICS_H
 #define UT_GLGRAPHICS_H
 
-#include "Graphics.h"
-//#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "GLWindow.h"
+#include "Graphics.h"
 
 class GLGraphics : public Graphics {
 private:

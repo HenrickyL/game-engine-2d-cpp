@@ -2,7 +2,7 @@
 #define DX_UT_GL_DRAW_GEOMETRY
 
 #include "DrawGeometry.h"
-#include <GLFW/glfw3.h>
+#include "GLIncludes.h"
 
 class GLDrawGeometry : public DrawGeometry {
 private:

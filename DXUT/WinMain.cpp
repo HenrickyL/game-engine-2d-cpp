@@ -7,7 +7,6 @@
 #include "GLCamera.h"
 #include <sstream>
 #include <vector>
-#include <GLFW/glfw3.h>
 #include <math.h>
 using std::stringstream;
 
@@ -29,13 +28,13 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->Icon(IDI_ICON);
 		//engine->window->Cursor(IDC_CURSOR);	
 		engine->SetGraphicsFPS(FPS_MONITOR);
-		// aplicação pausa/resume ao perder/ganhar o foco
+		// aplicaï¿½ï¿½o pausa/resume ao perder/ganhar o foco
 		engine->window->LostFocus(Engine::Pause);
 		engine->window->InFocus(Engine::Resume);
-		// cria e executa a aplicação
+		// cria e executa a aplicaï¿½ï¿½o
 		int exitCode = engine->Start(new MyGame());
 
-		// finaliza execução
+		// finaliza execuï¿½ï¿½o
 		delete engine;
 		return exitCode;
 	}
