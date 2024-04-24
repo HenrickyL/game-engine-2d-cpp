@@ -144,13 +144,13 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
-    <ClCompile Include="DXDrawGeometry.cpp" />
+    <ClCompile Include="DXRenderer.cpp" />
     <ClCompile Include="DXGraphics.cpp" />
     <ClCompile Include="DXWindow.cpp" />
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="GLCamera.cpp" />
-    <ClCompile Include="GLDrawGeometry.cpp" />
+    <ClCompile Include="GLRenderer.cpp" />
     <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="GLInput.cpp" />
     <ClCompile Include="GLWindow.cpp" />
@@ -191,8 +191,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Dictionary.h" />
-    <ClInclude Include="DrawGeometry.h" />
-    <ClInclude Include="DXDrawGeometry.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="DXRenderer.h" />
     <ClInclude Include="DXGraphics.h" />
     <ClInclude Include="DXInput.h" />
     <ClInclude Include="DXKeyMap.h" />
@@ -205,7 +205,7 @@
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="GLCamera.h" />
-    <ClInclude Include="GLDrawGeometry.h" />
+    <ClInclude Include="GLRenderer.h" />
     <ClInclude Include="GLGraphics.h" />
     <ClInclude Include="GLIncludes.h" />
     <ClInclude Include="GLInput.h" />

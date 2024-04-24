@@ -4,8 +4,10 @@
 
 #include "Game.h"
 #include "Geometry.h"
-#include "GLDrawGeometry.h"
+#include "GLRenderer.h"
 #include "GLCamera.h"
+#include "Scene.h"
+
 #include <string.h>
 #include <sstream>
 
@@ -22,7 +24,7 @@ class MyGame : public Game {
 private:
 	Geometry* obj;
 	Rect* rect;
-	GLDrawGeometry drawner;
+	GLRenderer drawner;
 	GLCamera* cam;
 	string s = "";
 	float globalRotation = 0;

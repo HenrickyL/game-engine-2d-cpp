@@ -1,4 +1,4 @@
-#include "DXDrawGeometry.h"
+#include "DXRenderer.h"
 
 #include <algorithm>
 #include <d3dcompiler.h>
@@ -18,7 +18,7 @@ ulong ColorToUlong(const Color& color)
 }
 // ---------------------------------------------------------------------------------
 
-DXDrawGeometry::DXDrawGeometry()
+DXRenderer::DXRenderer()
 {
     _window = nullptr;
     _graphics = nullptr;
@@ -45,7 +45,7 @@ DXDrawGeometry::DXDrawGeometry()
 
 // ---------------------------------------------------------------------------------
 
-DXDrawGeometry::~DXDrawGeometry()
+DXRenderer::~DXRenderer()
 {
     // ----------------------------------------
     // Pixel Ploting
@@ -116,7 +116,7 @@ DXDrawGeometry::~DXDrawGeometry()
     }
 }
 
-void DXDrawGeometry::BeginPixels()
+void DXRenderer::BeginPixels()
 {
     // trava a textura para plotagem de pixels
     D3D11_MAPPED_SUBRESOURCE mappedTex;
@@ -142,7 +142,7 @@ void DXDrawGeometry::BeginPixels()
 
 // -----------------------------------------------------------------------------
 
-void DXDrawGeometry::Draw(const Geometry& geometry)
+void DXRenderer::Draw(const Geometry& geometry)
 {
     if (const Rect* rect = dynamic_cast<const Rect*>(&geometry)) {
         this->DrawRect(*rect);
@@ -163,7 +163,7 @@ void DXDrawGeometry::Draw(const Geometry& geometry)
 
 // -----------------------------------------------------------------------------
 
-void DXDrawGeometry::DrawPoint(const Point& point) const
+void DXRenderer::DrawPoint(const Point& point) const
 {
     if (point.x() >= 0 && point.x() < _window->Width())
         if (point.y() >= 0 && point.y() < _window->Height())
@@ -172,7 +172,7 @@ void DXDrawGeometry::DrawPoint(const Point& point) const
 
 // -----------------------------------------------------------------------------
 
-void DXDrawGeometry::DrawLine(const Line& line) const
+void DXRenderer::DrawLine(const Line& line) const
 {
     int x1 = int(line.A().x());
     int y1 = int(line.A().y());
@@ -186,7 +186,7 @@ void DXDrawGeometry::DrawLine(const Line& line) const
 
 // -----------------------------------------------------------------------------
 
-int DXDrawGeometry::ClipLine(int& x1, int& y1, int& x2, int& y2) const
+int DXRenderer::ClipLine(int& x1, int& y1, int& x2, int& y2) const
 {
 
     // Clipping Line Algorithm 
@@ -455,7 +455,7 @@ int DXDrawGeometry::ClipLine(int& x1, int& y1, int& x2, int& y2) const
 
 // -----------------------------------------------------------------------------
 
-void DXDrawGeometry::DrawLine(int a1, int b1, int a2, int b2, Color color) const
+void DXRenderer::DrawLine(int a1, int b1, int a2, int b2, Color color) const
 {
     // Symmetric Double Step Line Algorithm by Xialon Wu
     // It's 3 to 4 times faster than the standard Bressenham's algorithm
@@ -654,7 +654,7 @@ void DXDrawGeometry::DrawLine(int a1, int b1, int a2, int b2, Color color) const
 
 // -----------------------------------------------------------------------------
 
-void DXDrawGeometry::DrawRect(const Rect& rect) const
+void DXRenderer::DrawRect(const Rect& rect) const
 {
     Line top(rect.Left(), rect.Top(), rect.Right(), rect.Top());
     Line left(rect.Left(), rect.Top() + 1, rect.Left(), rect.Bottom());
@@ -669,7 +669,7 @@ void DXDrawGeometry::DrawRect(const Rect& rect) const
 
 // -----------------------------------------------------------------------------
 
-void DXDrawGeometry::DrawCircle(const Circle& circ) const
+void DXRenderer::DrawCircle(const Circle& circ) const
 {
     // Bresenham's circle algorithm
 
@@ -715,7 +715,7 @@ void DXDrawGeometry::DrawCircle(const Circle& circ) const
 
 // -----------------------------------------------------------------------------
 
-void DXDrawGeometry::DrawPolygon(const Poly& pol) const
+void DXRenderer::DrawPolygon(const Poly& pol) const
 {
     //// this function draws a Poly
     //float x1, y1, x2, y2;
@@ -758,7 +758,7 @@ void DXDrawGeometry::DrawPolygon(const Poly& pol) const
 
 // -----------------------------------------------------------------------------
 
-void DXDrawGeometry::EndPixels()
+void DXRenderer::EndPixels()
 {
     // destrava a textura de plotagem de pixels
     _graphics->context->Unmap(pixelPlotTexture, 0);
@@ -770,7 +770,7 @@ void DXDrawGeometry::EndPixels()
 // ---------------------------------------------------------------------------------
 
 
-bool DXDrawGeometry::Initialize(Window* window, Graphics* graphics)
+bool DXRenderer::Initialize(Window* window, Graphics* graphics)
 {
 
 
@@ -995,7 +995,7 @@ bool DXDrawGeometry::Initialize(Window* window, Graphics* graphics)
 
 // ---------------------------------------------------------------------------------
 
-void DXDrawGeometry::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprites, uint cont)
+void DXRenderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprites, uint cont)
 {
     // desenhe usando a seguinte textura
     _graphics->context->PSSetShaderResources(0, 1, &texture);
@@ -1172,7 +1172,7 @@ void DXDrawGeometry::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData**
 
 // ---------------------------------------------------------------------------------
 
-void DXDrawGeometry::Render()
+void DXRenderer::Render()
 {
     // ordena sprites por profundidade:
     // necessário para o correto funcionamento 
@@ -1220,7 +1220,7 @@ void DXDrawGeometry::Render()
 
 // ---------------------------------------------------------------------------------
 
-void DXDrawGeometry::Draw(SpriteData& sprite)
+void DXRenderer::Draw(SpriteData& sprite)
 {
     ///TODO: verificar se vale  'const SpriteData& sprite'
     spriteVector.push_back(&sprite);
@@ -1228,13 +1228,13 @@ void DXDrawGeometry::Draw(SpriteData& sprite)
 
 
 // plota pixels sem fazer recorte (clipping)
-void DXDrawGeometry::PlotPixel(int x, int y, Color color) const
+void DXRenderer::PlotPixel(int x, int y, Color color) const
 {
     videoMemory[x + y * videoMemoryPitch] = ColorToUlong(color);
 }
 
 // plota pixels para o método de desenho de linhas
-void DXDrawGeometry::PlotLine(int x, int y, int flag, Color color) const
+void DXRenderer::PlotLine(int x, int y, int flag, Color color) const
 {
     flag ? PlotPixel(y, x, color) : PlotPixel(x, y, color);
 }

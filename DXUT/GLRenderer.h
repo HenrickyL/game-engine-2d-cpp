@@ -1,10 +1,10 @@
-#ifndef DX_UT_GL_DRAW_GEOMETRY
-#define DX_UT_GL_DRAW_GEOMETRY
+#ifndef DX_UT_GL_RENDERER
+#define DX_UT_GL_RENDERER
 
-#include "DrawGeometry.h"
+#include "Renderer.h"
 #include "GLIncludes.h"
 
-class GLDrawGeometry : public DrawGeometry {
+class GLRenderer : public Renderer {
 private:
 	void DrawRect(const Rect& rect) const override;
 	void DrawPoint(const Point& point)const override;

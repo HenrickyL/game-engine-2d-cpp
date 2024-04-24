@@ -1,5 +1,5 @@
-#ifndef DX_UT_DRAW_GEOMETRY
-#define DX_UT_DRAW_GEOMETRY
+#ifndef DX_UT_RENDERER
+#define DX_UT_RENDERER
 
 #include "Geometry.h"
 #include "Window.h"
@@ -14,7 +14,7 @@ enum FillModeEnum
 	SOLID = 3
 };
 
-class DrawGeometry {
+class Renderer {
 protected:
 	FillModeEnum    _fillMode = SOLID;
 	vector<SpriteData*> spriteVector;
@@ -36,7 +36,7 @@ public:
 	void SetFillMode(const FillModeEnum value);
 };
 
-inline void DrawGeometry::SetFillMode(const FillModeEnum mode)
+inline void Renderer::SetFillMode(const FillModeEnum mode)
 {_fillMode = mode;}
 
 #endif

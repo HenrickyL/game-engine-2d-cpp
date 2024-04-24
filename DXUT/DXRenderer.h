@@ -1,7 +1,7 @@
-#ifndef UT_DX_DRAW_GEOMETRY_H
-#define UT_DX_DRAW_GEOMETRY_H
+#ifndef UT_DX_RENDERER_H
+#define UT_DX_RENDERER_H
 
-#include "DrawGeometry.h"
+#include "Renderer.h"
 #include "DXWindow.h"
 #include "DXGraphics.h"
 #include <DirectXMath.h>  // lib matemática do DirectX
@@ -18,10 +18,10 @@ struct Vertex
 };
 
 
-class DXDrawGeometry : public DrawGeometry {
+class DXRenderer : public Renderer {
 public:
-    DXDrawGeometry();
-    ~DXDrawGeometry();
+    DXRenderer();
+    ~DXRenderer();
 	void Draw(const Geometry& g) override;
 
     bool Initialize(Window* window, Graphics* graphics) override;

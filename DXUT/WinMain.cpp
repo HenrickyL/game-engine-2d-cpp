@@ -1,13 +1,6 @@
 #include "DXUT.h"
 #include "MyGame.h"
-#include "DXWindow.h"
-#include "GLWindow.h"
-#include "Geometry.h"
-#include "GLDrawGeometry.h"
-#include "GLCamera.h"
 #include <sstream>
-#include <vector>
-#include <math.h>
 using std::stringstream;
 
 // ------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
-#include "GLDrawGeometry.h"
+#include "GLRenderer.h"
 #include <iostream>
 
-void GLDrawGeometry::DrawRect(const Rect& rect) const {
+void GLRenderer::DrawRect(const Rect& rect) const {
     glBegin(GL_QUADS);
         glVertex3f(rect.Left(), rect.Top(), 0.0f); 
         glVertex3f(rect.Right(), rect.Top(), 0.0f);
@@ -10,7 +10,7 @@ void GLDrawGeometry::DrawRect(const Rect& rect) const {
     glEnd();
 }
 
-void GLDrawGeometry::DrawPoint(const Point& point)const {
+void GLRenderer::DrawPoint(const Point& point)const {
     glPointSize(point.Size());
     glBegin(GL_POINTS);
         glVertex3f(0,0,0);
@@ -18,7 +18,7 @@ void GLDrawGeometry::DrawPoint(const Point& point)const {
 
 }
 
-void GLDrawGeometry::DrawLine(const Line& line)const {
+void GLRenderer::DrawLine(const Line& line)const {
     glLineWidth(line.Stroke());
     Point a = line.A();
     Point b = line.B();
@@ -34,7 +34,7 @@ void GLDrawGeometry::DrawLine(const Line& line)const {
 }
 
 
-void GLDrawGeometry::DrawCircle(const Circle& circle)const {
+void GLRenderer::DrawCircle(const Circle& circle)const {
     GLfloat x, y, angle;
     float radius = circle.Radius();
     if (circle.isFilled()) {
@@ -64,7 +64,7 @@ void GLDrawGeometry::DrawCircle(const Circle& circle)const {
     }
 }
 
-void GLDrawGeometry::DrawPolygon(const Poly& polygon)const {
+void GLRenderer::DrawPolygon(const Poly& polygon)const {
     if (polygon.isFilled()) {
         glBegin(GL_TRIANGLE_FAN);
         glBegin(GL_LINE_LOOP);
@@ -86,7 +86,7 @@ void GLDrawGeometry::DrawPolygon(const Poly& polygon)const {
 
 
 
-void GLDrawGeometry::Draw(const Geometry& geometry){
+void GLRenderer::Draw(const Geometry& geometry){
     glPushMatrix(); //local
         Color c = geometry.GetColor();
         glColor3f(c.r(), c.g(), c.b());
@@ -114,12 +114,12 @@ void GLDrawGeometry::Draw(const Geometry& geometry){
 }
 
 
-bool GLDrawGeometry::Initialize(Window* window, Graphics* graphics) {
+bool GLRenderer::Initialize(Window* window, Graphics* graphics) {
     return true;
 }
-void GLDrawGeometry::Draw(SpriteData& sprite) {
+void GLRenderer::Draw(SpriteData& sprite) {
 
 }
-void GLDrawGeometry::Render() {
+void GLRenderer::Render() {
 
 }

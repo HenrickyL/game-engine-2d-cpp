@@ -1,7 +1,4 @@
 #include "MyGame.h"
-#include "GLCamera.h"
-#include "GLDrawGeometry.h"
-#include "Scene.h"
 
 #include "Engine.h" 
 
