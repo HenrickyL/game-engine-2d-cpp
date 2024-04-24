@@ -144,6 +144,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
+    <ClCompile Include="DXDrawGeometry.cpp" />
     <ClCompile Include="DXGraphics.cpp" />
     <ClCompile Include="DXWindow.cpp" />
     <ClCompile Include="DXInput.cpp" />
@@ -174,7 +175,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Position.cpp" />
-    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene.h" />
     <ClCompile Include="Sprite.cpp" />
@@ -192,6 +192,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DrawGeometry.h" />
+    <ClInclude Include="DXDrawGeometry.h" />
     <ClInclude Include="DXGraphics.h" />
     <ClInclude Include="DXInput.h" />
     <ClInclude Include="DXKeyMap.h" />
@@ -238,7 +239,6 @@
     <ClInclude Include="Position.h" />
     <ClInclude Include="PriorityQueueSearch.h" />
     <ClInclude Include="QueueSearch.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="SearchMethods.h" />
     <ClInclude Include="SearchStructure.h" />
     <ClInclude Include="Sprite.h" />

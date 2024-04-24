@@ -1,4 +1,6 @@
-#include "Renderer.h"
+#include "DXDrawGeometry.h"
+
+
 #include <algorithm>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
@@ -6,7 +8,18 @@
 using namespace DirectX;
 // ---------------------------------------------------------------------------------
 
-Renderer::Renderer()
+ulong ColorToUlong(const Color& color)
+{
+    ulong alpha = static_cast<ulong>(color.alpha() * 255) & 0xFF;
+    ulong red = static_cast<ulong>(color.r() * 255) & 0xFF;
+    ulong green = static_cast<ulong>(color.g() * 255) & 0xFF;
+    ulong blue = static_cast<ulong>(color.b() * 255) & 0xFF;
+
+    return (alpha << 24) | (red << 16) | (green << 8) | blue;
+}
+// ---------------------------------------------------------------------------------
+
+DXDrawGeometry::DXDrawGeometry()
 {
     window = nullptr;
     graphics = nullptr;
@@ -33,7 +46,7 @@ Renderer::Renderer()
 
 // ---------------------------------------------------------------------------------
 
-Renderer::~Renderer()
+DXDrawGeometry::~DXDrawGeometry()
 {
     // ----------------------------------------
     // Pixel Ploting
@@ -104,7 +117,7 @@ Renderer::~Renderer()
     }
 }
 
-void Renderer::BeginPixels()
+void DXDrawGeometry::BeginPixels()
 {
     // trava a textura para plotagem de pixels
     D3D11_MAPPED_SUBRESOURCE mappedTex;
@@ -130,57 +143,51 @@ void Renderer::BeginPixels()
 
 // -----------------------------------------------------------------------------
 
-void Renderer::Draw(Geometry* shape, ulong color)
+void DXDrawGeometry::Draw(const Geometry& geometry)
 {
-    switch (shape->Type())
-    {
-    case POINT_T:
-        Draw((Point*)shape, color);
-        break;
-    case LINE_T:
-        Draw((Line*)shape, color);
-        break;
-    case RECTANGLE_T:
-        Draw((Rect*)shape, color);
-        break;
-    case CIRCLE_T:
-        Draw((Circle*)shape, color);
-        break;
-    case POLYGON_T:
-        Draw((Poly*)shape, color);
-        break;
-    case MIXED_T:
-        Draw((Mixed*)shape, color);
-        break;
+    if (const Rect* rect = dynamic_cast<const Rect*>(&geometry)) {
+        this->DrawRect(*rect);
+    }
+    else if (const Point* point = dynamic_cast<const Point*>(&geometry)) {
+        this->DrawPoint(*point);
+    }
+    else if (const Line* line = dynamic_cast<const Line*>(&geometry)) {
+        this->DrawLine(*line);
+    }
+    else if (const Circle* circle = dynamic_cast<const Circle*>(&geometry)) {
+        this->DrawCircle(*circle);
+    }
+    else if (const Poly* polygon = dynamic_cast<const Poly*>(&geometry)) {
+        this->DrawPolygon(*polygon);
     }
 }
 
 // -----------------------------------------------------------------------------
 
-void Renderer::Draw(Point* point, ulong color)
+void DXDrawGeometry::DrawPoint(const Point& point) const
 {
-    if (point->x() >= 0 && point->x() < window->Width())
-        if (point->y() >= 0 && point->y() < window->Height())
-            PlotPixel(int(point->x()), int(point->y()), color);
+    if (point.x() >= 0 && point.x() < window->Width())
+        if (point.y() >= 0 && point.y() < window->Height())
+            PlotPixel(int(point.x()), int(point.y()), point.GetColor());
 }
 
 // -----------------------------------------------------------------------------
 
-void Renderer::Draw(Line* line, ulong color)
+void DXDrawGeometry::DrawLine(const Line& line) const
 {
-    int x1 = int(line->A().x());
-    int y1 = int(line->A().y());
-    int x2 = int(line->B().x());
-    int y2 = int(line->B().y());
+    int x1 = int(line.A().x());
+    int y1 = int(line.A().y());
+    int x2 = int(line.B().x());
+    int y2 = int(line.B().y());
 
     // desenha apenas a parte visível da linha
     if (ClipLine(x1, y1, x2, y2))
-        DrawLine(x1, y1, x2, y2, color);
+        DrawLine(x1, y1, x2, y2, line.GetColor());
 }
 
 // -----------------------------------------------------------------------------
 
-int Renderer::ClipLine(int& x1, int& y1, int& x2, int& y2)
+int DXDrawGeometry::ClipLine(int& x1, int& y1, int& x2, int& y2) const
 {
 
     // Clipping Line Algorithm 
@@ -449,7 +456,7 @@ int Renderer::ClipLine(int& x1, int& y1, int& x2, int& y2)
 
 // -----------------------------------------------------------------------------
 
-void Renderer::DrawLine(int a1, int b1, int a2, int b2, ulong color)
+void DXDrawGeometry::DrawLine(int a1, int b1, int a2, int b2, Color color) const
 {
     // Symmetric Double Step Line Algorithm by Xialon Wu
     // It's 3 to 4 times faster than the standard Bressenham's algorithm
@@ -648,42 +655,42 @@ void Renderer::DrawLine(int a1, int b1, int a2, int b2, ulong color)
 
 // -----------------------------------------------------------------------------
 
-void Renderer::Draw(Rect* rect, ulong color)
+void DXDrawGeometry::DrawRect(const Rect& rect) const
 {
-    Line top(rect->Left(), rect->Top(), rect->Right(), rect->Top());
-    Line left(rect->Left(), rect->Top() + 1, rect->Left(), rect->Bottom());
-    Line right(rect->Right(), rect->Top() + 1, rect->Right(), rect->Bottom());
-    Line bottom(rect->Left() + 1, rect->Bottom(), rect->Right() - 1, rect->Bottom());
+    Line top(rect.Left(), rect.Top(), rect.Right(), rect.Top());
+    Line left(rect.Left(), rect.Top() + 1, rect.Left(), rect.Bottom());
+    Line right(rect.Right(), rect.Top() + 1, rect.Right(), rect.Bottom());
+    Line bottom(rect.Left() + 1, rect.Bottom(), rect.Right() - 1, rect.Bottom());
 
-    Draw(&top, color);
-    Draw(&left, color);
-    Draw(&right, color);
-    Draw(&bottom, color);
+    DrawLine(top);
+    DrawLine(left);
+    DrawLine(right);
+    DrawLine(bottom);
 }
 
 // -----------------------------------------------------------------------------
 
-void Renderer::Draw(Circle* circ, ulong color)
+void DXDrawGeometry::DrawCircle(const Circle& circ) const
 {
     // Bresenham's circle algorithm
 
-    int xpos = int(circ->x());
-    int ypos = int(circ->y());
+    int xpos = int(circ.x());
+    int ypos = int(circ.y());
 
-    int r = int(circ->Radius());
+    int r = int(circ.Radius());
 
     int p = 3 - (2 * r);
     int x = 0;
     int y = r;
 
-    Point a(xpos, ypos + r); Draw(&a, color);
-    Point b(xpos, ypos - r); Draw(&b, color);
-    Point c(xpos, ypos + r); Draw(&c, color);
-    Point d(xpos, ypos - r); Draw(&d, color);
-    Point e(xpos + r, ypos); Draw(&e, color);
-    Point f(xpos + r, ypos); Draw(&f, color);
-    Point g(xpos - r, ypos); Draw(&g, color);
-    Point h(xpos - r, ypos); Draw(&h, color);
+    Point a(xpos, ypos + r); DrawPoint(a);
+    Point b(xpos, ypos - r); DrawPoint(b);
+    Point c(xpos, ypos + r); DrawPoint(c);
+    Point d(xpos, ypos - r); DrawPoint(d);
+    Point e(xpos + r, ypos); DrawPoint(e);
+    Point f(xpos + r, ypos); DrawPoint(f);
+    Point g(xpos - r, ypos); DrawPoint(g);
+    Point h(xpos - r, ypos); DrawPoint(h);
 
     //for(x=1; x <= int(radius/sqrt(2.0f)); x++)
     while (++x < y)
@@ -696,20 +703,20 @@ void Renderer::Draw(Circle* circ, ulong color)
             y = y - 1;
         }
 
-        a.MoveTo(Position(float(xpos + x), float(ypos + y))); Draw(&a, color);
-        b.MoveTo(Position(float(xpos + x), float(ypos - y))); Draw(&b, color);
-        c.MoveTo(Position(float(xpos - x), float(ypos + y))); Draw(&c, color);
-        d.MoveTo(Position(float(xpos - x), float(ypos - y))); Draw(&d, color);
-        e.MoveTo(Position(float(xpos + y), float(ypos + x))); Draw(&e, color);
-        f.MoveTo(Position(float(xpos + y), float(ypos - x))); Draw(&f, color);
-        g.MoveTo(Position(float(xpos - y), float(ypos + x))); Draw(&g, color);
-        h.MoveTo(Position(float(xpos - y), float(ypos - x))); Draw(&h, color);
+        a.MoveTo(Position(float(xpos + x), float(ypos + y))); DrawPoint(a);
+        b.MoveTo(Position(float(xpos + x), float(ypos - y))); DrawPoint(b);
+        c.MoveTo(Position(float(xpos - x), float(ypos + y))); DrawPoint(c);
+        d.MoveTo(Position(float(xpos - x), float(ypos - y))); DrawPoint(d);
+        e.MoveTo(Position(float(xpos + y), float(ypos + x))); DrawPoint(e);
+        f.MoveTo(Position(float(xpos + y), float(ypos - x))); DrawPoint(f);
+        g.MoveTo(Position(float(xpos - y), float(ypos + x))); DrawPoint(g);
+        h.MoveTo(Position(float(xpos - y), float(ypos - x))); DrawPoint(h);
     }
 }
 
 // -----------------------------------------------------------------------------
 
-void Renderer::Draw(Poly* pol, ulong color)
+void DXDrawGeometry::DrawPolygon(const Poly& pol) const
 {
     //// this function draws a Poly
     //float x1, y1, x2, y2;
@@ -744,15 +751,15 @@ void Renderer::Draw(Poly* pol, ulong color)
 
 // -----------------------------------------------------------------------------
 
-void Renderer::Draw(Mixed* mul, ulong color)
-{
-    for (auto i : mul->shapes)
-        Draw(i, color);
-}
+//void DXDrawGeometry::Draw(Mixed* mul, ulong color)
+//{
+//    for (auto i : mul->shapes)
+//        Draw(i, color);
+//}
 
 // -----------------------------------------------------------------------------
 
-void Renderer::EndPixels()
+void DXDrawGeometry::EndPixels()
 {
     // destrava a textura de plotagem de pixels
     graphics->context->Unmap(pixelPlotTexture, 0);
@@ -764,7 +771,7 @@ void Renderer::EndPixels()
 // ---------------------------------------------------------------------------------
 
 
-bool Renderer::Initialize(Window* window, DXGraphics* graphics)
+bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
 {
     this->window = window;
     this->graphics = graphics;
@@ -987,7 +994,7 @@ bool Renderer::Initialize(Window* window, DXGraphics* graphics)
 
 // ---------------------------------------------------------------------------------
 
-void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprites, uint cont)
+void DXDrawGeometry::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprites, uint cont)
 {
     // desenhe usando a seguinte textura
     graphics->context->PSSetShaderResources(0, 1, &texture);
@@ -1164,14 +1171,14 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprit
 
 // ---------------------------------------------------------------------------------
 
-void Renderer::Render()
+void DXDrawGeometry::Render()
 {
     // ordena sprites por profundidade:
     // necessário para o correto funcionamento 
     // da mistura (blending) entre as texturas dos sprites
     sort(spriteVector.begin(), spriteVector.end(),
         [](SpriteData* a, SpriteData* b) -> bool
-        { 
+        {
             if (a == nullptr || b == nullptr) return false;
             return a->depth > b->depth; });
 
@@ -1212,11 +1219,21 @@ void Renderer::Render()
 
 // ---------------------------------------------------------------------------------
 
-void Renderer::Draw(SpriteData* sprite)
+void DXDrawGeometry::Draw(SpriteData* sprite)
 {
-    if(sprite)
+    if (sprite)
         spriteVector.push_back(sprite);
 }
 
 
-// ---------------------------------------------------------------------------------
+// plota pixels sem fazer recorte (clipping)
+void DXDrawGeometry::PlotPixel(int x, int y, Color color) const
+{
+    videoMemory[x + y * videoMemoryPitch] = ColorToUlong(color);
+}
+
+// plota pixels para o método de desenho de linhas
+void DXDrawGeometry::PlotLine(int x, int y, int flag, Color color) const
+{
+    flag ? PlotPixel(y, x, color) : PlotPixel(x, y, color);
+}

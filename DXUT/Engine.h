@@ -6,7 +6,6 @@
 #include "Input.h"						// dispositivo de entrada
 #include "Timer.h"						// medidor de tempo
 #include "Game.h"						// aplicação gráfica
-#include "Renderer.h"                    // renderizador de sprites
 #include "GraphicContext.h"
 // ---------------------------------------------------------------------------------
 

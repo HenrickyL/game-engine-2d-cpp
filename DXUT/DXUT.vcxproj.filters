@@ -121,6 +121,12 @@
     <Filter Include="Develop\Games\TestOpenGL_DX\Source Files">
       <UniqueIdentifier>{4aca208c-53f8-4927-b965-f0a008d0d166}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Source Files\DirectX">
+      <UniqueIdentifier>{f1123374-533c-4f68-a07e-c9fcfec2e6ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\OpenGL">
+      <UniqueIdentifier>{871f1cfc-d1e4-4c74-a06e-0c948860dda1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input.cpp">
@@ -143,9 +149,6 @@
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
@@ -214,34 +217,10 @@
     <ClCompile Include="Movable.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DXWindow.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLWindow.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Color.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GLInput.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DXInput.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLDrawGemeotry.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLCamera.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DXGraphics.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLGraphics.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GraphicContext.cpp">
@@ -249,6 +228,33 @@
     </ClCompile>
     <ClCompile Include="MyGame.cpp">
       <Filter>Develop\Games\TestOpenGL_DX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DXGraphics.cpp">
+      <Filter>Engine\Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DXInput.cpp">
+      <Filter>Engine\Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DXWindow.cpp">
+      <Filter>Engine\Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="GLCamera.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLDrawGemeotry.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLGraphics.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLInput.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLWindow.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="DXDrawGeometry.cpp">
+      <Filter>Engine\Source Files\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,9 +329,6 @@
     </ClInclude>
     <ClInclude Include="SearchMethods.h">
       <Filter>Modules\AI\Header Files\Search</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Engine\Header Files</Filter>
@@ -467,6 +470,9 @@
     </ClInclude>
     <ClInclude Include="GLIncludes.h">
       <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="DXDrawGeometry.h">
+      <Filter>Engine\Header Files\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
