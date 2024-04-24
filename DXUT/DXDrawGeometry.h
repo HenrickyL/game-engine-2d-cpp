@@ -1,15 +1,13 @@
 #ifndef UT_DX_DRAW_GEOMETRY_H
 #define UT_DX_DRAW_GEOMETRY_H
 
-#include "Window.h"
 #include "DrawGeometry.h"
+#include "DXWindow.h"
 #include "DXGraphics.h"
-#include "Sprite.h"
-
 #include <DirectXMath.h>  // lib matemática do DirectX
-using std::vector;
-using namespace DirectX;
+
 // ---------------------------------------------------------------------------------
+using namespace DirectX;
 
 // definição de um vértice para o D3D
 struct Vertex
@@ -26,9 +24,13 @@ public:
     ~DXDrawGeometry();
 	void Draw(const Geometry& g) override;
 
+    bool Initialize(Window* window, Graphics* graphics) override;
+    void Draw(SpriteData& sprite) override;
+    void Render() override;
+
 private:
-    Window* window;                          // ponteiro para janela do jogo
-    DXGraphics* graphics;                        // ponteiro para dispositivo gráfico
+    DXWindow* _window;                          // ponteiro para janela do jogo
+    DXGraphics* _graphics;                        // ponteiro para dispositivo gráfico
 
     ID3D11InputLayout* inputLayout;                 // input layout
     ID3D11VertexShader* vertexShader;                // vertex shader
@@ -59,7 +61,7 @@ private:
     void DrawLine(int a1, int b1, int a2, int b2, Color color) const; // desenha linha sem recorte (clipping)
     int  ClipLine(int& x1, int& y1, int& x2, int& y2) const;          // recorta linha para desenhar na viewport
 
-    vector<SpriteData*> spriteVector;                       // vetor de sprites
+                           // vetor de sprites
 
     // renderiza um grupo de sprites de mesma textura
     void RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprites, uint cont);
@@ -74,9 +76,5 @@ private:
 	//--------------------------------------------------
 	void BeginPixels();                                         // trava a textura de plotagem de pixels
 	void EndPixels();                                           // destrava a textura de plotagem de pixels
-
-	bool Initialize(DXWindow* window, DXGraphics* graphics);  // inicializa o renderizador
-	void Draw(SpriteData* sprite);                         // adiciona _sprite na lista
-	void Render();                                          // envia sprites para desenho
 };
 #endif

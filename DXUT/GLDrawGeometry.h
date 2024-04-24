@@ -14,6 +14,10 @@ private:
 
 public:
 	void Draw(const Geometry& g) override;
+
+	bool Initialize(Window* window, Graphics* graphics) override;
+	void Draw(SpriteData& sprite) override;
+	void Render() override;
 };
 
 #endif

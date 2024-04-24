@@ -112,3 +112,14 @@ void GLDrawGeometry::Draw(const Geometry& geometry){
     glPopMatrix();
 
 }
+
+
+bool GLDrawGeometry::Initialize(Window* window, Graphics* graphics) {
+    return true;
+}
+void GLDrawGeometry::Draw(SpriteData& sprite) {
+
+}
+void GLDrawGeometry::Render() {
+
+}

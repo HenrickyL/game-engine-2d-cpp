@@ -1,6 +1,5 @@
 #include "DXDrawGeometry.h"
 
-
 #include <algorithm>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
@@ -21,8 +20,8 @@ ulong ColorToUlong(const Color& color)
 
 DXDrawGeometry::DXDrawGeometry()
 {
-    window = nullptr;
-    graphics = nullptr;
+    _window = nullptr;
+    _graphics = nullptr;
     inputLayout = nullptr;
     vertexShader = nullptr;
     pixelShader = nullptr;
@@ -121,7 +120,7 @@ void DXDrawGeometry::BeginPixels()
 {
     // trava a textura para plotagem de pixels
     D3D11_MAPPED_SUBRESOURCE mappedTex;
-    graphics->context->Map(pixelPlotTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedTex);
+    _graphics->context->Map(pixelPlotTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedTex);
 
     // formato de tela usando 32 bits por pixel
     // ----------------------------------------
@@ -138,7 +137,7 @@ void DXDrawGeometry::BeginPixels()
 
     // limpa a textura para o próximo desenho
     // 0xff000000 = valor 32bits codificado com Alpha transparente
-    memset(videoMemory, 0xff000000, mappedTex.RowPitch * window->Height());
+    memset(videoMemory, 0xff000000, mappedTex.RowPitch * _window->Height());
 }
 
 // -----------------------------------------------------------------------------
@@ -166,8 +165,8 @@ void DXDrawGeometry::Draw(const Geometry& geometry)
 
 void DXDrawGeometry::DrawPoint(const Point& point) const
 {
-    if (point.x() >= 0 && point.x() < window->Width())
-        if (point.y() >= 0 && point.y() < window->Height())
+    if (point.x() >= 0 && point.x() < _window->Width())
+        if (point.y() >= 0 && point.y() < _window->Height())
             PlotPixel(int(point.x()), int(point.y()), point.GetColor());
 }
 
@@ -196,8 +195,8 @@ int DXDrawGeometry::ClipLine(int& x1, int& y1, int& x2, int& y2) const
     // this function clips the sent line using the clipping region defined below
     int min_clip_x = 0;
     int min_clip_y = 0;
-    int max_clip_x = window->Width() - 1;
-    int max_clip_y = window->Height() - 1;
+    int max_clip_x = _window->Width() - 1;
+    int max_clip_y = _window->Height() - 1;
 
     // internal clipping codes
 #define CLIP_CODE_C  0x0000
@@ -762,19 +761,21 @@ void DXDrawGeometry::DrawPolygon(const Poly& pol) const
 void DXDrawGeometry::EndPixels()
 {
     // destrava a textura de plotagem de pixels
-    graphics->context->Unmap(pixelPlotTexture, 0);
+    _graphics->context->Unmap(pixelPlotTexture, 0);
 
     // adiciona o sprite na lista de desenho
-    Draw(&pixelPlotSprite);
+    Draw(pixelPlotSprite);
 }
 
 // ---------------------------------------------------------------------------------
 
 
-bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
+bool DXDrawGeometry::Initialize(Window* window, Graphics* graphics)
 {
-    this->window = window;
-    this->graphics = graphics;
+
+
+    this->_window = dynamic_cast<DXWindow*>(window);
+    this->_graphics = dynamic_cast<DXGraphics*>(graphics);
 
     //-------------------------------
     // Vertex Shader
@@ -785,7 +786,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     D3DReadFileToBlob(L"Shaders/Vertex.cso", &vShader);
 
     // cria o vertex shader
-    graphics->device->CreateVertexShader(vShader->GetBufferPointer(), vShader->GetBufferSize(), NULL, &vertexShader);
+    _graphics->device->CreateVertexShader(vShader->GetBufferPointer(), vShader->GetBufferSize(), NULL, &vertexShader);
 
     //-------------------------------
     // Input Layout
@@ -800,7 +801,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     };
 
     // cria o input layout
-    graphics->device->CreateInputLayout(layoutDesc, 3, vShader->GetBufferPointer(), vShader->GetBufferSize(), &inputLayout);
+    _graphics->device->CreateInputLayout(layoutDesc, 3, vShader->GetBufferPointer(), vShader->GetBufferSize(), &inputLayout);
 
     // libera bytecode
     vShader->Release();
@@ -814,7 +815,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     D3DReadFileToBlob(L"Shaders/Pixel.cso", &pShader);
 
     // cria o vertex shader
-    graphics->device->CreatePixelShader(pShader->GetBufferPointer(), pShader->GetBufferSize(), NULL, &pixelShader);
+    _graphics->device->CreatePixelShader(pShader->GetBufferPointer(), pShader->GetBufferSize(), NULL, &pixelShader);
 
     // libera bytecode
     pShader->Release();
@@ -831,7 +832,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     rasterDesc.DepthClipEnable = true;
 
     // cria estado do rasterizador
-    graphics->device->CreateRasterizerState(&rasterDesc, &rasterState);
+    _graphics->device->CreateRasterizerState(&rasterDesc, &rasterState);
 
     //-------------------------------
     // Vertex Buffer
@@ -843,7 +844,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
     vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-    graphics->device->CreateBuffer(&vertexBufferDesc, nullptr, &vertexBuffer);
+    _graphics->device->CreateBuffer(&vertexBufferDesc, nullptr, &vertexBuffer);
 
     //-------------------------------
     // Index Buffer
@@ -871,7 +872,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     D3D11_SUBRESOURCE_DATA indexData = { 0 };
     indexData.pSysMem = &indices.front();
 
-    if FAILED(graphics->device->CreateBuffer(&indexBufferDesc, &indexData, &indexBuffer))
+    if FAILED(_graphics->device->CreateBuffer(&indexBufferDesc, &indexData, &indexBuffer))
         return false;
 
     //-------------------------------
@@ -885,8 +886,8 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     constBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
     // calcula a matriz de transformação
-    float xScale = (graphics->viewport.Width > 0) ? 2.0f / graphics->viewport.Width : 0.0f;
-    float yScale = (graphics->viewport.Height > 0) ? 2.0f / graphics->viewport.Height : 0.0f;
+    float xScale = (_graphics->viewport.Width > 0) ? 2.0f / _graphics->viewport.Width : 0.0f;
+    float yScale = (_graphics->viewport.Height > 0) ? 2.0f / _graphics->viewport.Height : 0.0f;
 
     // transforma para coordenadas da tela
     XMMATRIX transformMatrix
@@ -901,7 +902,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     XMMATRIX worldViewProj = XMMatrixTranspose(transformMatrix);
     constantData.pSysMem = &worldViewProj;
 
-    graphics->device->CreateBuffer(&constBufferDesc, &constantData, &constantBuffer);
+    _graphics->device->CreateBuffer(&constBufferDesc, &constantData, &constantBuffer);
 
     //-------------------------------
     // Texture Sampler
@@ -914,7 +915,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
     samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
     samplerDesc.MipLODBias = 0.0f;
-    samplerDesc.MaxAnisotropy = (graphics->device->GetFeatureLevel() > D3D_FEATURE_LEVEL_9_1) ? 16 : 2;
+    samplerDesc.MaxAnisotropy = (_graphics->device->GetFeatureLevel() > D3D_FEATURE_LEVEL_9_1) ? 16 : 2;
     samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
     samplerDesc.BorderColor[0] = 0.0f;
     samplerDesc.BorderColor[1] = 0.0f;
@@ -924,7 +925,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
     // cria o amostrador da textura
-    graphics->device->CreateSamplerState(&samplerDesc, &sampler);
+    _graphics->device->CreateSamplerState(&samplerDesc, &sampler);
 
     //-------------------------------
     // Configura Direct3D Pipeline
@@ -932,15 +933,15 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
 
     uint vertexStride = sizeof(Vertex);
     uint vertexOffset = 0;
-    graphics->context->IASetVertexBuffers(0, 1, &vertexBuffer, &vertexStride, &vertexOffset);
-    graphics->context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R16_UINT, 0);
-    graphics->context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    graphics->context->IASetInputLayout(inputLayout);
-    graphics->context->VSSetShader(vertexShader, NULL, 0);
-    graphics->context->VSSetConstantBuffers(0, 1, &constantBuffer);
-    graphics->context->PSSetShader(pixelShader, NULL, 0);
-    graphics->context->PSSetSamplers(0, 1, &sampler);
-    graphics->context->RSSetState(rasterState);
+    _graphics->context->IASetVertexBuffers(0, 1, &vertexBuffer, &vertexStride, &vertexOffset);
+    _graphics->context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R16_UINT, 0);
+    _graphics->context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    _graphics->context->IASetInputLayout(inputLayout);
+    _graphics->context->VSSetShader(vertexShader, NULL, 0);
+    _graphics->context->VSSetConstantBuffers(0, 1, &constantBuffer);
+    _graphics->context->PSSetShader(pixelShader, NULL, 0);
+    _graphics->context->PSSetSamplers(0, 1, &sampler);
+    _graphics->context->RSSetState(rasterState);
 
     // ---------------------------------------------
     // Textura de Plotagem de Pixels
@@ -961,7 +962,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // CPU pode escrever na textura
 
     // cria textura a ser preenchida com pixels
-    if FAILED(graphics->device->CreateTexture2D(&desc, nullptr, &pixelPlotTexture))
+    if FAILED(_graphics->device->CreateTexture2D(&desc, nullptr, &pixelPlotTexture))
         return false;
 
     // configura visualização para a textura de pixels
@@ -974,7 +975,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
     pixelPlotDesc.Texture2D.MostDetailedMip = desc.MipLevels - 1;
 
     // cria uma visualização para a textura de pixels
-    if FAILED(graphics->device->CreateShaderResourceView((ID3D11Resource*)pixelPlotTexture, &pixelPlotDesc, &pixelPlotView))
+    if FAILED(_graphics->device->CreateShaderResourceView((ID3D11Resource*)pixelPlotTexture, &pixelPlotDesc, &pixelPlotView))
         return false;
 
     // ---------------------------------------------
@@ -997,7 +998,7 @@ bool DXDrawGeometry::Initialize(DXWindow* window, DXGraphics* graphics)
 void DXDrawGeometry::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** sprites, uint cont)
 {
     // desenhe usando a seguinte textura
-    graphics->context->PSSetShaderResources(0, 1, &texture);
+    _graphics->context->PSSetShaderResources(0, 1, &texture);
 
     while (cont > 0)
     {
@@ -1027,7 +1028,7 @@ void DXDrawGeometry::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData**
         // trava o vertex buffer para escrita
         D3D11_MAP mapType = (vertexBufferPosition == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE_NO_OVERWRITE;
         D3D11_MAPPED_SUBRESOURCE mappedBuffer;
-        graphics->context->Map(vertexBuffer, 0, mapType, 0, &mappedBuffer);
+        _graphics->context->Map(vertexBuffer, 0, mapType, 0, &mappedBuffer);
 
         // se posiciona dentro do vertex buffer
         Vertex* vertices = (Vertex*)mappedBuffer.pData + vertexBufferPosition * VerticesPerSprite;
@@ -1151,12 +1152,12 @@ void DXDrawGeometry::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData**
         }
 
         // destrava o vertex buffer
-        graphics->context->Unmap(vertexBuffer, 0);
+        _graphics->context->Unmap(vertexBuffer, 0);
 
         // desenha sprites 
         uint startIndex = (uint)vertexBufferPosition * IndicesPerSprite;
         uint indexCount = (uint)batchSize * IndicesPerSprite;
-        graphics->context->DrawIndexed(indexCount, startIndex, 0);
+        _graphics->context->DrawIndexed(indexCount, startIndex, 0);
 
         // avança a posição no vertex buffer
         vertexBufferPosition += batchSize;
@@ -1176,7 +1177,7 @@ void DXDrawGeometry::Render()
     // ordena sprites por profundidade:
     // necessário para o correto funcionamento 
     // da mistura (blending) entre as texturas dos sprites
-    sort(spriteVector.begin(), spriteVector.end(),
+    std::sort(spriteVector.begin(), spriteVector.end(),
         [](SpriteData* a, SpriteData* b) -> bool
         {
             if (a == nullptr || b == nullptr) return false;
@@ -1219,10 +1220,10 @@ void DXDrawGeometry::Render()
 
 // ---------------------------------------------------------------------------------
 
-void DXDrawGeometry::Draw(SpriteData* sprite)
+void DXDrawGeometry::Draw(SpriteData& sprite)
 {
-    if (sprite)
-        spriteVector.push_back(sprite);
+    ///TODO: verificar se vale  'const SpriteData& sprite'
+    spriteVector.push_back(&sprite);
 }
 
 
