@@ -28,6 +28,9 @@ public:
     void Draw(SpriteData& sprite) override;
     void Render() override;
 
+    void BeginPixels();                                         // trava a textura de plotagem de pixels
+    void EndPixels();                                           // destrava a textura de plotagem de pixels
+
 private:
     DXWindow* _window;                          // ponteiro para janela do jogo
     DXGraphics* _graphics;                        // ponteiro para dispositivo gráfico
@@ -74,7 +77,6 @@ private:
 	void DrawCircle(const Circle& circle)const override;
 	void DrawPolygon(const Poly& polygon)const override;
 	//--------------------------------------------------
-	void BeginPixels();                                         // trava a textura de plotagem de pixels
-	void EndPixels();                                           // destrava a textura de plotagem de pixels
+	
 };
 #endif

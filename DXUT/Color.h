@@ -2,7 +2,7 @@
 #define DXUT_COLORS_H
 #include "Vector.h"
 #include <string>
-
+#include "types.h" 
 using std::string;
 
 //const COLORREF C_BLACK = RGB(0, 0, 0);
@@ -52,14 +52,16 @@ public:
     Color modify(float luminosity) const;
     Color interpolate(const Color& otherColor, float t) const;
 
+
+    static Color UlongToColor(ulong colorValue);
+    static ulong ColorToUlong(const Color& color);
+
 private:
     float _r;
     float _g;
     float _b;
     float _a;
 };
-
-
 
 
 #endif

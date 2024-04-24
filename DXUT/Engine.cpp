@@ -123,7 +123,7 @@ int Engine::Start(Game* level)
 	}
 
 	// inicializa renderizador de sprites
-	if (!renderer->Initialize(window, graphics))
+	if (!renderer->Initialize(_window, graphics))
 	{
 		MessageBox(window->Id(), "Falha na criação do renderizador", "Engine", MB_OK);
 		return EXIT_FAILURE;

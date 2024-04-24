@@ -5,11 +5,13 @@
 #include "Input.h"
 #include "Timer.h"
 #include "Sprite.h"
+#include "Renderer.h"
 #include <string>
 
 class Game {
 protected:
 	static Window	*& window;					// janela
+	static Renderer* renderer;
 	static Timer	timer;						// tempo
 	static Input	* input;					// entrada
 

@@ -7,15 +7,7 @@
 using namespace DirectX;
 // ---------------------------------------------------------------------------------
 
-ulong ColorToUlong(const Color& color)
-{
-    ulong alpha = static_cast<ulong>(color.alpha() * 255) & 0xFF;
-    ulong red = static_cast<ulong>(color.r() * 255) & 0xFF;
-    ulong green = static_cast<ulong>(color.g() * 255) & 0xFF;
-    ulong blue = static_cast<ulong>(color.b() * 255) & 0xFF;
 
-    return (alpha << 24) | (red << 16) | (green << 8) | blue;
-}
 // ---------------------------------------------------------------------------------
 
 DXRenderer::DXRenderer()
@@ -772,8 +764,6 @@ void DXRenderer::EndPixels()
 
 bool DXRenderer::Initialize(Window* window, Graphics* graphics)
 {
-
-
     this->_window = dynamic_cast<DXWindow*>(window);
     this->_graphics = dynamic_cast<DXGraphics*>(graphics);
 
@@ -1230,7 +1220,7 @@ void DXRenderer::Draw(SpriteData& sprite)
 // plota pixels sem fazer recorte (clipping)
 void DXRenderer::PlotPixel(int x, int y, Color color) const
 {
-    videoMemory[x + y * videoMemoryPitch] = ColorToUlong(color);
+    videoMemory[x + y * videoMemoryPitch] = Color::ColorToUlong(color);
 }
 
 // plota pixels para o método de desenho de linhas

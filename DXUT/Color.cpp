@@ -34,3 +34,29 @@ Color Color::interpolate(const Color& otherColor, float t) const {
     return Color(interpolatedR, interpolatedG, interpolatedB, interpolatedA);
 }
 
+
+
+Color Color::UlongToColor(ulong colorValue)
+{
+    ulong alpha = (colorValue >> 24) & 0xFF;
+    ulong red = (colorValue >> 16) & 0xFF;
+    ulong green = (colorValue >> 8) & 0xFF;
+    ulong blue = colorValue & 0xFF;
+
+    float alphaFloat = static_cast<float>(alpha) / 255.0f;
+    float redFloat = static_cast<float>(red) / 255.0f;
+    float greenFloat = static_cast<float>(green) / 255.0f;
+    float blueFloat = static_cast<float>(blue) / 255.0f;
+
+    return Color(alphaFloat, redFloat, greenFloat, blueFloat);
+}
+
+ulong Color::ColorToUlong(const Color& color)
+{
+    ulong alpha = static_cast<ulong>(color.alpha() * 255) & 0xFF;
+    ulong red = static_cast<ulong>(color.r() * 255) & 0xFF;
+    ulong green = static_cast<ulong>(color.g() * 255) & 0xFF;
+    ulong blue = static_cast<ulong>(color.b() * 255) & 0xFF;
+
+    return (alpha << 24) | (red << 16) | (green << 8) | blue;
+}
