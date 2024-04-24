@@ -166,7 +166,7 @@ void MyGame::Update(double frameTime){
 	if (Input::OnWheel()) {
 		int dir = Input::MouseWheelDirection();
 		if (dir != 0)
-			object->TranslateTo((dir > 0 ? Vector::Up : Vector::Down) * frameTime);
+			object->TranslateTo((dir > 0 ? Vector::Up : Vector::Down) );
 	}
 
 
