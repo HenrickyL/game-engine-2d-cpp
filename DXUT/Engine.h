@@ -6,6 +6,8 @@
 #include "Input.h"						// dispositivo de entrada
 #include "Timer.h"						// medidor de tempo
 #include "Game.h"						// aplicação gráfica
+#include "Renderer.h"                   // renderizador de sprites
+
 #include "GraphicContext.h"
 // ---------------------------------------------------------------------------------
 
@@ -51,10 +53,12 @@ private:
 public:
 	static Game		* game;					// aplicação a ser executada
 	static Window	* window;				// janela da aplicação
-	//static Renderer	* renderer;          // renderizador de sprites
+	static Renderer	* renderer;          // renderizador de sprites
 	static float	  _frameTime;			// tempo do quadro atual
 
 	static Engine* Instance();
+	static Engine* Instance(EngineGraphicsType value);
+
 	~Engine();							// destrutor
 
 	void DisableGraphics();
@@ -83,9 +87,6 @@ public:
 
 	static void Pause();                // pausa o motor
 	static void Resume();               // reinicia o motor
-
-	// trata eventos do Windows
-	//static LRESULT CALLBACK EngineProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
 //inline functions

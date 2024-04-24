@@ -9,10 +9,12 @@
 #include "DXWindow.h"
 #include "DXInput.h"
 #include "DXGraphics.h" 
+#include "DXRenderer.h"
 
 #include "GLWindow.h"
 #include "GLInput.h"
 #include "GLGraphics.h" 
+#include "GLRenderer.h"
 
 using std::stringstream;
 
@@ -25,14 +27,12 @@ Engine*		Engine::instance	= nullptr;			// dispositivo gráfico
 float		Engine::_frameTime	= 0.0f;				// tempo do quadro atual
 bool		Engine::paused		= false;			// estado do motor
 bool		Engine::onGraphics	= true;				// estado do motor
-//Renderer*	Engine::renderer	= nullptr;     // renderizador de sprites 
+Renderer*	Engine::renderer	= nullptr;     // renderizador de sprites 
 Timer		Engine::timer;                      // medidor de tempo
 // ------------------------------------------------------------------------------
 Engine::Engine()
 {
 	_context = context();
-	Engine::window = _context->window();
-	//renderer = new Renderer();
 }
 
 // ------------------------------------------------------------------------------
@@ -46,17 +46,20 @@ GraphicContext* Engine::getContextByType(EngineGraphicsType type) {
 	if (_graphicType == E_OpenGL) {
 		GLWindow* _window = new GLWindow();
 		GLGraphics* graphics = new GLGraphics(_window);
+		GLRenderer* renderer = new GLRenderer();
+
 
 		if (!_contextGL)
-			_contextGL = new GraphicContext(graphics, _window);
+			_contextGL = new GraphicContext(graphics, _window, renderer);
 		return _contextGL;
 	}
 	else {
 		DXWindow* _window = new DXWindow();
 		DXGraphics* graphics = new DXGraphics(_window);
+		DXRenderer* renderer = new DXRenderer();
 
 		if (!_contextDX)
-			_contextDX = new GraphicContext(graphics, _window);
+			_contextDX = new GraphicContext(graphics, _window, renderer);
 		return _contextDX;
 	}
 }
@@ -67,6 +70,8 @@ void Engine::SetGraphicType(EngineGraphicsType value) {
 	this->_graphicType = value; 
 
 	_context = getContextByType(value);
+	Engine::window = _context->window();
+	Engine::renderer = _context->renderer();
 }
 
 // ------------------------------------------------------------------------------
@@ -78,6 +83,13 @@ void Engine::SetGraphicType(EngineGraphicsType value) {
 	}
 	return Engine::instance;
 }
+
+ Engine* Engine::Instance(EngineGraphicsType value) {
+	Engine* instance = Instance();
+	instance->SetGraphicType(value);
+	return instance;
+ }
+
 
 // ------------------------------------------------------------------------------
 
@@ -93,12 +105,14 @@ Engine::~Engine()
 // ------------------------------------------------------------------------------
 int Engine::Start(Game* level)
 {
-	game = level;
+	Engine::game = level;
 	
 	Window * _window = _context->window();
 	_window->Create();
 
 	Graphics* graphics = _context->graphics();
+	Renderer* renderer = _context->renderer();
+
 
 
 	// inicializa dispositivo gráfico
@@ -109,11 +123,11 @@ int Engine::Start(Game* level)
 	}
 
 	// inicializa renderizador de sprites
-	/*if (!renderer->Initialize(window, graphics))
+	if (!renderer->Initialize(window, graphics))
 	{
 		MessageBox(window->Id(), "Falha na criação do renderizador", "Engine", MB_OK);
 		return EXIT_FAILURE;
-	}*/
+	}
 
 	// altera a window procedure da janela ativa para EngineProc
 	//SetWindowLongPtr(window->Id(), GWLP_WNDPROC, (LONG_PTR)EngineProc);
@@ -143,14 +157,14 @@ int Engine::Loop()
 
 	Window* _window = _context->window();
 	Graphics* graphics = _context->graphics();
+	Renderer* renderer = _context->renderer();
 
 
 	// inicialização da aplicação
 	game->Init();
 
 	// laço principal
-	while (!_window->ShouldClose())
-	{
+	do{
 		_window->PollEvents();
 
 		if (Input::KeyPress(PAUSE))
@@ -176,8 +190,8 @@ int Engine::Loop()
 				// desenho da aplicação
 				game->Draw();
 
-				// renderiza sprites
-				//renderer->Render();
+				//renderiza sprites
+				renderer->Render();
 
 				// apresenta o jogo na tela (troca backbuffer/frontbuffer)
 				graphics->Present();
@@ -191,12 +205,12 @@ int Engine::Loop()
 			game->OnPause();
 
 			// renderiza sprites
-			//renderer->Render();
+			renderer->Render();
 
 			// apresenta o jogo na tela (troca backbuffer/frontbuffer)
 			graphics->Present();
 		}
-	};
+	} while (!_window->ShouldClose());
 
 	// finalização do aplicação
 	game->Finalize();

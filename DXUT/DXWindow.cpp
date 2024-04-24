@@ -1,5 +1,5 @@
 #include "DXWindow.h"
-
+#include "DXInput.h"
 // -------------------------------------------------------------------------------
 // inicialização de membros estáticos da classe
 
@@ -39,7 +39,6 @@ void DXWindow::Mode(WindowModes mode) {
     if (mode == WINDOWED) {
         // modo em janela
         windowStyle = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE;
-
     }
     else {
         // modo em tela cheia ou sem bordas
@@ -65,7 +64,7 @@ void DXWindow::Size(int width, int height)
 // -------------------------------------------------------------------------------
 
 bool DXWindow::Create()
-{
+ {
     // identificador da aplicação
     HINSTANCE appId = GetModuleHandle(NULL);
 
@@ -137,6 +136,9 @@ bool DXWindow::Create()
     // pega tamanho da área cliente
     GetClientRect(windowId, &windowRect);
 
+    SetWindowLongPtr(this->Id(), GWLP_WNDPROC, (LONG_PTR)InputProc);
+
+
     // retorna estado da inicialização (bem sucedida ou não)
     return (windowId ? true : false);
 }
@@ -170,11 +172,22 @@ LRESULT CALLBACK DXWindow::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 
 
 bool DXWindow::ShouldClose() const {
-    static MSG msg = { 0 };
-    bool result = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
-    if (result) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
-    return msg.message != WM_QUIT;
+    return _msg.message == WM_QUIT;
 }
+
+LRESULT CALLBACK DXWindow::InputProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	// janela precisa ser repintada
+	if (msg == WM_PAINT) {
+	}
+	return CallWindowProc(DXInput::InputKeysProc, hWnd, msg, wParam, lParam);
+}
+
+
+void DXWindow::PollEvents() {
+    bool result = PeekMessage(&_msg, NULL, 0, 0, PM_REMOVE);
+    if (result) {
+        TranslateMessage(&_msg);
+        DispatchMessage(&_msg);
+    }
+};

@@ -11,7 +11,8 @@ DXProcType DXInput::winProcPtr = DXWindow::WinProc;
 
 
 InputKeys DXInput::GetKey(WPARAM key) {
-	return DXKeyMap[key];
+	auto res = DXKeyMap.find(key);
+	return res != DXKeyMap.end() ? res->second : InputKeys::UNKNOW;
 }
 
 
@@ -53,11 +54,12 @@ LRESULT CALLBACK DXInput::InputKeysProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 {
 	InputKeys keyCode = GetKey(wParam);
 
-	switch (msg)
+ 	switch (msg)
 	{
 		// tecla pressionada
 	case WM_KEYDOWN:
-		keys[keyCode] = true;
+		if(keyCode != UNKNOW)
+			keys[keyCode] = true;
 		return 0;
 
 		// tecla liberada

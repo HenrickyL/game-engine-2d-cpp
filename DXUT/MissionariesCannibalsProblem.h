@@ -29,7 +29,7 @@ public:
 	MissionariesCannibalsProblem();
 
 	void Init();
-	void Update();
+	void Update(double frameTime);
 	void Draw();
 	void Finalize();
 

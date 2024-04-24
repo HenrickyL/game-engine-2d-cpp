@@ -28,6 +28,7 @@ private:
     int			windowPosX;                                 // posição inicial da janela no eixo x
     int			windowPosY;                                 // posição inicial da janela no eixo y
     Position       center;
+    MSG _msg = { 0 };
 
     //function reference
     static void (*inFocus)();								// executar quando a janela ganhar de volta o foco
@@ -70,6 +71,8 @@ public:
 
     // tratamento de eventos do Windows
     static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+    static LRESULT CALLBACK InputProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 };
 
 // ---------------------------------------------------------------------------------
@@ -183,6 +186,5 @@ inline void DXWindow::LostFocus(void(*func)())
     lostFocus = func;
 }
 
-inline void DXWindow::PollEvents() {};
 // ---------------------------------------------------------------------------------
 #endif

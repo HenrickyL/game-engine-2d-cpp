@@ -15,6 +15,9 @@ std::unordered_map<WPARAM, InputKeys> DXKeyMap = { // Definição
     {VK_RIGHT, RIGHT},
     {VK_UP, UP},
     {VK_DOWN, DOWN},
+    {0x52, KEY_R},
+    {0x4D, KEY_M},
+    {0x43, KEY_C},
 };
 
 #endif 
