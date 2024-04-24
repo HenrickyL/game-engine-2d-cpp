@@ -1,6 +1,5 @@
 #include "DXUT.h"
 #include "MyGame.h"
-#include "MissionariesCannibalsProblem.h"
 #include <sstream>
 using std::stringstream;
 
@@ -13,7 +12,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 	try {
 		// cria motor e configura a janela
-		Engine* engine = Engine::Instance(E_DirectX);
+		Engine* engine = Engine::Instance();
 		// configura a janela
 		engine->window->Mode(WINDOWED);
 		engine->window->Size(800, 600);
@@ -26,7 +25,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->LostFocus(Engine::Pause);
 		engine->window->InFocus(Engine::Resume);
 		// cria e executa a aplica��o
-		int exitCode = engine->Start(new MissionariesCannibalsProblem());
+		int exitCode = engine->Start(new MyGame());
 
 		// finaliza execu��o
 		delete engine;

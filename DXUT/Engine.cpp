@@ -77,17 +77,12 @@ void Engine::SetGraphicType(EngineGraphicsType value) {
 // ------------------------------------------------------------------------------
 
 
- Engine* Engine::Instance() {
-	if (Engine::instance == nullptr) {
-		Engine::instance = new Engine();
-	}
-	return Engine::instance;
-}
-
  Engine* Engine::Instance(EngineGraphicsType value) {
-	Engine* instance = Instance();
-	instance->SetGraphicType(value);
-	return instance;
+	 if (Engine::instance == nullptr) {
+		 Engine::instance = new Engine();
+	 }
+	Engine::instance->SetGraphicType(value);
+	return Engine::instance;
  }
 
 

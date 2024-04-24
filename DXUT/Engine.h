@@ -56,8 +56,7 @@ public:
 	static Renderer	* renderer;          // renderizador de sprites
 	static float	  _frameTime;			// tempo do quadro atual
 
-	static Engine* Instance();
-	static Engine* Instance(EngineGraphicsType value);
+	static Engine* Instance(EngineGraphicsType value = E_OpenGL);
 
 	~Engine();							// destrutor
 
