@@ -4,8 +4,7 @@
 
 #include "Game.h"
 #include "Geometry.h"
-#include "GLRenderer.h"
-#include "GLCamera.h"
+#include "UT_GL.h"
 #include "Scene.h"
 
 #include <string.h>
