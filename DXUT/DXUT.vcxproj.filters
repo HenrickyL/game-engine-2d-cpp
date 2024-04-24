@@ -241,7 +241,7 @@
     <ClCompile Include="GLCamera.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="GLDrawGemeotry.cpp">
+    <ClCompile Include="GLDrawGeometry.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="GLGraphics.cpp">

@@ -150,7 +150,7 @@
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="GLCamera.cpp" />
-    <ClCompile Include="GLDrawGemeotry.cpp" />
+    <ClCompile Include="GLDrawGeometry.cpp" />
     <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="GLInput.cpp" />
     <ClCompile Include="GLWindow.cpp" />

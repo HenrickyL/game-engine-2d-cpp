@@ -22,6 +22,8 @@ struct Vertex
 
 class DXDrawGeometry : public DrawGeometry {
 public:
+    DXDrawGeometry();
+    ~DXDrawGeometry();
 	void Draw(const Geometry& g) override;
 
 private:
