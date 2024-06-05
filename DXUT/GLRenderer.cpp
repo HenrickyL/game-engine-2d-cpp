@@ -88,7 +88,7 @@ void GLRenderer::DrawPolygon(const Poly& polygon)const {
 
 void GLRenderer::Draw(const Geometry& geometry){
     glPushMatrix(); //local
-        Color c = geometry.GetColor();
+        Color c = geometry.color();
         glColor3f(c.r(), c.g(), c.b());
 
         glTranslatef(geometry.x(), geometry.y(), geometry.z());
