@@ -127,6 +127,9 @@
     <Filter Include="Engine\Source Files\OpenGL">
       <UniqueIdentifier>{871f1cfc-d1e4-4c74-a06e-0c948860dda1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\doc">
+      <UniqueIdentifier>{176863a9-c1b0-49de-b70d-133e43606dd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input.cpp">
@@ -540,6 +543,9 @@
     </None>
     <None Include="PriorityQueueSearch.inl">
       <Filter>Modules\AI\Source Files</Filter>
+    </None>
+    <None Include="DEVELOPMENT_STANDARDS.md">
+      <Filter>Engine\doc</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

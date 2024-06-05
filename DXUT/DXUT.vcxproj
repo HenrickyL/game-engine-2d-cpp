@@ -270,6 +270,7 @@
   <ItemGroup>
     <None Include="Action.inl" />
     <None Include="Agent.inl" />
+    <None Include="DEVELOPMENT_STANDARDS.md" />
     <None Include="Dictionary.inl" />
     <None Include="Environment.inl" />
     <None Include="HowToCreateYourProblemAStar.md" />
