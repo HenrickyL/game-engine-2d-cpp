@@ -241,9 +241,6 @@
     <ClCompile Include="GLCamera.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="GLDrawGeometry.cpp">
-      <Filter>Engine\Source Files\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="GLGraphics.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
     </ClCompile>
@@ -253,8 +250,17 @@
     <ClCompile Include="GLWindow.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="DXDrawGeometry.cpp">
-      <Filter>Engine\Source Files\DirectX</Filter>
+    <ClCompile Include="DXRenderer.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRenderer.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape3D.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Colored.cpp">
+      <Filter>Engine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -369,9 +375,6 @@
     <ClInclude Include="Vector.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Position.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
@@ -444,12 +447,6 @@
     <ClInclude Include="DXKeyMap.h">
       <Filter>Engine\Header Files\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="DrawGeometry.h">
-      <Filter>Engine\Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="GLDrawGeometry.h">
-      <Filter>Engine\Header Files\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
@@ -471,8 +468,26 @@
     <ClInclude Include="GLIncludes.h">
       <Filter>Engine\Header Files\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="DXDrawGeometry.h">
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UT_GL.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape3d.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Colored.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="DXRenderer.h">
       <Filter>Engine\Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="GLRenderer.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -508,9 +523,6 @@
     <None Include="Transition.inl">
       <Filter>Modules\AI\Source Files</Filter>
     </None>
-    <None Include="PriorityQueueSearch.inl">
-      <Filter>Engine\Header Files</Filter>
-    </None>
     <None Include="QueueSearch.inl">
       <Filter>Modules\AI\Source Files</Filter>
     </None>
@@ -520,11 +532,14 @@
     <None Include="Agent.inl">
       <Filter>Modules\AI\Source Files</Filter>
     </None>
-    <None Include="Environment.inl">
-      <Filter>Engine\Header Files</Filter>
-    </None>
     <None Include="AIConcepts.md">
       <Filter>Modules\Docs</Filter>
+    </None>
+    <None Include="Environment.inl">
+      <Filter>Modules\AI\Source Files</Filter>
+    </None>
+    <None Include="PriorityQueueSearch.inl">
+      <Filter>Modules\AI\Source Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

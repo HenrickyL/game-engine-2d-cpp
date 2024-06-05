@@ -143,6 +143,7 @@
     </None>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Colored.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
     <ClCompile Include="DXRenderer.cpp" />
     <ClCompile Include="DXGraphics.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="MissionariesCannibalsProblem.cpp" />
     <ClCompile Include="Movable.cpp" />
     <ClCompile Include="MyGame.cpp" />
+    <ClCompile Include="Shape3D.cpp" />
     <ClCompile Include="ShortPathProblem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -190,6 +192,7 @@
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Colored.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="DXRenderer.h" />
@@ -219,6 +222,7 @@
     <ClInclude Include="MissionariesCannibalsProblem.h" />
     <ClInclude Include="Movable.h" />
     <ClInclude Include="MyGame.h" />
+    <ClInclude Include="Shape3d.h" />
     <ClInclude Include="ShortPathProblem.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />
