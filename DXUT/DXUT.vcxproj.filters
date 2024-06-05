@@ -265,6 +265,9 @@
     <ClCompile Include="Colored.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GLRenderer3D.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -491,6 +494,15 @@
     </ClInclude>
     <ClInclude Include="GLRenderer.h">
       <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="GLRenderer3D.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer3D.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererBase.h">
+      <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

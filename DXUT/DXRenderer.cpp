@@ -136,6 +136,10 @@ void DXRenderer::BeginPixels()
 
 void DXRenderer::Draw(const Geometry& geometry)
 {
+    SwitchTypeGeometryToDraw(geometry);
+}
+
+void DXRenderer::SwitchTypeGeometryToDraw(const Geometry& geometry) const {
     if (const Rect* rect = dynamic_cast<const Rect*>(&geometry)) {
         this->DrawRect(*rect);
     }
@@ -152,6 +156,7 @@ void DXRenderer::Draw(const Geometry& geometry)
         this->DrawPolygon(*polygon);
     }
 }
+
 
 // -----------------------------------------------------------------------------
 
