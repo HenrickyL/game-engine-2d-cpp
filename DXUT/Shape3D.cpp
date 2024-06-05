@@ -24,6 +24,7 @@ Shape3DType Shape3D::type() const {
 
 Cube::Cube() : Shape3D(), _width(1.0f), _height(1.0f), _depth(1.0f) {
     _type = CUBE;
+    SetColor(Color::BLUE);
 }
 
 Cube::Cube(const Position& position, const Color color, float width, float height, float depth)

@@ -51,6 +51,7 @@ public:
     // Métodos de utilidade
     Color modify(float luminosity) const;
     Color interpolate(const Color& otherColor, float t) const;
+    Color Brightness(float factor) const;
 
 
     static Color UlongToColor(ulong colorValue);

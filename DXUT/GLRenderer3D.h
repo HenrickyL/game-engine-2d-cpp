@@ -13,5 +13,4 @@ private:
 
     void SwitchTypShapeToDraw(const Shape3D& shape) const override;
 };
-
 #endif

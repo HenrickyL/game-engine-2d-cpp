@@ -117,8 +117,9 @@ void MyGame::Init() {
 	Point center = Point(obj->position());
 	center.setSize(10);
 
-	object = cam;
-
+	object = cam; 
+	cube.SetColor(Color::GRAY);
+	_drawnner.SetFillMode(F_WIREFRAME_SOLID);
 }
 void MyGame::Update(double frameTime){
 
@@ -167,6 +168,12 @@ void MyGame::Update(double frameTime){
 		int dir = Input::MouseWheelDirection();
 		if (dir != 0)
 			object->TranslateTo((dir > 0 ? Vector::Up : Vector::Down) );
+	}
+
+
+	if (Input::KeyPress(KEY_T)) {
+		onSolid = (onSolid+1)%4;
+		_drawnner.SetFillMode((FillModeEnum)onSolid);
 	}
 
 

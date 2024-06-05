@@ -7,13 +7,15 @@
 using std::vector;
 enum FillModeEnum
 {
-	WIREFRAME = 2,
-	SOLID = 3
+	F_SOLID=0,
+	F_WIREFRAME=1,
+	F_POINTS=2,
+	F_WIREFRAME_SOLID = 3,
 };
 // ---------------------------------------------------------------------------
 class RendererBase {
 protected:
-	FillModeEnum    _fillMode = SOLID;
+	FillModeEnum    _fillMode = F_SOLID;
 public:
 
 	virtual bool Initialize(Window* window, Graphics* graphics);	// inicializa o renderizador
