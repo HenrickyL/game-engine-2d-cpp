@@ -33,4 +33,27 @@ public:
     virtual float SurfaceArea() const = 0;
 };
 
+// ---------------------------------------------------------------------------
+class Cube : public Shape3D {
+protected:
+    float _width;
+    float _height;
+    float _depth;
+
+public:
+    Cube();
+    Cube(const Position& position, const Color color, float width, float height, float depth);
+
+    float width() const;
+    float height() const;
+    float depth() const;
+
+    void SetWidth(float value);
+    void SetHeight(float value);
+    void SetDepth(float value);
+
+    virtual float Volume() const override;
+    virtual float SurfaceArea() const override;
+};
+
 #endif
