@@ -262,6 +262,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transition.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UT_GL.h" />
     <ClInclude Include="Vector.h" />

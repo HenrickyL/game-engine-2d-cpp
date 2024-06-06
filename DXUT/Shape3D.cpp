@@ -14,12 +14,15 @@ Shape3D::Shape3D(const Position& position, const Color color) : Movable(position
 Shape3D::~Shape3D() {}
 
 bool Shape3D::isFlatColor() const { return _isFlatColor; }
+void Shape3D::SetIsFlatColor(bool value) { _isFlatColor = value; }
+
 
 Shape3DType Shape3D::type() const {
     return _type;
 }
 
 const vector<Vertex> Shape3D::vertices() const { return _vertices; }
+const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
 
 // ---------------------------------------------------------------------------
 
@@ -120,6 +123,8 @@ float Sphere::SurfaceArea() const {
 }
 
 void Sphere::generateVertices() {
+    _vertices.clear();
+    _triangles.clear();
     //generate Vertex
     float phi; // -pi/2 - pi/2
     float theta; //0 - 2pi
@@ -133,6 +138,7 @@ void Sphere::generateVertices() {
     float deltaPhi = PI / nStack;
     float deltaTheta = 2 * PI / nSector;
 
+    //generate vertices
     for (int i = 0; i <= nStack; i++) {
         phi = -PI / 2.0 + i * deltaPhi;
         float temp = radius * cos(phi);
@@ -142,6 +148,24 @@ void Sphere::generateVertices() {
             float x = temp * sin(theta);
             float z = temp * cos(theta);
             _vertices.push_back(Vertex(Position(x, y, z), isFlatColor()? c : Color::RandomColor()));
+        }
+    }
+
+    for (int i = 0; i < nStack; i++) {
+        for (int j = 0; j < nSector; j++) {
+            // calculate indices of the vertices
+            int v1 = i * nSector + j;
+            int v2 = i * nSector + (j + 1) % nSector;
+            int v3 = (i + 1) * nSector + (j + 1) % nSector;
+            int v4 = (i + 1) * nSector + j;
+
+            // create triangles
+            Triangle t1(_vertices[v1], _vertices[v2], _vertices[v3]);
+            Triangle t2(_vertices[v1], _vertices[v3], _vertices[v4]);
+
+            // add triangles to the list
+            _triangles.push_back(t1);
+            _triangles.push_back(t2);
         }
     }
 }

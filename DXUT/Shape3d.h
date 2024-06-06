@@ -4,6 +4,8 @@
 #include "Movable.h"
 #include "Colored.h"
 #include "Vertex.h" 
+#include "Triangle.h" 
+
 #include <vector>
 using std::vector;
 
@@ -20,6 +22,7 @@ protected:
     Color _color = Color::MAGENTA;
     bool _isFlatColor = false;
     vector<Vertex> _vertices;
+    vector<Triangle> _triangles;
 
 public:
     Shape3D();
@@ -28,8 +31,10 @@ public:
 
     Shape3DType type() const;
     bool isFlatColor() const;
+    void SetIsFlatColor(bool value);
 
     const vector<Vertex> vertices() const;
+    const vector<Triangle> triangles() const;
 
     // Métodos adicionais específicos para formas 3D
     virtual void generateVertices() = 0;
@@ -64,8 +69,8 @@ public:
 class Sphere : public Shape3D {
 private:
     float _radius;
-    int _nStacks = 6;    //latitude
-    int _nSectors = 10;   //longitude
+    int _nStacks = 12;    //latitude
+    int _nSectors = 20;   //longitude
 
 public:
     Sphere();

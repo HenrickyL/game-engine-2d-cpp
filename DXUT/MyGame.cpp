@@ -120,6 +120,8 @@ void MyGame::Init() {
 	object = cam; 
 	cube.SetColor(Color::GRAY);
 	_drawnner.SetFillMode(F_WIREFRAME_SOLID);
+	sphere.SetIsFlatColor(true);
+	sphere.generateVertices();
 }
 void MyGame::Update(double frameTime){
 

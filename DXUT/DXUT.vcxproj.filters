@@ -507,6 +507,9 @@
     <ClInclude Include="Vertex.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
