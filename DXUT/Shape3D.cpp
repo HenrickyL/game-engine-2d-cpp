@@ -1,4 +1,4 @@
-#include "Shape3D.h"
+﻿#include "Shape3D.h"
 #include <cmath>
 
 Shape3D::Shape3D() : Movable(Position::Zero) {
@@ -63,7 +63,7 @@ void Cube::generate() {
     float halfHeight = height() / 2;
     float halfDepth = depth() / 2;
 
-    // Definir os v�rtices do cubo
+    // Definir os vértices do cubo
     this->_vertices.clear();
     
     Color c = this->color();
@@ -182,4 +182,51 @@ void Sphere::generate() {
             _triangles.push_back(t2);
         }
     }
+}
+// ---------------------------------------------------------------------------
+
+Pill::Pill() : Shape3D(),_radius(0.5f), _length(1.0f) {
+    _type = S_PILL;
+    SetColor(Color::YELLOW);
+    this->generate();
+}
+
+
+Pill::Pill(const Position& position, float radius, float length, Color color)
+    : Shape3D(position, color), _radius(radius), _length(length) {
+    _type = S_PILL;
+    this->generate();
+}
+
+float Pill::radius() const {
+    return _radius;
+}
+
+void Pill::SetRadius(float value) {
+    _radius = value;
+}
+
+float Pill::length() const {
+    return _length;
+}
+
+void Pill::SetLength(float value) {
+    _length = value;
+}
+
+float Pill::Volume() const {
+    // Volume de um cilindro: V = PI * r^2 * h
+    const float PI = 3.14159265359;
+    return PI * _radius * _radius * _length;
+}
+
+float Pill::SurfaceArea() const {
+    // Área da superfície de um cilindro: A = 2PI r(h + r)
+    const float PI = 3.14159265359;
+    return 2 * PI * _radius * (_length + _radius);
+}
+
+
+void Pill::generate() {
+    
 }

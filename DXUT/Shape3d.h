@@ -13,6 +13,7 @@ enum Shape3DType {
     S_UNKNOWN,
     S_SPHERE,
     S_CUBE,
+    S_PILL
 };
 
 
@@ -88,6 +89,28 @@ public:
     void generate() override;
     float Volume() const override;
     float SurfaceArea() const override;
+};
+// ---------------------------------------------------------------------------
+
+class Pill : public Shape3D {
+private:
+    float _radius;
+    float _length;
+
+public:
+    Pill();
+    Pill(const Position& position, float radius, float length, Color color = Color::YELLOW);
+
+    float radius() const;
+    void SetRadius(float value);
+
+    float length() const;
+    void SetLength(float value);
+
+    void generate() override;
+    float Volume() const override;
+    float SurfaceArea() const override;
+
 };
 
 #endif

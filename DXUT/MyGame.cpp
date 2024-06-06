@@ -200,7 +200,7 @@ void MyGame::Update(double frameTime){
 void MyGame::Draw(){
 	//drawner.Draw(*obj);
 	//drawCube(Position::Zero);
-	_drawnner.Draw(cube);
+	_drawnner.Draw(sphere);
 }
 
 void MyGame::Finalize(){

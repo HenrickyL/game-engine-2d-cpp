@@ -36,6 +36,7 @@ private:
 	GLRenderer3D _drawnner;
 	Cube cube;
 	Sphere sphere;
+	Pill pill;
 	int onSolid = 0;
 
 public:
