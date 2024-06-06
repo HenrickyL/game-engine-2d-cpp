@@ -25,20 +25,17 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
         glColor3f(c.r(), c.g(), c.b());
     }
 
-    if (_fillMode == F_SOLID || _fillMode == F_WIREFRAME_SOLID) {
-        for (const Triangle& triangle : triangles) {
-            glBegin(GL_TRIANGLES);
-            // Loop through each vertex in the triangle and draw it
-            for (int i = 0; i < 3; ++i) {
-                const Vertex& vertex = triangle.vertices[i];
-                glColor3f(vertex.r(), vertex.g(), vertex.b());
-                glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
-            }
-            glEnd();
+    for (const Triangle& triangle : triangles) {
+        glBegin(GL_TRIANGLES);
+        for (int i = 0; i < 3; ++i) {
+            const Vertex& vertex = triangle.vertices[i];
+            glColor3f(vertex.r(), vertex.g(), vertex.b());
+            glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
         }
+        glEnd();
     }
 
-    if (_fillMode == F_WIREFRAME || _fillMode == F_WIREFRAME_SOLID) {
+    if (_fillMode == F_WIREFRAME_SOLID) {
         glColor3f(c.r(), c.g(), c.b());
         glLineWidth(1.2f);
         for (const Triangle& triangle : triangles) {
@@ -56,19 +53,19 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
         }
     }
 
-    if (_fillMode == F_POINTS) {
-        glColor3f(c.r(), c.g(), c.b());
-        glPointSize(2.5f);
-        glBegin(GL_POINTS);
-        for (int i = 0; i < vertices.size(); i++) {
-            Vertex v = vertices[i];
-            if (!shape.isFlatColor()) {
-                glColor3f(v.r(), v.g(), v.b());
-            }
-            glVertex3f(v.x(), v.y(), v.z());
-        }
-        glEnd();
-    }
+    //if (_fillMode == F_POINTS) {
+    //    glColor3f(c.r(), c.g(), c.b());
+    //    glPointSize(2.5f);
+    //    glBegin(GL_POINTS);
+    //    for (int i = 0; i < vertices.size(); i++) {
+    //        Vertex v = vertices[i];
+    //        if (!shape.isFlatColor()) {
+    //            glColor3f(v.r(), v.g(), v.b());
+    //        }
+    //        glVertex3f(v.x(), v.y(), v.z());
+    //    }
+    //    glEnd();
+    //}
 }
 
 
