@@ -31,15 +31,15 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
     float halfDepth = cube.depth() / 2;
 
     // Definir os vértices do cubo
-    float vertices[8][3] = {
-        { -halfWidth, halfHeight, halfDepth },    // v1
-        { -halfWidth, -halfHeight, halfDepth },   // v2
-        { halfWidth, -halfHeight, halfDepth },    // v3
-        { halfWidth, halfHeight, halfDepth },     // v4
-        { halfWidth, halfHeight, -halfDepth },    // v5
-        { halfWidth, -halfHeight, -halfDepth },   // v6
-        { -halfWidth, -halfHeight, -halfDepth }, // v7
-        { -halfWidth, halfHeight, -halfDepth }   // v8
+    std::vector<Position> vertices = {
+        Position(-halfWidth, halfHeight, halfDepth),   // v1
+        Position(-halfWidth, -halfHeight, halfDepth),  // v2
+        Position(halfWidth, -halfHeight, halfDepth),   // v3
+        Position(halfWidth, halfHeight, halfDepth),    // v4
+        Position(halfWidth, halfHeight, -halfDepth),   // v5
+        Position(halfWidth, -halfHeight, -halfDepth),  // v6
+        Position(-halfWidth, -halfHeight, -halfDepth), // v7
+        Position(-halfWidth, halfHeight, -halfDepth)   // v8
     };
 
     // Definir as faces do cubo
@@ -72,7 +72,7 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
                     Color c = faceColors[i];
                     glColor3f(c.r(), c.g(), c.b());
                 }
-                glVertex3f(vertices[vertexIndex][0], vertices[vertexIndex][1], vertices[vertexIndex][2]);
+                glVertex3f(vertices[vertexIndex].x(), vertices[vertexIndex].y(), vertices[vertexIndex].z());
             }
         }
         glEnd();
@@ -90,8 +90,8 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
             for (int j = 0; j < 4; ++j) {
                 int vertexIndex1 = faces[i][j];
                 int vertexIndex2 = faces[i][(j + 1) % 4];
-                glVertex3f(vertices[vertexIndex1][0], vertices[vertexIndex1][1], vertices[vertexIndex1][2]);
-                glVertex3f(vertices[vertexIndex2][0], vertices[vertexIndex2][1], vertices[vertexIndex2][2]);
+                glVertex3f(vertices[vertexIndex1].x(), vertices[vertexIndex1].y(), vertices[vertexIndex1].z());
+                glVertex3f(vertices[vertexIndex2].x(), vertices[vertexIndex2].y(), vertices[vertexIndex2].z());
             }
         }
         glEnd();
@@ -105,7 +105,7 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
         glPointSize(3);
         glBegin(GL_POINTS);
         for (int i = 0; i < 8; ++i) {
-            glVertex3f(vertices[i][0], vertices[i][1], vertices[i][2]);
+            glVertex3f(vertices[i].x(), vertices[i].y(), vertices[i].z());
         }
         glEnd();
     }
