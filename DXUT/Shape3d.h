@@ -7,18 +7,16 @@
 using std::vector;
 
 enum Shape3DType {
-    UNKNOWN,
-    SPHERE,
-    CUBE,
-    CONE,
-    // Outros tipos de formas 3D que você deseja suportar
+    S_UNKNOWN,
+    S_SPHERE,
+    S_CUBE,
 };
 
 
 class Shape3D : public Movable, public Colored {
 protected:
     Shape3DType _type;  // Tipo da forma 3D
-    Color _color = Color::GREEN;
+    Color _color = Color::MAGENTA;
 
 public:
     Shape3D();
@@ -45,7 +43,7 @@ protected:
 
 public:
     Cube();
-    Cube(const Position& position, const Color color, float width, float height, float depth);
+    Cube(const Position& position, float width, float height, float depth, const Color color = Color::GREEN);
 
     float width() const;
     float height() const;
@@ -56,6 +54,21 @@ public:
     void SetWidth(float value);
     void SetHeight(float value);
     void SetDepth(float value);
+
+    virtual float Volume() const override;
+    virtual float SurfaceArea() const override;
+};
+// ---------------------------------------------------------------------------
+class Sphere : public Shape3D {
+private:
+    float _radius;
+
+public:
+    Sphere();
+    Sphere(const Position& position, float radius, const Color color = Color::GRAY);
+
+    float radius() const;
+    void SetRadius(float value);
 
     virtual float Volume() const override;
     virtual float SurfaceArea() const override;

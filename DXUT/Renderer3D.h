@@ -7,6 +7,8 @@
 class Renderer3D : public RendererBase {
 private:
 	virtual void DrawCube(const Cube& cube) const = 0;
+	virtual void DrawCube(const Cube& cube) const = 0;
+
 public:
 	virtual void Draw(const Shape3D& shape) = 0;
 

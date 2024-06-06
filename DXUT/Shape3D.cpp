@@ -1,14 +1,14 @@
 #include "Shape3d.h"
-
+#include <cmath>
 
 Shape3D::Shape3D() : Movable(Position::Zero) {
     _color = Color::GREEN;
-    _type = UNKNOWN;
+    _type = S_UNKNOWN;
 }
 Shape3D::Shape3D(const Position& position, const Color color) : Movable(position)
 {
     _color = color;
-    _type = UNKNOWN;
+    _type = S_UNKNOWN;
 }
 
 Shape3D::~Shape3D() {}
@@ -23,13 +23,13 @@ Shape3DType Shape3D::type() const {
 
 
 Cube::Cube() : Shape3D(), _width(1.0f), _height(1.0f), _depth(1.0f) {
-    _type = CUBE;
-    SetColor(Color::BLUE);
+    _type = S_CUBE;
+    SetColor(Color::GREEN);
 }
 
-Cube::Cube(const Position& position, const Color color, float width, float height, float depth)
+Cube::Cube(const Position& position, float width, float height, float depth, const Color color)
     : Shape3D(position, color), _width(width), _height(height), _depth(depth) {
-    _type = CUBE;
+    _type = S_CUBE;
 }
 
 float Cube::width() const {return _width;}
@@ -48,4 +48,31 @@ float Cube::Volume() const {
 
 float Cube::SurfaceArea() const {
     return 2 * (_width * _height + _height * _depth + _depth * _width);
+}
+
+// ---------------------------------------------------------------------------
+Sphere::Sphere() : Shape3D(), _radius(1.0f) {
+    _type = S_SPHERE;
+    SetColor(Color::GRAY);
+}
+
+Sphere::Sphere(const Position& position, float radius, const Color color)
+    : Shape3D(position, color), _radius(radius) {
+    _type = S_SPHERE;
+}
+
+float Sphere::radius() const {
+    return _radius;
+}
+
+void Sphere::SetRadius(float value) {
+    _radius = value;
+}
+
+float Sphere::Volume() const {
+    return (4.0f / 3.0f) * M_PI * std::pow(_radius, 3);
+}
+
+float Sphere::SurfaceArea() const {
+    return 4.0f * M_PI * std::pow(_radius, 2);
 }
