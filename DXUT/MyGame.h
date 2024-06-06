@@ -37,9 +37,13 @@ private:
 	Cube cube;
 	Sphere sphere;
 	Pill pill;
+	vector<Shape3D*> objects;
 	int onSolid = 0;
+	Shape3D* current = nullptr;
+	int currentIndex = -1;
 
 public:
+
 	void Init() override;
 	void Update(double frameTime) override;
 	void Draw() override;

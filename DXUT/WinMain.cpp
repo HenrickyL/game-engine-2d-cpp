@@ -20,7 +20,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->SetTitle("My Game");
 		engine->window->Icon(IDI_ICON);
 		//engine->window->Cursor(IDC_CURSOR);	
-		engine->SetGraphicsFPS(FPS_MONITOR);
+		//engine->SetGraphicsFPS(FPS_MONITOR);
 		// aplica��o pausa/resume ao perder/ganhar o foco
 		engine->window->LostFocus(Engine::Pause);
 		engine->window->InFocus(Engine::Resume);
