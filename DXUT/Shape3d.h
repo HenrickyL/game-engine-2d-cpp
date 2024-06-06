@@ -37,7 +37,7 @@ public:
     const vector<Triangle> triangles() const;
 
     // Métodos adicionais específicos para formas 3D
-    virtual void generateVertices() = 0;
+    virtual void generate() = 0;
     virtual float Volume() const = 0;
     virtual float SurfaceArea() const = 0;
 };
@@ -61,7 +61,7 @@ public:
     void SetHeight(float value);
     void SetDepth(float value);
 
-    void generateVertices() override;
+    void generate() override;
     float Volume() const override;
     float SurfaceArea() const override;
 };
@@ -85,7 +85,7 @@ public:
     float stacks() const;
     void SetStacks(float value);
 
-    void generateVertices() override;
+    void generate() override;
     float Volume() const override;
     float SurfaceArea() const override;
 };

@@ -30,13 +30,13 @@ const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
 Cube::Cube() :Shape3D(), _width(1.0f), _height(1.0f), _depth(1.0f) {
     _type = S_CUBE;
     SetColor(Color::GREEN);
-    this->generateVertices();
+    this->generate();
 }
 
 Cube::Cube(const Position& position, float width, float height, float depth, const Color color)
     : Shape3D(position, color), _width(width), _height(height), _depth(depth){
     _type = S_CUBE;
-    this->generateVertices();
+    this->generate();
 }
 
 float Cube::width() const {return _width;}
@@ -56,7 +56,7 @@ float Cube::SurfaceArea() const {
     return 2 * (_width * _height + _height * _depth + _depth * _width);
 }
 
-void Cube::generateVertices() {
+void Cube::generate() {
     _vertices.clear();
     _triangles.clear();
     float halfWidth = width() / 2;
@@ -109,13 +109,13 @@ void Cube::generateVertices() {
 Sphere::Sphere() :Shape3D(), _radius(1.0f){
     _type = S_SPHERE;
     SetColor(Color::GRAY);
-    this->generateVertices();
+    this->generate();
 }
 
 Sphere::Sphere(const Position& position, float radius, const Color color)
     :Shape3D(position, color), _radius(radius) {
     _type = S_SPHERE;
-    this->generateVertices();
+    this->generate();
 }
 
 float Sphere::radius() const {return _radius;}
@@ -136,7 +136,7 @@ float Sphere::SurfaceArea() const {
     return 4.0f * M_PI * std::pow(_radius, 2);
 }
 
-void Sphere::generateVertices() {
+void Sphere::generate() {
     _vertices.clear();
     _triangles.clear();
     //generate Vertex
