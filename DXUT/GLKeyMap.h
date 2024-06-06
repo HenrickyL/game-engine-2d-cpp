@@ -21,6 +21,7 @@ std::unordered_map<int, InputKeys> GLKeyMap = { // Definição
     {GLFW_KEY_G, KEY_G},
     {GLFW_KEY_L, KEY_L},
     {GLFW_KEY_T, KEY_T},
+    {GLFW_KEY_F, KEY_F},
 };
 
 #endif 
