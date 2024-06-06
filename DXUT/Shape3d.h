@@ -3,6 +3,7 @@
 
 #include "Movable.h"
 #include "Colored.h"
+#include "Vertex.h" 
 #include <vector>
 using std::vector;
 
@@ -18,7 +19,7 @@ protected:
     Shape3DType _type;  // Tipo da forma 3D
     Color _color = Color::MAGENTA;
     bool _isFlatColor = false;
-
+    vector<Vertex> _vertices;
 
 public:
     Shape3D();
@@ -28,11 +29,10 @@ public:
     Shape3DType type() const;
     bool isFlatColor() const;
 
-
-    //virtual void MoveTo(const Position& position);
-    //virtual void TranslateTo(const Vector& delta);
+    const vector<Vertex> vertices() const;
 
     // Métodos adicionais específicos para formas 3D
+    virtual void generateVertices() = 0;
     virtual float Volume() const = 0;
     virtual float SurfaceArea() const = 0;
 };
@@ -56,8 +56,9 @@ public:
     void SetHeight(float value);
     void SetDepth(float value);
 
-    virtual float Volume() const override;
-    virtual float SurfaceArea() const override;
+    void generateVertices() override;
+    float Volume() const override;
+    float SurfaceArea() const override;
 };
 // ---------------------------------------------------------------------------
 class Sphere : public Shape3D {
@@ -79,8 +80,9 @@ public:
     float stacks() const;
     void SetStacks(float value);
 
-    virtual float Volume() const override;
-    virtual float SurfaceArea() const override;
+    void generateVertices() override;
+    float Volume() const override;
+    float SurfaceArea() const override;
 };
 
 #endif

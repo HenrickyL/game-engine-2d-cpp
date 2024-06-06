@@ -26,21 +26,8 @@ void GLRenderer3D::SwitchTypShapeToDraw(const Shape3D& shape) const
 
 
 void GLRenderer3D::DrawCube(const Cube& cube) const {
-    float halfWidth = cube.width() / 2;
-    float halfHeight = cube.height() / 2;
-    float halfDepth = cube.depth() / 2;
-
-    // Definir os vértices do cubo
-    std::vector<Position> vertices = {
-        Position(-halfWidth, halfHeight, halfDepth),   // v1
-        Position(-halfWidth, -halfHeight, halfDepth),  // v2
-        Position(halfWidth, -halfHeight, halfDepth),   // v3
-        Position(halfWidth, halfHeight, halfDepth),    // v4
-        Position(halfWidth, halfHeight, -halfDepth),   // v5
-        Position(halfWidth, -halfHeight, -halfDepth),  // v6
-        Position(-halfWidth, -halfHeight, -halfDepth), // v7
-        Position(-halfWidth, halfHeight, -halfDepth)   // v8
-    };
+    
+    vector<Vertex> vertices = cube.vertices();
 
     // Definir as faces do cubo
     int faces[6][4] = {
@@ -72,7 +59,8 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
                     Color c = faceColors[i];
                     glColor3f(c.r(), c.g(), c.b());
                 }
-                glVertex3f(vertices[vertexIndex].x(), vertices[vertexIndex].y(), vertices[vertexIndex].z());
+                Vertex vertex = vertices[vertexIndex];
+                glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
             }
         }
         glEnd();
@@ -90,8 +78,10 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
             for (int j = 0; j < 4; ++j) {
                 int vertexIndex1 = faces[i][j];
                 int vertexIndex2 = faces[i][(j + 1) % 4];
-                glVertex3f(vertices[vertexIndex1].x(), vertices[vertexIndex1].y(), vertices[vertexIndex1].z());
-                glVertex3f(vertices[vertexIndex2].x(), vertices[vertexIndex2].y(), vertices[vertexIndex2].z());
+                Vertex vertex = vertices[vertexIndex1];
+                glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
+                vertex = vertices[vertexIndex2];
+                glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
             }
         }
         glEnd();
@@ -105,7 +95,8 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
         glPointSize(3);
         glBegin(GL_POINTS);
         for (int i = 0; i < 8; ++i) {
-            glVertex3f(vertices[i].x(), vertices[i].y(), vertices[i].z());
+            Vertex vertex = vertices[i];
+            glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
         }
         glEnd();
     }
