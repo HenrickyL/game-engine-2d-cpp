@@ -35,6 +35,7 @@ private:
 
 	GLRenderer3D _drawnner;
 	Cube cube;
+	Sphere sphere;
 	int onSolid = 0;
 
 public:

@@ -1,4 +1,4 @@
-#include "Shape3d.h"
+#include "Shape3D.h"
 #include <cmath>
 
 Shape3D::Shape3D() : Movable(Position::Zero) {
@@ -61,13 +61,15 @@ Sphere::Sphere(const Position& position, float radius, const Color color)
     _type = S_SPHERE;
 }
 
-float Sphere::radius() const {
-    return _radius;
-}
+float Sphere::radius() const {return _radius;}
+void Sphere::SetRadius(float value) {_radius = value;}
 
-void Sphere::SetRadius(float value) {
-    _radius = value;
-}
+float Sphere::sectors() const { return _nSectors; }
+void Sphere::SetSectors(float value) { _nSectors = value; }
+
+float Sphere::stacks() const { return _nStacks; }
+void Sphere::SetStacks(float value) { _nStacks = value; }
+
 
 float Sphere::Volume() const {
     return (4.0f / 3.0f) * M_PI * std::pow(_radius, 3);

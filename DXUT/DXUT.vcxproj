@@ -226,7 +226,7 @@
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="Renderer3D.h" />
     <ClInclude Include="RendererBase.h" />
-    <ClInclude Include="Shape3d.h" />
+    <ClInclude Include="Shape3D.h" />
     <ClInclude Include="ShortPathProblem.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="DXUT.h" />

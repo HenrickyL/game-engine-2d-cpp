@@ -18,6 +18,9 @@ void GLRenderer3D::SwitchTypShapeToDraw(const Shape3D& shape) const
     if (const Cube* cube = dynamic_cast<const Cube*>(&shape)) {
         this->DrawCube(*cube);
     }
+    else if (const Sphere* sphere = dynamic_cast<const Sphere*>(&shape)) {
+        this->DrawSphere(*sphere);
+    }
 }
 
 
@@ -106,9 +109,46 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
         }
         glEnd();
     }
-
-    
-
-    
 }
+
+
+
+void GLRenderer3D::DrawSphere(const Sphere& shape) const {
+    //generate Vertex
+    float phi; // -pi/2 - pi/2
+    float theta; //0 - 2pi
+    const float PI = 3.14159265359;
+
+    int nStack = shape.stacks();
+    int nSector = shape.sectors();
+    int radius = shape.radius();
+
+    vector<Position> vertices;
+    
+    float deltaPhi = PI / nStack;
+    float deltaTheta = 2 * PI / nSector;
+
+
+    for (int i = 0; i <= nStack; i++) {
+        phi = -PI / 2.0 + i * deltaPhi;
+        float temp = radius * cos(phi);
+        float y = radius * sin(phi);
+        for (int j = 0; j < nSector; j++) {
+            theta = j * deltaTheta;
+            float x = temp * sin(theta);
+            float z = temp * cos(theta);
+            vertices.push_back(Position(x, y, z));
+        }
+    }
+    //draw
+    Color c = shape.color();
+    glColor3f(c.r(), c.g(), c.b());
+    glPointSize(2.5f);
+    glBegin(GL_POINTS);
+    for (int i = 0; i < vertices.size(); i++) {
+        glVertex3f(vertices[i].x(), vertices[i].y(), vertices[i].z());
+    }
+    glEnd();
+}
+
 

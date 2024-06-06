@@ -62,6 +62,8 @@ public:
 class Sphere : public Shape3D {
 private:
     float _radius;
+    int _nStacks = 6;    //latitude
+    int _nSectors = 10;   //longitude
 
 public:
     Sphere();
@@ -69,6 +71,12 @@ public:
 
     float radius() const;
     void SetRadius(float value);
+
+    float sectors() const;
+    void SetSectors(float value);
+
+    float stacks() const;
+    void SetStacks(float value);
 
     virtual float Volume() const override;
     virtual float SurfaceArea() const override;

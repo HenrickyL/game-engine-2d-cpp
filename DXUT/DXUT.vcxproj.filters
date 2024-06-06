@@ -483,7 +483,7 @@
     <ClInclude Include="Geometry.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Shape3d.h">
+    <ClInclude Include="Shape3D.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Colored.h">
