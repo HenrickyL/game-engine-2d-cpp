@@ -57,6 +57,8 @@ float Cube::SurfaceArea() const {
 }
 
 void Cube::generateVertices() {
+    _vertices.clear();
+    _triangles.clear();
     float halfWidth = width() / 2;
     float halfHeight = height() / 2;
     float halfDepth = depth() / 2;
@@ -66,28 +68,40 @@ void Cube::generateVertices() {
     
     Color c = this->color();
     this->_vertices.push_back(Vertex(
-        Position(-halfWidth, halfHeight, halfDepth), c));   // v1
+        Position(-halfWidth, halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));   // v1
     this->_vertices.push_back(Vertex(
-        Position(-halfWidth, -halfHeight, halfDepth), c));  // v2
+        Position(-halfWidth, -halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));  // v2
     this->_vertices.push_back(Vertex(
-        Position(halfWidth, -halfHeight, halfDepth), c));   // v3
+        Position(halfWidth, -halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));   // v3
     this->_vertices.push_back(Vertex(
-        Position(halfWidth, halfHeight, halfDepth), c));    // v4
+        Position(halfWidth, halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));    // v4
     this->_vertices.push_back(Vertex(
-        Position(halfWidth, halfHeight, -halfDepth), c));   // v5
+        Position(halfWidth, halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));   // v5
     this->_vertices.push_back(Vertex(
-        Position(halfWidth, -halfHeight, -halfDepth), c));  // v6
+        Position(halfWidth, -halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));  // v6
     this->_vertices.push_back(Vertex(
-        Position(-halfWidth, -halfHeight, -halfDepth), c)); // v7
+        Position(-halfWidth, -halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor())); // v7
     this->_vertices.push_back(Vertex(
-        Position(-halfWidth, halfHeight, -halfDepth), c));  // v8
+        Position(-halfWidth, halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));  // v8
 
-
-    if (!isFlatColor()) {
-        for (Vertex v : _vertices) {
-            v.color = Color::RandomColor();
-        }
-    }
+    // Frente
+    _triangles.push_back(Triangle(_vertices[0], _vertices[1], _vertices[2]));
+    _triangles.push_back(Triangle(_vertices[2], _vertices[3], _vertices[0]));
+    // Direita
+    _triangles.push_back(Triangle(_vertices[3], _vertices[2], _vertices[5]));
+    _triangles.push_back(Triangle(_vertices[5], _vertices[4], _vertices[3]));
+    // Traseira
+    _triangles.push_back(Triangle(_vertices[4], _vertices[5], _vertices[6]));
+    _triangles.push_back(Triangle(_vertices[6], _vertices[7], _vertices[4]));
+    // Esquerda
+    _triangles.push_back(Triangle(_vertices[7], _vertices[6], _vertices[1]));
+    _triangles.push_back(Triangle(_vertices[1], _vertices[0], _vertices[7]));
+    // Inferior
+    _triangles.push_back(Triangle(_vertices[1], _vertices[6], _vertices[5]));
+    _triangles.push_back(Triangle(_vertices[5], _vertices[2], _vertices[1]));
+    // Superior
+    _triangles.push_back(Triangle(_vertices[0], _vertices[3], _vertices[4]));
+    _triangles.push_back(Triangle(_vertices[4], _vertices[7], _vertices[0]));
 }
 
 

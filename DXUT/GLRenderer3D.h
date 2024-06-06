@@ -9,10 +9,6 @@ class GLRenderer3D : public Renderer3D {
 public:
     void Draw(const Shape3D& shape) override;
 private:
-    void DrawCube(const Cube& shape) const override;
-    void DrawSphere(const Sphere& shape) const override;
-
-
-    void SwitchTypShapeToDraw(const Shape3D& shape) const override;
+    void DrawShape(const Shape3D& shape) const override;
 };
 #endif

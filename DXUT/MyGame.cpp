@@ -61,9 +61,8 @@ void drawCube(Position pos, float size = 2.5f) {
 
 	DrawRect(v2, v7, v6, v3, Color::WHITE);
 
-}//-----------------------------------------------------------------------------
-
-
+}
+//-----------------------------------------------------------------------------
 
 
 
@@ -118,10 +117,10 @@ void MyGame::Init() {
 	center.setSize(10);
 
 	object = cam; 
-	cube.SetColor(Color::GRAY);
+	//cube.SetColor(Color::GRAY);
 	_drawnner.SetFillMode(F_WIREFRAME_SOLID);
-	sphere.SetIsFlatColor(true);
-	sphere.generateVertices();
+	/*sphere.SetIsFlatColor(true);
+	sphere.generateVertices();*/
 }
 void MyGame::Update(double frameTime){
 
@@ -201,7 +200,7 @@ void MyGame::Update(double frameTime){
 void MyGame::Draw(){
 	//drawner.Draw(*obj);
 	//drawCube(Position::Zero);
-	_drawnner.Draw(sphere);
+	_drawnner.Draw(cube);
 }
 
 void MyGame::Finalize(){
