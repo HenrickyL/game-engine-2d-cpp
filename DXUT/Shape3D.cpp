@@ -13,7 +13,7 @@ Shape3D::Shape3D(const Position& position, const Color color) : Movable(position
 
 Shape3D::~Shape3D() {}
 
-
+bool Shape3D::isFlatColor() const { return _isFlatColor; }
 
 Shape3DType Shape3D::type() const {
     return _type;
@@ -35,7 +35,6 @@ Cube::Cube(const Position& position, float width, float height, float depth, con
 float Cube::width() const {return _width;}
 float Cube::height() const {return _height;}
 float Cube::depth() const {return _depth;}
-bool Cube::isFlatColor() const { return _isFlatColor;}
 
 void Cube::SetWidth(float value) { _width = value; }
 void Cube::SetHeight(float value){ _height = value; }

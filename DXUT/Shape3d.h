@@ -17,6 +17,8 @@ class Shape3D : public Movable, public Colored {
 protected:
     Shape3DType _type;  // Tipo da forma 3D
     Color _color = Color::MAGENTA;
+    bool _isFlatColor = false;
+
 
 public:
     Shape3D();
@@ -24,6 +26,8 @@ public:
     virtual ~Shape3D();
 
     Shape3DType type() const;
+    bool isFlatColor() const;
+
 
     //virtual void MoveTo(const Position& position);
     //virtual void TranslateTo(const Vector& delta);
@@ -39,7 +43,6 @@ protected:
     float _width;
     float _height;
     float _depth;
-    bool _isFlatColor = false;
 
 public:
     Cube();
@@ -48,8 +51,6 @@ public:
     float width() const;
     float height() const;
     float depth() const;
-    bool isFlatColor() const;
-
 
     void SetWidth(float value);
     void SetHeight(float value);

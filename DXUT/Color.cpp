@@ -1,5 +1,5 @@
 #include "Color.h"
-
+#include <random>
 
 // Inicialização das cores estáticas
 const Color Color::BLACK(0.0f, 0.0f, 0.0f);
@@ -88,4 +88,15 @@ ulong Color::ColorToUlong(const Color& color)
     ulong blue = static_cast<ulong>(color.b() * 255) & 0xFF;
 
     return (alpha << 24) | (red << 16) | (green << 8) | blue;
+}
+
+Color Color::RandomColor() {
+    static std::random_device rd;  // Seed for the random number engine
+    static std::mt19937 gen(rd()); // Mersenne Twister engine
+    static std::uniform_real_distribution<> dis(0.0, 1.0); // Uniform distribution between 0.0 and 1.0
+
+    float r = dis(gen);
+    float g = dis(gen);
+    float b = dis(gen);
+    return Color(r, g, b);
 }

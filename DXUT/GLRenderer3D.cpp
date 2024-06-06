@@ -124,6 +124,8 @@ void GLRenderer3D::DrawSphere(const Sphere& shape) const {
     int radius = shape.radius();
 
     vector<Position> vertices;
+    vector<Color> verticesColor;
+
     
     float deltaPhi = PI / nStack;
     float deltaTheta = 2 * PI / nSector;
@@ -138,6 +140,7 @@ void GLRenderer3D::DrawSphere(const Sphere& shape) const {
             float x = temp * sin(theta);
             float z = temp * cos(theta);
             vertices.push_back(Position(x, y, z));
+            verticesColor.push_back(Color::RandomColor());
         }
     }
     //draw
@@ -146,6 +149,10 @@ void GLRenderer3D::DrawSphere(const Sphere& shape) const {
     glPointSize(2.5f);
     glBegin(GL_POINTS);
     for (int i = 0; i < vertices.size(); i++) {
+        if (!shape.isFlatColor()) {
+            Color c = verticesColor[i];
+            glColor3f(c.r(), c.g(), c.b());
+        }
         glVertex3f(vertices[i].x(), vertices[i].y(), vertices[i].z());
     }
     glEnd();

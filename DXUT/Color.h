@@ -36,6 +36,8 @@ public:
     static const Color MAGENTA;
     static const Color _TRANSPARENT;
 
+    static Color RandomColor();
+
     // Métodos de acesso
     float r() const { return _r; }
     float g() const { return _g; }
