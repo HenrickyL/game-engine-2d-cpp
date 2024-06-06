@@ -60,7 +60,7 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
                     glColor3f(c.r(), c.g(), c.b());
                 }
                 Vertex vertex = vertices[vertexIndex];
-                glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
+                glVertex3f(vertex.x(), vertex.y(), vertex.z());
             }
         }
         glEnd();
@@ -79,9 +79,9 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
                 int vertexIndex1 = faces[i][j];
                 int vertexIndex2 = faces[i][(j + 1) % 4];
                 Vertex vertex = vertices[vertexIndex1];
-                glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
+                glVertex3f(vertex.x(), vertex.y(), vertex.z());
                 vertex = vertices[vertexIndex2];
-                glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
+                glVertex3f(vertex.x(), vertex.y(), vertex.z());
             }
         }
         glEnd();
@@ -96,7 +96,7 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
         glBegin(GL_POINTS);
         for (int i = 0; i < 8; ++i) {
             Vertex vertex = vertices[i];
-            glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
+            glVertex3f(vertex.x(), vertex.y(), vertex.z());
         }
         glEnd();
     }
@@ -105,46 +105,21 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
 
 
 void GLRenderer3D::DrawSphere(const Sphere& shape) const {
-    //generate Vertex
-    float phi; // -pi/2 - pi/2
-    float theta; //0 - 2pi
-    const float PI = 3.14159265359;
 
-    int nStack = shape.stacks();
-    int nSector = shape.sectors();
-    int radius = shape.radius();
-
-    vector<Position> vertices;
-    vector<Color> verticesColor;
+    vector<Vertex> vertices = shape.vertices();
 
     
-    float deltaPhi = PI / nStack;
-    float deltaTheta = 2 * PI / nSector;
-
-
-    for (int i = 0; i <= nStack; i++) {
-        phi = -PI / 2.0 + i * deltaPhi;
-        float temp = radius * cos(phi);
-        float y = radius * sin(phi);
-        for (int j = 0; j < nSector; j++) {
-            theta = j * deltaTheta;
-            float x = temp * sin(theta);
-            float z = temp * cos(theta);
-            vertices.push_back(Position(x, y, z));
-            verticesColor.push_back(Color::RandomColor());
-        }
-    }
     //draw
     Color c = shape.color();
     glColor3f(c.r(), c.g(), c.b());
     glPointSize(2.5f);
     glBegin(GL_POINTS);
     for (int i = 0; i < vertices.size(); i++) {
+        Vertex v = vertices[i];
         if (!shape.isFlatColor()) {
-            Color c = verticesColor[i];
-            glColor3f(c.r(), c.g(), c.b());
+            glColor3f(v.r(), v.g(), v.b());
         }
-        glVertex3f(vertices[i].x(), vertices[i].y(), vertices[i].z());
+        glVertex3f(v.x(), v.y(), v.z());
     }
     glEnd();
 }

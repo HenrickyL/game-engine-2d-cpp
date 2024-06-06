@@ -120,5 +120,28 @@ float Sphere::SurfaceArea() const {
 }
 
 void Sphere::generateVertices() {
+    //generate Vertex
+    float phi; // -pi/2 - pi/2
+    float theta; //0 - 2pi
+    const float PI = 3.14159265359;
 
+    int nStack = this->stacks();
+    int nSector = this->sectors();
+    int radius = this->radius();
+    Color c = this->color();
+    
+    float deltaPhi = PI / nStack;
+    float deltaTheta = 2 * PI / nSector;
+
+    for (int i = 0; i <= nStack; i++) {
+        phi = -PI / 2.0 + i * deltaPhi;
+        float temp = radius * cos(phi);
+        float y = radius * sin(phi);
+        for (int j = 0; j < nSector; j++) {
+            theta = j * deltaTheta;
+            float x = temp * sin(theta);
+            float z = temp * cos(theta);
+            _vertices.push_back(Vertex(Position(x, y, z), isFlatColor()? c : Color::RandomColor()));
+        }
+    }
 }
