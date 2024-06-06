@@ -504,6 +504,9 @@
     <ClInclude Include="RendererBase.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
