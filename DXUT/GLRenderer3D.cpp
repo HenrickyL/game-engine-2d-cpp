@@ -20,7 +20,9 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
     vector<Triangle> triangles = shape.triangles();
 
     Color c = shape.color();
-
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CCW);
+    glCullFace(GL_BACK);
     if (shape.isFlatColor()) {
         glColor3f(c.r(), c.g(), c.b());
     }
@@ -66,6 +68,7 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
     //    }
     //    glEnd();
     //}
+    glDisable(GL_CULL_FACE);
 }
 
 
