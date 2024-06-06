@@ -32,18 +32,10 @@ Cube::Cube(const Position& position, const Color color, float width, float heigh
     _type = CUBE;
 }
 
-float Cube::width() const {
-    return _width;
-}
-
-float Cube::height() const {
-    return _height;
-}
-
-float Cube::depth() const {
-    return _depth;
-}
-
+float Cube::width() const {return _width;}
+float Cube::height() const {return _height;}
+float Cube::depth() const {return _depth;}
+bool Cube::isFlatColor() const { return _isFlatColor;}
 
 void Cube::SetWidth(float value) { _width = value; }
 void Cube::SetHeight(float value){ _height = value; }

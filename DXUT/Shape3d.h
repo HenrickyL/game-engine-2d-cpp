@@ -3,6 +3,8 @@
 
 #include "Movable.h"
 #include "Colored.h"
+#include <vector>
+using std::vector;
 
 enum Shape3DType {
     UNKNOWN,
@@ -39,6 +41,7 @@ protected:
     float _width;
     float _height;
     float _depth;
+    bool _isFlatColor = false;
 
 public:
     Cube();
@@ -47,6 +50,8 @@ public:
     float width() const;
     float height() const;
     float depth() const;
+    bool isFlatColor() const;
+
 
     void SetWidth(float value);
     void SetHeight(float value);

@@ -48,6 +48,16 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
         { 1, 6, 5, 2 }, // Inferior
         { 0, 3, 4, 7 }  // Superior
     };
+    Color faceColors[6] = {
+        Color::RED,
+        Color::BLUE,
+        Color::GREEN,
+        Color::YELLOW,
+        Color::MAGENTA,
+        Color::WHITE,
+    };
+
+    
 
     // Desenhar os quadrados
     if (_fillMode == F_SOLID || _fillMode == F_WIREFRAME_SOLID) {
@@ -55,6 +65,10 @@ void GLRenderer3D::DrawCube(const Cube& cube) const {
         for (int i = 0; i < 6; ++i) {
             for (int j = 0; j < 4; ++j) {
                 int vertexIndex = faces[i][j];
+                if (!cube.isFlatColor()) {
+                    Color c = faceColors[i];
+                    glColor3f(c.r(), c.g(), c.b());
+                }
                 glVertex3f(vertices[vertexIndex][0], vertices[vertexIndex][1], vertices[vertexIndex][2]);
             }
         }
