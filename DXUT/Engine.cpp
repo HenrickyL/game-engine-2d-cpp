@@ -281,7 +281,9 @@ double Engine::CheckFrameSync() {
 		return _busyWait(_frameRateConstant, timer);
 	}
 	else {
-		return _busyWait(300, timer);//or timer.Reset()
+		//return _busyWait(300, timer);
+		//or
+		 return timer.Reset();
 	}
 }
 
