@@ -34,7 +34,10 @@ private:
 	Window* window;
 
 	GLRenderer3D _drawnner;
+	GLRenderer3D _drawnner2;
+
 	Cube cube;
+	Plane plane = Plane(50.0f);
 	Sphere sphere;
 	Pill pill;
 	vector<Shape3D*> objects;

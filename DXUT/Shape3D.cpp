@@ -2,13 +2,19 @@
 #include <cmath>
 
 Shape3D::Shape3D() : Movable(Position::Zero) {
-    _color = Color::GREEN;
+    this->SetColor(Color::GREEN);
     _type = S_UNKNOWN;
 }
 Shape3D::Shape3D(const Position& position, const Color color) : Movable(position)
 {
-    _color = color;
+    this->SetColor(color);
     _type = S_UNKNOWN;
+}
+
+Shape3D::Shape3D(const Color color) : Movable(Position::Zero)
+{
+    _type = S_UNKNOWN;
+    this->SetColor(color);
 }
 
 Shape3D::~Shape3D() {}
@@ -35,6 +41,12 @@ Cube::Cube() :Shape3D(), _width(1.0f), _height(1.0f), _depth(1.0f) {
 
 Cube::Cube(const Position& position, float width, float height, float depth, const Color color)
     : Shape3D(position, color), _width(width), _height(height), _depth(depth){
+    _type = S_CUBE;
+    this->generate();
+}
+
+Cube::Cube(float width, float height, float depth, const Color color)
+    : Shape3D(color), _width(width), _height(height), _depth(depth) {
     _type = S_CUBE;
     this->generate();
 }
@@ -118,6 +130,12 @@ Sphere::Sphere(const Position& position, float radius, const Color color)
     this->generate();
 }
 
+Sphere::Sphere(float radius, const Color color)
+    :Shape3D(color), _radius(radius) {
+    _type = S_SPHERE;
+    this->generate();
+}
+
 float Sphere::radius() const {return _radius;}
 void Sphere::SetRadius(float value) {_radius = value;}
 
@@ -184,6 +202,89 @@ void Sphere::generate() {
     }
 }
 // ---------------------------------------------------------------------------
+Plane::Plane() : Shape3D(), _width(1.0f), _depth(1.0f){
+    _type = S_PLANE;
+    SetColor(Color::WHITE);
+    this->generate();
+}
+
+Plane::Plane(float edgeSize, const Color& color)
+    : Shape3D(color), _width(edgeSize), _depth(edgeSize) {
+    _type = S_PLANE;
+    this->generate();
+}
+Plane::Plane(const Position& position, float edgeSize, const Color& color)
+    : Shape3D(position, color), _width(edgeSize), _depth(edgeSize) {
+    _type = S_PLANE;
+    this->generate();
+}
+
+Plane::Plane(const Position& position, float width, float depth, const Color& color)
+    : Shape3D(position, color), _width(width), _depth(depth) {
+    _type = S_PLANE;
+    this->generate();
+}
+
+float Plane::width() const {
+    return _width;
+}
+
+void Plane::SetWidth(float value) {
+    _width = value;
+    generate();
+}
+
+float Plane::depth() const {
+    return _depth;
+}
+
+void Plane::SetDepth(float value) {
+    _depth = value;
+    generate();
+}
+
+float Plane::Volume() const {
+    return 0.0f; // Planes have no volume
+}
+
+float Plane::SurfaceArea() const {
+    return _width * _depth;
+}
+void Plane::generate() {
+    _vertices.clear();
+    _triangles.clear();
+
+    float halfWidth = _width / 2;
+    float halfDepth = _depth / 2;
+    Color c = this->color();
+
+    int rows = static_cast<int>(_depth / _increment) + 1;
+    int cols = static_cast<int>(_width / _increment) + 1;
+    // Generate vertices
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            float x = j * _increment - halfWidth;
+            float y = 0;
+            float z = i * _increment - halfDepth;
+            _vertices.push_back(Vertex(Position(x, y, z), isFlatColor() ? c : Color::RandomColor()));
+        }
+    }
+    //generate triangles 
+    for (int i = 0; i < rows - 1; ++i) {
+        for (int j = 0; j < cols - 1; ++j) {
+            int topLeft = i * cols + j;
+            int topRight = topLeft + 1;
+            int bottomLeft = topLeft + cols;
+            int bottomRight = bottomLeft + 1;
+
+            _triangles.push_back(Triangle(_vertices[topLeft], _vertices[bottomLeft], _vertices[topRight]));
+            _triangles.push_back(Triangle(_vertices[topRight], _vertices[bottomLeft], _vertices[bottomRight]));
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+
 
 Pill::Pill() : Shape3D(),_radius(0.5f), _length(1.0f) {
     _type = S_PILL;

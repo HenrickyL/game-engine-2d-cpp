@@ -8,21 +8,41 @@ void GLRenderer3D::Draw(const Shape3D& shape) {
     glTranslatef(shape.x(), shape.y(), shape.z());
     glRotatef(shape.rotateAngle(), shape.xRot(), shape.yRot(), shape.zRot());
 
-    DrawShape(shape);
+    Pipeline(shape);
 
     glPopMatrix(); // Restore the matrix
 }
 
+void GLRenderer3D::Pipeline(const Shape3D& shape) const {
+    switch (_fillMode)
+    {
+    case F_WIREFRAME:
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        break;
+    case F_POINTS:
+        glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+        break;
+    default:
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        break;
+    }
 
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CCW);
+    glCullFace(GL_BACK);
+
+    DrawShape(shape);
+
+    glDisable(GL_CULL_FACE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
 
 void GLRenderer3D::DrawShape(const Shape3D& shape) const {
     vector<Vertex> vertices = shape.vertices();
     vector<Triangle> triangles = shape.triangles();
 
     Color c = shape.color();
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CCW);
-    glCullFace(GL_BACK);
+    
     if (shape.isFlatColor()) {
         glColor3f(c.r(), c.g(), c.b());
     }
@@ -68,7 +88,8 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
     //    }
     //    glEnd();
     //}
-    glDisable(GL_CULL_FACE);
+    
+
 }
 
 

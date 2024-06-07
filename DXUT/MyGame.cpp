@@ -122,13 +122,15 @@ void MyGame::Init() {
 	sphere.generateVertices();*/
 	float x = -1;
 	float size = 0.3;
-	for (int i = 0; i < 30; i++) {
+	for (int i = 0; i < 5; i++) {
 		objects.push_back(new Cube(Position(x,0), size, size, size));
 		x += 0.3;
 	}
 
 	currentIndex = 0;
 	current = objects[currentIndex];
+
+	_drawnner2.SetFillMode(F_WIREFRAME);
 }
 void MyGame::Update(double dt){
 	//frameTime = 0.1;
@@ -229,7 +231,7 @@ void MyGame::Update(double dt){
 void MyGame::Draw(){
 	//drawner.Draw(*obj);
 	//drawCube(Position::Zero);
-	_drawnner.Draw(sphere);
+	_drawnner2.Draw(plane);
 	for (Shape3D* s : objects) {
 		_drawnner.Draw(*s);
 	}
@@ -242,4 +244,3 @@ void MyGame::Finalize(){
 		delete s;
 	}
 }
-

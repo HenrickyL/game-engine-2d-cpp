@@ -13,6 +13,7 @@ enum Shape3DType {
     S_UNKNOWN,
     S_SPHERE,
     S_CUBE,
+    S_PLANE,
     S_PILL
 };
 
@@ -21,12 +22,13 @@ class Shape3D : public Movable, public Colored {
 protected:
     Shape3DType _type;  // Tipo da forma 3D
     Color _color = Color::MAGENTA;
-    bool _isFlatColor = false;
+    bool _isFlatColor = true;
     vector<Vertex> _vertices;
     vector<Triangle> _triangles;
 
 public:
     Shape3D();
+    Shape3D(const Color color);
     Shape3D(const Position& position, const Color color);
     virtual ~Shape3D();
 
@@ -52,6 +54,7 @@ protected:
 
 public:
     Cube();
+    Cube(float width, float height, float depth, const Color color = Color::GREEN);
     Cube(const Position& position, float width, float height, float depth, const Color color = Color::GREEN);
 
     float width() const;
@@ -75,6 +78,7 @@ private:
 
 public:
     Sphere();
+    Sphere(float radius, const Color color = Color::GRAY);
     Sphere(const Position& position, float radius, const Color color = Color::GRAY);
 
     float radius() const;
@@ -85,6 +89,29 @@ public:
 
     float stacks() const;
     void SetStacks(float value);
+
+    void generate() override;
+    float Volume() const override;
+    float SurfaceArea() const override;
+};
+// ---------------------------------------------------------------------------
+class Plane : public Shape3D {
+private:
+    float _width;
+    float _depth;
+    int _increment = 1.0f;
+
+public:
+    Plane();
+    Plane(float edgeSize, const Color& color = Color::WHITE);
+    Plane(const Position& position, float edgeSize, const Color& color = Color::WHITE);
+    Plane(const Position& position, float width, float depth, const Color& color = Color::WHITE);
+
+    float width() const;
+    void SetWidth(float value);
+
+    float depth() const;
+    void SetDepth(float value);
 
     void generate() override;
     float Volume() const override;

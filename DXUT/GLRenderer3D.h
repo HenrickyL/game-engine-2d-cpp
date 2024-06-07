@@ -10,5 +10,6 @@ public:
     void Draw(const Shape3D& shape) override;
 private:
     void DrawShape(const Shape3D& shape) const override;
+    void Pipeline(const Shape3D& shape) const;
 };
 #endif

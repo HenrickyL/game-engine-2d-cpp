@@ -27,19 +27,6 @@ public:
 // ---------------------------------------------------------------------------
 inline void RendererBase::SetFillMode(const FillModeEnum mode) { 
 	_fillMode = mode; 
-	switch (_fillMode)
-	{
-		case F_WIREFRAME:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			break;
-		case F_POINTS:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-			break;
-		default:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			break;
-	}
-
 }
 inline bool RendererBase::Initialize(Window* window, Graphics* graphics) { return true; }
 inline void RendererBase::Render() {}
