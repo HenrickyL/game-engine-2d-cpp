@@ -1,8 +1,8 @@
 #include "GLCamera.h"
 
-GLCamera::GLCamera() : Camera() {}
+GLCamera::GLCamera(const Window* window) : Camera(window) {}
 
-GLCamera::GLCamera(const Position& pos): Camera(pos) {}
+GLCamera::GLCamera(const Window* window, const Position& pos): Camera(window, pos) {}
 
 
 void GLCamera::Update() {

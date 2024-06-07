@@ -71,7 +71,7 @@ void MyGame::Init() {
 	/*GLCamera cam1(Position(0, 0, 5));
 	GLCamera cam2(Position(0, 0, 5));*/
 
-	cam = new GLCamera(Position(0, 0, 5));
+	cam = new GLCamera(window, Position(0, 0, 5));
 
 
 	bool onMode = true;
@@ -132,8 +132,8 @@ void MyGame::Init() {
 }
 void MyGame::Update(double dt){
 	//frameTime = 0.1;
-	static double frameTime = 0.1;
-	static bool isDt = false;
+	static double frameTime = 0.01;
+	static bool isDt = true;
 	static bool isConstant = true;
 	
 	if (Input::KeyPress(KEY_G)) {
