@@ -82,6 +82,7 @@ void GLWindow::Size(int width, int height) {
 
 void GLWindow::Mode(WindowModes mode) {
     switch (mode) {
+        ///TODO: Verificar se está funcionando corretamente
         case WINDOWED:
             glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_TRUE); // Define como janela decorada (com borda)
             glfwSetWindowMonitor(window, nullptr, _windowPosX, _windowPosY, _width, _height, GLFW_DONT_CARE); // Configura como janela
