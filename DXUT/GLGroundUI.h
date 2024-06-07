@@ -4,8 +4,13 @@
 #include "GroundUI.h"
 
 
-class GLGoundUI : public GroundUI {
+class GLGroundUI : public GroundUI {
+public:
+	GLGroundUI();
+	GLGroundUI(int length, const Color color = Color::WHITE);
+	GLGroundUI(const Position& pos, int length, const Color color = Color::WHITE);
 
+	void Draw() const override;
 };
 
 #endif

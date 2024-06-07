@@ -151,6 +151,7 @@
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="GLCamera.cpp" />
+    <ClCompile Include="GLGroundUI.cpp" />
     <ClCompile Include="GLRenderer.cpp" />
     <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="GLInput.cpp" />

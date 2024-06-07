@@ -231,10 +231,12 @@ void MyGame::Update(double dt){
 void MyGame::Draw(){
 	//drawner.Draw(*obj);
 	//drawCube(Position::Zero);
-	_drawnner2.Draw(plane);
-	for (Shape3D* s : objects) {
+	//_drawnner2.Draw(plane);
+	groundUi.Draw();
+
+	/*for (Shape3D* s : objects) {
 		_drawnner.Draw(*s);
-	}
+	}*/
 }
 
 void MyGame::Finalize(){

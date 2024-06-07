@@ -10,6 +10,7 @@
 
 #include <string.h>
 #include <sstream>
+#include "GLGroundUI.h"
 
 using std::stringstream;
 
@@ -42,6 +43,7 @@ private:
 	Pill pill;
 	vector<Shape3D*> objects;
 	int onSolid = 0;
+	GLGroundUI groundUi = GLGroundUI(200);
 	Shape3D* current = nullptr;
 	int currentIndex = -1;
 
