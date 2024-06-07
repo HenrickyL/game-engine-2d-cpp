@@ -27,7 +27,7 @@ private:
 	Rect* rect;
 	GLCamera* cam;
 	string s = "";
-	float globalRotation = 0;
+	Vector globalRotation = Vector::Zero;
 	std::vector<void (*)(Obj)> functionVector;
 	int index = 0;
 	Movable* object;

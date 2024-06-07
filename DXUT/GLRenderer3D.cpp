@@ -3,12 +3,15 @@
 
 void GLRenderer3D::Draw(const Shape3D& shape) {
     glPushMatrix(); // Save the current matrix
-    Color c = shape.color();
-    glColor3f(c.r(), c.g(), c.b());
-    glTranslatef(shape.x(), shape.y(), shape.z());
-    glRotatef(shape.rotateAngle(), shape.xRot(), shape.yRot(), shape.zRot());
+        Color c = shape.color();
+        glColor3f(c.r(), c.g(), c.b());
+        glTranslatef(shape.x(), shape.y(), shape.z());
+        glRotatef(shape.xRot(), 1,0,0);
+        glRotatef(shape.yRot(), 0,1,0);
+        glRotatef(shape.zRot(), 0,0,1);
 
-    Pipeline(shape);
+
+        Pipeline(shape);
 
     glPopMatrix(); // Restore the matrix
 }
@@ -51,7 +54,9 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
         glBegin(GL_TRIANGLES);
         for (int i = 0; i < 3; ++i) {
             const Vertex& vertex = triangle.vertices[i];
-            glColor3f(vertex.r(), vertex.g(), vertex.b());
+            if (!shape.isFlatColor()) {
+                glColor3f(vertex.r(), vertex.g(), vertex.b());
+            }
             glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
         }
         glEnd();

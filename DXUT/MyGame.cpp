@@ -120,15 +120,17 @@ void MyGame::Init() {
 	_drawnner.SetFillMode(F_WIREFRAME_SOLID);
 	/*sphere.SetIsFlatColor(true);
 	sphere.generateVertices();*/
-	float x = -1;
+	int qtd = 5;
 	float size = 0.3;
-	for (int i = 0; i < 5; i++) {
+	float x = -qtd*size /2;
+	for (int i = 0; i < qtd; i++) {
 		objects.push_back(new Cube(Position(x, size/2), size, size, size));
-		x += 0.3;
+		x += size +0.1f;
 	}
-	plane.Rotation(Vector(0.5,0,0));
+	plane.RotateTo(Vector(30,0,0));
 	currentIndex = 0;
 	current = objects[currentIndex];
+	current->SetColor(Color::YELLOW);
 	
 	_drawnner.AddToDisplayList(&groundUi);
 }
@@ -153,11 +155,30 @@ void MyGame::Update(double dt){
 	}*/
 
 	if (Input::KeyDown(KEY_A)) {
-		globalRotation -= frameTime*10;
+		float delta = 0.03 * 10;
+		if (Input::KeyDown(LEFT_SHIFT)) {
+			globalRotation.TranslateTo(Vector(-delta, 0, 0));
+		}
+		else if (Input::KeyDown(RIGHT_SHIFT)) {
+			globalRotation.TranslateTo(Vector(0, -delta, 0));
+
+		}else {
+			globalRotation.TranslateTo(Vector(0,0, -delta));
+		}
 	}
 
 	if (Input::KeyDown(KEY_D)) {
-		globalRotation += frameTime * 10;
+		float delta = 0.03 * 10;
+		if (Input::KeyDown(LEFT_SHIFT)) {
+			globalRotation.TranslateTo(Vector(delta, 0, 0));
+		}
+		else if (Input::KeyDown(RIGHT_SHIFT)) {
+			globalRotation.TranslateTo(Vector(0, delta, 0));
+
+		}
+		else {
+			globalRotation.TranslateTo(Vector(0, 0, delta));
+		}
 	}
 
 	if (Input::KeyDown(LEFT)) {
@@ -168,10 +189,19 @@ void MyGame::Update(double dt){
 
 	}
 	if (Input::KeyDown(UP) ) {
-		current->TranslateTo(Vector::Backward * frameTime);
+		float delta = 0.03 * 10;
 
+		if (Input::KeyDown(LEFT_SHIFT)) {
+			current->TranslateTo(Vector::Down * frameTime);
+		}
+		else
+		current->TranslateTo(Vector::Backward * frameTime);
 	}
 	if (Input::KeyDown(DOWN)) {
+		if (Input::KeyDown(LEFT_SHIFT)) {
+			current->TranslateTo(Vector::Up * frameTime);
+		}
+		else
 		current->TranslateTo(Vector::Forward * frameTime);
 	}
 
@@ -189,9 +219,17 @@ void MyGame::Update(double dt){
 
 
 	if (Input::OnWheel()) {
+		float step = 2;
 		int dir = Input::MouseWheelDirection();
-		if (dir != 0)
+		if (Input::KeyDown(LEFT_SHIFT)) {
+			current->RotateBy(Vector(0, dir* step, 0));
+		}
+		else if (Input::KeyDown(RIGHT_SHIFT)) {
+			current->RotateBy(Vector(dir* step, 0, 0));
+		}
+		else if (dir != 0) {
 			object->TranslateTo((dir > 0 ? Vector::Up : Vector::Down) );
+		}
 	}
 
 
@@ -201,8 +239,10 @@ void MyGame::Update(double dt){
 	}
 
 	if (Input::KeyPress(KEY_L)) {
+		current->SetColor(Color::GREEN);
 		currentIndex = (currentIndex + 1) % objects.size();
 		current = objects[currentIndex];
+		current->SetColor(Color::YELLOW);
 	}
 
 
@@ -224,7 +264,10 @@ void MyGame::Update(double dt){
 
 
 	glTranslatef(0, 0, 0);
-	glRotatef(globalRotation, 0, 0, 1);
+	glRotatef(globalRotation.x(), 1, 0, 0);
+	glRotatef(globalRotation.y(), 0, 1, 0);
+	glRotatef(globalRotation.z(), 0, 0, 1);
+
 
 }
 

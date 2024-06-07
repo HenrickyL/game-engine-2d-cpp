@@ -46,15 +46,15 @@ float Movable::z() const{
 
 
 float Movable::xRot() const {
-    return this->_rotation.x();
+    return this->_rotations.x();
 }
 
 float Movable::yRot() const {
-    return this->_rotation.y();
+    return this->_rotations.y();
 }
 
 float Movable::zRot() const {
-    return this->_rotation.z();
+    return this->_rotations.z();
 }
 
 
@@ -70,15 +70,13 @@ double Movable::magnitude() const {
 Vector Movable::FinalSpeed() const{
     return this->_speed * this->_magnitude;
 }
-double Movable::rotateAngle() const{
-    return this->_rotateRad * 180 / M_PI;
-}
+
 Position Movable::anchor() const{
     return this->_anchor;
 }
 
-Vector Movable::rotation() const {
-    return this->_rotation;
+Vector Movable::rotations() const {
+    return this->_rotations;
 }
 
 
@@ -88,27 +86,30 @@ void Movable::Speed(const Vector speed){
 void Movable::Magnitude(const double value){
     this->_magnitude = value;
 }
-void Movable::RotateAngle(const double angle){
-    this->_rotateRad = angle * M_PI / 180;
-}
+
 void Movable::Anchor(Position pos){
     this->_anchor = pos;
 }
 
-void Movable::Rotation(const Vector& value) {
-    this->_rotation = value;
+void Movable::RotateTo(const Vector& value) {
+    this->_rotations = value;
 }
+
+void Movable::RotateBy(const Vector& delta) {
+    this->_rotations.TranslateTo(delta);
+}
+
 
 
 void Movable::RotationZ(const float value) {
-    this->_rotation.SetZ(value);
+    this->_rotations.SetZ(value);
 }
 
 void Movable::RotationX(const float value) {
-    this->_rotation.SetX(value);
+    this->_rotations.SetX(value);
 }
 
 void Movable::RotationY(const float value) {
-    this->_rotation.SetY(value);
+    this->_rotations.SetY(value);
 }
 

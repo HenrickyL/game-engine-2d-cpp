@@ -22,6 +22,11 @@ std::unordered_map<int, InputKeys> GLKeyMap = { // Definição
     {GLFW_KEY_L, KEY_L},
     {GLFW_KEY_T, KEY_T},
     {GLFW_KEY_F, KEY_F},
+    {GLFW_KEY_LEFT_SHIFT, LEFT_SHIFT},
+    {GLFW_KEY_RIGHT_SHIFT, RIGHT_SHIFT},
+    {GLFW_KEY_LEFT_CONTROL, LEFT_CONTROL},
+    {GLFW_KEY_RIGHT_CONTROL, RIGHT_CONTROL},
+
 };
 
 #endif 

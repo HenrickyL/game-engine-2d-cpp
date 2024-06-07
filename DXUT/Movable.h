@@ -7,8 +7,7 @@
 
 class Movable {
 protected:
-    double _rotateRad = 0;
-    Vector _rotation = Vector::Zero;
+    Vector _rotations = Vector::Zero;
     Position _anchor = Position::Zero;
     Position _positionInitial = Position::Zero;
     Position _position = Position::Zero;
@@ -28,9 +27,8 @@ public:
     Vector speed() const;
     double magnitude() const;
     Vector FinalSpeed() const;
-    double rotateAngle() const;
     Position anchor() const;
-    Vector rotation() const;
+    Vector rotations() const;
     float xRot() const;
     float yRot() const;
     float zRot() const;
@@ -38,8 +36,6 @@ public:
 
     void Speed(const Vector value);
     void Magnitude(const double value);
-    void RotateAngle(const double value);
-    void Rotation(const Vector& value);
     void RotationX(const float value);
     void RotationY(const float value);
     void RotationZ(const float value);
@@ -51,8 +47,8 @@ public:
     virtual void MoveTo(const Position& position);
     virtual void TranslateTo(const Vector& delta);
 
-    /*virtual void RotateTo(const Vector& position);
-    virtual void RotateBy(const Vector& delta);*/
+    void RotateTo(const Vector& value);
+    virtual void RotateBy(const Vector& delta);
 };
 
 #endif
