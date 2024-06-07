@@ -16,8 +16,6 @@ private:
 public:
     void Draw(const Shape3D& shape) override;
 
-    /* the methods below need the GLDrawableBase to be dynamically allocated */
-
     // Add  GLDrawableBase to Draw and Start Draw method in Display list to OpenGL
     void AddToDisplayList(GLDrawableBase* item);
     // remove  GLDrawableBase to draw

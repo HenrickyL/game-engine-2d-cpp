@@ -5,11 +5,15 @@
 class GLDrawableBase : public virtual IDrawable {
 protected:
 	int _id;
+	bool _initialized = false;
 public:
 	GLDrawableBase();
 	~GLDrawableBase();
 
 	int id() const;
+	bool onInitilized()const;
+
+	void init();
 };
 
 #endif
