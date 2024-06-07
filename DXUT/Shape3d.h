@@ -20,7 +20,7 @@ enum Shape3DType {
 
 class Shape3D : public Movable, public Colored {
 protected:
-    Shape3DType _type;  // Tipo da forma 3D
+    Shape3DType _type = S_UNKNOWN;  // Tipo da forma 3D
     Color _color = Color::MAGENTA;
     bool _isFlatColor = true;
     vector<Vertex> _vertices;
@@ -48,12 +48,13 @@ public:
 // ---------------------------------------------------------------------------
 class Cube : public Shape3D {
 protected:
-    float _width;
-    float _height;
-    float _depth;
+    float _width = 1.0f;
+    float _height = 1.0f;
+    float _depth = 1.0f;
 
 public:
     Cube();
+    Cube(const Position& position, const Color color = Color::GREEN);
     Cube(float width, float height, float depth, const Color color = Color::GREEN);
     Cube(const Position& position, float width, float height, float depth, const Color color = Color::GREEN);
 
@@ -72,12 +73,13 @@ public:
 // ---------------------------------------------------------------------------
 class Sphere : public Shape3D {
 private:
-    float _radius;
+    float _radius = 1.0f;
     int _nStacks = 12;    //latitude
     int _nSectors = 20;   //longitude
 
 public:
     Sphere();
+    Sphere(const Position& position, const Color color = Color::GRAY);
     Sphere(float radius, const Color color = Color::GRAY);
     Sphere(const Position& position, float radius, const Color color = Color::GRAY);
 
@@ -97,13 +99,14 @@ public:
 // ---------------------------------------------------------------------------
 class Plane : public Shape3D {
 private:
-    float _width;
-    float _depth;
+    float _width = 1.0f;
+    float _depth = 1.0f;
     int _increment = 1.0f;
 
 public:
     Plane();
     Plane(float edgeSize, const Color& color = Color::WHITE);
+    Plane(const Position& position, const Color& color = Color::WHITE);
     Plane(const Position& position, float edgeSize, const Color& color = Color::WHITE);
     Plane(const Position& position, float width, float depth, const Color& color = Color::WHITE);
 
@@ -121,11 +124,12 @@ public:
 
 class Pill : public Shape3D {
 private:
-    float _radius;
-    float _length;
+    float _radius = 0.5f;
+    float _length = 1.0f;
 
 public:
     Pill();
+    Pill(const Position& position, Color color = Color::YELLOW);
     Pill(const Position& position, float radius, float length, Color color = Color::YELLOW);
 
     float radius() const;

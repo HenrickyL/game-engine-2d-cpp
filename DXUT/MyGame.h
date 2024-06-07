@@ -37,8 +37,8 @@ private:
 	GLRenderer3D _drawnner;
 
 	Cube cube;
-	Plane plane = Plane(50.0f);
-	Sphere sphere;
+	Plane plane = Plane(2.0f);
+	Sphere sphere = Sphere(Position(0,1,0));
 	Pill pill;
 	vector<Shape3D*> objects;
 	int onSolid = 0;

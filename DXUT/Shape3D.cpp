@@ -29,7 +29,12 @@ const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
 // ---------------------------------------------------------------------------
 
 
-Cube::Cube() :Shape3D(Color::BLUE), _width(1.0f), _height(1.0f), _depth(1.0f) {
+Cube::Cube() :Shape3D(Color::BLUE) {
+    _type = S_CUBE;
+    this->generate();
+}
+Cube::Cube(const Position& position, const Color color)
+    : Shape3D(position, color) {
     _type = S_CUBE;
     this->generate();
 }
@@ -113,7 +118,13 @@ void Cube::generate() {
 
 
 // ---------------------------------------------------------------------------
-Sphere::Sphere() :Shape3D(Color::GRAY), _radius(1.0f){
+Sphere::Sphere() :Shape3D(Color::GRAY){
+    _type = S_SPHERE;
+    this->generate();
+}
+
+Sphere::Sphere(const Position& position, const Color color)
+    :Shape3D(position, color) {
     _type = S_SPHERE;
     this->generate();
 }
@@ -196,7 +207,7 @@ void Sphere::generate() {
     }
 }
 // ---------------------------------------------------------------------------
-Plane::Plane() : Shape3D(Color::WHITE), _width(1.0f), _depth(1.0f){
+Plane::Plane() : Shape3D(Color::WHITE){
     _type = S_PLANE;
     this->generate();
 }
@@ -208,6 +219,12 @@ Plane::Plane(float edgeSize, const Color& color)
 }
 Plane::Plane(const Position& position, float edgeSize, const Color& color)
     : Shape3D(position, color), _width(edgeSize), _depth(edgeSize) {
+    _type = S_PLANE;
+    this->generate();
+}
+
+Plane::Plane(const Position& position, const Color& color)
+    : Shape3D(position, color) {
     _type = S_PLANE;
     this->generate();
 }
@@ -279,11 +296,16 @@ void Plane::generate() {
 // ---------------------------------------------------------------------------
 
 
-Pill::Pill() : Shape3D(Color::YELLOW),_radius(0.5f), _length(1.0f) {
+Pill::Pill() : Shape3D(Color::YELLOW){
     _type = S_PILL;
     this->generate();
 }
 
+Pill::Pill(const Position& position,  Color color)
+    : Shape3D(position, color) {
+    _type = S_PILL;
+    this->generate();
+}
 
 Pill::Pill(const Position& position, float radius, float length, Color color)
     : Shape3D(position, color), _radius(radius), _length(length) {
