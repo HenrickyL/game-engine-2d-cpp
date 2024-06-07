@@ -59,6 +59,16 @@ void Position::TranslateTo(const Vector& delta)
 }
 // ---------------------------------------------------------------------------------
 
+const float* Position::p3f() const {
+	static float p[3]; // Declaração de um array estático local
+	p[0] = _x;
+	p[1] = _y;
+	p[2] = _z;
+	return p;
+}
+// ---------------------------------------------------------------------------------
+
+
 void Position::MoveTo(const Position& position)
 {
 	_x = position._x;

@@ -100,3 +100,21 @@ Color Color::RandomColor() {
     float b = dis(gen);
     return Color(r, g, b);
 }
+
+
+const float* Color::c3f() const {
+    static float c[3];
+    c[0] = _r;
+    c[1] = _g;
+    c[2] = _b;
+    return c;
+}
+
+const float* Color::c4f() const {
+    static float c[4];
+    c[0] = _r;
+    c[1] = _g;
+    c[2] = _b;
+    c[3] = _a;
+    return c;
+}

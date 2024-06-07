@@ -21,6 +21,8 @@ public:
 	float		y() const;
 	float		z() const;
 
+	const float*		p3f() const;
+
 	void		SetX(const float value);
 	void		SetY(const float value);
 	void		SetZ(const float value);

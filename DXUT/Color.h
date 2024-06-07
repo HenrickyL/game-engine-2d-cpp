@@ -44,6 +44,9 @@ public:
     float b() const { return _b; }
     float alpha() const { return _a; }
 
+    const float* c3f()const;
+    const float* c4f()const;
+
     // Métodos de modificação
     void setR(float red) { _r = red; }
     void setG(float green) { _g = green; }
