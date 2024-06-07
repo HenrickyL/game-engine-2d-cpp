@@ -234,9 +234,9 @@ void MyGame::Draw(){
 	//_drawnner2.Draw(plane);
 	groundUi.Draw();
 
-	/*for (Shape3D* s : objects) {
+	for (Shape3D* s : objects) {
 		_drawnner.Draw(*s);
-	}*/
+	}
 }
 
 void MyGame::Finalize(){
