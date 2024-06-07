@@ -2,21 +2,21 @@
 #define DXUT_MOVABLE_H
 #include "Position.h"
 #include "Vector.h"
-#include <cmath>
-#define M_PI 3.14159265358979323846
+#include "DXUT_Math.h"
 
 
 class Movable {
 protected:
     double _rotateRad = 0;
     Vector _rotation = Vector::Zero;
-    Position _anchor;
-    Position _positionInitial;
-    Position _position;
+    Position _anchor = Position::Zero;
+    Position _positionInitial = Position::Zero;
+    Position _position = Position::Zero;
     Vector _speed = Vector::Zero;
-    double _magnitude;
+    double _magnitude = 0;
 public:
 
+    Movable();
     Movable(Position position, Vector speed = Vector::Zero);
     ~Movable();
 

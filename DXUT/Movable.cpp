@@ -1,5 +1,9 @@
 #include "Movable.h"
 
+
+
+Movable::Movable() {}
+
 Movable::Movable(Position position, Vector speed) {
     this->_position = position;
     this->_anchor = position;

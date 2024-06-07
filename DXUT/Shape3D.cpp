@@ -1,20 +1,17 @@
 ﻿#include "Shape3D.h"
 #include <cmath>
 
-Shape3D::Shape3D() : Movable(Position::Zero) {
-    this->SetColor(Color::GREEN);
+Shape3D::Shape3D() : Movable(Position::Zero), Colored(Color::GREEN){
     _type = S_UNKNOWN;
 }
-Shape3D::Shape3D(const Position& position, const Color color) : Movable(position)
+Shape3D::Shape3D(const Position& position, const Color color) : Movable(position), Colored(color)
 {
-    this->SetColor(color);
     _type = S_UNKNOWN;
 }
 
-Shape3D::Shape3D(const Color color) : Movable(Position::Zero)
+Shape3D::Shape3D(const Color color) : Movable(Position::Zero), Colored(color)
 {
     _type = S_UNKNOWN;
-    this->SetColor(color);
 }
 
 Shape3D::~Shape3D() {}
@@ -33,9 +30,8 @@ const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
 // ---------------------------------------------------------------------------
 
 
-Cube::Cube() :Shape3D(), _width(1.0f), _height(1.0f), _depth(1.0f) {
+Cube::Cube() :Shape3D(Color::BLUE), _width(1.0f), _height(1.0f), _depth(1.0f) {
     _type = S_CUBE;
-    SetColor(Color::GREEN);
     this->generate();
 }
 
@@ -118,9 +114,8 @@ void Cube::generate() {
 
 
 // ---------------------------------------------------------------------------
-Sphere::Sphere() :Shape3D(), _radius(1.0f){
+Sphere::Sphere() :Shape3D(Color::GRAY), _radius(1.0f){
     _type = S_SPHERE;
-    SetColor(Color::GRAY);
     this->generate();
 }
 
@@ -202,9 +197,8 @@ void Sphere::generate() {
     }
 }
 // ---------------------------------------------------------------------------
-Plane::Plane() : Shape3D(), _width(1.0f), _depth(1.0f){
+Plane::Plane() : Shape3D(Color::WHITE), _width(1.0f), _depth(1.0f){
     _type = S_PLANE;
-    SetColor(Color::WHITE);
     this->generate();
 }
 
@@ -286,9 +280,8 @@ void Plane::generate() {
 // ---------------------------------------------------------------------------
 
 
-Pill::Pill() : Shape3D(),_radius(0.5f), _length(1.0f) {
+Pill::Pill() : Shape3D(Color::YELLOW),_radius(0.5f), _length(1.0f) {
     _type = S_PILL;
-    SetColor(Color::YELLOW);
     this->generate();
 }
 
