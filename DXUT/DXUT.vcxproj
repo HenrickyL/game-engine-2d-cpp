@@ -157,7 +157,7 @@
     <ClCompile Include="GLRenderer3D.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
-    <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="GroundUI.cpp" />
     <ClCompile Include="MCAction.cpp" />
     <ClCompile Include="MCObj.cpp" />
     <ClCompile Include="MCS.cpp" />
@@ -196,8 +196,9 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Colored.h" />
     <ClInclude Include="Dictionary.h" />
+    <ClInclude Include="GLGroundUI.h" />
     <ClInclude Include="GLRenderer3D.h" />
-    <ClInclude Include="Ground.h" />
+    <ClInclude Include="GroundUI.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="DXRenderer.h" />
     <ClInclude Include="DXGraphics.h" />

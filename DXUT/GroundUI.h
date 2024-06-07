@@ -6,14 +6,14 @@
 #include "Movable.h" 
 #include "Colored.h" 
 
-    class Ground : public Movable, public Colored {
+    class GroundUI : public Movable, public Colored {
     protected:
         int _length;
         int _increment = 1.0f;
     public:
-        Ground();
-        Ground(int length, const Color color = Color::WHITE);
-        Ground(const Position& pos, int length, const Color color = Color::WHITE);
+        GroundUI();
+        GroundUI(int length, const Color color = Color::WHITE);
+        GroundUI(const Position& pos, int length, const Color color = Color::WHITE);
 
         int length()const;
         void SetLength(int value);
