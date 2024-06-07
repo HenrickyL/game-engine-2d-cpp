@@ -341,11 +341,11 @@ bool Scene::Collision(Mixed* m, Geometry* s)
 
     while (!collision && i != m->shapes.end())
     {
-        switch ((*i)->Type())
+        switch ((*i)->type())
         {
             // Point
         case POINT_T:
-            switch (s->Type())
+            switch (s->type())
             {
             case POINT_T:     collision = Collision((Point*)(*i), (Point*)s); break;
             case CIRCLE_T:    collision = Collision((Point*)(*i), (Circle*)s); break;
@@ -356,7 +356,7 @@ bool Scene::Collision(Mixed* m, Geometry* s)
 
             // Circle
         case CIRCLE_T:
-            switch (s->Type())
+            switch (s->type())
             {
             case POINT_T:     collision = Collision((Circle*)(*i), (Point*)s); break;
             case CIRCLE_T:    collision = Collision((Circle*)(*i), (Circle*)s); break;
@@ -367,7 +367,7 @@ bool Scene::Collision(Mixed* m, Geometry* s)
 
             // Rectangle
         case RECTANGLE_T:
-            switch (s->Type())
+            switch (s->type())
             {
             case POINT_T:     collision = Collision((Rect*)(*i), (Point*)s); break;
             case CIRCLE_T:    collision = Collision((Rect*)(*i), (Circle*)s); break;
@@ -397,12 +397,12 @@ bool Scene::Collision(Object* oa, Object* ob)
     if (!(oa->BBox() && ob->BBox()))
         return false;
 
-    switch (oa->BBox()->Type())
+    switch (oa->BBox()->type())
     {
         // Point    
     case POINT_T:
 
-        switch (ob->BBox()->Type())
+        switch (ob->BBox()->type())
         {
         case POINT_T:
             // Point && Point
@@ -428,7 +428,7 @@ bool Scene::Collision(Object* oa, Object* ob)
         // Circle    
     case CIRCLE_T:
 
-        switch (ob->BBox()->Type())
+        switch (ob->BBox()->type())
         {
         case POINT_T:
             // Circle && Point
@@ -454,7 +454,7 @@ bool Scene::Collision(Object* oa, Object* ob)
         // Rectangle
     case RECTANGLE_T:
 
-        switch (ob->BBox()->Type())
+        switch (ob->BBox()->type())
         {
         case POINT_T:
             // Rectangle && Point

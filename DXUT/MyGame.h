@@ -6,6 +6,7 @@
 #include "Geometry.h"
 #include "UT_GL.h"
 #include "Scene.h"
+#include "GLRenderer3D.h"
 
 #include <string.h>
 #include <sstream>
@@ -23,7 +24,6 @@ class MyGame : public Game {
 private:
 	Geometry* obj;
 	Rect* rect;
-	GLRenderer drawner;
 	GLCamera* cam;
 	string s = "";
 	float globalRotation = 0;
@@ -33,7 +33,17 @@ private:
 
 	Window* window;
 
+	GLRenderer3D _drawnner;
+	Cube cube;
+	Sphere sphere;
+	Pill pill;
+	vector<Shape3D*> objects;
+	int onSolid = 0;
+	Shape3D* current = nullptr;
+	int currentIndex = -1;
+
 public:
+
 	void Init() override;
 	void Update(double frameTime) override;
 	void Draw() override;

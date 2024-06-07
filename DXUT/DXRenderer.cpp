@@ -136,6 +136,10 @@ void DXRenderer::BeginPixels()
 
 void DXRenderer::Draw(const Geometry& geometry)
 {
+    SwitchTypeGeometryToDraw(geometry);
+}
+
+void DXRenderer::SwitchTypeGeometryToDraw(const Geometry& geometry) const {
     if (const Rect* rect = dynamic_cast<const Rect*>(&geometry)) {
         this->DrawRect(*rect);
     }
@@ -153,13 +157,14 @@ void DXRenderer::Draw(const Geometry& geometry)
     }
 }
 
+
 // -----------------------------------------------------------------------------
 
 void DXRenderer::DrawPoint(const Point& point) const
 {
     if (point.x() >= 0 && point.x() < _window->Width())
         if (point.y() >= 0 && point.y() < _window->Height())
-            PlotPixel(int(point.x()), int(point.y()), point.GetColor());
+            PlotPixel(int(point.x()), int(point.y()), point.color());
 }
 
 // -----------------------------------------------------------------------------
@@ -173,7 +178,7 @@ void DXRenderer::DrawLine(const Line& line) const
 
     // desenha apenas a parte visível da linha
     if (ClipLine(x1, y1, x2, y2))
-        DrawLine(x1, y1, x2, y2, line.GetColor());
+        DrawLine(x1, y1, x2, y2, line.color());
 }
 
 // -----------------------------------------------------------------------------

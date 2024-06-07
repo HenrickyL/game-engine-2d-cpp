@@ -83,43 +83,34 @@ void GLRenderer::DrawPolygon(const Poly& polygon)const {
     }
 }
 
-
+void GLRenderer::SwitchTypeGeometryToDraw(const Geometry& geometry) const {
+    if (const Rect* rect = dynamic_cast<const Rect*>(&geometry)) {
+        this->DrawRect(*rect);
+    }
+    else if (const Point* point = dynamic_cast<const Point*>(&geometry)) {
+        this->DrawPoint(*point);
+    }
+    else if (const Line* line = dynamic_cast<const Line*>(&geometry)) {
+        this->DrawLine(*line);
+    }
+    else if (const Circle* circle = dynamic_cast<const Circle*>(&geometry)) {
+        this->DrawCircle(*circle);
+    }
+    else if (const Poly* polygon = dynamic_cast<const Poly*>(&geometry)) {
+        this->DrawPolygon(*polygon);
+    }
+}
 
 
 void GLRenderer::Draw(const Geometry& geometry){
     glPushMatrix(); //local
-        Color c = geometry.GetColor();
+        Color c = geometry.color();
         glColor3f(c.r(), c.g(), c.b());
-
         glTranslatef(geometry.x(), geometry.y(), geometry.z());
         glRotatef(geometry.rotateAngle(), geometry.xRot(), geometry.yRot(), geometry.zRot());
 
-	    if (const Rect* rect = dynamic_cast<const Rect*>(&geometry)) {
-            this->DrawRect(*rect);
-        }
-        else if (const Point* point = dynamic_cast<const Point*>(&geometry)) {
-            this->DrawPoint(*point);
-        }
-        else if (const Line* line = dynamic_cast<const Line*>(&geometry)) {
-            this->DrawLine(*line);
-        }
-        else if (const Circle* circle = dynamic_cast<const Circle*>(&geometry)) {
-            this->DrawCircle(*circle);
-        }
-        else if (const Poly* polygon = dynamic_cast<const Poly*>(&geometry)) {
-            this->DrawPolygon(*polygon);
-        }
+        SwitchTypeGeometryToDraw(geometry);
+	    
     glPopMatrix();
-
 }
 
-
-bool GLRenderer::Initialize(Window* window, Graphics* graphics) {
-    return true;
-}
-void GLRenderer::Draw(SpriteData& sprite) {
-
-}
-void GLRenderer::Render() {
-
-}

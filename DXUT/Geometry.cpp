@@ -29,16 +29,10 @@ void Geometry::setStroke(float value) {
     this->_stroke = value;
 }
 // --------------------------------------------------------------------------
-Color Geometry::GetColor() const {
-    return this->_color;
-}
-
-void Geometry::SetColor(Color color) {
-    this->_color = color;
-}
 
 
-uint Geometry::Type() const
+
+uint Geometry::type() const
 {
     return _type;
 }

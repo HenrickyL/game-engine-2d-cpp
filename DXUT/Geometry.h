@@ -6,7 +6,7 @@
 #include <list>                                     // lista da STL
 #include "Position.h"
 #include "Movable.h"
-#include "Color.h"
+#include "Colored.h"
 using std::list;                                    // usar list sem std::
 // ---------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ enum GeometryTypes
 // Geometry
 // ---------------------------------------------------------------------------
 
-class Geometry : public Movable
+class Geometry : public Movable, public Colored
 {
 protected:
     uint _type;                                      // tipo da geometria
@@ -40,11 +40,8 @@ public:
     Geometry(const Position& position, const Color color);// construtor
     virtual ~Geometry();                            // destrutor
 
-    virtual uint Type() const;                       // retorna tipo
-    virtual Color GetColor() const;
+    virtual uint type() const;                       // retorna tipo
     virtual bool isFilled() const;
-
-    virtual void SetColor(Color color);
     virtual void setFilled(bool isFilled);
 
     float Stroke() const;

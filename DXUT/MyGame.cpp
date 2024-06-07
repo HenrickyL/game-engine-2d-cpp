@@ -61,10 +61,8 @@ void drawCube(Position pos, float size = 2.5f) {
 
 	DrawRect(v2, v7, v6, v3, Color::WHITE);
 
-}//-----------------------------------------------------------------------------
-
-
-
+}
+//-----------------------------------------------------------------------------
 
 
 void MyGame::Init() {
@@ -73,7 +71,7 @@ void MyGame::Init() {
 	/*GLCamera cam1(Position(0, 0, 5));
 	GLCamera cam2(Position(0, 0, 5));*/
 
-	cam = new GLCamera(Position(0, 0, 5));
+	cam = new GLCamera(window, Position(0, 0, 5));
 
 
 	bool onMode = true;
@@ -117,15 +115,40 @@ void MyGame::Init() {
 	Point center = Point(obj->position());
 	center.setSize(10);
 
-	object = cam;
-
-}
-void MyGame::Update(double frameTime){
-
-
-	if (Input::KeyPress(KEY_G)) {
-		MyGame::window->isResizeable(true);
+	object = cam; 
+	//cube.SetColor(Color::GRAY);
+	_drawnner.SetFillMode(F_WIREFRAME_SOLID);
+	/*sphere.SetIsFlatColor(true);
+	sphere.generateVertices();*/
+	float x = -1;
+	float size = 0.3;
+	for (int i = 0; i < 30; i++) {
+		objects.push_back(new Cube(Position(x,0), size, size, size));
+		x += 0.3;
 	}
+
+	currentIndex = 0;
+	current = objects[currentIndex];
+}
+void MyGame::Update(double dt){
+	//frameTime = 0.1;
+	static double frameTime = 0.01;
+	static bool isDt = true;
+	static bool isConstant = true;
+	
+	if (Input::KeyPress(KEY_G)) {
+		isDt = !isDt;
+	}
+	frameTime = isDt ? dt : 0.1;
+
+	if (Input::KeyPress(KEY_F)) {
+		isConstant = !isConstant;
+		Engine::Instance()->SetFrameRateType(isConstant ? CONSTANT : VARIABLE);
+	}
+
+	/*if (Input::KeyPress(KEY_G)) {
+		MyGame::window->isResizeable(true);
+	}*/
 
 	if (Input::KeyDown(KEY_A)) {
 		globalRotation -= frameTime*10;
@@ -136,18 +159,18 @@ void MyGame::Update(double frameTime){
 	}
 
 	if (Input::KeyDown(LEFT)) {
-		object->TranslateTo(Vector::Left * frameTime);
+		current->TranslateTo(Vector::Left * frameTime);
 	}
 	if (Input::KeyDown(RIGHT) ) {
-		object->TranslateTo(Vector::Right * frameTime);
+		current->TranslateTo(Vector::Right * frameTime);
 
 	}
 	if (Input::KeyDown(UP) ) {
-		object->TranslateTo(Vector::Backward * frameTime);
+		current->TranslateTo(Vector::Backward * frameTime);
 
 	}
 	if (Input::KeyDown(DOWN)) {
-		object->TranslateTo(Vector::Forward * frameTime);
+		current->TranslateTo(Vector::Forward * frameTime);
 	}
 
 	if (Input::OnDrag() ) {
@@ -170,13 +193,27 @@ void MyGame::Update(double frameTime){
 	}
 
 
+	if (Input::KeyPress(KEY_T)) {
+		onSolid = (onSolid+1)%4;
+		_drawnner.SetFillMode((FillModeEnum)onSolid);
+	}
+
+	if (Input::KeyPress(KEY_L)) {
+		currentIndex = (currentIndex + 1) % objects.size();
+		current = objects[currentIndex];
+	}
+
+
 
 	if (Input::KeyPress(SPACE)) {
 		index++;
 		if (index >= functionVector.size()) {
 			index = 0;
 		}
+		sphere.MoveTo(Position());
 	}
+
+	sphere.TranslateTo(Vector::Right * frameTime);
 
 	glLoadIdentity();
 	cam->Update();
@@ -191,12 +228,18 @@ void MyGame::Update(double frameTime){
 
 void MyGame::Draw(){
 	//drawner.Draw(*obj);
-	drawCube(Position::Zero);
+	//drawCube(Position::Zero);
+	_drawnner.Draw(sphere);
+	for (Shape3D* s : objects) {
+		_drawnner.Draw(*s);
+	}
 }
 
 void MyGame::Finalize(){
 	delete cam;
 	delete rect;
-
+	for (Shape3D* s : objects) {
+		delete s;
+	}
 }
 

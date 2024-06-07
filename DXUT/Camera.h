@@ -2,13 +2,15 @@
 #define DX_UT_CAMERA_H
 
 #include "Movable.h"
+#include "Window.h"
 class Camera : public Movable {
 protected:
 	Position _pointOfView = Position::Zero;
 	Vector _orientation = Vector::Down;
+	const Window* _window = nullptr;
 public:
-	Camera();
-	Camera(const Position& pos);
+	Camera(const Window* window);
+	Camera(const Window* window, const Position& pos);
 
 
 	virtual void LookAt(const Position& pos);
