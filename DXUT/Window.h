@@ -31,7 +31,7 @@ protected:
     bool            _onCreate = false;
 
 public:
-    virtual ~Window() {}
+    virtual ~Window() = default;
 
     //virtual HINSTANCE AppId() const = 0;
     virtual HWND Id() const;

@@ -5,8 +5,9 @@
 
 #include "Movable.h" 
 #include "Colored.h" 
+#include "IDrawable.h"
 
-    class GroundUI : public Movable, public Colored {
+    class GroundUI : public Movable, public Colored, public virtual IDrawable {
     protected:
         int _length;
         int _increment = 1.0f;
@@ -17,8 +18,6 @@
 
         int length()const;
         void SetLength(int value);
-
-        virtual void Draw() const = 0;
     };
 //}
 #endif

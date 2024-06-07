@@ -93,3 +93,18 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
 }
 
 
+void GLRenderer3D::AddToDisplayList(GLDrawableBase* item) {
+    this->addElement(item);
+
+    glNewList(item->id(), GL_COMPILE);
+        item->Draw();
+    glEndList();
+}
+void GLRenderer3D::RemoveToDisplayList(GLDrawableBase* item){
+    this->removeElement(item);
+}
+void GLRenderer3D::DrawDisplayList() const{
+    for (GLDrawableBase* item : _elements) {
+        glCallList(item->id());
+    }
+}

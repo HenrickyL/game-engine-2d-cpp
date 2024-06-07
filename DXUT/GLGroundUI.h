@@ -2,9 +2,9 @@
 #define UT_GL_Ground_H
 
 #include "GroundUI.h"
+#include "GLDrawableBase.h"
 
-
-class GLGroundUI : public GroundUI {
+class GLGroundUI : public GroundUI, public GLDrawableBase {
 public:
 	GLGroundUI();
 	GLGroundUI(int length, const Color color = Color::WHITE);

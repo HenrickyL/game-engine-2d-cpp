@@ -1,5 +1,7 @@
 #include "GLWindow.h"
 #include "GLInput.h"
+#include <stdexcept>
+
 // GLWindow.cpp
 
 GLFWwindow* GLWindow::window = nullptr;// Ponteiro para a janela GLFW
@@ -8,7 +10,8 @@ double GLWindow::_aspect = 0; //proporsion
 GLdouble GLWindow::_zNear = 0.1f;
 GLdouble GLWindow::_zFar = 500.0f;
 
-GLWindow::GLWindow(){}
+GLWindow::GLWindow(){
+}
 
 GLWindow::~GLWindow() {
     if (window) {
@@ -122,11 +125,16 @@ void GLWindow::Clear() {
 bool GLWindow::Create() {
     // Inicialize GLFW
     if (!glfwInit()) {
+        throw std::runtime_error("Failed to initialize GLFW.");
         return false;
     }
     isResizeable(_allowResize);
     // Crie uma janela GLFW
     window = glfwCreateWindow(_width, _height, _title.c_str(), NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        throw std::runtime_error("Failed to create GLFW window.");
+    }
     onWindowCreate();
     setupWindowCallbacks();
 

@@ -35,7 +35,6 @@ private:
 	Window* window;
 
 	GLRenderer3D _drawnner;
-	GLRenderer3D _drawnner2;
 
 	Cube cube;
 	Plane plane = Plane(50.0f);
@@ -43,7 +42,7 @@ private:
 	Pill pill;
 	vector<Shape3D*> objects;
 	int onSolid = 0;
-	GLGroundUI groundUi = GLGroundUI(200);
+	GLGroundUI* groundUi;
 	Shape3D* current = nullptr;
 	int currentIndex = -1;
 

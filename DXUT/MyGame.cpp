@@ -129,8 +129,9 @@ void MyGame::Init() {
 
 	currentIndex = 0;
 	current = objects[currentIndex];
+	groundUi =new GLGroundUI(200);
 
-	_drawnner2.SetFillMode(F_WIREFRAME);
+	_drawnner.AddToDisplayList(groundUi);
 }
 void MyGame::Update(double dt){
 	//frameTime = 0.1;
@@ -231,8 +232,7 @@ void MyGame::Update(double dt){
 void MyGame::Draw(){
 	//drawner.Draw(*obj);
 	//drawCube(Position::Zero);
-	//_drawnner2.Draw(plane);
-	groundUi.Draw();
+	_drawnner.DrawDisplayList();
 
 	for (Shape3D* s : objects) {
 		_drawnner.Draw(*s);
@@ -245,4 +245,6 @@ void MyGame::Finalize(){
 	for (Shape3D* s : objects) {
 		delete s;
 	}
+
+	delete groundUi;
 }

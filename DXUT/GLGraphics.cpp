@@ -1,5 +1,5 @@
 #include "GLGraphics.h"
-
+#include <stdexcept>
 
 GLGraphics::GLGraphics(GLWindow* window) {
     this->_window = window;
@@ -15,7 +15,8 @@ bool GLGraphics::Initialize() {
     glewExperimental = GL_TRUE;
     GLenum glewError = glewInit();
     if (glewError != GLEW_OK) {
-        MessageBox(nullptr, reinterpret_cast<LPCSTR>(glewGetErrorString(glewError)), "Erro ao inicializar GLEW", MB_OK);
+        throw std::runtime_error("Failed to initialize GLEW.");
+        //MessageBox(nullptr, reinterpret_cast<LPCSTR>(glewGetErrorString(glewError)), "Erro ao inicializar GLEW", MB_OK);
         return false;
     }
 
