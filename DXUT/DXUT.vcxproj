@@ -196,7 +196,6 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Colored.h" />
     <ClInclude Include="Dictionary.h" />
-    <ClInclude Include="DXUT_Math.h" />
     <ClInclude Include="GLRenderer3D.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Renderer.h" />

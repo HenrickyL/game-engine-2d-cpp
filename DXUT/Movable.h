@@ -2,8 +2,8 @@
 #define DXUT_MOVABLE_H
 #include "Position.h"
 #include "Vector.h"
-#include "DXUT_Math.h"
-
+#include <cmath>
+#define M_PI 3.14159265358979323846
 
 class Movable {
 protected:

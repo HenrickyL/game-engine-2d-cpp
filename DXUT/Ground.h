@@ -1,7 +1,7 @@
 #ifndef UT_Ground_H
 #define UT_Ground_H
 
-namespace P_UI {
+//namespace P_UI {
 
 #include "Movable.h" 
 #include "Colored.h" 
@@ -20,5 +20,5 @@ namespace P_UI {
 
         virtual void Draw() const = 0;
     };
-}
+//}
 #endif

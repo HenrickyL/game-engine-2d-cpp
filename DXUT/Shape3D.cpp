@@ -1,5 +1,4 @@
 ﻿#include "Shape3D.h"
-#include <cmath>
 
 Shape3D::Shape3D() : Movable(Position::Zero), Colored(Color::GREEN){
     _type = S_UNKNOWN;
