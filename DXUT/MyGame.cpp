@@ -131,7 +131,7 @@ void MyGame::Init() {
 	currentIndex = 0;
 	current = objects[currentIndex];
 	current->SetColor(Color::YELLOW);
-	
+	wordOrigin.Init();
 	_drawnner.AddToDisplayList(&groundUi);
 }
 void MyGame::Update(double dt){
@@ -275,8 +275,9 @@ void MyGame::Draw(){
 	//drawner.Draw(*obj);
 	//drawCube(Position::Zero);
 	_drawnner.DrawDisplayList();
-	_drawnner.Draw(sphere);
-	_drawnner.Draw(plane);
+	//_drawnner.Draw(sphere);
+	//_drawnner.Draw(plane);
+	wordOrigin.Draw();
 	//groundUi.Draw();
 	for (Shape3D* s : objects) {
 		_drawnner.Draw(*s);

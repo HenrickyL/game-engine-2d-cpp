@@ -262,12 +262,6 @@
     <ClCompile Include="GLWindow.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="DXRenderer.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLRenderer.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Shape3D.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
@@ -277,14 +271,26 @@
     <ClCompile Include="GLRenderer3D.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="GLDrawableBase.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLGroundUI.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GroundUI.cpp">
       <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OriginGizmoUI.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLDrawableBase.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLGroundUI.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRenderer.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="DXRenderer.cpp">
+      <Filter>Engine\Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="GLOriginGizmoUI.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -541,6 +547,12 @@
       <Filter>Engine\Header Files\Utility\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="UT_GL.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OriginGizmoUI.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="GLOriginGizmoUI.h">
       <Filter>Engine\Header Files\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>

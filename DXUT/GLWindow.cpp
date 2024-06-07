@@ -144,6 +144,9 @@ bool GLWindow::Create() {
     Size(_width, _height);
     //// Configurações adicionais do OpenGL
     glEnable(GL_DEPTH_TEST);
+    //enable opacity
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     _onCreate = true;
     return true;

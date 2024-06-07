@@ -11,6 +11,7 @@
 #include <string.h>
 #include <sstream>
 #include "GLGroundUI.h"
+#include "GLOriginGizmoUI.h"
 
 using std::stringstream;
 
@@ -35,6 +36,8 @@ private:
 	Window* window;
 
 	GLRenderer3D _drawnner;
+	GLGroundUI groundUi = GLGroundUI(500);
+	GLOriginGizmoUI wordOrigin;
 
 	Cube cube;
 	Plane plane = Plane(2.0f);
@@ -42,7 +45,6 @@ private:
 	Pill pill;
 	vector<Shape3D*> objects;
 	int onSolid = 0;
-	GLGroundUI groundUi = GLGroundUI(500);
 	Shape3D* current = nullptr;
 	int currentIndex = -1;
 

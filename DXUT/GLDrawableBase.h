@@ -13,7 +13,8 @@ public:
 	int id() const;
 	bool onInitilized()const;
 
-	void init();
+	virtual void Init();
+	virtual void InitBuffers();
 };
 
 #endif
