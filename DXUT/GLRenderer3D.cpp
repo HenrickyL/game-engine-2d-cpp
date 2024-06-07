@@ -3,8 +3,6 @@
 
 void GLRenderer3D::Draw(const Shape3D& shape) {
     glPushMatrix(); // Save the current matrix
-        Color c = shape.color();
-        glColor3f(c.r(), c.g(), c.b());
         glTranslatef(shape.x(), shape.y(), shape.z());
         glRotatef(shape.xRot(), 1,0,0);
         glRotatef(shape.yRot(), 0,1,0);
@@ -17,13 +15,17 @@ void GLRenderer3D::Draw(const Shape3D& shape) {
 }
 
 void GLRenderer3D::Pipeline(const Shape3D& shape) const {
+    glLineWidth(1.0f);
+    glPointSize(1.0f);
     switch (_fillMode)
     {
     case F_WIREFRAME:
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glLineWidth(1.2f);
         break;
     case F_POINTS:
         glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+        glPointSize(2.5f);
         break;
     default:
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -44,10 +46,10 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
     vector<Vertex> vertices = shape.vertices();
     vector<Triangle> triangles = shape.triangles();
 
-    Color c = shape.color();
+    const float* c = shape.color().c4f();
     
     if (shape.isFlatColor()) {
-        glColor3f(c.r(), c.g(), c.b());
+        glColor4fv(c);
     }
 
     for (const Triangle& triangle : triangles) {
@@ -55,15 +57,15 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
         for (int i = 0; i < 3; ++i) {
             const Vertex& vertex = triangle.vertices[i];
             if (!shape.isFlatColor()) {
-                glColor3f(vertex.r(), vertex.g(), vertex.b());
+                glColor4fv(vertex.color.c4f());
             }
-            glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
+            glVertex3fv(vertex.position.p3f());
         }
         glEnd();
     }
 
     if (_fillMode == F_WIREFRAME_SOLID) {
-        glColor3f(c.r(), c.g(), c.b());
+        glColor4fv(c);
         glLineWidth(1.2f);
         for (const Triangle& triangle : triangles) {
             glBegin(GL_LINE_LOOP);
@@ -73,8 +75,8 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
                 if (_fillMode == F_WIREFRAME_SOLID) {
                     lineColor = vertex.color.Brightness(0.2);
                 }
-                glColor3f(lineColor.r(), lineColor.g(), lineColor.b());
-                glVertex3f(vertex.position.x(), vertex.position.y(), vertex.position.z());
+                glColor3fv(lineColor.c4f());
+                glVertex3fv(vertex.position.p3f());
             }
             glEnd();
         }
