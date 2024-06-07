@@ -130,6 +130,15 @@
     <Filter Include="Engine\doc">
       <UniqueIdentifier>{176863a9-c1b0-49de-b70d-133e43606dd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Header Files\Utility\Interfaces">
+      <UniqueIdentifier>{c9e0eb42-bea9-4355-9404-27f3bb6c3409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\Utility\Templates">
+      <UniqueIdentifier>{b39a96fe-5461-4144-be55-14b3bae301e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\Templates">
+      <UniqueIdentifier>{6af25613-fcd1-43fe-8d06-cb6118ec6de8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input.cpp">
@@ -267,6 +276,15 @@
     </ClCompile>
     <ClCompile Include="GLRenderer3D.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLDrawableBase.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLGroundUI.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundUI.cpp">
+      <Filter>Engine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -477,9 +495,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UT_GL.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Geometry.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
@@ -509,6 +524,24 @@
     </ClInclude>
     <ClInclude Include="Triangle.h">
       <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="GLDrawableBase.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="GLGroundUI.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundUI.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractList.h">
+      <Filter>Engine\Header Files\Utility\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="IDrawable.h">
+      <Filter>Engine\Header Files\Utility\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="UT_GL.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -564,6 +597,9 @@
     </None>
     <None Include="DEVELOPMENT_STANDARDS.md">
       <Filter>Engine\doc</Filter>
+    </None>
+    <None Include="AbstractList.inl">
+      <Filter>Engine\Source Files\Templates</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
