@@ -133,6 +133,10 @@ void MyGame::Init() {
 	current->SetColor(Color::YELLOW);
 	wordOrigin.Init();
 	_drawnner.AddToDisplayList(&groundUi);
+
+
+	_drawnner.Initialize(cube);
+
 }
 void MyGame::Update(double dt){
 	//frameTime = 0.1;
@@ -279,9 +283,10 @@ void MyGame::Draw(){
 	//_drawnner.Draw(plane);
 	wordOrigin.Draw();
 	//groundUi.Draw();
-	for (Shape3D* s : objects) {
+	/*for (Shape3D* s : objects) {
 		_drawnner.Draw(*s);
-	}
+	}*/
+	_drawnner.Draw(cube);
 }
 
 void MyGame::Finalize(){

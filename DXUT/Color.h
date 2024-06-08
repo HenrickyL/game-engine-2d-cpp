@@ -43,7 +43,7 @@ public:
     float r() const { return _r; }
     float g() const { return _g; }
     float b() const { return _b; }
-    float alpha() const { return _a; }
+    float a() const { return _a; }
 
     const float* c3f()const;
     const float* c4f()const;

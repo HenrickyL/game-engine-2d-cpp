@@ -82,7 +82,7 @@ Color Color::UlongToColor(ulong colorValue)
 
 ulong Color::ColorToUlong(const Color& color)
 {
-    ulong alpha = static_cast<ulong>(color.alpha() * 255) & 0xFF;
+    ulong alpha = static_cast<ulong>(color.a() * 255) & 0xFF;
     ulong red = static_cast<ulong>(color.r() * 255) & 0xFF;
     ulong green = static_cast<ulong>(color.g() * 255) & 0xFF;
     ulong blue = static_cast<ulong>(color.b() * 255) & 0xFF;

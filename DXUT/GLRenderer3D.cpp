@@ -23,6 +23,14 @@ void GLRenderer3D::Draw(const Shape3D& shape) {
     glPopMatrix(); // Restore the matrix
 }
 
+void GLRenderer3D::Render(const Shape3D& shape) const {
+    glBindVertexArray(_vao);
+    glDrawElements(GL_TRIANGLES, shape.indices().size(), GL_UNSIGNED_INT, 0); // Usando a quantidade correta de índices
+    glBindVertexArray(0);
+}
+
+
+
 void GLRenderer3D::Pipeline(const Shape3D& shape) const {
     glLineWidth(1.0f);
     glPointSize(1.0f);
@@ -45,7 +53,12 @@ void GLRenderer3D::Pipeline(const Shape3D& shape) const {
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
 
-    DrawShape(shape);
+    if (_useVertexBuffer) {
+        Render(shape);
+    }
+    else {
+        DrawShape(shape);
+    }
 
     glDisable(GL_CULL_FACE);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -127,24 +140,49 @@ void GLRenderer3D::Initialize(const Shape3D& shape){
 
     // 3. Bind do VBO e cópia dos dados dos vértices para ele
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-    glBufferData(GL_ARRAY_BUFFER, shape.vertices().size() * sizeof(Vertex), shape.vertices().data(), GL_STATIC_DRAW);
+
+    // Calcula o tamanho total dos dados dos vértices (posição + cor)
+    size_t vertexDataSize = shape.vertices().size() * (sizeof(float) * 7); // 3 floats para posição + 4 floats para cor
+
+    // Aloca memória para os dados do VBO
+    glBufferData(GL_ARRAY_BUFFER, vertexDataSize, nullptr, GL_STATIC_DRAW);
+
+    // Preenche o VBO com os dados de posição e cor
+    float* vertexBufferData = static_cast<float*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+    if (vertexBufferData) {
+        size_t vertexOffset = 0;
+        for (const Vertex& vertex : shape.vertices()) {
+            // Copia as coordenadas da posição
+            const Position& pos = vertex.position;
+            vertexBufferData[vertexOffset++] = pos.x();
+            vertexBufferData[vertexOffset++] = pos.y();
+            vertexBufferData[vertexOffset++] = pos.z();
+
+            // Copia as componentes de cor
+            const Color& col = vertex.color;
+            vertexBufferData[vertexOffset++] = col.r();
+            vertexBufferData[vertexOffset++] = col.g();
+            vertexBufferData[vertexOffset++] = col.b();
+            vertexBufferData[vertexOffset++] = col.a();
+        }
+        glUnmapBuffer(GL_ARRAY_BUFFER);
+    }
 
     // 4. Bind do EBO e cópia dos dados dos índices para ele
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices().size() * sizeof(unsigned int), shape.indices().data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices().size() * sizeof(unsigned int), shape.indices().data(), GL_STATIC_DRAW);
 
     // 5. Configuração dos atributos de vértice
     // Atributo posição
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, nullptr);
 
     // Atributo cor
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(sizeof(float) * 3)); // Offset de 3 floats (posição) para chegar às cores
 
     // 6. Desvinculação do VAO para evitar modificações acidentais
     glBindVertexArray(0);
-
 }
 
 
