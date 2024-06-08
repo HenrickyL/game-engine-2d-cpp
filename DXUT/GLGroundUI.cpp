@@ -25,6 +25,7 @@ void GLGroundUI::Init() {
 void GLGroundUI::Draw() const {
 	const float* c = this->color().c4f();
 	glColor4fv(c);
+	glDisable(GL_LINE_SMOOTH);
 	glBegin(GL_LINES);
 		for (int i = -_length; i <= _length; i+=_increment) {
 			//vertical
@@ -36,4 +37,5 @@ void GLGroundUI::Draw() const {
 			glVertex3f(_length, y(), i);
 		} 
 	glEnd();
+	glEnable(GL_LINE_SMOOTH);
 }

@@ -67,6 +67,8 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
     if (_fillMode == F_WIREFRAME_SOLID) {
         glColor4fv(c);
         glLineWidth(1.2f);
+        //glEnable(GL_LINE_SMOOTH); //antialising
+
         for (const Triangle& triangle : triangles) {
             glBegin(GL_LINE_LOOP);
             for (int i = 0; i < 3; ++i) {
@@ -80,6 +82,7 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
             }
             glEnd();
         }
+        //glDisable(GL_LINE_SMOOTH);
     }
 
     //if (_fillMode == F_POINTS) {

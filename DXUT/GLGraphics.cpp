@@ -24,6 +24,10 @@ bool GLGraphics::Initialize() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Cor de fundo preta
     glEnable(GL_DEPTH_TEST); // Ativa o teste de profundidade
     glViewport(0, 0, _window->Width(), _window->Height()); // Configura a viewport
+    //antialising GL_MULTISAMPLE
+    glEnable(GL_LINE_SMOOTH);
+    /*glEnable(GL_MULTISAMPLE);
+    glSampleCoverage(1.0f, GL_FALSE);*/
 
     if (_type == T_3D) {
         set3DRenderContext();

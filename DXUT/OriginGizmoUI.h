@@ -9,8 +9,8 @@
 
 class OriginGizmoUI : public Movable, public virtual IDrawable {
 protected:
-    float _length = 2.0f;
-    float _stroke = 2.0f;
+    float _length = 1.0f;
+    float _stroke = 2.5f;
     Color _axisX = Color::RED;
     Color _axisY = Color::GREEN;
     Color _axisZ = Color::BLUE;

@@ -19,6 +19,7 @@ void GLOriginGizmoUI::InitBuffers() {
 void GLOriginGizmoUI::Draw() const {
     const float* origin = Position::Zero.p3f();
     glLineWidth(_stroke);
+    //glEnable(GL_LINE_SMOOTH); //antialising
     glBegin(GL_LINES);
         // Eixo X (vermelho)
         glColor3fv(_axisX.c3f());
@@ -33,4 +34,6 @@ void GLOriginGizmoUI::Draw() const {
         glVertex3fv(origin);
         glVertex3f(0.0f, 0.0f, _length);
     glEnd();
+    //glDisable(GL_LINE_SMOOTH);
+
 }
