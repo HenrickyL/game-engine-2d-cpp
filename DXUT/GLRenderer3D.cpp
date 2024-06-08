@@ -159,7 +159,7 @@ void GLRenderer3D::Initialize(const Shape3D& shape){
             vertexBufferData[vertexOffset++] = pos.z();
 
             // Copia as componentes de cor
-            const Color& col = vertex.color;
+            const Color& col =shape.isFlatColor()? shape.color() : vertex.color;
             vertexBufferData[vertexOffset++] = col.r();
             vertexBufferData[vertexOffset++] = col.g();
             vertexBufferData[vertexOffset++] = col.b();

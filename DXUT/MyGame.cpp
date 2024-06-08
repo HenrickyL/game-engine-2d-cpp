@@ -124,7 +124,8 @@ void MyGame::Init() {
 	float size = 0.3;
 	float x = -qtd*size /2;
 	for (int i = 0; i < qtd; i++) {
-		objects.push_back(new Cube(Position(x, size/2), size, size, size));
+		Shape3D* curr = new Cube(Position(x, size / 2), size, size, size);
+		objects.push_back(curr);
 		x += size +0.1f;
 	}
 	plane.RotateTo(Vector(30,0,0));
@@ -133,11 +134,8 @@ void MyGame::Init() {
 	current->SetColor(Color::YELLOW);
 	wordOrigin.Init();
 	_drawnner.AddToDisplayList(&groundUi);
-
-
-	_drawnner.Initialize(cube);
-
 }
+
 void MyGame::Update(double dt){
 	//frameTime = 0.1;
 	static double frameTime = 0.01;
@@ -283,10 +281,9 @@ void MyGame::Draw(){
 	//_drawnner.Draw(plane);
 	wordOrigin.Draw();
 	//groundUi.Draw();
-	/*for (Shape3D* s : objects) {
+	for (Shape3D* s : objects) {
 		_drawnner.Draw(*s);
-	}*/
-	_drawnner.Draw(cube);
+	}
 }
 
 void MyGame::Finalize(){

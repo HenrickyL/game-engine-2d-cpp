@@ -11,7 +11,13 @@ using std::vector;
 
 class GLRenderer3D : public Renderer3D, public AbstractList<GLDrawableBase*> {
 private:
-    bool _useVertexBuffer = true;
+    //TODO: see RenderMethod
+    /*
+        * Color no changed
+        * vertexPosition no changed
+    
+    */
+    bool _useVertexBuffer = false;
     uint _vao = 0; // Vertex Array Object
     uint _vbo = 0; // Vertex Buffer Object
     uint _ebo = 0; // Element Buffer Object

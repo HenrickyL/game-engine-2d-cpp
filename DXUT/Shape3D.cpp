@@ -17,7 +17,16 @@ Shape3D::~Shape3D() {}
 
 bool Shape3D::isFlatColor() const { return _isFlatColor; }
 void Shape3D::SetIsFlatColor(bool value) { _isFlatColor = value; }
+void Shape3D::SetCallback(std::function<void()> callback) {
+    _callback = callback;
+}
 
+
+void Shape3D::NotifyChange(){
+    if (_callback) {
+        _callback();
+    }
+}
 
 Shape3DType Shape3D::type() const {
     return _type;
@@ -28,10 +37,14 @@ const vector<Vertex> Shape3D::vertices() const { return _vertices; }
 const vector<uint> Shape3D::indices() const { return  _indices; }
 
 
-void Shape3D::Clear() {
+void Shape3D::StartGenerate() {
     _vertices.clear();
     //_triangles.clear();
     _indices.clear();
+}
+
+void Shape3D::EndGenerate() {
+    NotifyChange();
 }
 
 
@@ -78,7 +91,7 @@ float Cube::SurfaceArea() const {
 }
 
 void Cube::generate() {
-    this->Clear();
+    this->StartGenerate();
 
     float halfWidth = width() / 2;
     float halfHeight = height() / 2;
@@ -143,6 +156,7 @@ void Cube::generate() {
     // Superior
     _indices.push_back(0); _indices.push_back(3); _indices.push_back(4);
     _indices.push_back(4); _indices.push_back(7); _indices.push_back(0);
+    EndGenerate();
 }
 
 
@@ -189,7 +203,7 @@ float Sphere::SurfaceArea() const {
 }
 
 void Sphere::generate() {
-    this->Clear();
+    this->StartGenerate();
 
     //generate Vertex
     float phi; // -pi/2 - pi/2
@@ -245,6 +259,7 @@ void Sphere::generate() {
             //_triangles.push_back(t2);
         }
     }
+    EndGenerate();
 }
 // ---------------------------------------------------------------------------
 Plane::Plane() : Shape3D(Color::WHITE){
@@ -301,7 +316,7 @@ float Plane::SurfaceArea() const {
     return _width * _depth;
 }
 void Plane::generate() {
-    this->Clear();
+    this->StartGenerate();
 
     float halfWidth = _width / 2;
     float halfDepth = _depth / 2;
@@ -339,6 +354,7 @@ void Plane::generate() {
             _indices.push_back(bottomRight);
         }
     }
+    EndGenerate();
 }
 
 // ---------------------------------------------------------------------------
@@ -391,6 +407,6 @@ float Pill::SurfaceArea() const {
 
 
 void Pill::generate() {
-    this->Clear();
-
+    this->StartGenerate();
+    this->EndGenerate();
 }

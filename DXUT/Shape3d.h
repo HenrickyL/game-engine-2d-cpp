@@ -8,6 +8,7 @@
 #include "types.h"
 #include <vector>
 using std::vector;
+#include <functional>
 
 enum Shape3DType {
     S_UNKNOWN,
@@ -26,8 +27,11 @@ protected:
     vector<Vertex> _vertices;
     //vector<Triangle> _triangles;
     vector<uint> _indices;
+    std::function<void()> _callback;
 
-    void Clear();
+    void StartGenerate();
+    void EndGenerate();
+    void NotifyChange();
 
 public:
     Shape3D();
@@ -37,7 +41,10 @@ public:
 
     Shape3DType type() const;
     bool isFlatColor() const;
+
     void SetIsFlatColor(bool value);
+    void SetCallback(std::function<void()> callback);
+
 
     const vector<Vertex> vertices() const;
     //const vector<Triangle> triangles() const;
