@@ -4,8 +4,8 @@
 #include "Movable.h"
 #include "Colored.h"
 #include "Vertex.h" 
-#include "Triangle.h" 
-
+//#include "Triangle.h" 
+#include "types.h"
 #include <vector>
 using std::vector;
 
@@ -24,7 +24,10 @@ protected:
     Color _color = Color::MAGENTA;
     bool _isFlatColor = true;
     vector<Vertex> _vertices;
-    vector<Triangle> _triangles;
+    //vector<Triangle> _triangles;
+    vector<uint> _indices;
+
+    void Clear();
 
 public:
     Shape3D();
@@ -37,7 +40,9 @@ public:
     void SetIsFlatColor(bool value);
 
     const vector<Vertex> vertices() const;
-    const vector<Triangle> triangles() const;
+    //const vector<Triangle> triangles() const;
+    const vector<uint> indices() const;
+
 
     // Métodos adicionais específicos para formas 3D
     virtual void generate() = 0;

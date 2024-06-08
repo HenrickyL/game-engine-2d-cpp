@@ -24,7 +24,16 @@ Shape3DType Shape3D::type() const {
 }
 
 const vector<Vertex> Shape3D::vertices() const { return _vertices; }
-const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
+//const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
+const vector<uint> Shape3D::indices() const { return  _indices; }
+
+
+void Shape3D::Clear() {
+    _vertices.clear();
+    //_triangles.clear();
+    _indices.clear();
+}
+
 
 // ---------------------------------------------------------------------------
 
@@ -69,8 +78,8 @@ float Cube::SurfaceArea() const {
 }
 
 void Cube::generate() {
-    _vertices.clear();
-    _triangles.clear();
+    this->Clear();
+
     float halfWidth = width() / 2;
     float halfHeight = height() / 2;
     float halfDepth = depth() / 2;
@@ -96,24 +105,44 @@ void Cube::generate() {
     this->_vertices.push_back(Vertex(
         Position(-halfWidth, halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));  // v8
 
+    //// Frente
+    //_triangles.push_back(Triangle(_vertices[0], _vertices[1], _vertices[2]));
+    //_triangles.push_back(Triangle(_vertices[2], _vertices[3], _vertices[0]));
+    //// Direita
+    //_triangles.push_back(Triangle(_vertices[3], _vertices[2], _vertices[5]));
+    //_triangles.push_back(Triangle(_vertices[5], _vertices[4], _vertices[3]));
+    //// Traseira
+    //_triangles.push_back(Triangle(_vertices[4], _vertices[5], _vertices[6]));
+    //_triangles.push_back(Triangle(_vertices[6], _vertices[7], _vertices[4]));
+    //// Esquerda
+    //_triangles.push_back(Triangle(_vertices[7], _vertices[6], _vertices[1]));
+    //_triangles.push_back(Triangle(_vertices[1], _vertices[0], _vertices[7]));
+    //// Inferior
+    //_triangles.push_back(Triangle(_vertices[1], _vertices[6], _vertices[5]));
+    //_triangles.push_back(Triangle(_vertices[5], _vertices[2], _vertices[1]));
+    //// Superior
+    //_triangles.push_back(Triangle(_vertices[0], _vertices[3], _vertices[4]));
+    //_triangles.push_back(Triangle(_vertices[4], _vertices[7], _vertices[0]));
+
+    // Definir os índices dos triângulos
     // Frente
-    _triangles.push_back(Triangle(_vertices[0], _vertices[1], _vertices[2]));
-    _triangles.push_back(Triangle(_vertices[2], _vertices[3], _vertices[0]));
+    _indices.push_back(0); _indices.push_back(1); _indices.push_back(2);
+    _indices.push_back(2); _indices.push_back(3); _indices.push_back(0);
     // Direita
-    _triangles.push_back(Triangle(_vertices[3], _vertices[2], _vertices[5]));
-    _triangles.push_back(Triangle(_vertices[5], _vertices[4], _vertices[3]));
+    _indices.push_back(3); _indices.push_back(2); _indices.push_back(5);
+    _indices.push_back(5); _indices.push_back(4); _indices.push_back(3);
     // Traseira
-    _triangles.push_back(Triangle(_vertices[4], _vertices[5], _vertices[6]));
-    _triangles.push_back(Triangle(_vertices[6], _vertices[7], _vertices[4]));
+    _indices.push_back(4); _indices.push_back(5); _indices.push_back(6);
+    _indices.push_back(6); _indices.push_back(7); _indices.push_back(4);
     // Esquerda
-    _triangles.push_back(Triangle(_vertices[7], _vertices[6], _vertices[1]));
-    _triangles.push_back(Triangle(_vertices[1], _vertices[0], _vertices[7]));
+    _indices.push_back(7); _indices.push_back(6); _indices.push_back(1);
+    _indices.push_back(1); _indices.push_back(0); _indices.push_back(7);
     // Inferior
-    _triangles.push_back(Triangle(_vertices[1], _vertices[6], _vertices[5]));
-    _triangles.push_back(Triangle(_vertices[5], _vertices[2], _vertices[1]));
+    _indices.push_back(1); _indices.push_back(6); _indices.push_back(5);
+    _indices.push_back(5); _indices.push_back(2); _indices.push_back(1);
     // Superior
-    _triangles.push_back(Triangle(_vertices[0], _vertices[3], _vertices[4]));
-    _triangles.push_back(Triangle(_vertices[4], _vertices[7], _vertices[0]));
+    _indices.push_back(0); _indices.push_back(3); _indices.push_back(4);
+    _indices.push_back(4); _indices.push_back(7); _indices.push_back(0);
 }
 
 
@@ -160,8 +189,8 @@ float Sphere::SurfaceArea() const {
 }
 
 void Sphere::generate() {
-    _vertices.clear();
-    _triangles.clear();
+    this->Clear();
+
     //generate Vertex
     float phi; // -pi/2 - pi/2
     float theta; //0 - 2pi
@@ -191,18 +220,29 @@ void Sphere::generate() {
     for (int i = 0; i < nStack; i++) {
         for (int j = 0; j < nSector; j++) {
             // calculate indices of the vertices
-            int v1 = i * nSector + j;
+            /*int v1 = i * nSector + j;
             int v2 = i * nSector + (j + 1) % nSector;
             int v3 = (i + 1) * nSector + (j + 1) % nSector;
-            int v4 = (i + 1) * nSector + j;
+            int v4 = (i + 1) * nSector + j;*/
+            int current = i * (nSector + 1) + j;
+            int next = current + nSector + 1;
 
             // create triangles
-            Triangle t1(_vertices[v1], _vertices[v2], _vertices[v3]);
-            Triangle t2(_vertices[v1], _vertices[v3], _vertices[v4]);
+           /* Triangle t1(_vertices[v1], _vertices[v2], _vertices[v3]);
+            Triangle t2(_vertices[v1], _vertices[v3], _vertices[v4]);*/
+            // Primeiro triângulo
+            _indices.push_back(current);
+            _indices.push_back(next);
+            _indices.push_back(next + 1);
 
-            // add triangles to the list
-            _triangles.push_back(t1);
-            _triangles.push_back(t2);
+            // Segundo triângulo
+            _indices.push_back(current);
+            _indices.push_back(next + 1);
+            _indices.push_back(current + 1);
+
+            //// add triangles to the list
+            //_triangles.push_back(t1);
+            //_triangles.push_back(t2);
         }
     }
 }
@@ -261,8 +301,7 @@ float Plane::SurfaceArea() const {
     return _width * _depth;
 }
 void Plane::generate() {
-    _vertices.clear();
-    _triangles.clear();
+    this->Clear();
 
     float halfWidth = _width / 2;
     float halfDepth = _depth / 2;
@@ -287,8 +326,17 @@ void Plane::generate() {
             int bottomLeft = topLeft + cols;
             int bottomRight = bottomLeft + 1;
 
-            _triangles.push_back(Triangle(_vertices[topLeft], _vertices[bottomLeft], _vertices[topRight]));
-            _triangles.push_back(Triangle(_vertices[topRight], _vertices[bottomLeft], _vertices[bottomRight]));
+            /*_triangles.push_back(Triangle(_vertices[topLeft], _vertices[bottomLeft], _vertices[topRight]));
+            _triangles.push_back(Triangle(_vertices[topRight], _vertices[bottomLeft], _vertices[bottomRight]));*/
+            // Primeiro triângulo
+            _indices.push_back(topLeft);
+            _indices.push_back(bottomLeft);
+            _indices.push_back(topRight);
+
+            // Segundo triângulo
+            _indices.push_back(topRight);
+            _indices.push_back(bottomLeft);
+            _indices.push_back(bottomRight);
         }
     }
 }
@@ -343,5 +391,6 @@ float Pill::SurfaceArea() const {
 
 
 void Pill::generate() {
-    
+    this->Clear();
+
 }

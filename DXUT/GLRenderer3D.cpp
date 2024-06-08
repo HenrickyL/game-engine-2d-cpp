@@ -1,5 +1,14 @@
 #include "GLRenderer3D.h"
 
+GLRenderer3D::~GLRenderer3D() {
+    // Limpeza dos buffers
+    if (_vao) glDeleteVertexArrays(1, &_vao);
+    if (_vbo) glDeleteBuffers(1, &_vbo);
+    if (_ebo) glDeleteBuffers(1, &_ebo);
+}
+
+
+
 
 void GLRenderer3D::Draw(const Shape3D& shape) {
     glPushMatrix(); // Save the current matrix
@@ -42,9 +51,19 @@ void GLRenderer3D::Pipeline(const Shape3D& shape) const {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
+void GLRenderer3D::DrawVertex(const Shape3D& shape, const Vertex& vertex)const {
+    
+    if (!shape.isFlatColor()) {
+        glColor4fv(vertex.color.c4f());
+    }
+    glVertex3fv(vertex.position.p3f());
+}
+
+
 void GLRenderer3D::DrawShape(const Shape3D& shape) const {
-    vector<Vertex> vertices = shape.vertices();
-    vector<Triangle> triangles = shape.triangles();
+    const vector<Vertex> vertices = shape.vertices();
+    //vector<Triangle> triangles = shape.triangles();
+    const vector<uint>& indices = shape.indices();
 
     const float* c = shape.color().c4f();
     
@@ -52,27 +71,21 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
         glColor4fv(c);
     }
 
-    for (const Triangle& triangle : triangles) {
-        glBegin(GL_TRIANGLES);
-        for (int i = 0; i < 3; ++i) {
-            const Vertex& vertex = triangle.vertices[i];
-            if (!shape.isFlatColor()) {
-                glColor4fv(vertex.color.c4f());
-            }
-            glVertex3fv(vertex.position.p3f());
+    glBegin(GL_TRIANGLES);
+        for (size_t i = 0; i < indices.size(); i += 3) {
+            DrawVertex(shape, vertices[indices[i]]);
+            DrawVertex(shape, vertices[indices[i+1]]);
+            DrawVertex(shape, vertices[indices[i+2]]);
         }
-        glEnd();
-    }
+    glEnd();
 
     if (_fillMode == F_WIREFRAME_SOLID) {
         glColor4fv(c);
         glLineWidth(1.2f);
-        //glEnable(GL_LINE_SMOOTH); //antialising
-
-        for (const Triangle& triangle : triangles) {
+        for (size_t i = 0; i < indices.size(); i += 3) {
             glBegin(GL_LINE_LOOP);
-            for (int i = 0; i < 3; ++i) {
-                const Vertex& vertex = triangle.vertices[i];
+            for (int j = 0; j < 3; j++) {
+                const Vertex& vertex = vertices[indices[i + j]];
                 Color lineColor = vertex.color;
                 if (_fillMode == F_WIREFRAME_SOLID) {
                     lineColor = vertex.color.Brightness(0.2);
@@ -82,24 +95,7 @@ void GLRenderer3D::DrawShape(const Shape3D& shape) const {
             }
             glEnd();
         }
-        //glDisable(GL_LINE_SMOOTH);
     }
-
-    //if (_fillMode == F_POINTS) {
-    //    glColor3f(c.r(), c.g(), c.b());
-    //    glPointSize(2.5f);
-    //    glBegin(GL_POINTS);
-    //    for (int i = 0; i < vertices.size(); i++) {
-    //        Vertex v = vertices[i];
-    //        if (!shape.isFlatColor()) {
-    //            glColor3f(v.r(), v.g(), v.b());
-    //        }
-    //        glVertex3f(v.x(), v.y(), v.z());
-    //    }
-    //    glEnd();
-    //}
-    
-
 }
 
 
@@ -118,3 +114,51 @@ void GLRenderer3D::DrawDisplayList() const{
         glCallList(item->id());
     }
 }
+
+
+void GLRenderer3D::Initialize(const Shape3D& shape){
+    // 1. Geração do VAO, VBO e EBO
+    glGenVertexArrays(1, &_vao);
+    glGenBuffers(1, &_vbo);
+    glGenBuffers(1, &_ebo);
+
+    // 2. Bind do VAO
+    glBindVertexArray(_vao);
+
+    // 3. Bind do VBO e cópia dos dados dos vértices para ele
+    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+    glBufferData(GL_ARRAY_BUFFER, shape.vertices().size() * sizeof(Vertex), shape.vertices().data(), GL_STATIC_DRAW);
+
+    // 4. Bind do EBO e cópia dos dados dos índices para ele
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices().size() * sizeof(unsigned int), shape.indices().data(), GL_STATIC_DRAW);
+
+    // 5. Configuração dos atributos de vértice
+    // Atributo posição
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+
+    // Atributo cor
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+
+    // 6. Desvinculação do VAO para evitar modificações acidentais
+    glBindVertexArray(0);
+
+}
+
+
+
+//if (_fillMode == F_POINTS) {
+   //    glColor3f(c.r(), c.g(), c.b());
+   //    glPointSize(2.5f);
+   //    glBegin(GL_POINTS);
+   //    for (int i = 0; i < vertices.size(); i++) {
+   //        Vertex v = vertices[i];
+   //        if (!shape.isFlatColor()) {
+   //            glColor3f(v.r(), v.g(), v.b());
+   //        }
+   //        glVertex3f(v.x(), v.y(), v.z());
+   //    }
+   //    glEnd();
+   //}
