@@ -6,8 +6,8 @@
 // ---------------------------------------------------------------------------------
 Vector Vector::Forward = Vector(0,0,1);
 Vector Vector::Backward = Vector(0,0,-1);
-Vector Vector::Up = Vector(0,-1,0);
-Vector Vector::Down = Vector(0,1,0);
+Vector Vector::Up = Vector(0,1,0);
+Vector Vector::Down = Vector(0,-1,0);
 Vector Vector::Left = Vector(-1, 0, 0);
 /**
  * \brief (1,0,0)
