@@ -67,8 +67,20 @@ Cube::Cube(const Position& position, float width, float height, float depth, con
     this->generate();
 }
 
+Cube::Cube(const Position& position, float size, const Color color)
+    : Shape3D(position, color), _width(size), _height(size), _depth(size) {
+    _type = S_CUBE;
+    this->generate();
+}
+
 Cube::Cube(float width, float height, float depth, const Color color)
     : Shape3D(color), _width(width), _height(height), _depth(depth) {
+    _type = S_CUBE;
+    this->generate();
+}
+
+Cube::Cube(float size, const Color color)
+    : Shape3D(color), _width(size), _height(size), _depth(size) {
     _type = S_CUBE;
     this->generate();
 }
@@ -223,7 +235,7 @@ void Sphere::generate() {
         phi = -PI / 2.0 + i * deltaPhi;
         float temp = radius * cos(phi);
         float y = radius * sin(phi);
-        for (int j = 0; j < nSector; j++) {
+        for (int j = 0; j <= nSector; j++) {
             theta = j * deltaTheta;
             float x = temp * sin(theta);
             float z = temp * cos(theta);

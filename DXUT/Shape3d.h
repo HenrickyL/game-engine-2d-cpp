@@ -67,8 +67,11 @@ protected:
 public:
     Cube();
     Cube(const Position& position, const Color color = Color::GREEN);
-    Cube(float width, float height, float depth, const Color color = Color::GREEN);
     Cube(const Position& position, float width, float height, float depth, const Color color = Color::GREEN);
+    Cube(const Position& position,float size, const Color color = Color::GREEN);
+    Cube(float width, float height, float depth, const Color color = Color::GREEN);
+    Cube(float size, const Color color = Color::GREEN);
+
 
     float width() const;
     float height() const;
