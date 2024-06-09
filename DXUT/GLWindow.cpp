@@ -121,6 +121,8 @@ double GLWindow::Aspect() const {
 void GLWindow::Clear() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(_color.r(), _color.g(), _color.b(), _color.a());
+    glLineWidth(1.0f);
+    glPointSize(1.0f);
 }
 
 bool GLWindow::Create() {

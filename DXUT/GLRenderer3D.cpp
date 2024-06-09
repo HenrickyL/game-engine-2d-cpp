@@ -32,8 +32,6 @@ void GLRenderer3D::Render(const Shape3D& shape) const {
 
 
 void GLRenderer3D::Pipeline(const Shape3D& shape) const {
-    glLineWidth(1.0f);
-    glPointSize(1.0f);
     switch (_fillMode)
     {
     case F_WIREFRAME:
