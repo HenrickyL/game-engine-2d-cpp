@@ -280,12 +280,12 @@ Plane::Plane() : Shape3D(Color::WHITE){
 }
 
 Plane::Plane(float edgeSize, const Color& color)
-    : Shape3D(color), _width(edgeSize), _depth(edgeSize) {
+    : Shape3D(color), _width(edgeSize), _height(edgeSize) {
     _type = S_PLANE;
     this->generate();
 }
 Plane::Plane(const Position& position, float edgeSize, const Color& color)
-    : Shape3D(position, color), _width(edgeSize), _depth(edgeSize) {
+    : Shape3D(position, color), _width(edgeSize), _height(edgeSize) {
     _type = S_PLANE;
     this->generate();
 }
@@ -297,7 +297,7 @@ Plane::Plane(const Position& position, const Color& color)
 }
 
 Plane::Plane(const Position& position, float width, float depth, const Color& color)
-    : Shape3D(position, color), _width(width), _depth(depth) {
+    : Shape3D(position, color), _width(width), _height(depth) {
     _type = S_PLANE;
     this->generate();
 }
@@ -311,12 +311,12 @@ void Plane::SetWidth(float value) {
     generate();
 }
 
-float Plane::depth() const {
-    return _depth;
+float Plane::height() const {
+    return _height;
 }
 
-void Plane::SetDepth(float value) {
-    _depth = value;
+void Plane::SetHeight(float value) {
+    _height = value;
     generate();
 }
 
@@ -325,32 +325,32 @@ float Plane::Volume() const {
 }
 
 float Plane::SurfaceArea() const {
-    return _width * _depth;
+    return _width * _height;
 }
 void Plane::generate() {
     this->StartGenerate();
 
     float halfWidth = _width / 2;
-    float halfDepth = _depth / 2;
+    float halfHeight = _height / 2;
     Color c = this->color();
 
-    int rows = static_cast<int>(_depth / _increment) + 1;
-    int cols = static_cast<int>(_width / _increment) + 1;
+    float rowIncrement = _height / static_cast<float>(_rows);
+    float colIncrement = _width / static_cast<float>(_cols);
     // Generate vertices
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            float x = j * _increment - halfWidth;
+    for (int i = 0; i <= _rows; i++) {
+        float z = i * rowIncrement - halfHeight;
+        for (int j = 0; j <= _cols; j++) {
+            float x = j * colIncrement - halfWidth;
             float y = 0;
-            float z = i * _increment - halfDepth;
             _vertices.push_back(Vertex(Position(x, y, z), isFlatColor() ? c : Color::RandomColor()));
         }
     }
     //generate triangles 
-    for (int i = 0; i < rows - 1; ++i) {
-        for (int j = 0; j < cols - 1; ++j) {
-            int topLeft = i * cols + j;
+    for (int i = 0; i < _rows ; i++) {
+        for (int j = 0; j < _cols; j++) {
+            int topLeft = i * (_cols + 1) + j;
             int topRight = topLeft + 1;
-            int bottomLeft = topLeft + cols;
+            int bottomLeft = topLeft + (_cols + 1);
             int bottomRight = bottomLeft + 1;
 
             /*_triangles.push_back(Triangle(_vertices[topLeft], _vertices[bottomLeft], _vertices[topRight]));

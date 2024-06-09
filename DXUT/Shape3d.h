@@ -115,9 +115,10 @@ public:
 class Plane : public Shape3D {
 private:
     float _width = 1.0f;
-    float _depth = 1.0f;
-    int _increment = 1.0f;
-
+    float _height = 1.0f;
+    // subdivisions
+    int _rows = 4;  
+    int _cols = 4;  
 public:
     Plane();
     Plane(float edgeSize, const Color& color = Color::WHITE);
@@ -128,8 +129,8 @@ public:
     float width() const;
     void SetWidth(float value);
 
-    float depth() const;
-    void SetDepth(float value);
+    float height() const;
+    void SetHeight(float value);
 
     void generate() override;
     float Volume() const override;
