@@ -216,59 +216,45 @@ float Sphere::SurfaceArea() const {
 
 void Sphere::generate() {
     this->StartGenerate();
+    int _stacks = this->stacks();
+    int _sectors = this->sectors();
 
-    //generate Vertex
-    float phi; // -pi/2 - pi/2
-    float theta; //0 - 2pi
+    // Geração dos vértices
     const float PI = 3.14159265359;
+    float deltaPhi = PI / _stacks;
+    float deltaTheta = 2.0f * PI / _sectors;
 
-    int nStack = this->stacks();
-    int nSector = this->sectors();
-    int radius = this->radius();
-    Color c = this->color();
-    
-    float deltaPhi = PI / nStack;
-    float deltaTheta = 2 * PI / nSector;
+    for (int i = 0; i <= _stacks; ++i) {
+        float phi = -PI / 2.0f + i * deltaPhi;
+        float sinPhi = sin(phi);
+        float cosPhi = cos(phi);
 
-    //generate vertices
-    for (int i = 0; i <= nStack; i++) {
-        phi = -PI / 2.0 + i * deltaPhi;
-        float temp = radius * cos(phi);
-        float y = radius * sin(phi);
-        for (int j = 0; j <= nSector; j++) {
-            theta = j * deltaTheta;
-            float x = temp * sin(theta);
-            float z = temp * cos(theta);
-            _vertices.push_back(Vertex(Position(x, y, z), isFlatColor()? c : Color::RandomColor()));
+        for (int j = 0; j <= _sectors; ++j) {
+            float theta = j * deltaTheta;
+            float x = cos(theta) * cosPhi;
+            float y = sinPhi;
+            float z = sin(theta) * cosPhi;
+            _vertices.push_back(Vertex(Position(x, y, z) * _radius, isFlatColor() ? color() : Color::RandomColor()));
         }
     }
 
-    for (int i = 0; i < nStack; i++) {
-        for (int j = 0; j < nSector; j++) {
-            // calculate indices of the vertices
-            /*int v1 = i * nSector + j;
-            int v2 = i * nSector + (j + 1) % nSector;
-            int v3 = (i + 1) * nSector + (j + 1) % nSector;
-            int v4 = (i + 1) * nSector + j;*/
-            int current = i * (nSector + 1) + j;
-            int next = current + nSector + 1;
+    // Geração dos índices
+    for (int i = 0; i < _stacks; ++i) {
+        for (int j = 0; j < _sectors; ++j) {
+            int topRight = i * (_sectors + 1) + j;
+            int bottomRight = topRight + 1;
+            int topLeft = topRight + _sectors + 1;
+            int bottomLeft = topLeft + 1;
 
-            // create triangles
-           /* Triangle t1(_vertices[v1], _vertices[v2], _vertices[v3]);
-            Triangle t2(_vertices[v1], _vertices[v3], _vertices[v4]);*/
             // Primeiro triângulo
-            _indices.push_back(current);
-            _indices.push_back(next);
-            _indices.push_back(next + 1);
+            _indices.push_back(topRight);
+            _indices.push_back(bottomRight);
+            _indices.push_back(bottomLeft);
 
             // Segundo triângulo
-            _indices.push_back(current);
-            _indices.push_back(next + 1);
-            _indices.push_back(current + 1);
-
-            //// add triangles to the list
-            //_triangles.push_back(t1);
-            //_triangles.push_back(t2);
+            _indices.push_back(topRight);
+            _indices.push_back(bottomLeft);
+            _indices.push_back(topLeft);
         }
     }
     EndGenerate();
