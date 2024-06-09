@@ -292,6 +292,9 @@
     <ClCompile Include="GLOriginGizmoUI.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="UT_Utils.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -554,6 +557,9 @@
     </ClInclude>
     <ClInclude Include="GLOriginGizmoUI.h">
       <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="UT_Utils.h">
+      <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
