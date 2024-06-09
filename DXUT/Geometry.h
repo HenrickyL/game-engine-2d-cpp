@@ -115,10 +115,10 @@ public:
     Rect(const Point& a, const Point& b);                       // construtor usando pontos
     Rect(const Position& center, float width, float height, Color color = Color::GREEN);
 
-    float Left() const { return _position.x() + left; }       // coordenadas do mundo do menor valor do eixo x
-    float Top() const { return _position.y() + top; }        // coordenadas do mundo do menor valor do eixo y
-    float Right() const { return _position.x() + right; }      // coordenadas do mundo do maior valor do eixo x
-    float Bottom() const { return _position.y() + bottom; }     // coordenadas do mundo do maior valor do eixo y
+    float Left() const { return position().x() + left; }       // coordenadas do mundo do menor valor do eixo x
+    float Top() const { return position().y() + top; }        // coordenadas do mundo do menor valor do eixo y
+    float Right() const { return position().x() + right; }      // coordenadas do mundo do maior valor do eixo x
+    float Bottom() const { return position().y() + bottom; }     // coordenadas do mundo do maior valor do eixo y
 
     float Width() const { return this->_width; }
     float Height() const { return this->_height; }

@@ -7,9 +7,9 @@
 
 
 Player::Player(Image* img, const Position& p) {
-	_position = new Position(p);
+    this->MoveTo(Position::Zero);
 	this->SetSprite(new Sprite(img));
-	_magnitude= 100;
+    this->SetMagnitude(100);
 	_sprite->SetLayer(Layer::MIDDLE);
     _sprite->SetScale(0.01f);
     _sprite->SetFilterColor(Color(255,0,255));

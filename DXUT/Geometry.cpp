@@ -87,7 +87,7 @@ Point::Point(float x, float y, Color color): Geometry(Position(x,y), color)
 
 float Point::Distance(const Point& p) const
 {
-    return p.position().Distance(_position);
+    return p.position().Distance(position());
 }
 
 float Point::Size()const {
@@ -273,23 +273,23 @@ void Poly::clear() {
     _vertexList.clear();
 }
 
-void Poly::MoveTo(Position* position) {
-    _position.MoveTo(position);
+void Poly::MoveTo(Position* pos) {
+    this->MoveTo(pos);
     for (Point& point : _vertexList){
-        Vector delta = *position - point.position();
+        Vector delta = *pos - point.position();
         point.TranslateTo(delta);
     }
 }
-void Poly::MoveTo(const Position& position) {
-    _position.MoveTo(position);
+void Poly::MoveTo(const Position& pos) {
+    this->MoveTo(pos);
     for (Point& point : _vertexList) {
-        Vector delta = position - point.position();
+        Vector delta = pos - point.position();
         point.TranslateTo(delta);
     }
 
 }
 void Poly::TranslateTo(const Vector& delta) {
-    _position.TranslateTo(delta);
+    this->TranslateTo(delta);
     for (Point& point : _vertexList) {
         point.TranslateTo(delta);
     }
@@ -303,8 +303,7 @@ void Poly::TranslateTo(const Vector& delta) {
 Mixed::Mixed()
 {
     _type = MIXED_T;
-    _position = Position();
-
+    this->MoveTo(Position());
 }
 
 // --------------------------------------------------------------------------
@@ -335,29 +334,29 @@ void Mixed::Remove(Geometry* s)
 
 void Mixed::TranslateTo(const Vector& delta)
 {
-    _position.TranslateTo(delta);
+    this->TranslateTo(delta);
     for (auto i : shapes)
         i->TranslateTo(delta);
 }
 
 // --------------------------------------------------------------------------
 
-void Mixed::MoveTo(const Position& position)
+void Mixed::MoveTo(const Position& pos)
 {
     for (auto i : shapes)
     {
-        i->MoveTo(position);
+        i->MoveTo(pos);
     }
-    _position.MoveTo(position);
+    this->MoveTo(pos);
 }
 
-void Mixed::MoveTo(Position* position)
+void Mixed::MoveTo(Position* pos)
 {
     for (auto i : shapes)
     {
-        i->MoveTo(position);
+        i->MoveTo(pos);
     }
-    _position.MoveTo(position);
+    this->MoveTo(pos);
 }
 
 // --------------------------------------------------------------------------

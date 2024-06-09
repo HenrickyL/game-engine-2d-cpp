@@ -2,11 +2,12 @@
 #define DXUT_MOVABLE_H
 #include "Position.h"
 #include "Vector.h"
+#include "Dirtyable.h"
 #include <cmath>
 #define M_PI 3.14159265358979323846
 
-class Movable {
-protected:
+class Movable : public Dirtyable {
+private:
     Vector _rotations = Vector::Zero;
     Position _anchor = Position::Zero;
     Position _positionInitial = Position::Zero;
@@ -19,29 +20,28 @@ public:
     Movable(Position position, Vector speed = Vector::Zero);
     ~Movable();
 
-    Position position() const;
-    Position initialPosition() const;
+    const Position position() const;
+    const Position initialPosition() const;
     float x() const;
     float y() const;
     float z() const;
     Vector speed() const;
     double magnitude() const;
     Vector FinalSpeed() const;
-    Position anchor() const;
+    const Position anchor() const;
     Vector rotations() const;
     float xRot() const;
     float yRot() const;
     float zRot() const;
 
-
-    void Speed(const Vector value);
-    void Magnitude(const double value);
-    void RotationX(const float value);
-    void RotationY(const float value);
-    void RotationZ(const float value);
-
-
-    void Anchor(Position pos);
+    void SetPosition(const Position value);
+    void SetSpeed(const Vector value);
+    void SetRotation(const Vector value);
+    void SetMagnitude(const double value);
+    void SetRotationX(const float value);
+    void SetRotationY(const float value);
+    void SetRotationZ(const float value);
+    void SetAnchor(Position pos);
 
     virtual void MoveTo(Position* position);
     virtual void MoveTo(const Position& position);

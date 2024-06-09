@@ -203,6 +203,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Colored.h" />
     <ClInclude Include="Dictionary.h" />
+    <ClInclude Include="Dirtyable.h" />
     <ClInclude Include="GLDrawableBase.h" />
     <ClInclude Include="GLGroundUI.h" />
     <ClInclude Include="GLOriginGizmoUI.h" />

@@ -16,22 +16,25 @@ Movable::~Movable() {}
 
 void Movable::MoveTo(const Position& position) {
     this->_position.MoveTo(position);
+    this->SetDirt();
 }
 
 void Movable::MoveTo(Position* position) {
     this->_position.MoveTo(position);
+    this->SetDirt();
 }
 
 void Movable::TranslateTo(const Vector& delta) {
     this->_position.TranslateTo(delta);
+    this->SetDirt();
 }
 
 
 
-Position Movable::position() const{
+const Position Movable::position() const{
     return this->_position;
 }
-Position Movable::initialPosition() const{
+const Position Movable::initialPosition() const{
     return this->_positionInitial;
 }
 float Movable::x() const{
@@ -71,7 +74,7 @@ Vector Movable::FinalSpeed() const{
     return this->_speed * this->_magnitude;
 }
 
-Position Movable::anchor() const{
+const Position Movable::anchor() const{
     return this->_anchor;
 }
 
@@ -80,36 +83,53 @@ Vector Movable::rotations() const {
 }
 
 
-void Movable::Speed(const Vector speed){
+void Movable::SetSpeed(const Vector speed){
     this->_speed = speed;
+    this->SetDirt();
 }
-void Movable::Magnitude(const double value){
-    this->_magnitude = value;
+void Movable::SetRotation(const Vector speed) {
+    this->_rotations = speed;
+    this->SetDirt();
 }
 
-void Movable::Anchor(Position pos){
+void Movable::SetPosition(const Position value) {
+    this->_position = value;
+    this->SetDirt();
+}
+void Movable::SetMagnitude(const double value){
+    this->_magnitude = value;
+    this->SetDirt();
+}
+
+void Movable::SetAnchor(Position pos){
     this->_anchor = pos;
+    this->SetDirt();
 }
 
 void Movable::RotateTo(const Vector& value) {
     this->_rotations = value;
+    this->SetDirt();
 }
 
 void Movable::RotateBy(const Vector& delta) {
     this->_rotations.TranslateTo(delta);
+    this->SetDirt();
 }
 
 
 
-void Movable::RotationZ(const float value) {
+void Movable::SetRotationZ(const float value) {
     this->_rotations.SetZ(value);
+    this->SetDirt();
 }
 
-void Movable::RotationX(const float value) {
+void Movable::SetRotationX(const float value) {
     this->_rotations.SetX(value);
+    this->SetDirt();
 }
 
-void Movable::RotationY(const float value) {
+void Movable::SetRotationY(const float value) {
     this->_rotations.SetY(value);
+    this->SetDirt();
 }
 
