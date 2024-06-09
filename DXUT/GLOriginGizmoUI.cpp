@@ -6,10 +6,6 @@ GLOriginGizmoUI::GLOriginGizmoUI(){}
 GLOriginGizmoUI::GLOriginGizmoUI(int length) : OriginGizmoUI(length){}
 GLOriginGizmoUI::GLOriginGizmoUI(const Position& pos, int length) : OriginGizmoUI(pos, length) {}
 
-void GLOriginGizmoUI::Init() {
-	InitBuffers();
-}
-
  
 
 void GLOriginGizmoUI::InitBuffers() {

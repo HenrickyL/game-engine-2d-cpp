@@ -12,7 +12,6 @@ public:
 	GLOriginGizmoUI(const Position& pos, int length = 2.0f);
 
 	void Draw() const override;
-	void Init() override;
 
 private:
 	uint _vao = 0;

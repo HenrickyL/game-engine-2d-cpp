@@ -16,5 +16,12 @@ void GLDrawableBase::InitBuffers() {
 
 
 void GLDrawableBase::Init() {
+	if (!_initialized) {
+		_id = glGenLists(1); // Gerar um ID de lista
+		if (_id == 0) {
+			throw std::runtime_error("Failed to generate OpenGL display list.");
+		}
+		_initialized = true;
+	}
 }
 

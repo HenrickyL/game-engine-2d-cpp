@@ -14,7 +14,6 @@ public:
 	GLGroundUI(const Position& pos, int length, const Color color = Color(1, 1, 1, 0.3f));
 
 	void Draw() const override;
-	void Init() override;
 
 };
 
