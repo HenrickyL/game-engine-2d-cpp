@@ -142,6 +142,8 @@ class Pill : public Shape3D {
 private:
     float _radius = 0.5f;
     float _length = 1.0f;
+    int _xSubDiv = 4;
+    int _ySubDiv = 4;
 
 public:
     Pill();
