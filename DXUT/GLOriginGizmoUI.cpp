@@ -17,7 +17,7 @@ void GLOriginGizmoUI::InitBuffers() {
 }
 
 void GLOriginGizmoUI::Draw() const {
-    const float* origin = Position::Zero.p3f();
+    const float* origin = this->position().p3f();
     glLineWidth(_stroke);
     //glEnable(GL_LINE_SMOOTH); //antialising
     glBegin(GL_LINES);
