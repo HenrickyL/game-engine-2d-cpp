@@ -6,6 +6,8 @@ GLCamera::GLCamera(const Window* window, const Position& pos): Camera(window, po
 
 
 void GLCamera::Update() {
+	_pointOfView = _position + _direction;
+
 	gluLookAt(
 		_position.x(), _position.y(), _position.z(),
 		_pointOfView.x(), _pointOfView.y(), _pointOfView.z(),

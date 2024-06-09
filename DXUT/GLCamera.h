@@ -12,6 +12,9 @@
 */
 
 class GLCamera : public Camera {
+private:
+	Vector _direction = Vector::Backward;
+	Vector _left = Vector::Left;
 public:
 	GLCamera(const Window* window);
 	GLCamera(const Window* window, const Position& pos);

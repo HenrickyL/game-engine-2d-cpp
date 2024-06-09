@@ -6,7 +6,7 @@
 class Camera : public Movable {
 protected:
 	Position _pointOfView = Position::Zero;
-	Vector _orientation = Vector::Down;
+	Vector _orientation = Vector::Up;
 	const Window* _window = nullptr;
 public:
 	Camera(const Window* window);
