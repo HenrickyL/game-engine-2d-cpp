@@ -43,10 +43,10 @@ std::unordered_map<WPARAM, InputKeys> DXKeyMap = { // Definição
     {0x58, KEY_X},
     {0x59, KEY_Y},
     {0x5A, KEY_Z},
-    {VK_LSHIFT, LEFT_SHIFT},
-    {VK_RSHIFT, RIGHT_SHIFT},
-    {VK_LCONTROL, LEFT_CONTROL},
-    {VK_RCONTROL, RIGHT_CONTROL},
+    {VK_LSHIFT, SHIFT_LEFT},
+    {VK_RSHIFT, SHIFT_RIGHT},
+    {VK_LCONTROL, CTRL_LEFT},
+    {VK_RCONTROL, CTRL_RIGHT},
 };
 
 #endif 
