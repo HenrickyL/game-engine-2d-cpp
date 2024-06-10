@@ -206,6 +206,7 @@ int Engine::Loop()
 			// apresenta o jogo na tela (troca backbuffer/frontbuffer)
 			graphics->Present();
 		}
+		Input::Update();
 	} while (!_window->ShouldClose());
 
 	// finalização do aplicação

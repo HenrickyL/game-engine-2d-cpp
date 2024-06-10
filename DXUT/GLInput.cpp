@@ -44,8 +44,13 @@ void GLInput::InputMouseClickCallback(GLFWwindow* window, int button, int action
 }
 
 void GLInput::InputMousePositionCallback(GLFWwindow* window, double xpos, double ypos) {
+    
+    lastMousePosition.MoveTo(mousePosition);
+    
     mousePosition.SetX(xpos);
     mousePosition.SetY(ypos);
+
+    mousePositionOffset = mousePosition - lastMousePosition;
 
     if (onClick) {
         //drag

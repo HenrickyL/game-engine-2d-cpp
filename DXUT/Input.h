@@ -4,6 +4,7 @@
 #include "InputKeys.h"
 #include "Position.h"
 #include "Vector.h"
+#include "Timer.h"
 #include <string>
 //#include <chrono>
 using std::string;
@@ -19,6 +20,8 @@ protected:
 	static string text;					// armazenamento para os caracteres digitados
 
 	static Position		mousePosition;
+	static Position		lastMousePosition;
+	static Vector		mousePositionOffset;
 	static Position		mouseClick;
 	static Position		lastMouseClick;
 	static Vector		drag;
@@ -29,6 +32,8 @@ protected:
 	static bool			_onWheel;
 	//static TimeType		lastTime;
 	static short		timeOffset;
+	static Timer		timer;
+	static bool			onStart;
 
 	static bool CheckElapsedTime();
 
@@ -43,6 +48,7 @@ public:
 	static int   MouseX();						// retorna posição x do mouse
 	static int   MouseY();						// retorna posição y do mouse
 	static Position MousePosition();
+	static Vector MousePositionOffset();		// retorna a variacao do mouse
 	static Position MouseClick();
 	static bool OnDrag();
 	static Vector Drag();
@@ -53,6 +59,9 @@ public:
 	static short MouseWheel();					// retorna rotação da roda do mouse
 	static short MouseWheelDirection();	
 	static bool OnWheel();
+	static void Reset();
+	static void Update();
+
 
 
 	static void  Read();						// armazena texto digitado até o próximo ENTER ou TAB

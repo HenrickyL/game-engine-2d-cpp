@@ -8,7 +8,7 @@ class Timer //Singleton
 private:
 	LARGE_INTEGER start, end;	// valores de início e fim do contador
 	LARGE_INTEGER freq;			// frequência do contador
-	bool stoped;				// estado da contagem
+	bool stoped = true;				// estado da contagem
 
 
 public:
@@ -20,15 +20,27 @@ public:
 	double ElapsedInSeconds();			// retorna tempo transcorrido em segundos	
 	double Elapsed();			// retorna tempo transcorrido em ms
 
-	bool  Elapsed(double secs);	// verifica se transcorreu "secs" segundos
+	bool  ElapsedSec(double secs);	// verifica se transcorreu "secs" segundos
+	bool  Elapsed(double ms);	// verifica se transcorreu "secs" segundos
+	bool  isStop() const;
 };
 // -------------------------------------------------------------------------------
 
 // Funções Inline
 
-inline bool Timer::Elapsed(double secs)
+inline bool Timer::ElapsedSec(double secs)
 {
-	return (ElapsedInSeconds() >= secs ? true : false);
+	return ElapsedInSeconds() >= secs;
+}
+
+inline bool Timer::Elapsed(double ms)
+{
+	return Elapsed() >= ms;
+}
+
+
+inline bool Timer::isStop() const {
+	return stoped;
 }
 
 // -
