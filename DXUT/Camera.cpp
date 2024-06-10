@@ -6,7 +6,7 @@ Camera::Camera(const Window* window) : Movable(Position::Zero), _window(window) 
 Camera::Camera(const Window* window,const Position & pos) : Movable(pos), _window(window) {
 }
 
-void Camera::LookAt(const Position& pos){
+void Camera::LookAt(const Vector& pos){
 	this->_pointOfView = pos;
 }
 

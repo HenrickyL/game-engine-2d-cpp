@@ -13,7 +13,7 @@ public:
 	Camera(const Window* window, const Position& pos);
 
 
-	virtual void LookAt(const Position& pos);
+	virtual void LookAt(const Vector& pos);
 	virtual void TranslateLookAt(const Vector& delta);
 	virtual Position pointOfView()const;
 
