@@ -81,6 +81,8 @@ void GLWindow::Size(int width, int height) {
 }
 
 void GLWindow::Mode(WindowModes mode) {
+    _mode = mode;
+    if (window == nullptr) return;
     switch (mode) {
         ///TODO: Verificar se está funcionando corretamente
         case WINDOWED:
@@ -138,6 +140,7 @@ bool GLWindow::Create() {
         glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window.");
     }
+    //Mode(_mode);
     onWindowCreate();
     setupWindowCallbacks();
 

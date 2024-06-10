@@ -5,7 +5,7 @@
 #include "Window.h"
 class Camera : public Movable {
 protected:
-	Position _pointOfView = Position::Zero;
+	Vector _pointOfView = Vector::Zero;
 	Vector _orientation = Vector::Up;
 	const Window* _window = nullptr;
 public:
@@ -23,6 +23,7 @@ public:
 
 	virtual void Update() =0;
 	virtual void Draw();
+	virtual void Reset();
 };
 
 #endif

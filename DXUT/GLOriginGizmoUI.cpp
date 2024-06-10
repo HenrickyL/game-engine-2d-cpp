@@ -12,7 +12,7 @@ void GLOriginGizmoUI::InitBuffers() {
    
 }
 
-void GLOriginGizmoUI::Draw() const {
+void GLOriginGizmoUI::Draw() {
     const float* origin = this->position().p3f();
     glLineWidth(_stroke);
     //glEnable(GL_LINE_SMOOTH); //antialising

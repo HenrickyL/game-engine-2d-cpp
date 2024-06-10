@@ -47,7 +47,7 @@ public:
     virtual void MoveTo(const Position& position);
     virtual void TranslateTo(const Vector& delta);
 
-    void RotateTo(const Vector& value);
+    virtual void RotateTo(const Vector& value);
     virtual void RotateBy(const Vector& delta);
 };
 

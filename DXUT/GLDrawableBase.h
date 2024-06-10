@@ -1,6 +1,8 @@
 #ifndef UT_GLDRAWABLE_BASE_H
 #define UT_GLDRAWABLE_BASE_H
 #include "IDrawable.h"
+#include "Movable.h"
+
 
 class GLDrawableBase : public virtual IDrawable {
 protected:

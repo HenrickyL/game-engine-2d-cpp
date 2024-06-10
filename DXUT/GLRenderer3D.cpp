@@ -259,6 +259,12 @@ void GLRenderer3D::RemoveToDisplayList(GLDrawableBase* item){
 }
 void GLRenderer3D::DrawDisplayList() const{
     for (GLDrawableBase* item : _elements) {
+        if (item->isDirty()) {
+            glNewList(item->id(), GL_COMPILE);
+                item->Draw();
+            glEndList();
+            item->Clear();
+        }
         glCallList(item->id());
     }
 }

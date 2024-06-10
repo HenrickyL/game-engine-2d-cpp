@@ -1,6 +1,7 @@
 #include "GLDrawableBase.h"
 #include <GL/glew.h>
 #include <stdexcept>
+#include "Color.h"
 
 GLDrawableBase::GLDrawableBase(){}
 
@@ -24,4 +25,6 @@ void GLDrawableBase::Init() {
 		_initialized = true;
 	}
 }
+
+
 

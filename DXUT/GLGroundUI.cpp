@@ -12,7 +12,7 @@ void GLGroundUI::InitBuffers() {
 }
 
 
-void GLGroundUI::Draw() const {
+void GLGroundUI::Draw() {
 	const float* c = this->color().c4f();
 	glColor4fv(c);
 	glDisable(GL_LINE_SMOOTH);

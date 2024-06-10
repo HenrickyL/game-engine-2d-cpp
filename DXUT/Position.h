@@ -34,7 +34,7 @@ public:
 	static Position CenterTo(const Position& p1, const Position& p2);
 
 	bool		operator==(const Position& other) const;
-	Position	operator+(const Position& other) const;
+	Vector		operator+(const Position& other) const;
 	Position	operator*(const float value) const;
 	Position	operator/(const float value) const;
 	Vector		operator-(const Position& other) const;

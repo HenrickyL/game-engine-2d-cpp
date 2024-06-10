@@ -2,7 +2,7 @@
 #include "Engine.h" 
 #include "UT_Utils.h"
 #include <cmath>
-
+#include <iostream>
 
 void MyGame::Init() {
 	window = Engine::window;
@@ -50,6 +50,8 @@ void MyGame::Init() {
 	currentIndex = 0;
 	current = shapes[currentIndex];
 	current->SetColor(Color::YELLOW);
+
+	currentCam = &cam;
 	
 	_drawnner3D.AddToDisplayList(&groundUi);
 	_drawnner3D.AddToDisplayList(&wordOrigin);
@@ -87,7 +89,7 @@ void MyGame::Update(double dt){
 	
 
 	glLoadIdentity();
-	cam.Update();
+	currentCam->Update();
 
 
 	glTranslatef(0, 0, 0);
@@ -104,6 +106,7 @@ void MyGame::Draw(){
 	for (Geometry* g : geometries) {
 		_drawnner.Draw(*g);
 	}
+	cam2.Draw();
 }
 
 void MyGame::Finalize(){
@@ -211,32 +214,49 @@ void MyGame::InputCamera()
 
 	if (Input::KeyDown(CTRL_LEFT)) {
 		if (Input::KeyDown(KEY_W)) {
-			cam.TranslateTo(Vector::Up * delta);
+			//cam.TranslateTo(Vector::Up * delta);
 		}
 		else if (Input::KeyDown(KEY_S)) {
-			cam.TranslateTo(Vector::Down * delta);
+			//cam.TranslateTo(Vector::Down * delta);
 		}
 	}
 	else {
 		if (Input::KeyDown(KEY_W)) {
-			cam.TranslateTo(Vector::Backward * delta);
+			currentCam->TranslateForward(delta);
+
 		}
 		else if (Input::KeyDown(KEY_S)) {
-			cam.TranslateTo(Vector::Forward * delta);
+			currentCam->TranslateBackward(delta);
 		}
 	}
 	
 
 	if (Input::KeyDown(KEY_A)) {
-		cam.TranslateTo(Vector::Left * delta);
+		currentCam->TranslateLeft(delta);
+
 	}
 	else if (Input::KeyDown(KEY_D)) {
-		cam.TranslateTo(Vector::Right * delta);
+		currentCam->TranslateRight(delta);
+	}
+	
+	
+	float value = 0.1;
+	Vector v = window->Center() - Input::MousePosition();
+
+	if (v.x() != 0 || v.y() != 0) {
+		v = (v.Unit() * value) * Vector(1, 1);
+		cam2.RotateBy(v);
 	}
 
-	if (Input::KeyPress(KEY_C)) {
-		cam.LookAt(Vector(3, 0, 0));
+	if (Input::KeyPress(KEY_P)) {
+		if (currentCam == &cam) {
+			currentCam = &cam2;
+		}
+		else {
+			currentCam = &cam;
+		}
 	}
+
 
 
 }
@@ -245,4 +265,5 @@ void MyGame::Reset()
 {
 	globalRotation = Vector::Zero;
 	cam.MoveTo(Position(0, 0.5f, 4));
+	cam.Reset();
 }

@@ -30,3 +30,9 @@ Vector Camera::orientation(){
 
 void Camera::Draw(){
 }
+
+void Camera::Reset() {
+	Position _pointOfView = Position::Zero;
+	Vector _orientation = Vector::Up;
+	this->RotateTo(Vector::Zero);
+}
