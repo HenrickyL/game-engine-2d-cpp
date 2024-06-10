@@ -2,6 +2,9 @@
 #define UT_DIRTYABLE_H
 
 /// TODO: Ver a necessidade dessa classe, talvez usar VertexBuffer pode ajudar
+/*
+	* Talvez uma lista de draw em game pode ajudar, junto com o não uso de clear no gameloop - n sei bem ainda
+*/
 class Dirtyable {
 private:
 	bool _isDirt = true;
