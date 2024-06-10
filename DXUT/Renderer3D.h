@@ -9,7 +9,7 @@ private:
 	virtual void DrawShape(const Shape3D& shape) const =0;
 
 public:
-	virtual void Draw(const Shape3D& shape) = 0;
+	virtual void Draw(Shape3D& shape) = 0;
 };
 
 #endif

@@ -1,6 +1,7 @@
 #ifndef UT_DIRTYABLE_H
 #define UT_DIRTYABLE_H
 
+/// TODO: Ver a necessidade dessa classe, talvez usar VertexBuffer pode ajudar
 class Dirtyable {
 private:
 	bool _isDirt = true;

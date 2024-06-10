@@ -27,7 +27,7 @@ private:
 
 public:
     ~GLRenderer3D();
-    void Draw(const Shape3D& shape) override;
+    void Draw(Shape3D& shape) override;
 
     void Initialize(const Shape3D& shape);
     void Render(const Shape3D& shape) const;

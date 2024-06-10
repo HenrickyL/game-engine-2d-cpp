@@ -55,6 +55,11 @@ public:
     virtual void generate() = 0;
     virtual float Volume() const = 0;
     virtual float SurfaceArea() const = 0;
+
+
+    bool isDirty()const;
+    void Clear();
+
 };
 
 // ---------------------------------------------------------------------------

@@ -10,7 +10,7 @@ GLRenderer3D::~GLRenderer3D() {
 
 
 
-void GLRenderer3D::Draw(const Shape3D& shape) {
+void GLRenderer3D::Draw(Shape3D& shape) {
     glPushMatrix(); // Save the current matrix
         glTranslatef(shape.x(), shape.y(), shape.z());
         glRotatef(shape.xRot(), 1,0,0);

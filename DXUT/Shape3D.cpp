@@ -48,6 +48,14 @@ void Shape3D::EndGenerate() {
 }
 
 
+bool Shape3D::isDirty()const {
+    return Colored::isDirty() || Movable::isDirty();
+}
+void Shape3D::Clear() {
+    Colored::Clear(); 
+    Movable::Clear();
+}
+
 // ---------------------------------------------------------------------------
 
 
