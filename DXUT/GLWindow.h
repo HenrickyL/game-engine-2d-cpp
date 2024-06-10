@@ -29,6 +29,8 @@ private:
     void updateValues();
     void resetApplyUpdate();
 
+    GLFWwindow* CreateWindowByMode();
+
 public:
     GLWindow(); // Construtor
     ~GLWindow(); // Destrutor
