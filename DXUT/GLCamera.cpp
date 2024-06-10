@@ -1,8 +1,12 @@
 #include "GLCamera.h"
 #include <cmath>
-GLCamera::GLCamera(const Window* window) : Camera(window) {}
+GLCamera::GLCamera(const Window* window) : Camera(window) {
+	Reset();
+}
 
-GLCamera::GLCamera(const Window* window, const Position& pos): Camera(window, pos) {}
+GLCamera::GLCamera(const Window* window, const Position& pos): Camera(window, pos) {
+	Reset();
+}
 
 
 void GLCamera::Update() {
@@ -22,11 +26,12 @@ void GLCamera::LookAt(const Vector& pos) {
 
 
 void GLCamera::CalculeDirection() {
+	this->rotations();
 	//Vector adjust = Vector(rotations().y(), rotations().x(), rotations().z());
 	// Criação do vetor de ajuste para os ângulos de rotação
 	Vector adjust = Vector(
-		fmod(rotations().y(), 360.0f),
 		fmod(rotations().x(), 360.0f),
+		fmod(rotations().y(), 360.0f),
 		fmod(rotations().z(), 360.0f)
 	);
 	// Normalização dos ângulos negativos para o intervalo de 0 a 360 graus
@@ -40,19 +45,19 @@ void GLCamera::CalculeDirection() {
 	float roll = adjust.z() * M_PI / 180.0f;  // Rotação em torno do eixo Z
 
 	// Cálculo dos componentes da direção da câmera após rotação
-	/*_direction.SetX(cos(pitch) * cos(yaw));
+	_direction.SetX(cos(pitch) * cos(yaw));
 	_direction.SetY(sin(pitch));
-	_direction.SetZ(cos(pitch) * sin(yaw));*/
-	_direction.TranslateTo(Vector(cos(pitch) * cos(yaw),
+	_direction.SetZ(cos(pitch) * sin(yaw));
+	/*_direction.TranslateTo(Vector(cos(pitch) * cos(yaw),
 		sin(pitch),
-		cos(pitch) * sin(yaw)));
+		cos(pitch) * sin(yaw)));*/
 
-	//// Aplicar rotação em torno do eixo Z (roll)
-	//float tempX = _direction.x() * cos(roll) - _direction.y() * sin(roll);
-	//float tempY = _direction.x() * sin(roll) + _direction.y() * cos(roll);
+	// Aplicar rotação em torno do eixo Z (roll)
+	float tempX = _direction.x() * cos(roll) - _direction.y() * sin(roll);
+	float tempY = _direction.x() * sin(roll) + _direction.y() * cos(roll);
 
-	//_direction.SetX(tempX);
-	//_direction.SetY(tempY);
+	_direction.SetX(tempX);
+	_direction.SetY(tempY);
 
 	// Normalização da direção da câmera para garantir um vetor unitário
 	_direction = _direction.Unit();
@@ -77,9 +82,12 @@ void GLCamera::RotateTo(const Vector& delta) {
 
 
 void GLCamera::Reset() {
-	Camera::Reset();
-	_direction = Vector::Backward;
+	Position _pointOfView = Position::Zero;
+	Vector _orientation = Vector::Up;
+	_direction = Vector::Zero;
 	_left = Vector::Left;
+	SetRotation(Vector::Up * -90);
+	this->CalculeDirection();
 }
 
 
@@ -105,8 +113,8 @@ void GLCamera::MoveTo(const Position& pos) { Movable::MoveTo(pos); }
 void GLCamera::Draw() {
 	float _stroke = 2.5f;
 	Color _axisX = Color::MAGENTA;
-	Color _axisY = Color::YELLOW;
-	Color _axisZ = Color::WHITE;
+	Color _axisY = Color::WHITE;
+	Color _axisZ = Color::GRAY;
 	float _length = 1.0f;
 	Position origin = position();
 	//glEnable(GL_LINE_SMOOTH); //antialising

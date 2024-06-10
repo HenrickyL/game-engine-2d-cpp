@@ -36,7 +36,7 @@ private:
 
 	EngineGraphicsType _graphicType = E_OpenGL;
 	GraphicType _type = T_2D;
-	EngineFrameRateType _frameRateType = VARIABLE;
+	EngineFrameRateType _frameRateType = CONSTANT;
 	int _frameRateConstant = 60;
 	double _frameRate = 0;
 

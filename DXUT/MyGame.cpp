@@ -108,6 +108,7 @@ void MyGame::Draw(){
 		_drawnner.Draw(*g);
 	}
 	cam2.Draw();
+	cam.Draw();
 }
 
 void MyGame::Finalize(){
@@ -245,18 +246,18 @@ void MyGame::InputCamera()
 	Vector v =Input::MousePositionOffset();
 	
 	if (v.x() != 0 || v.y() != 0) {
-		v = (v* value) * Vector(1, 1);
-		cam2.RotateBy(v);
+		v = Vector(v.y(), v.x()) * Vector( 1,1)* value;
+		currentCam->RotateBy(v);
 	}
 
-	float rotSpeed = 0.05;
+	float rotSpeed = delta*10;
 
-	v =Vector(1,0);
+	v =Vector(0,1);
 	if (Input::KeyDown(KEY_Q)) {
-		v = (v * -rotSpeed) * Vector(1, 0);
+		v = (v * -rotSpeed);
 		currentCam->RotateBy(v);
 	}else if(Input::KeyDown(KEY_E)){
-		v = (v * rotSpeed) * Vector(1, 0);
+		v = (v * rotSpeed);
 		currentCam->RotateBy(v);
 	}
 
@@ -277,7 +278,8 @@ void MyGame::Reset()
 {
 	globalRotation = Vector::Zero;
 	cam.MoveTo(Position(0, 0.5f, 4));
-	cam.Reset();
+	cam2.MoveTo(Position(0,1.0f, 3));
+	currentCam->Reset();
 }
 
 
