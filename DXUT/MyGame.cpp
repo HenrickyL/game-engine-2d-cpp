@@ -241,12 +241,23 @@ void MyGame::InputCamera()
 	}
 	
 	
-	float value = 0.1;
-	Vector v = window->Center() - Input::MousePosition();
-
+	float value = 0.05;
+	Vector v =Input::MousePositionOffset();
+	
 	if (v.x() != 0 || v.y() != 0) {
-		v = (v.Unit() * value) * Vector(1, 1);
+		v = (v* value) * Vector(1, 1);
 		cam2.RotateBy(v);
+	}
+
+	float rotSpeed = 0.05;
+
+	v =Vector(1,0);
+	if (Input::KeyDown(KEY_Q)) {
+		v = (v * -rotSpeed) * Vector(1, 0);
+		currentCam->RotateBy(v);
+	}else if(Input::KeyDown(KEY_E)){
+		v = (v * rotSpeed) * Vector(1, 0);
+		currentCam->RotateBy(v);
 	}
 
 	if (Input::KeyPress(KEY_P)) {

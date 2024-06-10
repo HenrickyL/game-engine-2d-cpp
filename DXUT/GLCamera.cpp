@@ -22,26 +22,41 @@ void GLCamera::LookAt(const Vector& pos) {
 
 
 void GLCamera::CalculeDirection() {
-	Vector adjust = Vector(rotations().y(), rotations().x(), rotations().z());
+	//Vector adjust = Vector(rotations().y(), rotations().x(), rotations().z());
+	// Criação do vetor de ajuste para os ângulos de rotação
+	Vector adjust = Vector(
+		fmod(rotations().y(), 360.0f),
+		fmod(rotations().x(), 360.0f),
+		fmod(rotations().z(), 360.0f)
+	);
+	// Normalização dos ângulos negativos para o intervalo de 0 a 360 graus
+	if (adjust.x() < 0) adjust.SetX(adjust.x() + 360.0f);
+	if (adjust.y() < 0) adjust.SetY(adjust.y() + 360.0f);
+	if (adjust.z() < 0) adjust.SetZ(adjust.z() + 360.0f);
+
+	// Conversão dos ângulos de rotação de graus para radianos
 	float yaw = adjust.y() * M_PI / 180.0f;   // Rotação em torno do eixo Y
 	float pitch = adjust.x() * M_PI / 180.0f; // Rotação em torno do eixo X
-	float roll = adjust.z() * M_PI / 180.0f; // Rotação em torno do eixo Z
+	float roll = adjust.z() * M_PI / 180.0f;  // Rotação em torno do eixo Z
 
+	// Cálculo dos componentes da direção da câmera após rotação
+	/*_direction.SetX(cos(pitch) * cos(yaw));
+	_direction.SetY(sin(pitch));
+	_direction.SetZ(cos(pitch) * sin(yaw));*/
+	_direction.TranslateTo(Vector(cos(pitch) * cos(yaw),
+		sin(pitch),
+		cos(pitch) * sin(yaw)));
 
-	_direction.SetX(cos(pitch) * cos(yaw));
-	_direction.SetY( sin(pitch));
-	_direction.SetZ(cos(pitch) * sin(yaw));
+	//// Aplicar rotação em torno do eixo Z (roll)
+	//float tempX = _direction.x() * cos(roll) - _direction.y() * sin(roll);
+	//float tempY = _direction.x() * sin(roll) + _direction.y() * cos(roll);
 
-	// Aplicar rotação em torno do eixo Z (roll)
-	float tempX = _direction.x() * cos(roll) - _direction.y() * sin(roll);
-	float tempY = _direction.x() * sin(roll) + _direction.y() * cos(roll);
+	//_direction.SetX(tempX);
+	//_direction.SetY(tempY);
 
-	_direction.SetX(tempX);
-	_direction.SetY(tempY);
-
+	// Normalização da direção da câmera para garantir um vetor unitário
 	_direction = _direction.Unit();
 
-	// Atualize os vetores _left e _up corretamente
 	_left = _orientation.CrossProduct(_direction).Unit();
 }
 
