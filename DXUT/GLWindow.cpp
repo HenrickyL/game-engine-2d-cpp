@@ -149,6 +149,7 @@ bool GLWindow::Create() {
     //enable opacity
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    this->SetCursorDisable(isCursorDisable());
 
     _onCreate = true;
     return true;
@@ -182,6 +183,11 @@ void GLWindow::isResizeable(bool value) {
     glfwWindowHint(GLFW_RESIZABLE, _allowResize ? GLFW_TRUE : GLFW_FALSE);
 }
 
+
+void GLWindow::SetCursorDisable(bool value) {
+    Window::SetCursorDisable(value);
+    glfwSetInputMode(GLWindow::window, GLFW_CURSOR, isCursorDisable() ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+}
 
 void GLWindow::updateValues() {
     if (_onUpdate && !_onApply) {
