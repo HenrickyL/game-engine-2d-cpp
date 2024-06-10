@@ -4,6 +4,7 @@
 #include "Movable.h"
 #include "Colored.h"
 #include "Vertex.h" 
+#include "VertexBufferID.h"
 //#include "Triangle.h" 
 #include "types.h"
 #include <vector>
@@ -21,6 +22,7 @@ enum Shape3DType {
 
 class Shape3D : public Movable, public Colored {
 protected:
+    VertexBufferID* _id = nullptr;
     Shape3DType _type = S_UNKNOWN;  // Tipo da forma 3D
     Color _color = Color::MAGENTA;
     bool _isFlatColor = true;
@@ -39,6 +41,10 @@ public:
     Shape3D(const Position& position, const Color color);
     virtual ~Shape3D();
 
+    VertexBufferID* id()const;
+    void SetId(VertexBufferID*);
+
+
     Shape3DType type() const;
     bool isFlatColor() const;
 
@@ -56,10 +62,9 @@ public:
     virtual float Volume() const = 0;
     virtual float SurfaceArea() const = 0;
 
-
     bool isDirty()const;
     void Clear();
-
+    void SetDirt();
 };
 
 // ---------------------------------------------------------------------------

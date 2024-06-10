@@ -13,7 +13,9 @@ Shape3D::Shape3D(const Color color) : Movable(Position::Zero), Colored(color)
     _type = S_UNKNOWN;
 }
 
-Shape3D::~Shape3D() {}
+Shape3D::~Shape3D() {
+    delete _id;
+}
 
 bool Shape3D::isFlatColor() const { return _isFlatColor; }
 void Shape3D::SetIsFlatColor(bool value) { _isFlatColor = value; }
@@ -55,6 +57,19 @@ void Shape3D::Clear() {
     Colored::Clear(); 
     Movable::Clear();
 }
+
+void Shape3D::SetDirt() {
+    Colored::SetDirt();
+    Movable::SetDirt();
+}
+
+
+VertexBufferID* Shape3D::id()const { return _id; }
+void Shape3D::SetId(VertexBufferID* value) {
+    if(_id)delete _id;
+    _id = value;
+}
+
 
 // ---------------------------------------------------------------------------
 
@@ -138,24 +153,6 @@ void Cube::generate() {
     this->_vertices.push_back(Vertex(
         Position(-halfWidth, halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));  // v8
 
-    //// Frente
-    //_triangles.push_back(Triangle(_vertices[0], _vertices[1], _vertices[2]));
-    //_triangles.push_back(Triangle(_vertices[2], _vertices[3], _vertices[0]));
-    //// Direita
-    //_triangles.push_back(Triangle(_vertices[3], _vertices[2], _vertices[5]));
-    //_triangles.push_back(Triangle(_vertices[5], _vertices[4], _vertices[3]));
-    //// Traseira
-    //_triangles.push_back(Triangle(_vertices[4], _vertices[5], _vertices[6]));
-    //_triangles.push_back(Triangle(_vertices[6], _vertices[7], _vertices[4]));
-    //// Esquerda
-    //_triangles.push_back(Triangle(_vertices[7], _vertices[6], _vertices[1]));
-    //_triangles.push_back(Triangle(_vertices[1], _vertices[0], _vertices[7]));
-    //// Inferior
-    //_triangles.push_back(Triangle(_vertices[1], _vertices[6], _vertices[5]));
-    //_triangles.push_back(Triangle(_vertices[5], _vertices[2], _vertices[1]));
-    //// Superior
-    //_triangles.push_back(Triangle(_vertices[0], _vertices[3], _vertices[4]));
-    //_triangles.push_back(Triangle(_vertices[4], _vertices[7], _vertices[0]));
 
     // Definir os índices dos triângulos
     // Frente

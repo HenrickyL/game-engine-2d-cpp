@@ -13,3 +13,10 @@ void GLCamera::Update() {
 		_pointOfView.x(), _pointOfView.y(), _pointOfView.z(),
 		_orientation.x(), _orientation.y(), _orientation.z());
 }
+
+
+void GLCamera::LookAt(const Vector& pos) {
+	//_direction.TranslateTo(pos);
+	//_left.TranslateTo(pos);
+
+}

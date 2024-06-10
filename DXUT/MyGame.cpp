@@ -7,16 +7,16 @@
 void MyGame::Init() {
 	window = Engine::window;
 	_drawnner3D.SetFillMode(F_WIREFRAME_SOLID);
-
+	_drawnner3D.InitializeShader();
 	//Geometries
 
 	//Shapes
-	int qtd = 10;
+	int qtd = 20;
 	float dTheta = 360 / qtd;
 	float theta = 0;
 	float y = 1;
 	Shape3D* s;
-	float dist = RandomUtils::GetRandomFloat(0.5f, 6.0f);
+	float dist = RandomUtils::GetRandomFloat(0.5f, 16.0f);
 	for (int i = 0; i < qtd; i++) {
 
 		float x = dist*std::cos(theta);
@@ -84,7 +84,7 @@ void MyGame::Update(double dt){
 		onSolid = (onSolid + 1) % 4;
 		_drawnner3D.SetFillMode((FillModeEnum)onSolid);
 	}
-
+	
 
 	glLoadIdentity();
 	cam.Update();
@@ -202,6 +202,14 @@ void MyGame::InputCamera()
 	float delta = 0.005;
 	if (Input::KeyDown(SHIFT_LEFT)) {
 		delta = 0.02;
+		
+	}
+	else {
+		delta = 0.005;
+		
+	}
+
+	if (Input::KeyDown(CTRL_LEFT)) {
 		if (Input::KeyDown(KEY_W)) {
 			cam.TranslateTo(Vector::Up * delta);
 		}
@@ -210,7 +218,6 @@ void MyGame::InputCamera()
 		}
 	}
 	else {
-		delta = 0.005;
 		if (Input::KeyDown(KEY_W)) {
 			cam.TranslateTo(Vector::Backward * delta);
 		}
@@ -226,6 +233,11 @@ void MyGame::InputCamera()
 	else if (Input::KeyDown(KEY_D)) {
 		cam.TranslateTo(Vector::Right * delta);
 	}
+
+	if (Input::KeyPress(KEY_C)) {
+		cam.LookAt(Vector(3, 0, 0));
+	}
+
 
 }
 

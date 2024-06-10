@@ -18,20 +18,26 @@ private:
     
     */
     bool _useVertexBuffer = false;
-    uint _vao = 0; // Vertex Array Object
-    uint _vbo = 0; // Vertex Buffer Object
-    uint _ebo = 0; // Element Buffer Object
+    //uint _vao = 0; // Vertex Array Object
+    //uint _vbo = 0; // Vertex Buffer Object
+    //uint _ebo = 0; // Element Buffer Object
     void DrawShape(const Shape3D& shape) const override;
-    void Pipeline(const Shape3D& shape) const;
+    void Pipeline(Shape3D& shape);
     void DrawVertex(const Shape3D& shape, const Vertex& vertex)const;
+    void DeleteVS(Shape3D& shape);
+    void Update(Shape3D& shape);
 
 public:
     ~GLRenderer3D();
     void Draw(Shape3D& shape) override;
 
-    void Initialize(const Shape3D& shape);
-    void Render(const Shape3D& shape) const;
+    void InitializeShader();
 
+    //vertexBuffer
+    void Initialize(Shape3D& shape);
+    void Render(Shape3D& shape);
+
+    //DisplayList
     // Add  GLDrawableBase to Draw and Start Draw method in Display list to OpenGL
     void AddToDisplayList(GLDrawableBase* item);
     // remove  GLDrawableBase to draw

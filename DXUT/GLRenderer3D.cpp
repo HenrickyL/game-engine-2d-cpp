@@ -1,11 +1,99 @@
 #include "GLRenderer3D.h"
+#include "GLVertexBufferID.h"
+
+
+GLuint CompileShader(const char* shaderSource, GLenum shaderType) {
+    GLuint shader = glCreateShader(shaderType);
+    glShaderSource(shader, 1, &shaderSource, nullptr);
+    glCompileShader(shader);
+
+    // Verifica erros de compilação
+    GLint success;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        char infoLog[512];
+        glGetShaderInfoLog(shader, 512, nullptr, infoLog);
+        throw std::runtime_error("Erro de compilação do shader:");
+    }
+
+    return shader;
+}
+
+GLuint CreateShaderProgram(const char* vertexSource, const char* fragmentSource) {
+    GLuint vertexShader = CompileShader(vertexSource, GL_VERTEX_SHADER);
+    GLuint fragmentShader = CompileShader(fragmentSource, GL_FRAGMENT_SHADER);
+
+    // Linka os shaders em um programa de shader
+    GLuint program = glCreateProgram();
+    glAttachShader(program, vertexShader);
+    glAttachShader(program, fragmentShader);
+    glLinkProgram(program);
+
+    // Verifica erros de linkagem
+    GLint success;
+    glGetProgramiv(program, GL_LINK_STATUS, &success);
+    if (!success) {
+        char infoLog[512];
+        glGetProgramInfoLog(program, 512, nullptr, infoLog);
+        throw std::runtime_error("Erro de linkagem do programa de shader : ");
+    }
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+    return program;
+}
+
+const char* vertexShaderSource = R"(
+#version 330 core
+layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec4 aColor;
+
+out vec4 vertexColor;
+
+uniform mat4 model;
+
+void main() {
+    vec4 transformedPos = model * vec4(aPos, 1.0);
+
+    gl_Position = transformedPos;
+
+    gl_Position = transformedPos;
+    vertexColor = aColor;
+}
+)";
+
+const char* fragmentShaderSource = R"(
+#version 330 core
+in vec4 vertexColor;
+out vec4 FragColor;
+
+void main() {
+    FragColor = vertexColor;
+}
+)";
+
+GLuint shaderProgram;
+
+void InitShaders() {
+    shaderProgram = CreateShaderProgram(vertexShaderSource, fragmentShaderSource);
+}
+
+// *************************************************************************************************
+
+
+void GLRenderer3D::InitializeShader() {
+    InitShaders();
+}
+
 
 GLRenderer3D::~GLRenderer3D() {
-    // Limpeza dos buffers
-    if (_vao) glDeleteVertexArrays(1, &_vao);
-    if (_vbo) glDeleteBuffers(1, &_vbo);
-    if (_ebo) glDeleteBuffers(1, &_ebo);
+    //// Limpeza dos buffers
+    //if (_vao) glDeleteVertexArrays(1, &_vao);
+    //if (_vbo) glDeleteBuffers(1, &_vbo);
+    //if (_ebo) glDeleteBuffers(1, &_ebo);
 }
+
 
 
 
@@ -23,15 +111,64 @@ void GLRenderer3D::Draw(Shape3D& shape) {
     glPopMatrix(); // Restore the matrix
 }
 
-void GLRenderer3D::Render(const Shape3D& shape) const {
-    glBindVertexArray(_vao);
+
+void GLRenderer3D::Update(Shape3D& shape) {
+    if (shape.isDirty()) {
+        this->Initialize(shape);
+        GLVertexBufferID* glId = dynamic_cast<GLVertexBufferID*>(shape.id());
+        if (glId == nullptr) {
+            return;
+        }
+
+        glBindBuffer(GL_ARRAY_BUFFER, glId->vbo());
+
+        // Calcula o tamanho total dos dados dos vértices (posição + cor)
+        size_t vertexDataSize = shape.vertices().size() * (sizeof(float) * 7); // 3 floats para posição + 4 floats para cor
+
+        // Atualiza os dados do VBO com os novos dados de posição e cor
+        float* vertexBufferData = static_cast<float*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+        if (vertexBufferData) {
+            size_t vertexOffset = 0;
+            for (const Vertex& vertex : shape.vertices()) {
+                // Copia as coordenadas da posição
+                const Position& pos = vertex.position;
+                vertexBufferData[vertexOffset++] = pos.x();
+                vertexBufferData[vertexOffset++] = pos.y();
+                vertexBufferData[vertexOffset++] = pos.z();
+
+                // Copia as componentes de cor
+                const Color& col = shape.isFlatColor() ? shape.color() : vertex.color;
+                vertexBufferData[vertexOffset++] = col.r();
+                vertexBufferData[vertexOffset++] = col.g();
+                vertexBufferData[vertexOffset++] = col.b();
+                vertexBufferData[vertexOffset++] = col.a();
+            }
+            glUnmapBuffer(GL_ARRAY_BUFFER);
+        }
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        shape.Clear(); // Limpa o estado sujo após a atualização
+    }
+}
+
+void GLRenderer3D::Render(Shape3D& shape) {
+    this->Update(shape);
+    GLVertexBufferID* glId = dynamic_cast<GLVertexBufferID*>(shape.id());
+    if (glId == nullptr)
+        return;
+
+    glUseProgram(shaderProgram);
+
+    glBindVertexArray(glId->vao());
     glDrawElements(GL_TRIANGLES, shape.indices().size(), GL_UNSIGNED_INT, 0); // Usando a quantidade correta de índices
     glBindVertexArray(0);
+
+    glUseProgram(0);
 }
 
 
 
-void GLRenderer3D::Pipeline(const Shape3D& shape) const {
+void GLRenderer3D::Pipeline(Shape3D& shape) {
     switch (_fillMode)
     {
     case F_WIREFRAME:
@@ -126,8 +263,39 @@ void GLRenderer3D::DrawDisplayList() const{
     }
 }
 
+void GLRenderer3D::DeleteVS(Shape3D& shape) {
+    GLVertexBufferID* glId = dynamic_cast<GLVertexBufferID*>(shape.id());
+    if (glId != nullptr) {
+        uint _vao = glId->vao();
+        uint _vbo = glId->vbo();
+        uint _ebo = glId->ebo();
 
-void GLRenderer3D::Initialize(const Shape3D& shape){
+        glDeleteVertexArrays(1, &_vao);
+        glDeleteBuffers(1, &_vbo);
+        glDeleteBuffers(1, &_ebo);
+
+        glId->SetVao(_vao);
+        glId->SetVbo(_vbo);
+        glId->SetEbo(_ebo);
+    }
+}
+
+
+
+void GLRenderer3D::Initialize(Shape3D& shape){
+    // Primeiro, verifique se o Shape3D possui um objeto GLVertexBufferID válido
+
+    GLVertexBufferID* glId = dynamic_cast<GLVertexBufferID*>(shape.id());
+    if (glId == nullptr) {
+        // Se não houver um GLVertexBufferID, crie um e associe ao Shape3D
+        glId = new GLVertexBufferID();
+        shape.SetId(glId);
+    }
+
+    uint _vao = glId->vao();
+    uint _vbo = glId->vbo();
+    uint _ebo = glId->ebo();
+
     // 1. Geração do VAO, VBO e EBO
     glGenVertexArrays(1, &_vao);
     glGenBuffers(1, &_vbo);
@@ -143,7 +311,7 @@ void GLRenderer3D::Initialize(const Shape3D& shape){
     size_t vertexDataSize = shape.vertices().size() * (sizeof(float) * 7); // 3 floats para posição + 4 floats para cor
 
     // Aloca memória para os dados do VBO
-    glBufferData(GL_ARRAY_BUFFER, vertexDataSize, nullptr, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertexDataSize, nullptr, GL_DYNAMIC_DRAW);
 
     // Preenche o VBO com os dados de posição e cor
     float* vertexBufferData = static_cast<float*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
@@ -168,7 +336,7 @@ void GLRenderer3D::Initialize(const Shape3D& shape){
 
     // 4. Bind do EBO e cópia dos dados dos índices para ele
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices().size() * sizeof(unsigned int), shape.indices().data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices().size() * sizeof(unsigned int), shape.indices().data(), GL_DYNAMIC_DRAW);
 
     // 5. Configuração dos atributos de vértice
     // Atributo posição
@@ -181,6 +349,10 @@ void GLRenderer3D::Initialize(const Shape3D& shape){
 
     // 6. Desvinculação do VAO para evitar modificações acidentais
     glBindVertexArray(0);
+
+    glId->SetVao(_vao);
+    glId->SetVbo(_vbo);
+    glId->SetEbo(_ebo);
 }
 
 
@@ -198,3 +370,5 @@ void GLRenderer3D::Initialize(const Shape3D& shape){
    //    }
    //    glEnd();
    //}
+
+

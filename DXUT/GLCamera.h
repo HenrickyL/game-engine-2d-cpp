@@ -20,6 +20,8 @@ public:
 	GLCamera(const Window* window, const Position& pos);
 
 	void Update() override;
+	void LookAt(const Vector& pos) override;
+
 };
 
 #endif
