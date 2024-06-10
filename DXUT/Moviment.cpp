@@ -1,5 +1,5 @@
 #include "MovimentAction.h"
-#include "Instance.h"
+// #include "Instance.h"
 #include "Transition.h"
 
 MovimentAction::MovimentAction(Vector _direction, Action* _inverse) {
