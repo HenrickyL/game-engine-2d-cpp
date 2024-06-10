@@ -170,6 +170,7 @@ bool GLWindow::onWindowCreate(const string message) const {
 
 
 bool GLWindow::ShouldClose() const {
+    ///TODO: Verificar se o loop encerra
     return glfwWindowShouldClose(GLWindow::window);
 }
 void GLWindow::SwapBuffers() const {
