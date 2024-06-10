@@ -1,5 +1,7 @@
 #include "GLCamera.h"
 #include <cmath>
+#include "Shape3d.h"
+#include "GLRenderer3D.h"
 GLCamera::GLCamera(const Window* window) : Camera(window) {
 	Reset();
 }
@@ -106,6 +108,14 @@ void GLCamera::TranslateBackward(float speed){
 	Movable::TranslateTo(_direction * -speed);
 }
 
+
+void GLCamera::TranslateUp(float speed) {
+	Movable::TranslateTo(_orientation * speed);
+}
+void GLCamera::TranslateDown(float speed) {
+	Movable::TranslateTo(_orientation * -speed);
+}
+
 void GLCamera::MoveTo(const Position& pos) { Movable::MoveTo(pos); }
 
 
@@ -124,13 +134,15 @@ void GLCamera::Draw() {
 		glColor3fv(_axisX.c3f());
 		glVertex3fv(origin.p3f());
 		glVertex3fv((origin+_direction).p3f());
-		// Eixo Y (verde)
-		glColor3fv(_axisY.c3f());
-		glVertex3fv(origin.p3f());
-		glVertex3fv((origin + _orientation).p3f());
-		// Eixo Z (azul)
-		glColor3fv(_axisZ.c3f());
-		glVertex3fv(origin.p3f());
-		glVertex3fv((origin + _left).p3f());
+		//// Eixo Y (verde)
+		//glColor3fv(_axisY.c3f());
+		//glVertex3fv(origin.p3f());
+		//glVertex3fv((origin + _orientation).p3f());
+		//// Eixo Z (azul)
+		//glColor3fv(_axisZ.c3f());
+		//glVertex3fv(origin.p3f());
+		//glVertex3fv((origin + _left).p3f());
 	glEnd();
+	Cube c = Cube(origin,0.3,0.3,0.5, Color::BLACK);
+	GLRenderer3D().Draw(c);
 }

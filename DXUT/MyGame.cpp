@@ -216,10 +216,10 @@ void MyGame::InputCamera()
 
 	if (Input::KeyDown(CTRL_LEFT)) {
 		if (Input::KeyDown(KEY_W)) {
-			//cam.TranslateTo(Vector::Up * delta);
+			currentCam->TranslateUp(delta);
 		}
 		else if (Input::KeyDown(KEY_S)) {
-			//cam.TranslateTo(Vector::Down * delta);
+			currentCam->TranslateDown(delta);
 		}
 	}
 	else {

@@ -31,6 +31,10 @@ public:
 	void TranslateRight(float speed);
 	void TranslateForward(float speed);
 	void TranslateBackward(float speed);
+	void TranslateUp(float speed);
+	void TranslateDown(float speed);
+
+
 	
 	void MoveTo(const Position& position) override;
 
