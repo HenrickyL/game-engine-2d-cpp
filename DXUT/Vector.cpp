@@ -6,8 +6,8 @@
 // ---------------------------------------------------------------------------------
 Vector Vector::Forward = Vector(0,0,1);
 Vector Vector::Backward = Vector(0,0,-1);
-Vector Vector::Up = Vector(0,-1,0);
-Vector Vector::Down = Vector(0,1,0);
+Vector Vector::Up = Vector(0,1,0);
+Vector Vector::Down = Vector(0,-1,0);
 Vector Vector::Left = Vector(-1, 0, 0);
 /**
  * \brief (1,0,0)
@@ -43,6 +43,11 @@ Vector Vector::Unit() const
 	return *this / this->Magnitude();
 }
 
+Vector Vector::Inverte() const {
+	return Vector(-x(), -y(), -z());
+}
+
+
 
 // ---------------------------------------------------------------------------------
 /**
@@ -64,6 +69,13 @@ Vector	Vector::operator*(const float value) const
 {
 	return Vector(_x * value, _y * value, _z * value);
 }
+
+Vector	Vector::operator*(const Vector& other) const
+{
+	return Vector(_x * other.x(), _y * other.y(), _z * other.z());
+}
+
+
 Vector	Vector::operator/(const float value) const
 {
 	if (value == 0)
@@ -82,5 +94,20 @@ bool	Vector::operator==(const Vector& other) const
 bool	Vector::operator!=(const Vector& other) const
 {
 	return ! (*this == other);
+}
+
+
+
+Vector Vector::CrossProduct(const Vector& A, const Vector& B) {
+	return Vector(
+		A.y() * B.z() - A.z() * B.y(),
+		A.z() * B.x() - A.x() * B.z(),
+		A.x() * B.y() - A.y() * B.x()
+	);
+}
+
+
+Vector Vector::CrossProduct(const Vector& other) const {
+	return Vector::CrossProduct(*this, other);
 }
 

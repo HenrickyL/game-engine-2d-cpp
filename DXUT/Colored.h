@@ -2,16 +2,16 @@
 #ifndef UT_COLORED_H
 #define UT_COLORED_H
 
+#include "Dirtyable.h"
 
-
-class Colored {
-protected:
+class Colored : public Dirtyable {
+private:
 	Color _color = Color::GREEN;
 public:
 	Colored(Color color = Color::MAGENTA);
 
 	Color color() const;
-	virtual void SetColor(Color color);
+	void SetColor(Color color);
 };
 
 #endif

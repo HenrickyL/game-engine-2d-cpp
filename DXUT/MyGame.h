@@ -7,40 +7,50 @@
 #include "UT_GL.h"
 #include "Scene.h"
 #include "GLRenderer3D.h"
+#include "GLRenderer.h"
 
 #include <string.h>
 #include <sstream>
+#include "GLGroundUI.h"
+#include "GLOriginGizmoUI.h"
+#include <vector>
 
+using std::vector;
 using std::stringstream;
-
-struct Obj {
-	int x = 0;
-	int y = 0;
-	float z = -25;
-};
 
 
 class MyGame : public Game {
 private:
-	Geometry* obj;
-	Rect* rect;
-	GLCamera* cam;
+	GLCamera* currentCam = nullptr;
+	Vector globalRotation = Vector::Zero;
+	GLCamera cam = GLCamera(window, Position(0, 0.5f, 5));
+	GLCamera cam2 = GLCamera(window, Position(0, 1.0f, 3));
+
 	string s = "";
-	float globalRotation = 0;
-	std::vector<void (*)(Obj)> functionVector;
-	int index = 0;
-	Movable* object;
+	GLRenderer3D _drawnner3D;
+	GLRenderer _drawnner;
+	int onSolid = 0;
 
 	Window* window;
-
-	GLRenderer3D _drawnner;
-	Cube cube;
-	Sphere sphere;
-	Pill pill;
-	vector<Shape3D*> objects;
-	int onSolid = 0;
+	GLGroundUI groundUi = GLGroundUI(100);
+	GLOriginGizmoUI wordOrigin;
+	
+	vector<Shape3D*> shapes;
 	Shape3D* current = nullptr;
 	int currentIndex = -1;
+
+	vector<Geometry*> geometries;
+	Geometry* geo = nullptr;
+	int geoIndex = -1;
+
+	void InputRotationGlobal();
+	void InputRotationLocal();
+	void InputCamera();
+	void InputEnd();
+
+
+	void Reset();
+
 
 public:
 

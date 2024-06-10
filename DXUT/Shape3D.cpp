@@ -1,40 +1,109 @@
 ﻿#include "Shape3D.h"
-#include <cmath>
 
-Shape3D::Shape3D() : Movable(Position::Zero) {
-    _color = Color::GREEN;
+Shape3D::Shape3D() : Movable(Position::Zero), Colored(Color::GREEN){
     _type = S_UNKNOWN;
 }
-Shape3D::Shape3D(const Position& position, const Color color) : Movable(position)
+Shape3D::Shape3D(const Position& position, const Color color) : Movable(position), Colored(color)
 {
-    _color = color;
     _type = S_UNKNOWN;
 }
 
-Shape3D::~Shape3D() {}
+Shape3D::Shape3D(const Color color) : Movable(Position::Zero), Colored(color)
+{
+    _type = S_UNKNOWN;
+}
+
+Shape3D::~Shape3D() {
+    delete _id;
+}
 
 bool Shape3D::isFlatColor() const { return _isFlatColor; }
 void Shape3D::SetIsFlatColor(bool value) { _isFlatColor = value; }
+void Shape3D::SetCallback(std::function<void()> callback) {
+    _callback = callback;
+}
 
+
+void Shape3D::NotifyChange(){
+    if (_callback) {
+        _callback();
+    }
+}
 
 Shape3DType Shape3D::type() const {
     return _type;
 }
 
 const vector<Vertex> Shape3D::vertices() const { return _vertices; }
-const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
+//const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
+const vector<uint> Shape3D::indices() const { return  _indices; }
+
+
+void Shape3D::StartGenerate() {
+    _vertices.clear();
+    //_triangles.clear();
+    _indices.clear();
+}
+
+void Shape3D::EndGenerate() {
+    NotifyChange();
+}
+
+
+bool Shape3D::isDirty()const {
+    return Colored::isDirty() || Movable::isDirty();
+}
+void Shape3D::Clear() {
+    Colored::Clear(); 
+    Movable::Clear();
+}
+
+void Shape3D::SetDirt() {
+    Colored::SetDirt();
+    Movable::SetDirt();
+}
+
+
+VertexBufferID* Shape3D::id()const { return _id; }
+void Shape3D::SetId(VertexBufferID* value) {
+    if(_id)delete _id;
+    _id = value;
+}
+
 
 // ---------------------------------------------------------------------------
 
 
-Cube::Cube() :Shape3D(), _width(1.0f), _height(1.0f), _depth(1.0f) {
+Cube::Cube() :Shape3D(Color::BLUE) {
     _type = S_CUBE;
-    SetColor(Color::GREEN);
+    this->generate();
+}
+Cube::Cube(const Position& position, const Color color)
+    : Shape3D(position, color) {
+    _type = S_CUBE;
     this->generate();
 }
 
 Cube::Cube(const Position& position, float width, float height, float depth, const Color color)
     : Shape3D(position, color), _width(width), _height(height), _depth(depth){
+    _type = S_CUBE;
+    this->generate();
+}
+
+Cube::Cube(const Position& position, float size, const Color color)
+    : Shape3D(position, color), _width(size), _height(size), _depth(size) {
+    _type = S_CUBE;
+    this->generate();
+}
+
+Cube::Cube(float width, float height, float depth, const Color color)
+    : Shape3D(color), _width(width), _height(height), _depth(depth) {
+    _type = S_CUBE;
+    this->generate();
+}
+
+Cube::Cube(float size, const Color color)
+    : Shape3D(color), _width(size), _height(size), _depth(size) {
     _type = S_CUBE;
     this->generate();
 }
@@ -57,8 +126,8 @@ float Cube::SurfaceArea() const {
 }
 
 void Cube::generate() {
-    _vertices.clear();
-    _triangles.clear();
+    this->StartGenerate();
+
     float halfWidth = width() / 2;
     float halfHeight = height() / 2;
     float halfDepth = depth() / 2;
@@ -84,36 +153,50 @@ void Cube::generate() {
     this->_vertices.push_back(Vertex(
         Position(-halfWidth, halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));  // v8
 
+
+    // Definir os índices dos triângulos
     // Frente
-    _triangles.push_back(Triangle(_vertices[0], _vertices[1], _vertices[2]));
-    _triangles.push_back(Triangle(_vertices[2], _vertices[3], _vertices[0]));
+    _indices.push_back(0); _indices.push_back(1); _indices.push_back(2);
+    _indices.push_back(2); _indices.push_back(3); _indices.push_back(0);
     // Direita
-    _triangles.push_back(Triangle(_vertices[3], _vertices[2], _vertices[5]));
-    _triangles.push_back(Triangle(_vertices[5], _vertices[4], _vertices[3]));
+    _indices.push_back(3); _indices.push_back(2); _indices.push_back(5);
+    _indices.push_back(5); _indices.push_back(4); _indices.push_back(3);
     // Traseira
-    _triangles.push_back(Triangle(_vertices[4], _vertices[5], _vertices[6]));
-    _triangles.push_back(Triangle(_vertices[6], _vertices[7], _vertices[4]));
+    _indices.push_back(4); _indices.push_back(5); _indices.push_back(6);
+    _indices.push_back(6); _indices.push_back(7); _indices.push_back(4);
     // Esquerda
-    _triangles.push_back(Triangle(_vertices[7], _vertices[6], _vertices[1]));
-    _triangles.push_back(Triangle(_vertices[1], _vertices[0], _vertices[7]));
+    _indices.push_back(7); _indices.push_back(6); _indices.push_back(1);
+    _indices.push_back(1); _indices.push_back(0); _indices.push_back(7);
     // Inferior
-    _triangles.push_back(Triangle(_vertices[1], _vertices[6], _vertices[5]));
-    _triangles.push_back(Triangle(_vertices[5], _vertices[2], _vertices[1]));
+    _indices.push_back(1); _indices.push_back(6); _indices.push_back(5);
+    _indices.push_back(5); _indices.push_back(2); _indices.push_back(1);
     // Superior
-    _triangles.push_back(Triangle(_vertices[0], _vertices[3], _vertices[4]));
-    _triangles.push_back(Triangle(_vertices[4], _vertices[7], _vertices[0]));
+    _indices.push_back(0); _indices.push_back(3); _indices.push_back(4);
+    _indices.push_back(4); _indices.push_back(7); _indices.push_back(0);
+    EndGenerate();
 }
 
 
 // ---------------------------------------------------------------------------
-Sphere::Sphere() :Shape3D(), _radius(1.0f){
+Sphere::Sphere() :Shape3D(Color::GRAY){
     _type = S_SPHERE;
-    SetColor(Color::GRAY);
+    this->generate();
+}
+
+Sphere::Sphere(const Position& position, const Color color)
+    :Shape3D(position, color) {
+    _type = S_SPHERE;
     this->generate();
 }
 
 Sphere::Sphere(const Position& position, float radius, const Color color)
     :Shape3D(position, color), _radius(radius) {
+    _type = S_SPHERE;
+    this->generate();
+}
+
+Sphere::Sphere(float radius, const Color color)
+    :Shape3D(color), _radius(radius) {
     _type = S_SPHERE;
     this->generate();
 }
@@ -137,60 +220,159 @@ float Sphere::SurfaceArea() const {
 }
 
 void Sphere::generate() {
-    _vertices.clear();
-    _triangles.clear();
-    //generate Vertex
-    float phi; // -pi/2 - pi/2
-    float theta; //0 - 2pi
+    this->StartGenerate();
+    int _stacks = this->stacks();
+    int _sectors = this->sectors();
+
+    // Geração dos vértices
     const float PI = 3.14159265359;
+    float deltaPhi = PI / _stacks;
+    float deltaTheta = 2.0f * PI / _sectors;
 
-    int nStack = this->stacks();
-    int nSector = this->sectors();
-    int radius = this->radius();
-    Color c = this->color();
-    
-    float deltaPhi = PI / nStack;
-    float deltaTheta = 2 * PI / nSector;
+    for (int i = 0; i <= _stacks; ++i) {
+        float phi = -PI / 2.0f + i * deltaPhi;
+        float sinPhi = sin(phi);
+        float cosPhi = cos(phi);
 
-    //generate vertices
-    for (int i = 0; i <= nStack; i++) {
-        phi = -PI / 2.0 + i * deltaPhi;
-        float temp = radius * cos(phi);
-        float y = radius * sin(phi);
-        for (int j = 0; j < nSector; j++) {
-            theta = j * deltaTheta;
-            float x = temp * sin(theta);
-            float z = temp * cos(theta);
-            _vertices.push_back(Vertex(Position(x, y, z), isFlatColor()? c : Color::RandomColor()));
+        for (int j = 0; j <= _sectors; ++j) {
+            float theta = j * deltaTheta;
+            float x = cos(theta) * cosPhi;
+            float y = sinPhi;
+            float z = sin(theta) * cosPhi;
+            _vertices.push_back(Vertex(Position(x, y, z) * _radius, isFlatColor() ? color() : Color::RandomColor()));
         }
     }
 
-    for (int i = 0; i < nStack; i++) {
-        for (int j = 0; j < nSector; j++) {
-            // calculate indices of the vertices
-            int v1 = i * nSector + j;
-            int v2 = i * nSector + (j + 1) % nSector;
-            int v3 = (i + 1) * nSector + (j + 1) % nSector;
-            int v4 = (i + 1) * nSector + j;
+    // Geração dos índices
+    for (int i = 0; i < _stacks; ++i) {
+        for (int j = 0; j < _sectors; ++j) {
+            int topRight = i * (_sectors + 1) + j;
+            int bottomRight = topRight + 1;
+            int topLeft = topRight + _sectors + 1;
+            int bottomLeft = topLeft + 1;
 
-            // create triangles
-            Triangle t1(_vertices[v1], _vertices[v2], _vertices[v3]);
-            Triangle t2(_vertices[v1], _vertices[v3], _vertices[v4]);
+            // Primeiro triângulo
+            _indices.push_back(topRight);
+            _indices.push_back(bottomRight);
+            _indices.push_back(bottomLeft);
 
-            // add triangles to the list
-            _triangles.push_back(t1);
-            _triangles.push_back(t2);
+            // Segundo triângulo
+            _indices.push_back(topRight);
+            _indices.push_back(bottomLeft);
+            _indices.push_back(topLeft);
         }
     }
+    EndGenerate();
 }
 // ---------------------------------------------------------------------------
-
-Pill::Pill() : Shape3D(),_radius(0.5f), _length(1.0f) {
-    _type = S_PILL;
-    SetColor(Color::YELLOW);
+Plane::Plane() : Shape3D(Color::WHITE){
+    _type = S_PLANE;
     this->generate();
 }
 
+Plane::Plane(float edgeSize, const Color& color)
+    : Shape3D(color), _width(edgeSize), _height(edgeSize) {
+    _type = S_PLANE;
+    this->generate();
+}
+Plane::Plane(const Position& position, float edgeSize, const Color& color)
+    : Shape3D(position, color), _width(edgeSize), _height(edgeSize) {
+    _type = S_PLANE;
+    this->generate();
+}
+
+Plane::Plane(const Position& position, const Color& color)
+    : Shape3D(position, color) {
+    _type = S_PLANE;
+    this->generate();
+}
+
+Plane::Plane(const Position& position, float width, float depth, const Color& color)
+    : Shape3D(position, color), _width(width), _height(depth) {
+    _type = S_PLANE;
+    this->generate();
+}
+
+float Plane::width() const {
+    return _width;
+}
+
+void Plane::SetWidth(float value) {
+    _width = value;
+    generate();
+}
+
+float Plane::height() const {
+    return _height;
+}
+
+void Plane::SetHeight(float value) {
+    _height = value;
+    generate();
+}
+
+float Plane::Volume() const {
+    return 0.0f; // Planes have no volume
+}
+
+float Plane::SurfaceArea() const {
+    return _width * _height;
+}
+void Plane::generate() {
+    this->StartGenerate();
+
+    float halfWidth = _width / 2;
+    float halfHeight = _height / 2;
+    Color c = this->color();
+
+    float rowIncrement = _height / static_cast<float>(_rows);
+    float colIncrement = _width / static_cast<float>(_cols);
+    // Generate vertices
+    for (int i = 0; i <= _rows; i++) {
+        float z = i * rowIncrement - halfHeight;
+        for (int j = 0; j <= _cols; j++) {
+            float x = j * colIncrement - halfWidth;
+            float y = 0;
+            _vertices.push_back(Vertex(Position(x, y, z), isFlatColor() ? c : Color::RandomColor()));
+        }
+    }
+    //generate triangles 
+    for (int i = 0; i < _rows ; i++) {
+        for (int j = 0; j < _cols; j++) {
+            int topLeft = i * (_cols + 1) + j;
+            int topRight = topLeft + 1;
+            int bottomLeft = topLeft + (_cols + 1);
+            int bottomRight = bottomLeft + 1;
+
+            /*_triangles.push_back(Triangle(_vertices[topLeft], _vertices[bottomLeft], _vertices[topRight]));
+            _triangles.push_back(Triangle(_vertices[topRight], _vertices[bottomLeft], _vertices[bottomRight]));*/
+            // Primeiro triângulo
+            _indices.push_back(topLeft);
+            _indices.push_back(bottomLeft);
+            _indices.push_back(topRight);
+
+            // Segundo triângulo
+            _indices.push_back(topRight);
+            _indices.push_back(bottomLeft);
+            _indices.push_back(bottomRight);
+        }
+    }
+    EndGenerate();
+}
+
+// ---------------------------------------------------------------------------
+
+
+Pill::Pill() : Shape3D(Color::YELLOW){
+    _type = S_PILL;
+    this->generate();
+}
+
+Pill::Pill(const Position& position,  Color color)
+    : Shape3D(position, color) {
+    _type = S_PILL;
+    this->generate();
+}
 
 Pill::Pill(const Position& position, float radius, float length, Color color)
     : Shape3D(position, color), _radius(radius), _length(length) {
@@ -228,5 +410,6 @@ float Pill::SurfaceArea() const {
 
 
 void Pill::generate() {
-    
+    this->StartGenerate();
+    this->EndGenerate();
 }

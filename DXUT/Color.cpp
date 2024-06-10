@@ -82,7 +82,7 @@ Color Color::UlongToColor(ulong colorValue)
 
 ulong Color::ColorToUlong(const Color& color)
 {
-    ulong alpha = static_cast<ulong>(color.alpha() * 255) & 0xFF;
+    ulong alpha = static_cast<ulong>(color.a() * 255) & 0xFF;
     ulong red = static_cast<ulong>(color.r() * 255) & 0xFF;
     ulong green = static_cast<ulong>(color.g() * 255) & 0xFF;
     ulong blue = static_cast<ulong>(color.b() * 255) & 0xFF;
@@ -99,4 +99,22 @@ Color Color::RandomColor() {
     float g = dis(gen);
     float b = dis(gen);
     return Color(r, g, b);
+}
+
+
+const float* Color::c3f() const {
+    static float c[3];
+    c[0] = _r;
+    c[1] = _g;
+    c[2] = _b;
+    return c;
+}
+
+const float* Color::c4f() const {
+    static float c[4];
+    c[0] = _r;
+    c[1] = _g;
+    c[2] = _b;
+    c[3] = _a;
+    return c;
 }

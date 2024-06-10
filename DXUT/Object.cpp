@@ -33,7 +33,7 @@ void Object::BBox(Geometry* bb)
 		delete _bbox;
 
 	_bbox = bb;
-	_bbox->TranslateTo(Vector(_position.x(), _position.y()));
+	_bbox->TranslateTo(Vector(position().x(), position().y()));
 }
 // -------------------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ void Object::SetSprite(Sprite* sprite)
 	if(_sprite != sprite)
 	{
 		_sprite = sprite;
-		_sprite->MoveTo(_position);
+		_sprite->MoveTo(position());
 	}
 }
 
@@ -59,29 +59,29 @@ void Object::SetSprite(Sprite* sprite)
 
 void Object::TranslateTo(const Vector& delta)
 {
-	this->_position.TranslateTo(delta);
+	this->TranslateTo(delta);
 	if(this->_sprite)
-		_sprite->MoveTo(_position);
+		_sprite->MoveTo(position());
 	if (this->_bbox)
 		_bbox->TranslateTo(delta);
 }
 
-void Object::MoveTo(Position* position)
+void Object::MoveTo(Position* pos)
 {
-	_position.MoveTo(position);
+	this->MoveTo(pos);
 	if (_sprite)
-		_sprite->MoveTo(_position);
+		_sprite->MoveTo(pos);
 	if (_bbox)
-		_bbox->MoveTo(_position);
+		_bbox->MoveTo(pos);
 };
 
-void Object::MoveTo(const Position& position)
+void Object::MoveTo(const Position& pos)
 {
-	_position.MoveTo(position);
+	this->MoveTo(pos);
 	if (_sprite)
-		_sprite->MoveTo(_position);
+		_sprite->MoveTo(pos);
 	if (_bbox)
-		_bbox->MoveTo(_position);
+		_bbox->MoveTo(pos);
 };
 // -------------------------------------------------------------------------------
 void Object::OnCollision(Object* obj)

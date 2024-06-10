@@ -2,9 +2,9 @@
 
 
 MCObj::MCObj(Image* img, float scale) {
-	_position = new Position();
+	this->MoveTo(Position::Zero);
 	this->SetSprite(new Sprite(img));
-	_magnitude = 100;
+	this->SetMagnitude(100);
 	_sprite->SetLayer(Layer::MIDDLE);
 	_sprite->SetScale(scale);
 

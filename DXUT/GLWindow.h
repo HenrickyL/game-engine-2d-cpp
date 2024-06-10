@@ -29,6 +29,8 @@ private:
     void updateValues();
     void resetApplyUpdate();
 
+    GLFWwindow* CreateWindowByMode();
+
 public:
     GLWindow(); // Construtor
     ~GLWindow(); // Destrutor
@@ -44,6 +46,8 @@ public:
     void InFocus(void(*func)()) override;
     void LostFocus(void(*func)()) override;
     void isResizeable(bool value) override;
+    void SetCursorDisable(bool value) override;
+
     bool ShouldClose() const override;
     GLFWwindow* GetWindow()const;
     double Aspect() const;

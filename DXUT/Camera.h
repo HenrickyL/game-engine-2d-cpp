@@ -5,15 +5,15 @@
 #include "Window.h"
 class Camera : public Movable {
 protected:
-	Position _pointOfView = Position::Zero;
-	Vector _orientation = Vector::Down;
+	Vector _pointOfView = Vector::Zero;
+	Vector _orientation = Vector::Up;
 	const Window* _window = nullptr;
 public:
 	Camera(const Window* window);
 	Camera(const Window* window, const Position& pos);
 
 
-	virtual void LookAt(const Position& pos);
+	virtual void LookAt(const Vector& pos);
 	virtual void TranslateLookAt(const Vector& delta);
 	virtual Position pointOfView()const;
 
@@ -23,6 +23,7 @@ public:
 
 	virtual void Update() =0;
 	virtual void Draw();
+	virtual void Reset();
 };
 
 #endif

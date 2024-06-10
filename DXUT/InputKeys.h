@@ -39,6 +39,10 @@ enum InputKeys {
 	KEY_W,
 	KEY_Y,
 	KEY_Z,
+	SHIFT_LEFT,
+	SHIFT_RIGHT,
+	CTRL_LEFT,
+	CTRL_RIGHT,
 	UNKNOW
 };
 

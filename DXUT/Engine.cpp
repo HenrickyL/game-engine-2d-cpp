@@ -15,6 +15,7 @@
 #include "GLInput.h"
 #include "GLGraphics.h" 
 #include "GLRenderer.h"
+#include <stdexcept>
 
 using std::stringstream;
 
@@ -33,7 +34,7 @@ Timer		Engine::timer;                      // medidor de tempo
 Engine::Engine()
 {
 	_context = context();
-}
+	}
 
 // ------------------------------------------------------------------------------
 
@@ -44,22 +45,21 @@ GraphicContext* Engine::context(){
 
 GraphicContext* Engine::getContextByType(EngineGraphicsType type) {
 	if (_graphicType == E_OpenGL) {
-		GLWindow* _window = new GLWindow();
-		GLGraphics* graphics = new GLGraphics(_window);
-		GLRenderer* renderer = new GLRenderer();
-
-
-		if (!_contextGL)
+		if (!_contextGL) {
+			GLWindow* _window = new GLWindow();
+			GLGraphics* graphics = new GLGraphics(_window);
+			GLRenderer* renderer = new GLRenderer();
 			_contextGL = new GraphicContext(graphics, _window, renderer);
+		}
 		return _contextGL;
 	}
 	else {
-		DXWindow* _window = new DXWindow();
-		DXGraphics* graphics = new DXGraphics(_window);
-		DXRenderer* renderer = new DXRenderer();
-
-		if (!_contextDX)
+		if (!_contextDX) {
+			DXWindow* _window = new DXWindow();
+			DXGraphics* graphics = new DXGraphics(_window);
+			DXRenderer* renderer = new DXRenderer();
 			_contextDX = new GraphicContext(graphics, _window, renderer);
+		}
 		return _contextDX;
 	}
 }
@@ -104,6 +104,7 @@ int Engine::Start(Game* level)
 	
 	Window * _window = _context->window();
 	_window->Create();
+
 
 	Graphics* graphics = _context->graphics();
 	Renderer* renderer = _context->renderer();
@@ -205,6 +206,7 @@ int Engine::Loop()
 			// apresenta o jogo na tela (troca backbuffer/frontbuffer)
 			graphics->Present();
 		}
+		Input::Update();
 	} while (!_window->ShouldClose());
 
 	// finalização do aplicação

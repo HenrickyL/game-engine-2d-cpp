@@ -15,8 +15,8 @@ StatePosition::StatePosition(const Position& pos) {
 	int x = pos.x();
 	int y = pos.y();
 	name = "(x: " + std::to_string(x) + ", y: " + std::to_string(y) + ")";
-	_position = Position(x, y);
-	value = _position;
+	this->MoveTo(Position(x, y));
+	value = position();
 }
 
 StatePosition::~StatePosition() {

@@ -15,9 +15,15 @@ Position	Input::lastMouseClick;
 bool		Input::onClick = false;
 bool		Input::_onWheel = false;
 Vector		Input::drag = Vector::Zero;
+Position	Input::lastMousePosition = Position::Zero;
+Vector		Input::mousePositionOffset = Vector::Zero;
+
 
 //TimeType	Input::lastTime = std::chrono::steady_clock::now();
-short		Input::timeOffset = 400;
+short		Input::timeOffset = 150;
+Timer		Input::timer;
+bool		Input::onStart = false;
+
 
 
 // -------------------------------------------------------------------------------
@@ -68,6 +74,23 @@ bool Input::OnWheel() {
 	return result;
 }
 
+void Input::Reset() {
+	mousePositionOffset = Vector::Zero;
+	Input::drag = Vector::Zero;
+}
+
+void Input::Update() {
+	if (!Input::onStart) {
+		Input::timer.Start();
+		onStart = true;
+	}
+	if (Input::timer.Elapsed(timeOffset)) {
+		mousePositionOffset = Vector::Zero;
+		Input::timer.Reset();
+	}
+}
+
+
 
 // -------------------------------------------------------------------------------
 
@@ -101,6 +124,9 @@ bool Input::OnWheel() {
 	 return Input::mouseClick;
  }
 
+ Vector Input::MousePositionOffset(){
+	 return Input::mousePositionOffset;
+ }
 // retorna conteúdo do texto lido
  const char* Input::Text()
 {return text.c_str();}

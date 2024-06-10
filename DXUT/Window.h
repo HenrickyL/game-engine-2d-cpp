@@ -29,9 +29,10 @@ protected:
     Color           _color = Color::BLACK;
     bool            _allowResize = false;
     bool            _onCreate = false;
+    bool            _isCursorDisable = false;
 
 public:
-    virtual ~Window() {}
+    virtual ~Window() = default;
 
     //virtual HINSTANCE AppId() const = 0;
     virtual HWND Id() const;
@@ -41,6 +42,9 @@ public:
     virtual Position Center() const ;
     virtual std::string Title() const;
     virtual Color GetColor() const = 0;
+    virtual bool isCursorDisable()const;
+
+    virtual void SetCursorDisable(bool value);
     virtual void Icon(const uint icon) = 0;
     virtual void Cursor(const uint cursor) = 0;
     virtual void SetTitle(const std::string title) = 0;
@@ -70,4 +74,8 @@ inline WindowModes Window::Mode() const {return _mode;}
 inline std::string Window::Title() const {return _title;}
 inline Position Window::Center() const { return Position(_width / 2, _height / 2); }
 inline void Window::SetColor(Color color){_color = color;}
+
+inline void Window::SetCursorDisable(bool value) { _isCursorDisable = value; }
+inline bool Window::isCursorDisable()const { return _isCursorDisable; }
+
 #endif // WINDOW_H

@@ -3,7 +3,7 @@
 #include "DXUT_Observer.h"
 #include <debugapi.h>
 
-#include "Instance.h"
+#include "UT_Utils.h"
 
 
 //Define Perceptions

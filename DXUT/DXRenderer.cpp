@@ -1055,7 +1055,7 @@ void DXRenderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** spr
             float r = filterColor.r();
             float g = filterColor.g();
             float b = filterColor.b();
-            float a = filterColor.alpha();
+            float a = filterColor.a();
 
             //XMVECTOR color = XMVectorSet(r, g, b, a);
             /*#ifdef _DEBUG

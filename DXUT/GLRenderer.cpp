@@ -107,7 +107,9 @@ void GLRenderer::Draw(const Geometry& geometry){
         Color c = geometry.color();
         glColor3f(c.r(), c.g(), c.b());
         glTranslatef(geometry.x(), geometry.y(), geometry.z());
-        glRotatef(geometry.rotateAngle(), geometry.xRot(), geometry.yRot(), geometry.zRot());
+        glRotatef(geometry.xRot(), 1,0,0);
+        glRotatef(geometry.yRot(), 0, 1, 0);
+        glRotatef(geometry.zRot(), 0, 0, 1);
 
         SwitchTypeGeometryToDraw(geometry);
 	    

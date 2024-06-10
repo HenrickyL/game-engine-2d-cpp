@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\glfw\include;$(SolutionDir)external\glew\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\glfw\include;$(SolutionDir)external\glew\include;$(SolutionDir)external\glm\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,6 +138,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="AbstractList.inl" />
     <None Include="AIConcepts.md">
       <FileType>Document</FileType>
     </None>
@@ -151,12 +152,16 @@
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="GLCamera.cpp" />
+    <ClCompile Include="GLDrawableBase.cpp" />
+    <ClCompile Include="GLGroundUI.cpp" />
+    <ClCompile Include="GLOriginGizmoUI.cpp" />
     <ClCompile Include="GLRenderer.cpp" />
     <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="GLInput.cpp" />
     <ClCompile Include="GLRenderer3D.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
+    <ClCompile Include="GroundUI.cpp" />
     <ClCompile Include="MCAction.cpp" />
     <ClCompile Include="MCObj.cpp" />
     <ClCompile Include="MCS.cpp" />
@@ -164,6 +169,7 @@
     <ClCompile Include="MissionariesCannibalsProblem.cpp" />
     <ClCompile Include="Movable.cpp" />
     <ClCompile Include="MyGame.cpp" />
+    <ClCompile Include="OriginGizmoUI.cpp" />
     <ClCompile Include="Shape3D.cpp" />
     <ClCompile Include="ShortPathProblem.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -184,18 +190,29 @@
     <ClCompile Include="StatePosition.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UT_Utils.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractList.h" />
     <ClInclude Include="Action.h" />
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Colored.h" />
     <ClInclude Include="Dictionary.h" />
+    <ClInclude Include="Dirtyable.h" />
+    <ClInclude Include="GLDrawableBase.h" />
+    <ClInclude Include="GLGroundUI.h" />
+    <ClInclude Include="GLOriginGizmoUI.h" />
     <ClInclude Include="GLRenderer3D.h" />
+    <ClInclude Include="GLVertexBufferID.h" />
+    <ClInclude Include="GL_methods.h" />
+    <ClInclude Include="GroundUI.h" />
+    <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="OriginGizmoUI.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="DXRenderer.h" />
     <ClInclude Include="DXGraphics.h" />
@@ -238,7 +255,6 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputKeys.h" />
-    <ClInclude Include="Instance.h" />
     <ClInclude Include="MovimentAction.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
@@ -265,8 +281,10 @@
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UT_GL.h" />
+    <ClInclude Include="UT_Utils.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VertexBufferID.h" />
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

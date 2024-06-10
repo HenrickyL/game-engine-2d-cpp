@@ -1,5 +1,7 @@
 #include "GLWindow.h"
 #include "GLInput.h"
+#include <stdexcept>
+
 // GLWindow.cpp
 
 GLFWwindow* GLWindow::window = nullptr;// Ponteiro para a janela GLFW
@@ -8,7 +10,8 @@ double GLWindow::_aspect = 0; //proporsion
 GLdouble GLWindow::_zNear = 0.1f;
 GLdouble GLWindow::_zFar = 500.0f;
 
-GLWindow::GLWindow(){}
+GLWindow::GLWindow(){
+}
 
 GLWindow::~GLWindow() {
     if (window) {
@@ -78,30 +81,13 @@ void GLWindow::Size(int width, int height) {
 }
 
 void GLWindow::Mode(WindowModes mode) {
-    switch (mode) {
-        case WINDOWED:
-            glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_TRUE); // Define como janela decorada (com borda)
-            glfwSetWindowMonitor(window, nullptr, _windowPosX, _windowPosY, _width, _height, GLFW_DONT_CARE); // Configura como janela
-            break;
-        case FULLSCREEN:
-            glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_FALSE); // Define como janela sem decoração (sem borda)
-            glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, _width, _height, GLFW_DONT_CARE); // Configura como tela cheia
-            break;
-        case BORDERLESS:
-            glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_FALSE); // Define como janela sem decoração (sem borda)
-            glfwSetWindowMonitor(window, nullptr, _windowPosX, _windowPosY, _width, _height, GLFW_DONT_CARE); // Configura como janela sem borda
-            break;
-     }
+    _mode = mode;
+    
 }
 
 
 void GLWindow::HideCursor(bool hide) {
     // Implemente lógica para ocultar o cursor da janela com GLFW
-}
-
-void GLWindow::Close() {
-    //glfwSetWindowShouldClose(GLWindow::window, GLFW_TRUE);
-    glfwTerminate();
 }
 
 GLFWwindow* GLWindow::GetWindow()const {
@@ -116,17 +102,61 @@ double GLWindow::Aspect() const {
 
 void GLWindow::Clear() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(_color.r(), _color.g(), _color.b(), _color.alpha());
+    glClearColor(_color.r(), _color.g(), _color.b(), _color.a());
+    glLineWidth(1.0f);
+    glPointSize(1.0f);
 }
+
+GLFWwindow* GLWindow::CreateWindowByMode() {
+    GLFWmonitor* monitor = nullptr;
+    const GLFWvidmode* modeInfo = nullptr;
+
+    monitor = glfwGetPrimaryMonitor();
+    modeInfo = glfwGetVideoMode(monitor);
+    if (_mode == FULLSCREEN) {
+        _width = modeInfo->width;
+        _height = modeInfo->height;
+    }
+
+    GLFWwindow* window = nullptr;
+    if (_mode == FULLSCREEN) {
+        window = glfwCreateWindow(_width,_height, _title.c_str(), monitor, nullptr);
+    }
+    else {
+        window = glfwCreateWindow(_width, _height, _title.c_str(), nullptr, nullptr);
+        if (_mode == BORDERLESS) {
+            glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_FALSE);
+            const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+            glfwSetWindowPos(window, 0, 0);
+            glfwSetWindowSize(window, videoMode->width, videoMode->height);
+        }
+        // Centralizar a janela
+        int xpos = (modeInfo->width - _width) / 2;
+        int ypos = (modeInfo->height - _height) / 2;
+        glfwSetWindowPos(window, xpos, ypos);
+    }
+
+    if (!window) {
+        glfwTerminate();
+        throw std::runtime_error("Failed to create GLFW window.");
+    }
+
+    return window;
+}
+
 
 bool GLWindow::Create() {
     // Inicialize GLFW
     if (!glfwInit()) {
+        throw std::runtime_error("Failed to initialize GLFW.");
         return false;
     }
     isResizeable(_allowResize);
+    /*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);*/
     // Crie uma janela GLFW
-    window = glfwCreateWindow(_width, _height, _title.c_str(), NULL, NULL);
+    window = CreateWindowByMode();
     onWindowCreate();
     setupWindowCallbacks();
 
@@ -135,6 +165,10 @@ bool GLWindow::Create() {
     Size(_width, _height);
     //// Configurações adicionais do OpenGL
     glEnable(GL_DEPTH_TEST);
+    //enable opacity
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    this->SetCursorDisable(isCursorDisable());
 
     _onCreate = true;
     return true;
@@ -150,6 +184,10 @@ bool GLWindow::onWindowCreate(const string message) const {
     }
 }
 
+void GLWindow::Close() {
+    glfwSetWindowShouldClose(GLWindow::window, GLFW_TRUE);
+    //glfwTerminate();
+}
 
 bool GLWindow::ShouldClose() const {
     return glfwWindowShouldClose(GLWindow::window);
@@ -165,9 +203,15 @@ void GLWindow::SwapBuffers() const {
 void GLWindow::isResizeable(bool value) {
     if(_onCreate) MessageBox(nullptr, "You cannot set this method 'isResizeable' after the window has been created.", "Error", MB_OK | MB_ICONERROR);
     _allowResize = value;
+    // Configure o GLFW
     glfwWindowHint(GLFW_RESIZABLE, _allowResize ? GLFW_TRUE : GLFW_FALSE);
 }
 
+
+void GLWindow::SetCursorDisable(bool value) {
+    Window::SetCursorDisable(value);
+    glfwSetInputMode(GLWindow::window, GLFW_CURSOR, isCursorDisable() ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+}
 
 void GLWindow::updateValues() {
     if (_onUpdate && !_onApply) {

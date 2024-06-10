@@ -23,6 +23,7 @@ class Color {
 public:
     // Construtores
     Color() : _r(1.0f), _g(1.0f), _b(1.0f), _a(1.0f) {}
+    Color(const float* color) : _r(color[0]), _g(color[1]), _b(color[2]), _a(color[3]) {}
     Color(float red, float green, float blue, float alpha = 1.0f) : _r(red), _g(green), _b(blue), _a(alpha) {}
 
     // Definições estáticas para cores específicas
@@ -42,7 +43,10 @@ public:
     float r() const { return _r; }
     float g() const { return _g; }
     float b() const { return _b; }
-    float alpha() const { return _a; }
+    float a() const { return _a; }
+
+    const float* c3f()const;
+    const float* c4f()const;
 
     // Métodos de modificação
     void setR(float red) { _r = red; }
