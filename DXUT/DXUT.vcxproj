@@ -208,6 +208,8 @@
     <ClInclude Include="GLGroundUI.h" />
     <ClInclude Include="GLOriginGizmoUI.h" />
     <ClInclude Include="GLRenderer3D.h" />
+    <ClInclude Include="GLVertexBufferID.h" />
+    <ClInclude Include="GL_methods.h" />
     <ClInclude Include="GroundUI.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="OriginGizmoUI.h" />
@@ -253,7 +255,6 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputKeys.h" />
-    <ClInclude Include="Instance.h" />
     <ClInclude Include="MovimentAction.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="DXUT_Test_Observer.h" />
@@ -283,6 +284,7 @@
     <ClInclude Include="UT_Utils.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VertexBufferID.h" />
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
