@@ -105,11 +105,6 @@ void GLWindow::HideCursor(bool hide) {
     // Implemente lógica para ocultar o cursor da janela com GLFW
 }
 
-void GLWindow::Close() {
-    //glfwSetWindowShouldClose(GLWindow::window, GLFW_TRUE);
-    glfwTerminate();
-}
-
 GLFWwindow* GLWindow::GetWindow()const {
     return window;
 }
@@ -168,9 +163,12 @@ bool GLWindow::onWindowCreate(const string message) const {
     }
 }
 
+void GLWindow::Close() {
+    glfwSetWindowShouldClose(GLWindow::window, GLFW_TRUE);
+    //glfwTerminate();
+}
 
 bool GLWindow::ShouldClose() const {
-    ///TODO: Verificar se o loop encerra
     return glfwWindowShouldClose(GLWindow::window);
 }
 void GLWindow::SwapBuffers() const {

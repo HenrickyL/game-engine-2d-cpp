@@ -67,6 +67,7 @@ void MyGame::Update(double dt){
 	if (Input::KeyPress(KEY_R)) {
 		Reset();
 	}
+	InputEnd();
 	InputRotationGlobal();
 	InputRotationLocal();
 	InputCamera();
@@ -266,4 +267,11 @@ void MyGame::Reset()
 	globalRotation = Vector::Zero;
 	cam.MoveTo(Position(0, 0.5f, 4));
 	cam.Reset();
+}
+
+
+void MyGame::InputEnd() {
+	if (Input::KeyPress(ESCAPE)) {
+		window->Close();
+	}
 }
