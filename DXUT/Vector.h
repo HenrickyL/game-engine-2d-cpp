@@ -15,15 +15,22 @@ public:
 	static Vector Zero;
 	static Vector One;
 
+	static Vector CrossProduct(const Vector& A, const Vector& B);
+
 
 	Vector(float x, float y, float z=0);
 
 	float Magnitude() const;
 	Vector Unit() const;
+	Vector Inverte() const;
+
+
+	Vector CrossProduct(const Vector& other) const;
 
 
 	Vector	operator+(const Vector& other) const;
 	Vector	operator*(const float value) const;
+	Vector	operator*(const Vector& other) const;
 	Vector	operator/(const float value) const;
 	Vector	operator-(const Vector& other) const;
 	bool	operator==(const Vector& other) const;
