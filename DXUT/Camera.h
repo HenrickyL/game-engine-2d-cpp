@@ -10,6 +10,7 @@ private:
 	float _aspect;
 	float _near = 0.1f;
 	float _far = 100.0f;
+	void UpdateAspect();
 protected:
 	Vector _pointOfView = Vector::Zero;
 	Vector _orientation = Vector::Up;
@@ -41,7 +42,6 @@ public:
 	float frustumFar()const;
 
 	void SetFrustumFov(float value);
-	void SetFrustumAspect(float value);
 	void SetFrustumNear(float value);
 	void SetFrustumFar(float value);
 

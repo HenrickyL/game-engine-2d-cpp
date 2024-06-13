@@ -1,9 +1,11 @@
 #include "Camera.h"
 
 Camera::Camera(const Window* window) : Movable(Position::Zero), _window(window) {
+	UpdateAspect();
 }
 
 Camera::Camera(const Window* window,const Position & pos) : Movable(pos), _window(window) {
+	UpdateAspect();
 }
 
 void Camera::LookAt(const Vector& pos){
@@ -44,6 +46,7 @@ float Camera::frustumNear()const{ return _near; }
 float Camera::frustumFar()const{ return _far; }
 
 void Camera::SetFrustumFov(float value) { _fov = value; }
-void Camera::SetFrustumAspect(float value){ _aspect = value; }
 void Camera::SetFrustumNear(float value){ _near = value; }
 void Camera::SetFrustumFar(float value){ _far = value; }
+
+void Camera::UpdateAspect() { _aspect = static_cast<float>(_window->Width() / (float)_window->Height()); }
