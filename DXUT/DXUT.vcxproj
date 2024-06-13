@@ -296,6 +296,7 @@
     <None Include="Agent.inl" />
     <None Include="DEVELOPMENT_STANDARDS.md" />
     <None Include="Dictionary.inl" />
+    <None Include="doc\OpenGLPerformingTechnics.md" />
     <None Include="Environment.inl" />
     <None Include="HowToCreateYourProblemAStar.md" />
     <None Include="Node.inl" />
