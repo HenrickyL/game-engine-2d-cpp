@@ -44,6 +44,8 @@ private:
 
 	void InputRotationGlobal();
 	void InputRotationLocal();
+	void InputCameraFrustum();
+
 	void InputCamera();
 	void InputEnd();
 

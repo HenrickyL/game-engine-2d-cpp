@@ -3,6 +3,9 @@
 
 #include "Movable.h"
 #include "Window.h"
+
+
+//TODO: testar os os valores de forma dinamica
 class Camera : public Movable {
 private:
 	// Configuração da matriz de projeção (simulação) - Frustum Culling

@@ -74,7 +74,8 @@ void MyGame::Update(double dt){
 	}
 	InputEnd();
 	InputRotationGlobal();
-	InputRotationLocal();
+	InputCameraFrustum();
+	//InputRotationLocal();
 	InputCamera();
 	if (Input::KeyPress(KEY_L)) {
 		current->SetColor(Color::GREEN);
@@ -295,5 +296,37 @@ void MyGame::Reset()
 void MyGame::InputEnd() {
 	if (Input::KeyPress(ESCAPE)) {
 		window->Close();
+	}
+}
+
+
+void MyGame::InputCameraFrustum() {
+	float tick = 0.001;
+	if (Input::KeyDown(UP)) {
+		cam.SetFrustumFar(cam.frustumFar() + tick);
+		cam.Update();
+	}else if (Input::KeyDown(DOWN)) {
+		cam.SetFrustumFar(cam.frustumFar() - tick);
+		cam.Update();
+	}
+
+
+	if (Input::KeyDown(LEFT)) {
+		cam.SetFrustumNear(cam.frustumNear() + tick);
+		cam.Update();
+	}
+	else if (Input::KeyDown(RIGHT)) {
+		cam.SetFrustumNear(cam.frustumNear() - tick);
+		cam.Update();
+	}
+
+
+	if (Input::KeyDown(KEY_M)) {
+		cam.SetFrustumFov(cam.frustumFov() + tick);
+		cam.Update();
+	}
+	else if (Input::KeyDown(KEY_N)) {
+		cam.SetFrustumFov(cam.frustumFov() - tick);
+		cam.Update();
 	}
 }
