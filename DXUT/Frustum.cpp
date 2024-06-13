@@ -1,63 +1,58 @@
 #include "Frustum.h"
+#include <array>
 
-void Frustum::Update(const Camera& camera) {
-	Position pos = camera.position();
-	glm::vec3 cameraPos = glm::vec3(pos.x(), pos.y(), pos.z());
-	Vector _direction = camera.direction();
-	Vector _orientation = camera.orientation();
-	Vector _left = camera.left();
-
-	// Calcula os vértices da base do frustum (near plane)
-	float halfHeight = tan(glm::radians(camera.frustumFov() / 2.0f)) * camera.frustumNear();
-	float halfWidth = halfHeight * camera.frustumAspect();
-	glm::vec3 dir = glm::vec3(_direction.x(), _direction.y(), _direction.z());
-	glm::vec3 ori = glm::vec3(_orientation.x(), _orientation.y(), _orientation.z());
-	glm::vec3 left = glm::vec3(_left.x(), _left.y(), _left.z());
+// Função auxiliar para criar um plano do frustum a partir de uma normal e um ponto
+FrustumPlane FrustumPlaneFromNormalAndPoint(const glm::vec3& normal, const glm::vec4& point) {
+    glm::vec3 normalizedNormal = glm::normalize(normal); // Normaliza a normal
+    return FrustumPlane(normalizedNormal.x, normalizedNormal.y, normalizedNormal.z, -glm::dot(normalizedNormal, glm::vec3(point)));
+}
 
 
-	glm::vec3 centerNear = cameraPos + dir * camera.frustumNear();
-	glm::vec3 topLeftNear = centerNear + (ori * halfHeight) - (left * halfWidth);
-	glm::vec3 topRightNear = centerNear + (ori * halfHeight) + (left * halfWidth);
-	glm::vec3 bottomLeftNear = centerNear - (ori * halfHeight) - (left * halfWidth);
-	glm::vec3 bottomRightNear = centerNear - (ori * halfHeight) + (left * halfWidth);
 
-	// Calcula os vértices da base do frustum (far plane)
-	float halfHeightFar = tan(glm::radians(camera.frustumFov() / 2.0f)) * camera.frustumFar();
-	float halfWidthFar = halfHeightFar * camera.frustumAspect();
-	glm::vec3 centerFar = cameraPos + dir * camera.frustumFar();
-	glm::vec3 topLeftFar = centerFar + (ori * halfHeightFar) - (left * halfWidthFar);
-	glm::vec3 topRightFar = centerFar + (ori * halfHeightFar) + (left * halfWidthFar);
-	glm::vec3 bottomLeftFar = centerFar - (ori * halfHeightFar) - (left * halfWidthFar);
-	glm::vec3 bottomRightFar = centerFar - (ori * halfHeightFar) + (left * halfWidthFar);
 
-	// Armazena os vértices dos planos near e far
-	_nearPlaneVertices[0] = topLeftNear;
-	_nearPlaneVertices[1] = topRightNear;
-	_nearPlaneVertices[2] = bottomRightNear;
-	_nearPlaneVertices[3] = bottomLeftNear;
+void Frustum::Update(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix) {
+    glm::mat4 invProjMatrix = glm::inverse(projectionMatrix);
+    glm::mat4 invViewMatrix = glm::inverse(viewMatrix);
 
-	_farPlaneVertices[0] = topLeftFar;
-	_farPlaneVertices[1] = topRightFar;
-	_farPlaneVertices[2] = bottomRightFar;
-	_farPlaneVertices[3] = bottomLeftFar;
 
-	// Calcular os planos do frustum usando os vértices
-	glm::vec3 nearNormal = glm::normalize(glm::cross(_nearPlaneVertices[1] - _nearPlaneVertices[0], _nearPlaneVertices[3] - _nearPlaneVertices[0]));
-	glm::vec3 farNormal = glm::normalize(glm::cross(_farPlaneVertices[1] - _farPlaneVertices[0], _farPlaneVertices[3] - _farPlaneVertices[0]));
+    std::array<glm::vec4, 8> ndcPoints = {
+        glm::vec4(-1.0f, -1.0f, -1.0f, 1.0f), // near bottom left
+        glm::vec4(1.0f, -1.0f, -1.0f, 1.0f),  // near bottom right
+        glm::vec4(-1.0f, 1.0f, -1.0f, 1.0f),  // near top left
+        glm::vec4(1.0f, 1.0f, -1.0f, 1.0f),   // near top right
+        glm::vec4(-1.0f, -1.0f, 1.0f, 1.0f),  // far bottom left
+        glm::vec4(1.0f, -1.0f, 1.0f, 1.0f),   // far bottom right
+        glm::vec4(-1.0f, 1.0f, 1.0f, 1.0f),   // far top left
+        glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)     // far top right
+    };
 
-	_planes[0] = FrustumPlane(nearNormal.x, nearNormal.y, nearNormal.z, glm::dot(nearNormal, _nearPlaneVertices[0])); // Near plane
-	_planes[1] = FrustumPlane(farNormal.x, farNormal.y, farNormal.z, glm::dot(farNormal, _farPlaneVertices[0])); // Far plane
+    // Transformar pontos do NDC para o espaço do mundo
+    for (glm::vec4& point : ndcPoints) {
+        point = invProjMatrix * point;
+        point /= point.w; // Perspectiva divide
+        point = invViewMatrix * point;
+    }
 
-	// Calcular planos laterais, superior e inferior
-	glm::vec3 leftNormal = glm::normalize(glm::cross(_nearPlaneVertices[0] - _farPlaneVertices[0], _farPlaneVertices[3] - _farPlaneVertices[0]));
-	glm::vec3 rightNormal = glm::normalize(glm::cross(_nearPlaneVertices[1] - _farPlaneVertices[1], _farPlaneVertices[2] - _farPlaneVertices[1]));
-	glm::vec3 bottomNormal = glm::normalize(glm::cross(_nearPlaneVertices[3] - _farPlaneVertices[3], _farPlaneVertices[2] - _farPlaneVertices[3]));
-	glm::vec3 topNormal = glm::normalize(glm::cross(_nearPlaneVertices[0] - _farPlaneVertices[0], _farPlaneVertices[1] - _farPlaneVertices[0]));
 
-	_planes[2] = FrustumPlane(leftNormal.x, leftNormal.y, leftNormal.z, glm::dot(leftNormal, _farPlaneVertices[0])); // Left plane
-	_planes[3] = FrustumPlane(rightNormal.x, rightNormal.y, rightNormal.z, glm::dot(rightNormal, _farPlaneVertices[1])); // Right plane
-	_planes[4] = FrustumPlane(bottomNormal.x, bottomNormal.y, bottomNormal.z, glm::dot(bottomNormal, _farPlaneVertices[3])); // Bottom plane
-	_planes[5] = FrustumPlane(topNormal.x, topNormal.y, topNormal.z, glm::dot(topNormal, _farPlaneVertices[0])); // Top plane
+    // Calcula os planos do frustum com base nos pontos transformados
+    _planes[0] = FrustumPlaneFromNormalAndPoint(glm::cross(glm::vec3(ndcPoints[2] - ndcPoints[0]), glm::vec3(ndcPoints[1] - ndcPoints[0])), ndcPoints[0]); // Near plane
+    _planes[1] = FrustumPlaneFromNormalAndPoint(glm::cross(glm::vec3(ndcPoints[6] - ndcPoints[4]), glm::vec3(ndcPoints[5] - ndcPoints[4])), ndcPoints[4]); // Far plane
+    _planes[2] = FrustumPlaneFromNormalAndPoint(glm::cross(glm::vec3(ndcPoints[4] - ndcPoints[0]), glm::vec3(ndcPoints[2] - ndcPoints[0])), ndcPoints[0]); // Left plane
+    _planes[3] = FrustumPlaneFromNormalAndPoint(glm::cross(glm::vec3(ndcPoints[7] - ndcPoints[3]), glm::vec3(ndcPoints[1] - ndcPoints[3])), ndcPoints[3]); // Right plane
+    _planes[4] = FrustumPlaneFromNormalAndPoint(glm::cross(glm::vec3(ndcPoints[1] - ndcPoints[0]), glm::vec3(ndcPoints[3] - ndcPoints[0])), ndcPoints[0]); // Bottom plane
+    _planes[5] = FrustumPlaneFromNormalAndPoint(glm::cross(glm::vec3(ndcPoints[3] - ndcPoints[2]), glm::vec3(ndcPoints[6] - ndcPoints[2])), ndcPoints[2]); // Top plane
+
+
+    // Armazena os vértices dos planos near e far
+    _nearPlaneVertices[0] = glm::vec3(ndcPoints[0]); // near bottom left
+    _nearPlaneVertices[1] = glm::vec3(ndcPoints[1]); // near bottom right
+    _nearPlaneVertices[2] = glm::vec3(ndcPoints[2]); // near top left
+    _nearPlaneVertices[3] = glm::vec3(ndcPoints[3]); // near top right
+
+    _farPlaneVertices[0] = glm::vec3(ndcPoints[4]);  // far bottom left
+    _farPlaneVertices[1] = glm::vec3(ndcPoints[5]);  // far bottom right
+    _farPlaneVertices[2] = glm::vec3(ndcPoints[6]);  // far top left
+    _farPlaneVertices[3] = glm::vec3(ndcPoints[7]);  // far top right
 }
 
 bool Frustum::IsInFrustum(const glm::vec3& position, float radius) const {

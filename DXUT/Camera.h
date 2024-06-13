@@ -6,10 +6,10 @@
 class Camera : public Movable {
 private:
 	// Configuração da matriz de projeção (simulação) - Frustum Culling
-	float _fov = 15.0f;
+	float _fov = 45.0f;
 	float _aspect;
-	float _near =5.0f;
-	float _far = 10.5f;
+	float _near =0.1f;
+	float _far = 10.0f;
 	void UpdateAspect();
 protected:
 	Vector _pointOfView = Vector::Zero;

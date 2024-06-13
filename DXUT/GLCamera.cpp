@@ -13,7 +13,14 @@ GLCamera::GLCamera(const Window* window, const Position& pos): Camera(window, po
 
 
 void GLCamera::UpdateFrustum() {
-	_frustum.Update(*this);
+	glm::mat4 projectionMatrix = glm::perspective(glm::radians(frustumFov()), frustumAspect(), frustumNear(), frustumFar());
+	glm::mat4 viewMatrix = glm::lookAt(
+		glm::vec3(position().x(), position().y(), position().z()),
+		glm::vec3(_pointOfView.x(), _pointOfView.y(), _pointOfView.z()),
+		glm::vec3(_orientation.x(), _orientation.y(), _orientation.z())
+	);
+
+	_frustum.Update(projectionMatrix, viewMatrix);
 }
 
 
@@ -227,9 +234,8 @@ void GLCamera::DrawFrustum() {
 	const glm::vec3* nearVerts = _frustum.nearPlaneVertices();
 	const glm::vec3* farVerts = _frustum.farPlaneVertices();
 
-	glLineWidth(2.0f);
+	// Desenha as linhas da pirâmide truncada
 	glBegin(GL_LINES);
-
 	glColor3fv(Color::YELLOW.c4f()); // Amarelo
 
 	// Linhas do plano near

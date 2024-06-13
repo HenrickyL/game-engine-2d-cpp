@@ -11,6 +11,8 @@ public:
 
     FrustumPlane();
     FrustumPlane(float a, float b, float c, float d);
+    FrustumPlane(const glm::vec3& normal, const glm::vec3& point);
+
 
     float DistanceToPoint(const glm::vec3& point) const;
 
