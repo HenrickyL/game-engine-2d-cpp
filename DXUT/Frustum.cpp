@@ -16,15 +16,26 @@ void Frustum::Update(const glm::mat4& projectionMatrix, const glm::mat4& viewMat
 
 
     std::array<glm::vec4, 8> ndcPoints = {
-        glm::vec4(-1.0f, -1.0f, -1.0f, 1.0f), // near bottom left
-        glm::vec4(1.0f, -1.0f, -1.0f, 1.0f),  // near bottom right
-        glm::vec4(-1.0f, 1.0f, -1.0f, 1.0f),  // near top left
-        glm::vec4(1.0f, 1.0f, -1.0f, 1.0f),   // near top right
-        glm::vec4(-1.0f, -1.0f, 1.0f, 1.0f),  // far bottom left
-        glm::vec4(1.0f, -1.0f, 1.0f, 1.0f),   // far bottom right
-        glm::vec4(-1.0f, 1.0f, 1.0f, 1.0f),   // far top left
-        glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)     // far top right
+        glm::vec4(-1.0f, -1.0f, 1.0f, 1.0f), // 0 near bottom left 
+        glm::vec4(1.0f, -1.0f, 1.0f, 1.0f),  // 1 near bottom right
+        glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),   // 3 near top right
+        glm::vec4(-1.0f, 1.0f, 1.0f, 1.0f),  // 2 near top left
+        glm::vec4(-1.0f, -1.0f, -1.0f, 1.0f),  // 4 far bottom left
+        glm::vec4(1.0f, -1.0f, -1.0f, 1.0f),   // 5 far bottom right
+        glm::vec4(1.0f, 1.0f, -1.0f, 1.0f),     // 7 far top right
+        glm::vec4(-1.0f, 1.0f, -1.0f, 1.0f)   // 6 far top left
     };
+
+    //std::array<glm::vec4, 8> ndcPoints = {
+    //    glm::vec4(-1.0f, -1.0f, -1.0f, 1.0f), // near bottom left
+    //    glm::vec4(1.0f, -1.0f, -1.0f, 1.0f),  // near bottom right
+    //    glm::vec4(-1.0f, 1.0f, -1.0f, 1.0f),  // near top left
+    //    glm::vec4(1.0f, 1.0f, -1.0f, 1.0f),   // near top right
+    //    glm::vec4(-1.0f, -1.0f, 1.0f, 1.0f),  // far bottom left
+    //    glm::vec4(1.0f, -1.0f, 1.0f, 1.0f),   // far bottom right
+    //    glm::vec4(-1.0f, 1.0f, 1.0f, 1.0f),   // far top left
+    //    glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)     // far top right
+    //};
 
     // Transformar pontos do NDC para o espaço do mundo
     for (glm::vec4& point : ndcPoints) {

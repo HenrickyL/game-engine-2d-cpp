@@ -170,7 +170,7 @@ void GLRenderer3D::Render(Shape3D& shape) {
 }
 
 bool GLRenderer3D::IsValidToDraw(Shape3D& shape) const {
-    return !_camera || _camera->IsInFrustum(shape.position(), shape.boundingRadius());
+    return !_camera || !_camera->IsInFrustum(shape.position(), shape.boundingRadius());
 }
 
 void GLRenderer3D::Pipeline(Shape3D& shape) {
