@@ -36,3 +36,14 @@ void Camera::Reset() {
 	Vector _orientation = Vector::Up;
 	this->RotateTo(Vector::Zero);
 }
+
+
+float Camera::frustumFov()const { return _fov; }
+float Camera::frustumAspect()const{ return _aspect; }
+float Camera::frustumNear()const{ return _near; }
+float Camera::frustumFar()const{ return _far; }
+
+void Camera::SetFrustumFov(float value) { _fov = value; }
+void Camera::SetFrustumAspect(float value){ _aspect = value; }
+void Camera::SetFrustumNear(float value){ _near = value; }
+void Camera::SetFrustumFar(float value){ _far = value; }

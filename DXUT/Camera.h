@@ -4,10 +4,18 @@
 #include "Movable.h"
 #include "Window.h"
 class Camera : public Movable {
+private:
+	// Configuração da matriz de projeção (simulação) - Frustum Culling
+	float _fov = 45.0f;
+	float _aspect;
+	float _near = 0.1f;
+	float _far = 100.0f;
 protected:
 	Vector _pointOfView = Vector::Zero;
 	Vector _orientation = Vector::Up;
 	const Window* _window = nullptr;
+
+	
 public:
 	Camera(const Window* window);
 	Camera(const Window* window, const Position& pos);
@@ -24,6 +32,19 @@ public:
 	virtual void Update() =0;
 	virtual void Draw();
 	virtual void Reset();
+
+
+
+	float frustumFov()const;
+	float frustumAspect()const;
+	float frustumNear()const;
+	float frustumFar()const;
+
+	void SetFrustumFov(float value);
+	void SetFrustumAspect(float value);
+	void SetFrustumNear(float value);
+	void SetFrustumFar(float value);
+
 };
 
 #endif
