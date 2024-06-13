@@ -6,8 +6,7 @@
 
 void MyGame::Init() {
 	window = Engine::window;
-	_drawnner3D.SetFillMode(F_WIREFRAME_SOLID);
-	_drawnner3D.InitializeShader();
+	
 	//Geometries
 
 	//Shapes
@@ -51,10 +50,16 @@ void MyGame::Init() {
 	current = shapes[currentIndex];
 	current->SetColor(Color::YELLOW);
 
+	shapes.push_back(new Cube(0.3, Color::GRAY));
+
 	currentCam = &cam;
+
+	_drawnner3D = new GLRenderer3D(&cam);
+	_drawnner3D->SetFillMode(F_WIREFRAME_SOLID);
+	_drawnner3D->InitializeShader();
 	
-	_drawnner3D.AddToDisplayList(&groundUi);
-	_drawnner3D.AddToDisplayList(&wordOrigin);
+	_drawnner3D->AddToDisplayList(&groundUi);
+	_drawnner3D->AddToDisplayList(&wordOrigin);
 }
 
 void MyGame::Update(double dt){
@@ -85,12 +90,15 @@ void MyGame::Update(double dt){
 
 	if (Input::KeyPress(KEY_T)) {
 		onSolid = (onSolid + 1) % 4;
-		_drawnner3D.SetFillMode((FillModeEnum)onSolid);
+		_drawnner3D->SetFillMode((FillModeEnum)onSolid);
 	}
 	
 
 	glLoadIdentity();
+	
 	currentCam->Update();
+	
+
 
 
 	glTranslatef(0, 0, 0);
@@ -100,14 +108,14 @@ void MyGame::Update(double dt){
 }
 
 void MyGame::Draw(){
-	_drawnner3D.DrawDisplayList();
+	_drawnner3D->DrawDisplayList();
 	for (Shape3D* s : shapes) {
-		_drawnner3D.Draw(*s);
+		_drawnner3D->Draw(*s);
 	}
 	for (Geometry* g : geometries) {
 		_drawnner.Draw(*g);
 	}
-	cam2.Draw();
+	//cam2.Draw();
 	cam.Draw();
 }
 
@@ -118,6 +126,7 @@ void MyGame::Finalize(){
 	for (Geometry* g : geometries) {
 		delete g;
 	}
+	delete _drawnner3D;
 }
 
 // ---------------------------------------------------------------------------
@@ -246,8 +255,8 @@ void MyGame::InputCamera()
 	Vector v =Input::MousePositionOffset();
 	
 	if (v.x() != 0 || v.y() != 0) {
-		v = Vector(v.y(), v.x()) * Vector( 1,1)* value;
-		currentCam->RotateBy(v);
+		v = Vector(v.y(), v.x()) * Vector(-1,1)* value;
+		cam.RotateBy(v);
 	}
 
 	float rotSpeed = delta*10;

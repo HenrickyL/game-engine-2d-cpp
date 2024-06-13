@@ -25,10 +25,13 @@ Position Camera::pointOfView()const{
 void Camera::SetOrientation(const Vector& orientation){
 	this->_orientation = orientation;
 }
-Vector Camera::orientation(){
+Vector Camera::orientation()const{
 	return this->_orientation;
 }
 
+void Camera::SetDirection(const Vector& value) { _orientation = value; }
+Vector Camera::direction()const { return _direction; }
+Vector Camera::left()const { return _left; }
 
 void Camera::Draw(){
 }

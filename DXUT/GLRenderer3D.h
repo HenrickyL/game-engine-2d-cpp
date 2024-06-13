@@ -7,10 +7,13 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <vector>
+#include "GLCamera.h"
+
 using std::vector;
 
 class GLRenderer3D : public Renderer3D, public AbstractList<GLDrawableBase*> {
 private:
+    const GLCamera* _camera = nullptr;
     //TODO: see RenderMethod
     /*
         * Color no changed
@@ -31,9 +34,11 @@ private:
     void DisableCulling();
     void SetPolygonModeFill(bool value);
 
+    bool IsValidToDraw(Shape3D& shape) const;
+
 
 public:
-    GLRenderer3D();
+    GLRenderer3D(const GLCamera* camera);
     ~GLRenderer3D();
     void Draw(Shape3D& shape) override;
 

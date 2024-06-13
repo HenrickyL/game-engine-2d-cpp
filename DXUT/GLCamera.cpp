@@ -2,7 +2,8 @@
 #include <cmath>
 #include "Shape3d.h"
 #include "GLRenderer3D.h"
-GLCamera::GLCamera(const Window* window) : Camera(window) {
+
+GLCamera::GLCamera(const Window* window) : Camera(window){
 	Reset();
 }
 
@@ -11,10 +12,17 @@ GLCamera::GLCamera(const Window* window, const Position& pos): Camera(window, po
 }
 
 
+void GLCamera::UpdateFrustum() {
+	_frustum.Update(*this);
+}
+
+
 void GLCamera::Update() {
-	_pointOfView = (position() + _direction);
+	Position pos = position();
+	_pointOfView = (pos + _direction);
+	UpdateFrustum();
 	gluLookAt(
-		position().x(), position().y(), position().z(),
+		pos.x(), pos.y(), pos.z(),
 		_pointOfView.x(), _pointOfView.y(), _pointOfView.z(),
 		_orientation.x(), _orientation.y(), _orientation.z());
 }
@@ -134,15 +142,113 @@ void GLCamera::Draw() {
 		glColor3fv(_axisX.c3f());
 		glVertex3fv(origin.p3f());
 		glVertex3fv((origin+_direction).p3f());
-		//// Eixo Y (verde)
-		//glColor3fv(_axisY.c3f());
-		//glVertex3fv(origin.p3f());
-		//glVertex3fv((origin + _orientation).p3f());
-		//// Eixo Z (azul)
-		//glColor3fv(_axisZ.c3f());
-		//glVertex3fv(origin.p3f());
-		//glVertex3fv((origin + _left).p3f());
+		// Eixo Y (verde)
+		glColor3fv(_axisY.c3f());
+		glVertex3fv(origin.p3f());
+		glVertex3fv((origin + _orientation).p3f());
+		// Eixo Z (azul)
+		glColor3fv(_axisZ.c3f());
+		glVertex3fv(origin.p3f());
+		glVertex3fv((origin + _left).p3f());
 	glEnd();
-	Cube c = Cube(origin,0.3,0.3,0.5, Color::BLACK);
-	GLRenderer3D().Draw(c);
+	DrawFrustum();
+}
+
+
+bool GLCamera::IsInFrustum(const Position& position, float radius) const {
+	return _frustum.IsInFrustum(glm::vec3(position.x(), position.y(), position.z()), radius);
+}
+
+
+//
+//void GLCamera::DrawFrustum() {
+//	Color color = Color::YELLOW;
+//	Position pos = position();// _pointOfView;
+//	glm::vec3 cameraPos = glm::vec3(pos.x(), pos.y(), pos.z());
+//
+//	// Calcula os vértices da base do frustum (near plane)
+//	float halfHeight = tan(glm::radians(frustumFov() / 2.0f)) * frustumNear();
+//	float halfWidth = halfHeight * frustumAspect();
+//	glm::vec3 dir = glm::vec3(_direction.x(), _direction.y(), _direction.z());
+//	glm::vec3 ori = glm::vec3(_orientation.x(), _orientation.y(), _orientation.z());
+//	glm::vec3 left = glm::vec3(_left.x(), _left.y(), _left.z());
+//
+//
+//	glm::vec3 centerNear = cameraPos + dir * frustumNear();
+//	glm::vec3 topLeftNear = centerNear + (ori * halfHeight) - (left * halfWidth);
+//	glm::vec3 topRightNear = centerNear + (ori * halfHeight) + (left * halfWidth);
+//	glm::vec3 bottomLeftNear = centerNear - (ori * halfHeight) - (left * halfWidth);
+//	glm::vec3 bottomRightNear = centerNear - (ori * halfHeight) + (left * halfWidth);
+//
+//	// Calcula os vértices da base do frustum (far plane)
+//	float halfHeightFar = tan(glm::radians(frustumFov() / 2.0f)) * frustumFar();
+//	float halfWidthFar = halfHeightFar * frustumAspect();
+//	glm::vec3 centerFar = cameraPos + dir * frustumFar();
+//	glm::vec3 topLeftFar = centerFar + (ori * halfHeightFar) - (left * halfWidthFar);
+//	glm::vec3 topRightFar = centerFar + (ori * halfHeightFar) + (left * halfWidthFar);
+//	glm::vec3 bottomLeftFar = centerFar - (ori * halfHeightFar) - (left * halfWidthFar);
+//	glm::vec3 bottomRightFar = centerFar - (ori * halfHeightFar) + (left * halfWidthFar);
+//
+//	// Desenha as linhas da pirâmide truncada
+//	glBegin(GL_LINES);
+//		// Linhas do near plane
+//		glVertex3fv(glm::value_ptr(topLeftNear));
+//		glVertex3fv(glm::value_ptr(topRightNear));
+//		glVertex3fv(glm::value_ptr(topRightNear));
+//		glVertex3fv(glm::value_ptr(bottomRightNear));
+//		glVertex3fv(glm::value_ptr(bottomRightNear));
+//		glVertex3fv(glm::value_ptr(bottomLeftNear));
+//		glVertex3fv(glm::value_ptr(bottomLeftNear));
+//		glVertex3fv(glm::value_ptr(topLeftNear));
+//
+//		// Linhas do far plane
+//		glVertex3fv(glm::value_ptr(topLeftFar));
+//		glVertex3fv(glm::value_ptr(topRightFar));
+//		glVertex3fv(glm::value_ptr(topRightFar));
+//		glVertex3fv(glm::value_ptr(bottomRightFar));
+//		glVertex3fv(glm::value_ptr(bottomRightFar));
+//		glVertex3fv(glm::value_ptr(bottomLeftFar));
+//		glVertex3fv(glm::value_ptr(bottomLeftFar));
+//		glVertex3fv(glm::value_ptr(topLeftFar));
+//
+//		// Linhas conectando os planos
+//		glVertex3fv(glm::value_ptr(topLeftNear));
+//		glVertex3fv(glm::value_ptr(topLeftFar));
+//		glVertex3fv(glm::value_ptr(topRightNear));
+//		glVertex3fv(glm::value_ptr(topRightFar));
+//		glVertex3fv(glm::value_ptr(bottomLeftNear));
+//		glVertex3fv(glm::value_ptr(bottomLeftFar));
+//		glVertex3fv(glm::value_ptr(bottomRightNear));
+//		glVertex3fv(glm::value_ptr(bottomRightFar));
+//	glEnd();
+//}
+
+void GLCamera::DrawFrustum() {
+	const glm::vec3* nearVerts = _frustum.nearPlaneVertices();
+	const glm::vec3* farVerts = _frustum.farPlaneVertices();
+
+	glLineWidth(2.0f);
+	glBegin(GL_LINES);
+
+	glColor3fv(Color::YELLOW.c4f()); // Amarelo
+
+	// Linhas do plano near
+	for (int i = 0; i < 4; ++i) {
+		glVertex3fv(glm::value_ptr(nearVerts[i]));
+		glVertex3fv(glm::value_ptr(nearVerts[(i + 1) % 4]));
+	}
+
+	// Linhas do plano far
+	for (int i = 0; i < 4; ++i) {
+		glVertex3fv(glm::value_ptr(farVerts[i]));
+		glVertex3fv(glm::value_ptr(farVerts[(i + 1) % 4]));
+	}
+
+	// Linhas conectando os planos near e far
+	for (int i = 0; i < 4; ++i) {
+		glVertex3fv(glm::value_ptr(nearVerts[i]));
+		glVertex3fv(glm::value_ptr(farVerts[i]));
+	}
+
+	glEnd();
 }

@@ -151,6 +151,8 @@
     <ClCompile Include="DXWindow.cpp" />
     <ClCompile Include="DXInput.cpp" />
     <ClCompile Include="FileHandler.cpp" />
+    <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="FrustumPlane.cpp" />
     <ClCompile Include="GLCamera.cpp" />
     <ClCompile Include="GLDrawableBase.cpp" />
     <ClCompile Include="GLGroundUI.cpp" />
@@ -204,6 +206,8 @@
     <ClInclude Include="Colored.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="Dirtyable.h" />
+    <ClInclude Include="Frustum.h" />
+    <ClInclude Include="FrustumPlane.h" />
     <ClInclude Include="GLDrawableBase.h" />
     <ClInclude Include="GLGroundUI.h" />
     <ClInclude Include="GLOriginGizmoUI.h" />

@@ -81,7 +81,7 @@ void InitShaders() {
 
 // *************************************************************************************************
 
-GLRenderer3D::GLRenderer3D() {
+GLRenderer3D::GLRenderer3D(const GLCamera* camera) : _camera(camera) {
     EnableCulling();
     SetPolygonModeFill(true);
 }
@@ -169,7 +169,9 @@ void GLRenderer3D::Render(Shape3D& shape) {
     glUseProgram(0);
 }
 
-
+bool GLRenderer3D::IsValidToDraw(Shape3D& shape) const {
+    return !_camera || !_camera->IsInFrustum(shape.position(), shape.boundingRadius());
+}
 
 void GLRenderer3D::Pipeline(Shape3D& shape) {
     switch (_fillMode)
@@ -186,6 +188,8 @@ void GLRenderer3D::Pipeline(Shape3D& shape) {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         break;
     }
+
+    if (!IsValidToDraw(shape)) return;
 
     if (_useVertexBuffer) {
         Render(shape);

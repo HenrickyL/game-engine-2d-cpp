@@ -6,14 +6,16 @@
 class Camera : public Movable {
 private:
 	// Configuração da matriz de projeção (simulação) - Frustum Culling
-	float _fov = 45.0f;
+	float _fov = 15.0f;
 	float _aspect;
-	float _near = 0.1f;
-	float _far = 100.0f;
+	float _near =5.0f;
+	float _far = 10.5f;
 	void UpdateAspect();
 protected:
 	Vector _pointOfView = Vector::Zero;
 	Vector _orientation = Vector::Up;
+	Vector _direction = Vector::Backward;
+	Vector _left = Vector::Left;
 	const Window* _window = nullptr;
 
 	
@@ -28,7 +30,12 @@ public:
 
 	// Métodos para controlar a orientação da câmera
 	virtual void SetOrientation(const Vector& orientation);
-	virtual Vector orientation();
+	virtual Vector orientation()const;
+
+	virtual void SetDirection(const Vector& orientation);
+	virtual Vector direction()const;
+
+	virtual Vector left()const;
 
 	virtual void Update() =0;
 	virtual void Draw();
