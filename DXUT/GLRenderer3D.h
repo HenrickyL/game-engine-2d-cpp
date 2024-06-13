@@ -15,7 +15,7 @@ private:
     /*
         * Color no changed
         * vertexPosition no changed
-    
+        * talvez precise de shaders
     */
     bool _useVertexBuffer = false;
     //uint _vao = 0; // Vertex Array Object
@@ -27,7 +27,13 @@ private:
     void DeleteVS(Shape3D& shape);
     void Update(Shape3D& shape);
 
+    void EnableCulling();
+    void DisableCulling();
+    void SetPolygonModeFill(bool value);
+
+
 public:
+    GLRenderer3D();
     ~GLRenderer3D();
     void Draw(Shape3D& shape) override;
 

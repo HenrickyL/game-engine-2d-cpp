@@ -81,7 +81,10 @@ void InitShaders() {
 
 // *************************************************************************************************
 
-
+GLRenderer3D::GLRenderer3D() {
+    EnableCulling();
+    SetPolygonModeFill(true);
+}
 void GLRenderer3D::InitializeShader() {
     InitShaders();
 }
@@ -184,19 +187,13 @@ void GLRenderer3D::Pipeline(Shape3D& shape) {
         break;
     }
 
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CCW);
-    glCullFace(GL_BACK);
-
     if (_useVertexBuffer) {
         Render(shape);
     }
     else {
         DrawShape(shape);
     }
-
-    glDisable(GL_CULL_FACE);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   
 }
 
 void GLRenderer3D::DrawVertex(const Shape3D& shape, const Vertex& vertex)const {
@@ -359,6 +356,24 @@ void GLRenderer3D::Initialize(Shape3D& shape){
     glId->SetVao(_vao);
     glId->SetVbo(_vbo);
     glId->SetEbo(_ebo);
+}
+
+
+void GLRenderer3D::EnableCulling() {
+    glEnable(GL_CULL_FACE);// Habilita o culling de faces para melhorar a performance.
+    glFrontFace(GL_CCW);// Define a orientação das faces frontais como contrárias ao sentido
+    glCullFace(GL_BACK);// Especifica que as faces traseiras devem ser descartadas.
+}
+void GLRenderer3D::DisableCulling(){
+    glDisable(GL_CULL_FACE);
+}
+void GLRenderer3D::SetPolygonModeFill(bool value){
+    if (value) {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
+    else {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_LINE é geralmente o padrão para glPolygonMode.
+    }
 }
 
 
