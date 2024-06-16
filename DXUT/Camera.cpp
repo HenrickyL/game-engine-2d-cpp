@@ -43,13 +43,15 @@ void Camera::Reset() {
 }
 
 
-float Camera::frustumFov()const { return _fov; }
-float Camera::frustumAspect()const{ return _aspect; }
-float Camera::frustumNear()const{ return _near; }
-float Camera::frustumFar()const{ return _far; }
+float Camera::fov()const { return _fov; }
+float Camera::aspect()const{ return _aspect; }
+float Camera::zNear()const{ return _near; }
+float Camera::zFar()const{ return _far; }
 
-void Camera::SetFrustumFov(float value) { _fov = value; }
-void Camera::SetFrustumNear(float value){ _near = value; }
-void Camera::SetFrustumFar(float value){ _far = value; }
+void Camera::SetFov(float value) { _fov = value; UpdateProjection(); }
+void Camera::SetNear(float value){ _near = value;}
+void Camera::SetFar(float value){ _far = value;}
 
 void Camera::UpdateAspect() { _aspect = static_cast<float>(_window->Width() / (float)_window->Height()); }
+
+void Camera::UpdateProjection() const {}

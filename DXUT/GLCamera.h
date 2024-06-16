@@ -20,6 +20,7 @@ private:
 	void TranslateTo(const Vector& delta) override;
 	void UpdateFrustum();
 	void DrawFrustum();
+	void UpdateProjection() const override;
 
 
 

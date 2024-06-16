@@ -12,7 +12,9 @@ private:
 
 public:
     ~Frustum() = default;
+    void Update(const Camera& camera);
     void Update(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix);
+
     bool IsInFrustum(const glm::vec3& position, float radius) const;
 
     glm::vec4 GetPlanePositions(int index) const;

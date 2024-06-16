@@ -303,30 +303,30 @@ void MyGame::InputEnd() {
 void MyGame::InputCameraFrustum() {
 	float tick = 0.001;
 	if (Input::KeyDown(UP)) {
-		cam.SetFrustumFar(cam.frustumFar() + tick);
+		cam.SetFar(cam.zFar() + tick);
 		cam.Update();
 	}else if (Input::KeyDown(DOWN)) {
-		cam.SetFrustumFar(cam.frustumFar() - tick);
+		cam.SetFar(cam.zFar() - tick);
 		cam.Update();
 	}
 
 
 	if (Input::KeyDown(LEFT)) {
-		cam.SetFrustumNear(cam.frustumNear() + tick);
+		cam.SetNear(cam.zNear() + tick);
 		cam.Update();
 	}
 	else if (Input::KeyDown(RIGHT)) {
-		cam.SetFrustumNear(cam.frustumNear() - tick);
+		cam.SetNear(cam.zNear() - tick);
 		cam.Update();
 	}
 
 
 	if (Input::KeyDown(KEY_M)) {
-		cam.SetFrustumFov(cam.frustumFov() + tick);
+		cam.SetFov(cam.fov() + tick*2.5);
 		cam.Update();
 	}
 	else if (Input::KeyDown(KEY_N)) {
-		cam.SetFrustumFov(cam.frustumFov() - tick);
+		cam.SetFov(cam.fov() - tick*2.5);
 		cam.Update();
 	}
 }

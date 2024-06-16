@@ -20,6 +20,7 @@ protected:
 	Vector _direction = Vector::Backward;
 	Vector _left = Vector::Left;
 	const Window* _window = nullptr;
+	virtual void UpdateProjection() const;
 
 	
 public:
@@ -46,14 +47,14 @@ public:
 
 
 
-	float frustumFov()const;
-	float frustumAspect()const;
-	float frustumNear()const;
-	float frustumFar()const;
+	float fov()const;
+	float aspect()const;
+	float zNear()const;
+	float zFar()const;
 
-	void SetFrustumFov(float value);
-	void SetFrustumNear(float value);
-	void SetFrustumFar(float value);
+	void SetFov(float value);
+	void SetNear(float value);
+	void SetFar(float value);
 
 };
 
