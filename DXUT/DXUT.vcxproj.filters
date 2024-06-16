@@ -301,6 +301,9 @@
     <ClCompile Include="FrustumPlane.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">

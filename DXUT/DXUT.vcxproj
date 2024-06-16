@@ -195,6 +195,7 @@
     <ClCompile Include="UT_Utils.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="WinApp.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
