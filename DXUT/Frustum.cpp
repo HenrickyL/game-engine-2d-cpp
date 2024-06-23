@@ -6,6 +6,49 @@ FrustumPlane FrustumPlaneFromNormalAndPoint(const glm::vec3& normal, const glm::
     glm::vec3 normalizedNormal = glm::normalize(normal); // Normaliza a normal
     return FrustumPlane(normalizedNormal.x, normalizedNormal.y, normalizedNormal.z, -glm::dot(normalizedNormal, glm::vec3(point)));
 }
+void Frustum::Update(const Camera& camera) {
+    // Obter posição e direção da câmera
+    glm::vec3 pos = glm::vec3(camera.position().x(), camera.position().y(), camera.position().z());
+    glm::vec3 dir = glm::normalize(glm::vec3(camera.direction().x(), camera.direction().y(), camera.direction().z()));
+    glm::vec3 up = glm::normalize(glm::vec3(camera.orientation().x(), camera.orientation().y(), camera.orientation().z()));
+    glm::vec3 right = glm::normalize(glm::cross(dir, up));
+
+    // Obter FOV, aspect ratio, e distâncias dos planos near e far
+    float fov = glm::radians(camera.fov());
+    float aspectRatio = camera.aspect();
+    float nearPlane = camera.zNear();
+    float farPlane = camera.zFar();
+
+    // Altura e largura dos planos near e far
+    float tanFovHalf = tan(fov / 2.0f);
+    float nearHeight = tanFovHalf * nearPlane * 2.0f;
+    float nearWidth = nearHeight * aspectRatio;
+    float farHeight = tanFovHalf * farPlane * 2.0f;
+    float farWidth = farHeight * aspectRatio;
+
+    // Centro dos planos near e far
+    glm::vec3 nearCenter = pos + dir * nearPlane;
+    glm::vec3 farCenter = pos + dir * farPlane;
+
+    // Vértices dos planos near e far
+    _nearPlaneVertices[0] = nearCenter - right * (nearWidth / 2) - up * (nearHeight / 2); // bottom left
+    _nearPlaneVertices[1] = nearCenter + right * (nearWidth / 2) - up * (nearHeight / 2); // bottom right
+    _nearPlaneVertices[2] = nearCenter + right * (nearWidth / 2) + up * (nearHeight / 2); // top right
+    _nearPlaneVertices[3] = nearCenter - right * (nearWidth / 2) + up * (nearHeight / 2); // top left
+
+    _farPlaneVertices[0] = farCenter - right * (farWidth / 2) - up * (farHeight / 2); // bottom left
+    _farPlaneVertices[1] = farCenter + right * (farWidth / 2) - up * (farHeight / 2); // bottom right
+    _farPlaneVertices[2] = farCenter + right * (farWidth / 2) + up * (farHeight / 2); // top right
+    _farPlaneVertices[3] = farCenter - right * (farWidth / 2) + up * (farHeight / 2); // top left
+
+    // Cálculo dos planos do frustum usando os vértices calculados
+    _planes[0] = FrustumPlaneFromNormalAndPoint(-dir, glm::vec4(_nearPlaneVertices[0], 1.0f)); // Near plane
+    _planes[1] = FrustumPlaneFromNormalAndPoint(dir, glm::vec4(_farPlaneVertices[0], 1.0f));   // Far plane
+    _planes[2] = FrustumPlaneFromNormalAndPoint(-right, glm::vec4(_nearPlaneVertices[0], 1.0f)); // Left plane
+    _planes[3] = FrustumPlaneFromNormalAndPoint(right, glm::vec4(_nearPlaneVertices[1], 1.0f));  // Right plane
+    _planes[4] = FrustumPlaneFromNormalAndPoint(up, glm::vec4(_nearPlaneVertices[3], 1.0f));     // Top plane
+    _planes[5] = FrustumPlaneFromNormalAndPoint(-up, glm::vec4(_nearPlaneVertices[0], 1.0f));   // Bottom plane
+}
 
 
 

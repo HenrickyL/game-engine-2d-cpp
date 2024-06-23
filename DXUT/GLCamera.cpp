@@ -13,14 +13,24 @@ GLCamera::GLCamera(const Window* window, const Position& pos): Camera(window, po
 
 
 void GLCamera::UpdateFrustum() {
-	glm::mat4 projectionMatrix = glm::perspective(glm::radians(frustumFov()), frustumAspect(), frustumNear(), frustumFar());
+	glm::mat4 projectionMatrix = glm::perspective(glm::radians(fov()), aspect(), zNear(), zFar());
 	glm::mat4 viewMatrix = glm::lookAt(
 		glm::vec3(position().x(), position().y(), position().z()),
 		glm::vec3(_pointOfView.x(), _pointOfView.y(), _pointOfView.z()),
 		glm::vec3(_orientation.x(), _orientation.y(), _orientation.z())
 	);
 
-	_frustum.Update(projectionMatrix, viewMatrix);
+	_frustum.Update(*this);
+	//_frustum.Update(projectionMatrix, viewMatrix);
+}
+
+void GLCamera::UpdateProjection()const {
+	// Configura a matriz de projeção
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
+	//// Ajusta a matriz de projeção para manter a proporção da cena
+	//gluPerspective(frustumFov(), _window->aspect(), _window->zNear(), _window->zFar());
+	//glMatrixMode(GL_MODELVIEW);
 }
 
 
@@ -77,9 +87,9 @@ void GLCamera::CalculeDirection() {
 	_direction.SetY(tempY);
 
 	// Normalização da direção da câmera para garantir um vetor unitário
-	_direction = _direction.Unit();
+	_direction = _direction.Unitary();
 
-	_left = _orientation.CrossProduct(_direction).Unit();
+	_left = _orientation.CrossProduct(_direction).Unitary();
 }
 
 
@@ -234,22 +244,35 @@ void GLCamera::DrawFrustum() {
 	const glm::vec3* nearVerts = _frustum.nearPlaneVertices();
 	const glm::vec3* farVerts = _frustum.farPlaneVertices();
 
+	/*glm::vec3 nearVerts[4] = {
+		_nearVerts[0],
+		_nearVerts[1],
+		_nearVerts[3],
+		_nearVerts[2]
+	};
+
+	glm::vec3 farVerts[4] = {
+		_farVerts[0],
+		_farVerts[1],
+		_farVerts[3],
+		_farVerts[2],
+	};*/
+
 	// Desenha as linhas da pirâmide truncada
 	glBegin(GL_LINES);
-	glColor3fv(Color::YELLOW.c4f()); // Amarelo
-
-	// Linhas do plano near
-	for (int i = 0; i < 4; ++i) {
-		glVertex3fv(glm::value_ptr(nearVerts[i]));
-		glVertex3fv(glm::value_ptr(nearVerts[(i + 1) % 4]));
-	}
-
+	glColor3fv(Color::RED.c4f()); // Amarelo
 	// Linhas do plano far
 	for (int i = 0; i < 4; ++i) {
 		glVertex3fv(glm::value_ptr(farVerts[i]));
 		glVertex3fv(glm::value_ptr(farVerts[(i + 1) % 4]));
 	}
-
+	glColor3fv(Color::YELLOW.c4f()); // Amarelo
+	// Linhas do plano near
+	for (int i = 0; i < 4; ++i) {
+		glVertex3fv(glm::value_ptr(nearVerts[i]));
+		glVertex3fv(glm::value_ptr(nearVerts[(i + 1) % 4]));
+	}
+	glColor3fv(Color::YELLOW.c4f()); // Amarelo
 	// Linhas conectando os planos near e far
 	for (int i = 0; i < 4; ++i) {
 		glVertex3fv(glm::value_ptr(nearVerts[i]));

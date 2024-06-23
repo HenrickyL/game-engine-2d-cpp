@@ -189,7 +189,12 @@ void GLRenderer3D::Pipeline(Shape3D& shape) {
         break;
     }
 
-    if (!IsValidToDraw(shape)) return;
+    if (!IsValidToDraw(shape)) {
+        shape.SetColor(Color::RED);
+    }
+    else {
+        shape.SetColor(Color::YELLOW);
+    }
 
     if (_useVertexBuffer) {
         Render(shape);
