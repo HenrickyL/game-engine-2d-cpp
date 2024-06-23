@@ -51,7 +51,12 @@ void Frustum::Update(const Camera& camera) {
 }
 
 
+FrustumPlane PlaneFromPoints(const glm::vec3& a, const glm::vec3& b, const glm::vec3& c) {
+    glm::vec3 normal = glm::normalize(glm::cross(b - a, c - a));
+    return FrustumPlane(normal, a);
+}
 
+/*
 
 void Frustum::Update(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix) {
     glm::mat4 invProjMatrix = glm::inverse(projectionMatrix);
@@ -59,7 +64,7 @@ void Frustum::Update(const glm::mat4& projectionMatrix, const glm::mat4& viewMat
 
 
     std::array<glm::vec4, 8> ndcPoints = {
-        glm::vec4(-1.0f, -1.0f, 1.0f, 1.0f), // 0 near bottom left 
+        glm::vec4(-1.0f, -1.0f, 1.0f, 1.0f), // 0 near bottom left
         glm::vec4(1.0f, -1.0f, 1.0f, 1.0f),  // 1 near bottom right
         glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),   // 3 near top right
         glm::vec4(-1.0f, 1.0f, 1.0f, 1.0f),  // 2 near top left
@@ -109,14 +114,78 @@ void Frustum::Update(const glm::mat4& projectionMatrix, const glm::mat4& viewMat
     _farPlaneVertices[3] = glm::vec3(ndcPoints[7]);  // far top right
 }
 
+
+*/
+
+
+void Frustum::Update(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix) {
+    glm::mat4 invProjViewMatrix = glm::inverse(projectionMatrix * viewMatrix);
+    
+    // Transform the origin of the frustum (camera position) correctly
+    glm::vec4 origin = invProjViewMatrix * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    _origin = origin / origin.w;
+
+    //Normalized Device Coordinates
+    std::array<glm::vec4, 8> ndcPoints = {
+        glm::vec4(-1.0f, -1.0f, 1.0f, 1.0f),    // 0 near bottom left 
+        glm::vec4(1.0f, -1.0f, 1.0f, 1.0f),     // 1 near bottom right
+        glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),      // 2 near top right
+        glm::vec4(-1.0f, 1.0f, 1.0f, 1.0f),     // 3 near top left
+        glm::vec4(-1.0f, -1.0f, -1.0f, 1.0f),   // 4 far bottom left
+        glm::vec4(1.0f, -1.0f, -1.0f, 1.0f),    // 5 far bottom right
+        glm::vec4(1.0f, 1.0f, -1.0f, 1.0f),     // 6 far top right
+        glm::vec4(-1.0f, 1.0f, -1.0f, 1.0f)     // 7 far top left
+    };
+
+    for (glm::vec4& point : ndcPoints) {
+        point = invProjViewMatrix * point;
+        point /= point.w; // Perspectiva divide
+    }
+
+
+    // Calcula os planos do frustum com base nos pontos transformados
+    //                                A             B             C
+    _planes[0] = PlaneFromPoints(ndcPoints[0], ndcPoints[1], ndcPoints[2]); // Near plane
+    _planes[1] = PlaneFromPoints(ndcPoints[4], ndcPoints[6], ndcPoints[5]); // Far plane
+    _planes[2] = PlaneFromPoints(ndcPoints[0], ndcPoints[4], ndcPoints[7]); // Left plane
+    _planes[3] = PlaneFromPoints(ndcPoints[1], ndcPoints[5], ndcPoints[6]); // Right plane
+    _planes[4] = PlaneFromPoints(ndcPoints[0], ndcPoints[4], ndcPoints[5]); // Bottom plane
+    _planes[5] = PlaneFromPoints(ndcPoints[3], ndcPoints[6], ndcPoints[7]); // Top plane
+
+
+    // Armazena os vértices dos planos near e far
+    _nearPlaneVertices[0] = glm::vec3(ndcPoints[0]); // near bottom left
+    _nearPlaneVertices[1] = glm::vec3(ndcPoints[1]); // near bottom right
+    _nearPlaneVertices[2] = glm::vec3(ndcPoints[2]); // near top right
+    _nearPlaneVertices[3] = glm::vec3(ndcPoints[3]); // near top left
+
+    _farPlaneVertices[0] = glm::vec3(ndcPoints[4]);  // far bottom left
+    _farPlaneVertices[1] = glm::vec3(ndcPoints[5]);  // far bottom right
+    _farPlaneVertices[2] = glm::vec3(ndcPoints[6]);  // far top right
+    _farPlaneVertices[3] = glm::vec3(ndcPoints[7]);  // far top left
+}
+
 bool Frustum::IsInFrustum(const glm::vec3& position, float radius) const {
-    for (int i = 0; i < 6; ++i) {
-        if (_planes[i].DistanceToPoint(position) < -radius) {
+    glm::vec3 origin = glm::vec3(_origin.x, _origin.y, _origin.z);
+    for (const FrustumPlane& plane : _planes) {
+        float e = abs(plane.DistanceToPoint(position - origin)); // relative to origin
+        float d = abs(plane.DistanceToPoint(origin)); //distance plane to origin
+        float x = e - d;
+        if ( e-d > radius) {
             return false;
         }
     }
     return true;
 }
+
+//bool Frustum::IsInFrustum(const glm::vec3& position, float radius) const {
+//    for (int i = 0; i < 6; ++i) {
+//        if (_planes[i].DistanceToPoint(position) < -radius) {
+//            return false;
+//        }
+//    }
+//    return true;
+//}
 
 glm::vec4 Frustum::GetPlanePositions(int index) const {
     return _planes[index].normal();

@@ -7,6 +7,7 @@
 class Frustum {
 private:
     FrustumPlane _planes[6];
+    glm::vec4 _origin;
     glm::vec3 _nearPlaneVertices[4]; // Vértices do plano near
     glm::vec3 _farPlaneVertices[4];  // Vértices do plano far
 

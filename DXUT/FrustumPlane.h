@@ -17,6 +17,7 @@ public:
     float DistanceToPoint(const glm::vec3& point) const;
 
     glm::vec4 normal() const;
+    void Normalize(); // Adiciona método para normalizar a normal
 };
 
 

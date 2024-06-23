@@ -7,50 +7,13 @@
 void MyGame::Init() {
 	window = Engine::window;
 	
-	//Geometries
+	this->InitCircularObjects();
 
-	//Shapes
-	int qtd = 20;
-	float dTheta = 360 / qtd;
-	float theta = 0;
-	float y = 1;
-	Shape3D* s;
-	float dist = RandomUtils::GetRandomFloat(0.5f, 16.0f);
-	for (int i = 0; i < qtd; i++) {
+	shapes.push_back(new Cube(0.3, Color::GRAY));
 
-		float x = dist*std::cos(theta);
-		float z = dist * std::sin(theta);
-		Position p = Position(x, y, z);
-		Color color = Color::RandomColor();
-		int value = RandomUtils::GetRandomInt(0, 100);
-		float size = RandomUtils::GetRandomFloat(0.3f, 0.5f);
-
-
-		if (value % 2 == 0) {
-			s = new Cube(p, size, color);
-		}
-		else if (value % 3 == 0){
-			s = new Plane(p, size, color);
-		}
-		else {
-			s = new Sphere(p, size*0.6, color);
-		}
-
-		s->RotateBy(Vector(
-			RandomUtils::GetRandomInt(0, 360),
-			RandomUtils::GetRandomInt(0, 360),
-			RandomUtils::GetRandomInt(0, 360)
-		));
-
-
-		shapes.push_back(s);
-		theta += dTheta;
-	}
 	currentIndex = 0;
 	current = shapes[currentIndex];
 	current->SetColor(Color::YELLOW);
-
-	shapes.push_back(new Cube(0.3, Color::GRAY));
 
 	currentCam = &cam;
 
@@ -328,5 +291,47 @@ void MyGame::InputCameraFrustum() {
 	else if (Input::KeyDown(KEY_N)) {
 		cam.SetFov(cam.fov() - tick*2.5);
 		cam.Update();
+	}
+}
+
+void MyGame::InitCircularObjects() {
+	//Geometries
+
+	//Shapes
+	int qtd = 20;
+	float dTheta = 360 / qtd;
+	float theta = 0;
+	float y = 1;
+	Shape3D* s;
+	float dist = RandomUtils::GetRandomFloat(0.5f, 16.0f);
+	for (int i = 0; i < qtd; i++) {
+
+		float x = dist*std::cos(theta);
+		float z = dist * std::sin(theta);
+		Position p = Position(x, y, z);
+		Color color = Color::RandomColor();
+		int value = RandomUtils::GetRandomInt(0, 100);
+		float size = RandomUtils::GetRandomFloat(0.3f, 0.5f);
+
+
+		if (value % 2 == 0) {
+			s = new Cube(p, size, color);
+		}
+		else if (value % 3 == 0){
+			s = new Plane(p, size, color);
+		}
+		else {
+			s = new Sphere(p, size*0.6, color);
+		}
+
+		s->RotateBy(Vector(
+			RandomUtils::GetRandomInt(0, 360),
+			RandomUtils::GetRandomInt(0, 360),
+			RandomUtils::GetRandomInt(0, 360)
+		));
+
+
+		shapes.push_back(s);
+		theta += dTheta;
 	}
 }

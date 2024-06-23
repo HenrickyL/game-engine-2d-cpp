@@ -49,6 +49,7 @@ private:
 	void InputCamera();
 	void InputEnd();
 
+	void InitCircularObjects();
 
 	void Reset();
 
