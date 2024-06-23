@@ -16,12 +16,15 @@ public:
 	static Vector One;
 
 	static Vector CrossProduct(const Vector& A, const Vector& B);
+	static float DotProduct(const Vector& A, const Vector& B);
+	static Vector Project(const Vector& A, const Vector& B);
+
 
 
 	Vector(float x, float y, float z=0);
 
-	float Magnitude() const;
-	Vector Unit() const;
+	float Module() const;
+	Vector Unitary() const;
 	Vector Inverte() const;
 
 
