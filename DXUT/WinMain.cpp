@@ -13,7 +13,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	try {
 		// cria motor e configura a janela
 		Engine* engine = Engine::Instance();
-		engine->SetType(T_2D);
+		engine->SetType(T_3D);
 		// configura a janela
 		engine->window->Mode(WINDOWED);
 
