@@ -40,6 +40,18 @@ bool GLGraphics::Initialize() {
     return true; // Inicialização bem-sucedida
 }
 
+
+void GLGraphics::SetType(GraphicType value) { 
+    this->_type = value;
+    if (_type == T_3D) {
+        set3DRenderContext();
+    }
+    else {
+        set2DRenderContext();
+    }
+}
+
+
 void GLGraphics::VSync(bool state) {
     _onVSync = state;
     if (_onVSync) {

@@ -17,6 +17,8 @@ public:
     void Clear() override;
     void Present() override;
     bool Initialize() override;
+    void SetType(GraphicType value) override;
+
     
 };
 

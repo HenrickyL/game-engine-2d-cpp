@@ -44,7 +44,7 @@ public:
     virtual float ViewportHeight() const;
     virtual FPSType FPS() const;
 
-    void SetType(GraphicType value);
+    virtual void SetType(GraphicType value);
     GraphicType type() const;
 
 };
