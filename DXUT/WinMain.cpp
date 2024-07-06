@@ -14,10 +14,10 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		// cria motor e configura a janela
 		Engine* engine = Engine::Instance();
 		// configura a janela
-		engine->window->Mode(FULLSCREEN);
+		engine->window->Mode(WINDOWED);
 
-		engine->window->Size(1920, 1080);
-		//engine->window->Size(1024, 768);
+		//engine->window->Size(1920, 1080);
+		engine->window->Size(1024, 768);
 		//engine->window->Size(800, 600);
 
 		engine->window->SetColor(Color(0.0, 0.15, 0.35));

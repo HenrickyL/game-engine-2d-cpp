@@ -30,10 +30,12 @@ protected:
     //vector<Triangle> _triangles;
     vector<uint> _indices;
     std::function<void()> _callback;
+    float _boundingRadius = 0.0f;
 
     void StartGenerate();
     void EndGenerate();
     void NotifyChange();
+    void UpdateBoundingRadius();
 
 public:
     Shape3D();
@@ -65,6 +67,8 @@ public:
     bool isDirty()const;
     void Clear();
     void SetDirt();
+
+    float boundingRadius() const;
 };
 
 // ---------------------------------------------------------------------------

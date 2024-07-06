@@ -6,55 +6,23 @@
 
 void MyGame::Init() {
 	window = Engine::window;
-	_drawnner3D.SetFillMode(F_WIREFRAME_SOLID);
-	_drawnner3D.InitializeShader();
-	//Geometries
+	
+	this->InitCircularObjects();
 
-	//Shapes
-	int qtd = 20;
-	float dTheta = 360 / qtd;
-	float theta = 0;
-	float y = 1;
-	Shape3D* s;
-	float dist = RandomUtils::GetRandomFloat(0.5f, 16.0f);
-	for (int i = 0; i < qtd; i++) {
+	shapes.push_back(new Cube(0.3, Color::GRAY));
 
-		float x = dist*std::cos(theta);
-		float z = dist * std::sin(theta);
-		Position p = Position(x, y, z);
-		Color color = Color::RandomColor();
-		int value = RandomUtils::GetRandomInt(0, 100);
-		float size = RandomUtils::GetRandomFloat(0.3f, 0.5f);
-
-
-		if (value % 2 == 0) {
-			s = new Cube(p, size, color);
-		}
-		else if (value % 3 == 0){
-			s = new Plane(p, size, color);
-		}
-		else {
-			s = new Sphere(p, size*0.6, color);
-		}
-
-		s->RotateBy(Vector(
-			RandomUtils::GetRandomInt(0, 360),
-			RandomUtils::GetRandomInt(0, 360),
-			RandomUtils::GetRandomInt(0, 360)
-		));
-
-
-		shapes.push_back(s);
-		theta += dTheta;
-	}
 	currentIndex = 0;
 	current = shapes[currentIndex];
 	current->SetColor(Color::YELLOW);
 
 	currentCam = &cam;
+
+	_drawnner3D = new GLRenderer3D(&cam);
+	_drawnner3D->SetFillMode(F_WIREFRAME_SOLID);
+	_drawnner3D->InitializeShader();
 	
-	_drawnner3D.AddToDisplayList(&groundUi);
-	_drawnner3D.AddToDisplayList(&wordOrigin);
+	_drawnner3D->AddToDisplayList(&groundUi);
+	_drawnner3D->AddToDisplayList(&wordOrigin);
 }
 
 void MyGame::Update(double dt){
@@ -69,7 +37,8 @@ void MyGame::Update(double dt){
 	}
 	InputEnd();
 	InputRotationGlobal();
-	InputRotationLocal();
+	InputCameraFrustum();
+	//InputRotationLocal();
 	InputCamera();
 	if (Input::KeyPress(KEY_L)) {
 		current->SetColor(Color::GREEN);
@@ -85,12 +54,15 @@ void MyGame::Update(double dt){
 
 	if (Input::KeyPress(KEY_T)) {
 		onSolid = (onSolid + 1) % 4;
-		_drawnner3D.SetFillMode((FillModeEnum)onSolid);
+		_drawnner3D->SetFillMode((FillModeEnum)onSolid);
 	}
 	
 
 	glLoadIdentity();
+	
 	currentCam->Update();
+	
+
 
 
 	glTranslatef(0, 0, 0);
@@ -100,14 +72,14 @@ void MyGame::Update(double dt){
 }
 
 void MyGame::Draw(){
-	_drawnner3D.DrawDisplayList();
+	_drawnner3D->DrawDisplayList();
 	for (Shape3D* s : shapes) {
-		_drawnner3D.Draw(*s);
+		_drawnner3D->Draw(*s);
 	}
 	for (Geometry* g : geometries) {
 		_drawnner.Draw(*g);
 	}
-	cam2.Draw();
+	//cam2.Draw();
 	cam.Draw();
 }
 
@@ -118,6 +90,7 @@ void MyGame::Finalize(){
 	for (Geometry* g : geometries) {
 		delete g;
 	}
+	delete _drawnner3D;
 }
 
 // ---------------------------------------------------------------------------
@@ -246,8 +219,8 @@ void MyGame::InputCamera()
 	Vector v =Input::MousePositionOffset();
 	
 	if (v.x() != 0 || v.y() != 0) {
-		v = Vector(v.y(), v.x()) * Vector( 1,1)* value;
-		currentCam->RotateBy(v);
+		v = Vector(v.y(), v.x()) * Vector(-1,1)* value;
+		cam.RotateBy(v);
 	}
 
 	float rotSpeed = delta*10;
@@ -286,5 +259,79 @@ void MyGame::Reset()
 void MyGame::InputEnd() {
 	if (Input::KeyPress(ESCAPE)) {
 		window->Close();
+	}
+}
+
+
+void MyGame::InputCameraFrustum() {
+	float tick = 0.001;
+	if (Input::KeyDown(UP)) {
+		cam.SetFar(cam.zFar() + tick);
+		cam.Update();
+	}else if (Input::KeyDown(DOWN)) {
+		cam.SetFar(cam.zFar() - tick);
+		cam.Update();
+	}
+
+
+	if (Input::KeyDown(LEFT)) {
+		cam.SetNear(cam.zNear() + tick);
+		cam.Update();
+	}
+	else if (Input::KeyDown(RIGHT)) {
+		cam.SetNear(cam.zNear() - tick);
+		cam.Update();
+	}
+
+
+	if (Input::KeyDown(KEY_M)) {
+		cam.SetFov(cam.fov() + tick*2.5);
+		cam.Update();
+	}
+	else if (Input::KeyDown(KEY_N)) {
+		cam.SetFov(cam.fov() - tick*2.5);
+		cam.Update();
+	}
+}
+
+void MyGame::InitCircularObjects() {
+	//Geometries
+
+	//Shapes
+	int qtd = 20;
+	float dTheta = 360 / qtd;
+	float theta = 0;
+	float y = 1;
+	Shape3D* s;
+	float dist = RandomUtils::GetRandomFloat(0.5f, 16.0f);
+	for (int i = 0; i < qtd; i++) {
+
+		float x = dist*std::cos(theta);
+		float z = dist * std::sin(theta);
+		Position p = Position(x, y, z);
+		Color color = Color::RandomColor();
+		int value = RandomUtils::GetRandomInt(0, 100);
+		float size = RandomUtils::GetRandomFloat(0.3f, 0.5f);
+
+
+		if (value % 2 == 0) {
+			s = new Cube(p, size, color);
+		}
+		else if (value % 3 == 0){
+			s = new Plane(p, size, color);
+		}
+		else {
+			s = new Sphere(p, size*0.6, color);
+		}
+
+		s->RotateBy(Vector(
+			RandomUtils::GetRandomInt(0, 360),
+			RandomUtils::GetRandomInt(0, 360),
+			RandomUtils::GetRandomInt(0, 360)
+		));
+
+
+		shapes.push_back(s);
+		theta += dTheta;
 	}
 }

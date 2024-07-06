@@ -30,6 +30,14 @@ protected:
     bool            _allowResize = false;
     bool            _onCreate = false;
     bool            _isCursorDisable = false;
+    //perspective
+    double _fovy = 45.0f; //angle degree
+    double _aspect = 0; //proporsion
+    double _zNear = 0.1f;
+    double _zFar = 500.0f;
+
+    void UpdateAspect();
+
 
 public:
     virtual ~Window() = default;
@@ -48,7 +56,7 @@ public:
     virtual void Icon(const uint icon) = 0;
     virtual void Cursor(const uint cursor) = 0;
     virtual void SetTitle(const std::string title) = 0;
-    virtual void Size(int width, int height) = 0;
+    virtual void Size(int width, int height);
     virtual void Mode(WindowModes mode) = 0;
     virtual void SetColor(Color color);
     virtual void HideCursor(bool hide) = 0;
@@ -63,19 +71,16 @@ public:
 
     virtual void isResizeable(bool value);
     virtual void PollEvents() = 0;
+
+    double fovy()const;
+    double aspect()const;
+    double zNear() const;
+    double zFar()const;
+
+    void SetFovy(double value);
+    void SetNear(double value);
+    void SetFar(double value);
+
 };
-
-inline  HWND Window::Id() const { return 0; }
-inline void Window::isResizeable(bool value) { this->_allowResize = value; }
-
-inline int Window::Width() const {return _width;}
-inline int Window::Height() const {return _height;}
-inline WindowModes Window::Mode() const {return _mode;}
-inline std::string Window::Title() const {return _title;}
-inline Position Window::Center() const { return Position(_width / 2, _height / 2); }
-inline void Window::SetColor(Color color){_color = color;}
-
-inline void Window::SetCursorDisable(bool value) { _isCursorDisable = value; }
-inline bool Window::isCursorDisable()const { return _isCursorDisable; }
 
 #endif // WINDOW_H

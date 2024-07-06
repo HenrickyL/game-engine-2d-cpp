@@ -7,15 +7,18 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <vector>
+#include "GLCamera.h"
+
 using std::vector;
 
 class GLRenderer3D : public Renderer3D, public AbstractList<GLDrawableBase*> {
 private:
+    const GLCamera* _camera = nullptr;
     //TODO: see RenderMethod
     /*
         * Color no changed
         * vertexPosition no changed
-    
+        * talvez precise de shaders
     */
     bool _useVertexBuffer = false;
     //uint _vao = 0; // Vertex Array Object
@@ -27,7 +30,15 @@ private:
     void DeleteVS(Shape3D& shape);
     void Update(Shape3D& shape);
 
+    void EnableCulling();
+    void DisableCulling();
+    void SetPolygonModeFill(bool value);
+
+    bool IsValidToDraw(Shape3D& shape) const;
+
+
 public:
+    GLRenderer3D(const GLCamera* camera);
     ~GLRenderer3D();
     void Draw(Shape3D& shape) override;
 

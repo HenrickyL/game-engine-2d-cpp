@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "GLWindow.h" //#include <GL/glu.h>
 #include "GLDrawableBase.h"
+#include "Frustum.h"
 /// TODO: 
 /*
 	* Usar Frustum Culling para verificar se algo está a vista da camera 
@@ -13,10 +14,15 @@
 
 class GLCamera : public Camera, public GLDrawableBase {
 private:
-	Vector _direction = Vector::Backward;
-	Vector _left = Vector::Left;
+	Frustum _frustum;
+
 	void CalculeDirection();
 	void TranslateTo(const Vector& delta) override;
+	void UpdateFrustum();
+	void DrawFrustum();
+	void UpdateProjection() const override;
+
+
 
 public:
 	GLCamera(const Window* window);
@@ -41,6 +47,9 @@ public:
 	void Reset() override;
 
 	virtual void Draw() override;
+
+
+	bool IsInFrustum(const Position& position, float radius) const;
 };
 
 #endif

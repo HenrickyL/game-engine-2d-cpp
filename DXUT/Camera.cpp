@@ -1,9 +1,11 @@
 #include "Camera.h"
 
 Camera::Camera(const Window* window) : Movable(Position::Zero), _window(window) {
+	UpdateAspect();
 }
 
 Camera::Camera(const Window* window,const Position & pos) : Movable(pos), _window(window) {
+	UpdateAspect();
 }
 
 void Camera::LookAt(const Vector& pos){
@@ -23,10 +25,13 @@ Position Camera::pointOfView()const{
 void Camera::SetOrientation(const Vector& orientation){
 	this->_orientation = orientation;
 }
-Vector Camera::orientation(){
+Vector Camera::orientation()const{
 	return this->_orientation;
 }
 
+void Camera::SetDirection(const Vector& value) { _orientation = value; }
+Vector Camera::direction()const { return _direction; }
+Vector Camera::left()const { return _left; }
 
 void Camera::Draw(){
 }
@@ -36,3 +41,17 @@ void Camera::Reset() {
 	Vector _orientation = Vector::Up;
 	this->RotateTo(Vector::Zero);
 }
+
+
+float Camera::fov()const { return _fov; }
+float Camera::aspect()const{ return _aspect; }
+float Camera::zNear()const{ return _near; }
+float Camera::zFar()const{ return _far; }
+
+void Camera::SetFov(float value) { _fov = value; UpdateProjection(); }
+void Camera::SetNear(float value){ _near = value;}
+void Camera::SetFar(float value){ _far = value;}
+
+void Camera::UpdateAspect() { _aspect = static_cast<float>(_window->Width() / (float)_window->Height()); }
+
+void Camera::UpdateProjection() const {}

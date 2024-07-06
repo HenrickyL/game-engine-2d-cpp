@@ -5,10 +5,10 @@
 // GLWindow.cpp
 
 GLFWwindow* GLWindow::window = nullptr;// Ponteiro para a janela GLFW
-GLdouble GLWindow::_fovy = 45.0f ; //angle degree
+double GLWindow::_fovy = 45.0f ; //angle degree
 double GLWindow::_aspect = 0; //proporsion
-GLdouble GLWindow::_zNear = 0.1f;
-GLdouble GLWindow::_zFar = 500.0f;
+double GLWindow::_zNear = 0.1f;
+double GLWindow::_zFar = 500.0f;
 
 GLWindow::GLWindow(){
 }
@@ -47,7 +47,6 @@ void GLWindow::setupWindowCallbacks() {
         glfwSetScrollCallback(window, GLInput::InputMouseScrollCallback);
         // Verifica se o redimensionamento da janela é permitido - use null para não fazer ajustes
         glfwSetWindowSizeCallback(window, GLWindow::windowSizeCallback);
-
     }
 }
 
@@ -168,6 +167,7 @@ bool GLWindow::Create() {
     //enable opacity
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_CULL_FACE);
     this->SetCursorDisable(isCursorDisable());
 
     _onCreate = true;

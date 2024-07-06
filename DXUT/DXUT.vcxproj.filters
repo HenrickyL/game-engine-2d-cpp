@@ -295,6 +295,15 @@
     <ClCompile Include="UT_Utils.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="FrustumPlane.cpp">
+      <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -359,9 +368,6 @@
     </ClInclude>
     <ClInclude Include="DXUT_Utils_Observer.h">
       <Filter>Modules\Utils\Header Files\ObserverPattern</Filter>
-    </ClInclude>
-    <ClInclude Include="Instance.h">
-      <Filter>Modules\Utils\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DXUT_Test_Observer.h">
       <Filter>Modules\Tests\UseCase</Filter>
@@ -561,6 +567,24 @@
     <ClInclude Include="UT_Utils.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Dirtyable.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLVertexBufferID.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_methods.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBufferID.h">
+      <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrustumPlane.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Engine\Header Files\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
@@ -618,6 +642,9 @@
     </None>
     <None Include="AbstractList.inl">
       <Filter>Engine\Source Files\Templates</Filter>
+    </None>
+    <None Include="doc\OpenGLPerformingTechnics.md">
+      <Filter>Engine\doc</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
