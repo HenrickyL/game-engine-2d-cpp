@@ -585,6 +585,9 @@
     <ClInclude Include="Frustum.h">
       <Filter>Engine\Header Files\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicType.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">

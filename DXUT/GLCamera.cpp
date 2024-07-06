@@ -3,11 +3,11 @@
 #include "Shape3d.h"
 #include "GLRenderer3D.h"
 
-GLCamera::GLCamera(const Window* window) : Camera(window){
+GLCamera::GLCamera(const Graphics* graphic) : Camera(graphic){
 	Reset();
 }
 
-GLCamera::GLCamera(const Window* window, const Position& pos): Camera(window, pos) {
+GLCamera::GLCamera(const Graphics* graphic, const Position& pos): Camera(graphic, pos) {
 	Reset();
 }
 
@@ -25,23 +25,29 @@ void GLCamera::UpdateFrustum() {
 }
 
 void GLCamera::UpdateProjection()const {
-	// Configura a matriz de projeção
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
-	//// Ajusta a matriz de projeção para manter a proporção da cena
-	//gluPerspective(frustumFov(), _window->aspect(), _window->zNear(), _window->zFar());
-	//glMatrixMode(GL_MODELVIEW);
 }
 
 
 void GLCamera::Update() {
 	Position pos = position();
 	_pointOfView = (pos + _direction);
-	UpdateFrustum();
-	gluLookAt(
-		pos.x(), pos.y(), pos.z(),
-		_pointOfView.x(), _pointOfView.y(), _pointOfView.z(),
-		_orientation.x(), _orientation.y(), _orientation.z());
+	// Atualizar a projeção e a matriz de visualização com base no tipo de gráfico
+	if (_graphics->type() == T_3D) {
+		UpdateFrustum();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		gluLookAt(
+			pos.x(), pos.y(), pos.z(),
+			_pointOfView.x(), _pointOfView.y(), _pointOfView.z(),
+			_orientation.x(), _orientation.y(), _orientation.z()
+		);
+	}
+	else {
+		// Para 2D, definimos uma transformação simples
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		gluOrtho2D(0, _graphics->Width(), 0, _graphics->Height());
+	}
 }
 
 
@@ -115,6 +121,7 @@ void GLCamera::Reset() {
 	_left = Vector::Left;
 	SetRotation(Vector::Up * -90);
 	this->CalculeDirection();
+	UpdateProjection();
 }
 
 
@@ -205,3 +212,4 @@ void GLCamera::DrawFrustum() {
 
 	glEnd();
 }
+

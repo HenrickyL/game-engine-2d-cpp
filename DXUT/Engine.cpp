@@ -24,6 +24,8 @@ using std::stringstream;
 // Inicialização de variáveis estáticas da classe
 Game*		Engine::game		= nullptr;			// apontadador da aplicação
 Window*		Engine::window		= nullptr;			// janela da aplicação
+Graphics*	Engine::graphics    = nullptr;
+
 Engine*		Engine::instance	= nullptr;			// dispositivo gráfico
 float		Engine::_frameTime	= 0.0f;				// tempo do quadro atual
 bool		Engine::paused		= false;			// estado do motor
@@ -71,6 +73,7 @@ void Engine::SetGraphicType(EngineGraphicsType value) {
 
 	_context = getContextByType(value);
 	Engine::window = _context->window();
+	Engine::graphics = _context->graphics();
 	Engine::renderer = _context->renderer();
 }
 

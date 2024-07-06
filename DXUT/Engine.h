@@ -53,6 +53,8 @@ private:
 public:
 	static Game		* game;					// aplicação a ser executada
 	static Window	* window;				// janela da aplicação
+	static Graphics* graphics;
+
 	static Renderer	* renderer;          // renderizador de sprites
 	static float	  _frameTime;			// tempo do quadro atual
 

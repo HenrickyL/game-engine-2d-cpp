@@ -1,10 +1,10 @@
 #include "Camera.h"
 
-Camera::Camera(const Window* window) : Movable(Position::Zero), _window(window) {
+Camera::Camera(const Graphics* graphic) : Movable(Position::Zero), _graphics(graphic) {
 	UpdateAspect();
 }
 
-Camera::Camera(const Window* window,const Position & pos) : Movable(pos), _window(window) {
+Camera::Camera(const Graphics* graphic,const Position & pos) : Movable(pos), _graphics(graphic) {
 	UpdateAspect();
 }
 
@@ -52,6 +52,6 @@ void Camera::SetFov(float value) { _fov = value; UpdateProjection(); }
 void Camera::SetNear(float value){ _near = value;}
 void Camera::SetFar(float value){ _far = value;}
 
-void Camera::UpdateAspect() { _aspect = static_cast<float>(_window->Width() / (float)_window->Height()); }
+void Camera::UpdateAspect() { _aspect = static_cast<float>(_graphics->Width() / (float)_graphics->Height()); }
 
 void Camera::UpdateProjection() const {}

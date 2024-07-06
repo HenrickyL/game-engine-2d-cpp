@@ -25,8 +25,8 @@ private:
 
 
 public:
-	GLCamera(const Window* window);
-	GLCamera(const Window* window, const Position& pos);
+	GLCamera(const Graphics* graphic);
+	GLCamera(const Graphics* graphic, const Position& pos);
 
 	void Update() override;
 	void LookAt(const Vector& pos) override;

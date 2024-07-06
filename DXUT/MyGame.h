@@ -23,8 +23,8 @@ class MyGame : public Game {
 private:
 	GLCamera* currentCam = nullptr;
 	Vector globalRotation = Vector::Zero;
-	GLCamera cam = GLCamera(window, Position(0, 0.5f, 5));
-	GLCamera cam2 = GLCamera(window, Position(0, 1.0f, 3));
+	GLCamera cam = GLCamera(graphics, Position(0, 0.5f, 5));
+	GLCamera cam2 = GLCamera(graphics, Position(0, 1.0f, 3));
 
 	string s = "";
 	GLRenderer3D* _drawnner3D;
