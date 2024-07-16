@@ -169,7 +169,9 @@ bool GLWindow::Create() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_CULL_FACE);
     this->SetCursorDisable(isCursorDisable());
-
+    ///TODO: Analisar melhor 
+    glfwSwapInterval(1);
+    
     _onCreate = true;
     return true;
 }
