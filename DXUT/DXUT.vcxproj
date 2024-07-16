@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="AbstractList.inl" />
+    <None Include="Adjusts.md" />
     <None Include="AIConcepts.md">
       <FileType>Document</FileType>
     </None>

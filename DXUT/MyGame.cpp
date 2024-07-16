@@ -13,7 +13,7 @@ void MyGame::Init() {
 
 	currentIndex = 0;
 	current = shapes[currentIndex];
-	current->SetColor(Color::YELLOW);
+	current->SetColor(Color::MAGENTA);
 
 	currentCam = &cam;
 
@@ -37,8 +37,8 @@ void MyGame::Update(double dt){
 	}
 	InputEnd();
 	InputRotationGlobal();
-	InputCameraFrustum();
-	//InputRotationLocal();
+	//InputCameraFrustum();
+	InputRotationLocal();
 	InputCamera();
 	if (Input::KeyPress(KEY_L)) {
 		current->SetColor(Color::GREEN);

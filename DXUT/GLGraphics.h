@@ -9,6 +9,7 @@ class GLGraphics : public Graphics {
 private:
     void set3DRenderContext() const;
     void set2DRenderContext() const;
+    void setupPerspectiveContext() const;
 public:
     GLGraphics(GLWindow* window);
     ~GLGraphics();
@@ -17,9 +18,6 @@ public:
     void Clear() override;
     void Present() override;
     bool Initialize() override;
-    void SetType(GraphicType value) override;
-
-    
 };
 
 #endif // GLGRAPHICS_H

@@ -32,10 +32,10 @@ void GLCamera::Update() {
 	Position pos = position();
 	_pointOfView = (pos + _direction);
 	// Atualizar a projeção e a matriz de visualização com base no tipo de gráfico
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
 	if (_graphics->type() == T_3D) {
 		UpdateFrustum();
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
 		gluLookAt(
 			pos.x(), pos.y(), pos.z(),
 			_pointOfView.x(), _pointOfView.y(), _pointOfView.z(),
@@ -44,8 +44,6 @@ void GLCamera::Update() {
 	}
 	else {
 		// Para 2D, definimos uma transformação simples
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
 		gluOrtho2D(0, _graphics->Width(), 0, _graphics->Height());
 	}
 }

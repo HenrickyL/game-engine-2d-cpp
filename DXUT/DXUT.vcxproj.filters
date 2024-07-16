@@ -664,6 +664,7 @@
     <None Include="doc\OpenGLPerformingTechnics.md">
       <Filter>Engine\doc</Filter>
     </None>
+    <None Include="Adjusts.md" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Pixel.hlsl">

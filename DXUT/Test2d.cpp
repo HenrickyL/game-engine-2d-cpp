@@ -9,17 +9,16 @@ void Test2D::Reset() {
 
 
 void Test2D::Init() {
-
+	window->SetColor(Color::GRAY);
 	geo = new Rect(Position(0,0,0), 0.5,1, Color::RED);
 	geometries.push_back(geo);
-	window->SetColor(Color::GRAY);
 }
 void Test2D::Update(double frameTime) {
-	glLoadIdentity();
-	glTranslatef(0, 0, 0);
-	gluLookAt(0.0, 0.0, 5.0,  // Posição da câmera (eye)
-		0.0, 0.0, 0.0, // Ponto para onde a câmera está olhando (center)
-		0.0, 1.0, 0.0); // Vetor "up" que define a orientação da câmera (up)
+	//glLoadIdentity();
+	//glTranslatef(0, 0, 0);
+	//gluLookAt(0.0, 0.0, 5.0,  // Posição da câmera (eye)
+	//	0.0, 0.0, 0.0, // Ponto para onde a câmera está olhando (center)
+	//	0.0, 1.0, 0.0); // Vetor "up" que define a orientação da câmera (up)
 }
 
 
