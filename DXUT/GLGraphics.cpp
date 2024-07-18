@@ -46,6 +46,8 @@ bool GLGraphics::Initialize() {
 
 
 void GLGraphics::setupPerspectiveContext() const {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
     if (_type == T_3D) {
         set3DRenderContext();
     }
@@ -77,8 +79,6 @@ void GLGraphics::Present() {
 
 void GLGraphics::set3DRenderContext() const {
     // Configura o contexto de renderização para 3D
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
     _aspect = (double)_viewportWidth / (double)_viewportHeight;
     gluPerspective(_fovy, _aspect, _zNear, _zFar);
 }

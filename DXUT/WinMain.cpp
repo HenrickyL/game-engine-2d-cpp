@@ -1,8 +1,8 @@
+#include <sstream>
+using std::stringstream;
 #include "DXUT.h"
 #include "MyGame.h"
 #include "Test2d.h"
-#include <sstream>
-using std::stringstream;
 
 // ------------------------------------------------------------------------------
 //                                  WinMain                                      
@@ -55,18 +55,6 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	}
 }
 
-
-
-
-
-
-int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
-    _In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
-
-    return UseEngine( hInstance, hPrevInstance,lpCmdLine,  nCmdShow);
-    //return test();
-}
-//OutputDebugString(s.str().c_str());
 
 
 //#include <GL/glew.h>
@@ -143,13 +131,20 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 //int test() {
 //    if (!initGLFW()) return -1;
 //
-//    GLFWwindow* window = glfwCreateWindow(800, 600, "Cubo 3D com OpenGL", nullptr, nullptr);
+//    float w = 1024;
+//    float h = 768;
+//
+//    GLFWwindow* window = glfwCreateWindow(w, h, "Cubo 3D com OpenGL", nullptr, nullptr);
 //    if (!window) {
 //        glfwTerminate();
 //        return -1;
 //    }
 //
+//
 //    glfwMakeContextCurrent(window);
+//    glViewport(0, 0, w, h);
+//
+//    gluOrtho2D(0, w, 0, h);
 //
 //    if (!initGLEW()) return -1;
 //
@@ -182,3 +177,15 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 //    glfwTerminate();
 //    return 0;
 //}
+
+
+
+int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
+    _In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
+
+    return UseEngine( hInstance, hPrevInstance,lpCmdLine,  nCmdShow);
+    //return test();
+}
+//OutputDebugString(s.str().c_str());
+
+

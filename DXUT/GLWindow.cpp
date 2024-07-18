@@ -26,7 +26,10 @@ void GLWindow::windowSizeCallback(GLFWwindow* window, int width, int height) {
     glfwSetWindowSize(window, width, height); 
     // Calcula a proporção da janela
     _aspect = (double)width / (double)height;
+
     glViewport(0, 0, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
 
     gluOrtho2D(0, width, 0, height);
 
@@ -67,9 +70,9 @@ void GLWindow::SetTitle(const std::string title) {
 }
 
 void GLWindow::Size(int width, int height) {
-    glfwSetWindowSize(window, width, height);
     _width = width;
     _height = height;
+    glfwSetWindowSize(window, _width, _height);
 }
 
 void GLWindow::Mode(WindowModes mode) {
@@ -150,8 +153,14 @@ bool GLWindow::Create() {
     // Crie uma janela GLFW
     window = CreateWindowByMode();
     onWindowCreate();
-    Size(_width, _height);
     setupWindowCallbacks();
+    Size(_width, _height);
+
+   /* glViewport(0, 0, _width, _height);
+
+    gluOrtho2D(0, _width, 0, _height);
+
+    glMatrixMode(GL_MODELVIEW);*/
 
     // Tornar o contexto da janela atual - mudar se for trabalhar com mais janelas
     glfwMakeContextCurrent(window);
