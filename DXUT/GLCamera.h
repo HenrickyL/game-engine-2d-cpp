@@ -17,11 +17,14 @@ private:
 	Frustum _frustum;
 	bool _useFrustum = false;
 
+	glm::mat4 _viewMatrix;
+	glm::mat4 _projectionMatrix;
+
 	void CalculeDirection();
 	void TranslateTo(const Vector& delta) override;
 	void UpdateFrustum();
 	void DrawFrustum() const;
-	void UpdateProjection() const override;
+	void UpdateProjection() override;
 
 
 
@@ -42,6 +45,9 @@ public:
 	void TranslateUp(float speed);
 	void TranslateDown(float speed);
 
+
+	glm::mat4 viewMatrix()const;
+	glm::mat4 projectionMatrix() const;
 
 	
 	void MoveTo(const Position& position) override;

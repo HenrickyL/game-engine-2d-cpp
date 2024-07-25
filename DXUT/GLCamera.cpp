@@ -13,18 +13,15 @@ GLCamera::GLCamera(const Graphics* graphic, const Position& pos): Camera(graphic
 
 
 void GLCamera::UpdateFrustum() {
-	glm::mat4 projectionMatrix = glm::perspective(glm::radians(fov()), aspect(), zNear(), zFar());
-	glm::mat4 viewMatrix = glm::lookAt(
-		glm::vec3(position().x(), position().y(), position().z()),
-		glm::vec3(_pointOfView.x(), _pointOfView.y(), _pointOfView.z()),
-		glm::vec3(_orientation.x(), _orientation.y(), _orientation.z())
-	);
+	glm::mat4 projectionMatrix = this->projectionMatrix();
+	glm::mat4 viewMatrix = this->viewMatrix();
 
 	//_frustum.Update(*this);
 	_frustum.Update(projectionMatrix, viewMatrix);
 }
 
-void GLCamera::UpdateProjection() const {
+void GLCamera::UpdateProjection() {
+	_projectionMatrix = glm::perspective(glm::radians(fov()), aspect(), zNear(), zFar());
 }
 
 
@@ -211,3 +208,13 @@ void GLCamera::DrawFrustum() const {
 	glEnd();
 }
 
+
+
+glm::mat4 GLCamera::viewMatrix() const { 
+	return glm::lookAt(
+		glm::vec3(position().x(), position().y(), position().z()),
+		glm::vec3(_pointOfView.x(), _pointOfView.y(), _pointOfView.z()),
+		glm::vec3(_orientation.x(), _orientation.y(), _orientation.z())
+	);
+}
+glm::mat4 GLCamera::projectionMatrix() const { return _projectionMatrix; }

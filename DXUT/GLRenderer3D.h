@@ -20,7 +20,8 @@ private:
         * vertexPosition no changed
         * talvez precise de shaders
     */
-    bool _useVertexBuffer = false;
+    bool _useVertexBuffer = true;
+    GLuint _shaderProgram;
     //uint _vao = 0; // Vertex Array Object
     //uint _vbo = 0; // Vertex Buffer Object
     //uint _ebo = 0; // Element Buffer Object
@@ -28,25 +29,26 @@ private:
     void Pipeline(Shape3D& shape);
     void DrawVertex(const Shape3D& shape, const Vertex& vertex)const;
     void DeleteVS(Shape3D& shape);
-    void Update(Shape3D& shape);
+    void UpdateShape(Shape3D& shape);
+
 
     void EnableCulling();
     void DisableCulling();
     void SetPolygonModeFill(bool value);
 
     bool IsValidToDraw(Shape3D& shape) const;
-
+    void InitializeShader();
 
 public:
     GLRenderer3D(const GLCamera* camera);
     ~GLRenderer3D();
     void Draw(Shape3D& shape) override;
 
-    void InitializeShader();
 
     //vertexBuffer
     void Initialize(Shape3D& shape);
     void Render(Shape3D& shape);
+
 
     //DisplayList
     // Add  GLDrawableBase to Draw and Start Draw method in Display list to OpenGL

@@ -199,6 +199,8 @@
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
+    <None Include="fragment_shader.glsl" />
+    <None Include="vertex_shader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractList.h" />
@@ -215,6 +217,7 @@
     <ClInclude Include="GLGroundUI.h" />
     <ClInclude Include="GLOriginGizmoUI.h" />
     <ClInclude Include="GLRenderer3D.h" />
+    <ClInclude Include="GLShader.h" />
     <ClInclude Include="GLVertexBufferID.h" />
     <ClInclude Include="GL_methods.h" />
     <ClInclude Include="GraphicType.h" />

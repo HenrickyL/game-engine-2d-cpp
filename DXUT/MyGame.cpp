@@ -64,9 +64,6 @@ void MyGame::Update(double dt){
 	glLoadIdentity();
 	
 	currentCam->Update();
-	
-
-
 
 	glTranslatef(0, 0, 0);
 	glRotatef(globalRotation.x(), 1, 0, 0);

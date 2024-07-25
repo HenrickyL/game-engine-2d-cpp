@@ -603,6 +603,9 @@
     <ClInclude Include="Test2d.h">
       <Filter>Develop\Games\Test2D\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GLShader.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
@@ -665,6 +668,12 @@
       <Filter>Engine\doc</Filter>
     </None>
     <None Include="Adjusts.md" />
+    <None Include="vertex_shader.glsl">
+      <Filter>Engine\Shader Files</Filter>
+    </None>
+    <None Include="fragment_shader.glsl">
+      <Filter>Engine\Shader Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Pixel.hlsl">
