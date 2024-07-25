@@ -20,7 +20,7 @@ private:
         * vertexPosition no changed
         * talvez precise de shaders
     */
-    bool _useVertexBuffer = true;
+    bool _useVertexBuffer = false;
     GLuint _shaderProgram;
     //uint _vao = 0; // Vertex Array Object
     //uint _vbo = 0; // Vertex Buffer Object
