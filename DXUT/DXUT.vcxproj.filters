@@ -668,12 +668,6 @@
       <Filter>Engine\doc</Filter>
     </None>
     <None Include="Adjusts.md" />
-    <None Include="vertex_shader.glsl">
-      <Filter>Engine\Shader Files</Filter>
-    </None>
-    <None Include="fragment_shader.glsl">
-      <Filter>Engine\Shader Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Pixel.hlsl">
