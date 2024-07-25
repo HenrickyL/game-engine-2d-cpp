@@ -55,7 +55,6 @@ public:
 
 
     const vector<Vertex> vertices() const;
-    //const vector<Triangle> triangles() const;
     const vector<uint> indices() const;
 
 

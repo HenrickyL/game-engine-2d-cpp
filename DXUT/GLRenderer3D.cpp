@@ -296,6 +296,7 @@ void GLRenderer3D::Initialize(Shape3D& shape){
     if (colorBufferData) {
         size_t offset = 0;
         for (const Vertex& vertex : shape.vertices()) {
+            
             const Color& col = shape.isFlatColor() ? shape.color() : vertex.color;
             colorBufferData[offset++] = col.r();
             colorBufferData[offset++] = col.g();
