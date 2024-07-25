@@ -15,18 +15,20 @@
 class GLCamera : public Camera, public GLDrawableBase {
 private:
 	Frustum _frustum;
+	bool _useFrustum = false;
 
 	void CalculeDirection();
 	void TranslateTo(const Vector& delta) override;
 	void UpdateFrustum();
-	void DrawFrustum();
+	void DrawFrustum() const;
 	void UpdateProjection() const override;
 
 
 
 public:
-	GLCamera(const Window* window);
-	GLCamera(const Window* window, const Position& pos);
+	GLCamera(const Graphics* graphic);
+	GLCamera(const Graphics* graphic, const Position& pos);
+
 
 	void Update() override;
 	void LookAt(const Vector& pos) override;

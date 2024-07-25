@@ -35,7 +35,7 @@ private:
 	GraphicContext* _contextDX = nullptr;
 
 	EngineGraphicsType _graphicType = E_OpenGL;
-	GraphicType _type = T_2D;
+	GraphicType _type = T_3D;
 	EngineFrameRateType _frameRateType = CONSTANT;
 	int _frameRateConstant = 60;
 	double _frameRate = 0;
@@ -53,6 +53,8 @@ private:
 public:
 	static Game		* game;					// aplicação a ser executada
 	static Window	* window;				// janela da aplicação
+	static Graphics* graphics;
+
 	static Renderer	* renderer;          // renderizador de sprites
 	static float	  _frameTime;			// tempo do quadro atual
 

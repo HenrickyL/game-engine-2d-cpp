@@ -10,6 +10,7 @@ double GLWindow::_aspect = 0; //proporsion
 double GLWindow::_zNear = 0.1f;
 double GLWindow::_zFar = 500.0f;
 
+
 GLWindow::GLWindow(){
 }
 
@@ -26,15 +27,11 @@ void GLWindow::windowSizeCallback(GLFWwindow* window, int width, int height) {
     // Calcula a proporção da janela
     _aspect = (double)width / (double)height;
 
-    // Define a viewport para corresponder ao novo tamanho da janela
     glViewport(0, 0, width, height);
-
-    // Configura a matriz de projeção
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    // Ajusta a matriz de projeção para manter a proporção da cena
-    gluPerspective(_fovy, _aspect, _zNear, _zFar);
+    gluOrtho2D(0, width, 0, height);
 
     glMatrixMode(GL_MODELVIEW);
 }
@@ -73,10 +70,9 @@ void GLWindow::SetTitle(const std::string title) {
 }
 
 void GLWindow::Size(int width, int height) {
-    glfwSetWindowSize(window, width, height);
     _width = width;
     _height = height;
-    windowSizeCallback(window, _width, _height);
+    glfwSetWindowSize(window, _width, _height);
 }
 
 void GLWindow::Mode(WindowModes mode) {
@@ -158,18 +154,17 @@ bool GLWindow::Create() {
     window = CreateWindowByMode();
     onWindowCreate();
     setupWindowCallbacks();
+    Size(_width, _height);
+
+   /* glViewport(0, 0, _width, _height);
+
+    gluOrtho2D(0, _width, 0, _height);
+
+    glMatrixMode(GL_MODELVIEW);*/
 
     // Tornar o contexto da janela atual - mudar se for trabalhar com mais janelas
     glfwMakeContextCurrent(window);
-    Size(_width, _height);
-    //// Configurações adicionais do OpenGL
-    glEnable(GL_DEPTH_TEST);
-    //enable opacity
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_CULL_FACE);
-    this->SetCursorDisable(isCursorDisable());
-
+    
     _onCreate = true;
     return true;
 }

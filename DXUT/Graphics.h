@@ -5,16 +5,12 @@
 #include "Window.h"
 #include "Types.h"
 #include "GraphicsFPS.h"
+#include "GraphicType.h" 
 
-
-enum GraphicType {
-    T_2D,
-    T_3D
-};
 
 class Graphics {
 protected:
-    Window* _window;
+    Window* _window = nullptr;
     float   _viewportWidth, _viewportHeight;
     FPSType _currentFPS;
 
@@ -44,12 +40,17 @@ public:
     virtual float ViewportHeight() const;
     virtual FPSType FPS() const;
 
-    void SetType(GraphicType value);
+    virtual void SetType(GraphicType value);
     GraphicType type() const;
+
+    float Width() const;
+    float Height() const;
+
 
 };
 
 inline GraphicType Graphics::type() const { return this->_type; }
 inline void Graphics::SetType(GraphicType value) { this->_type = value; }
+
 
 #endif // GRAPHICS_H

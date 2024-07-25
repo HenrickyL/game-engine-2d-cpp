@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="AbstractList.inl" />
+    <None Include="Adjusts.md" />
     <None Include="AIConcepts.md">
       <FileType>Document</FileType>
     </None>
@@ -190,6 +191,7 @@
     <ClCompile Include="Scene.h" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StatePosition.cpp" />
+    <ClCompile Include="Test2d.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UT_Utils.cpp" />
@@ -215,6 +217,7 @@
     <ClInclude Include="GLRenderer3D.h" />
     <ClInclude Include="GLVertexBufferID.h" />
     <ClInclude Include="GL_methods.h" />
+    <ClInclude Include="GraphicType.h" />
     <ClInclude Include="GroundUI.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="OriginGizmoUI.h" />
@@ -280,6 +283,7 @@
     <ClInclude Include="Sensor.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="ISubject.h" />
+    <ClInclude Include="Test2d.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transition.h" />

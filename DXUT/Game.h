@@ -6,11 +6,13 @@
 #include "Timer.h"
 #include "Sprite.h"
 #include "Renderer.h"
+#include "Graphics.h"
 #include <string>
 
 class Game {
 protected:
 	static Window	*& window;					// janela
+	static Graphics*& graphics;
 	static Renderer* renderer;
 	static Timer	timer;						// tempo
 	static Input	* input;					// entrada

@@ -13,13 +13,16 @@ void MyGame::Init() {
 
 	currentIndex = 0;
 	current = shapes[currentIndex];
-	current->SetColor(Color::YELLOW);
+	current->SetColor(Color::MAGENTA);
 
 	currentCam = &cam;
 
 	_drawnner3D = new GLRenderer3D(&cam);
 	_drawnner3D->SetFillMode(F_WIREFRAME_SOLID);
-	_drawnner3D->InitializeShader();
+	//_drawnner3D->InitializeShader();
+	for (Shape3D* s : shapes) {
+		_drawnner3D->Initialize(*s);
+	}
 	
 	_drawnner3D->AddToDisplayList(&groundUi);
 	_drawnner3D->AddToDisplayList(&wordOrigin);
@@ -38,7 +41,7 @@ void MyGame::Update(double dt){
 	InputEnd();
 	InputRotationGlobal();
 	InputCameraFrustum();
-	//InputRotationLocal();
+	InputRotationLocal();
 	InputCamera();
 	if (Input::KeyPress(KEY_L)) {
 		current->SetColor(Color::GREEN);
@@ -74,7 +77,12 @@ void MyGame::Update(double dt){
 void MyGame::Draw(){
 	_drawnner3D->DrawDisplayList();
 	for (Shape3D* s : shapes) {
-		_drawnner3D->Draw(*s);
+		if (useVertexBuffer) {
+			_drawnner3D->Render(*s);
+		}
+		else {
+			_drawnner3D->Draw(*s);
+		}
 	}
 	for (Geometry* g : geometries) {
 		_drawnner.Draw(*g);
@@ -145,7 +153,7 @@ void MyGame::InputRotationLocal()
 			current->RotateBy(dir * delta * orientation);
 		}
 	}
-	float speed = 0.001;
+	float speed = 0.005;
 	if (Input::KeyDown(LEFT)) {
 		current->TranslateTo(Vector::Left * speed);
 	}
@@ -179,7 +187,7 @@ void MyGame::InputCamera()
 {
 	float delta = 0.005;
 	if (Input::KeyDown(SHIFT_LEFT)) {
-		delta = 0.02;
+		delta = 0.03;
 		
 	}
 	else {
@@ -317,9 +325,9 @@ void MyGame::InitCircularObjects() {
 		if (value % 2 == 0) {
 			s = new Cube(p, size, color);
 		}
-		else if (value % 3 == 0){
+		/*else if (value % 3 == 0){
 			s = new Plane(p, size, color);
-		}
+		}*/
 		else {
 			s = new Sphere(p, size*0.6, color);
 		}

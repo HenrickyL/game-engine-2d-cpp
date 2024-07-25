@@ -3,11 +3,11 @@
 #include "Shape3d.h"
 #include "GLRenderer3D.h"
 
-GLCamera::GLCamera(const Window* window) : Camera(window){
+GLCamera::GLCamera(const Graphics* graphic) : Camera(graphic){
 	Reset();
 }
 
-GLCamera::GLCamera(const Window* window, const Position& pos): Camera(window, pos) {
+GLCamera::GLCamera(const Graphics* graphic, const Position& pos): Camera(graphic, pos) {
 	Reset();
 }
 
@@ -24,24 +24,28 @@ void GLCamera::UpdateFrustum() {
 	_frustum.Update(projectionMatrix, viewMatrix);
 }
 
-void GLCamera::UpdateProjection()const {
-	// Configura a matriz de projeção
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
-	//// Ajusta a matriz de projeção para manter a proporção da cena
-	//gluPerspective(frustumFov(), _window->aspect(), _window->zNear(), _window->zFar());
-	//glMatrixMode(GL_MODELVIEW);
+void GLCamera::UpdateProjection() const {
 }
 
 
 void GLCamera::Update() {
 	Position pos = position();
 	_pointOfView = (pos + _direction);
-	UpdateFrustum();
-	gluLookAt(
-		pos.x(), pos.y(), pos.z(),
-		_pointOfView.x(), _pointOfView.y(), _pointOfView.z(),
-		_orientation.x(), _orientation.y(), _orientation.z());
+	// Atualizar a projeção e a matriz de visualização com base no tipo de gráfico
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	if (_graphics->type() == T_3D) {
+		if(_useFrustum)UpdateFrustum();
+		gluLookAt(
+			pos.x(), pos.y(), pos.z(),
+			_pointOfView.x(), _pointOfView.y(), _pointOfView.z(),
+			_orientation.x(), _orientation.y(), _orientation.z()
+		);
+	}
+	else {
+		// Para 2D, definimos uma transformação simples
+		gluOrtho2D(0, _graphics->Width(), 0, _graphics->Height());
+	}
 }
 
 
@@ -115,6 +119,7 @@ void GLCamera::Reset() {
 	_left = Vector::Left;
 	SetRotation(Vector::Up * -90);
 	this->CalculeDirection();
+	UpdateProjection();
 }
 
 
@@ -168,7 +173,7 @@ void GLCamera::Draw() {
 		glVertex3fv(origin.p3f());
 		glVertex3fv((origin + _left).p3f());
 	glEnd();
-	DrawFrustum();
+	if(_useFrustum)DrawFrustum();
 }
 
 
@@ -178,7 +183,7 @@ bool GLCamera::IsInFrustum(const Position& position, float radius) const {
 }
 
 
-void GLCamera::DrawFrustum() {
+void GLCamera::DrawFrustum() const {
 	const glm::vec3* nearVerts = _frustum.nearPlaneVertices();
 	const glm::vec3* farVerts = _frustum.farPlaneVertices();
 
@@ -205,3 +210,4 @@ void GLCamera::DrawFrustum() {
 
 	glEnd();
 }
+

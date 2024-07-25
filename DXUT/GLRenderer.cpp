@@ -60,7 +60,6 @@ void GLRenderer::DrawCircle(const Circle& circle)const {
             glVertex3f(x, y, 0.0f);
         }
         glEnd();
-
     }
 }
 

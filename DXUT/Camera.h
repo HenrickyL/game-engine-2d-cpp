@@ -2,8 +2,8 @@
 #define DX_UT_CAMERA_H
 
 #include "Movable.h"
-#include "Window.h"
-
+#include "Graphics.h"
+#include "GraphicType.h"
 
 //TODO: testar os os valores de forma dinamica
 class Camera : public Movable {
@@ -13,20 +13,25 @@ private:
 	float _aspect;
 	float _near =0.1f;
 	float _far = 10.0f;
+
 	void UpdateAspect();
 protected:
 	Vector _pointOfView = Vector::Zero;
 	Vector _orientation = Vector::Up;
 	Vector _direction = Vector::Backward;
 	Vector _left = Vector::Left;
-	const Window* _window = nullptr;
+	const Graphics* _graphics = nullptr;
+	bool _useFrustum = false;
+
 	virtual void UpdateProjection() const;
 
 	
 public:
-	Camera(const Window* window);
-	Camera(const Window* window, const Position& pos);
+	Camera(const Graphics* graphic);
+	Camera(const Graphics* graphic, const Position& pos);
 
+	bool useFrustum() const;
+	void SetUseFrustum(bool value);
 
 	virtual void LookAt(const Vector& pos);
 	virtual void TranslateLookAt(const Vector& delta);

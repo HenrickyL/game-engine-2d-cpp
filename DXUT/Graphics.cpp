@@ -29,3 +29,11 @@ void Graphics::SetFPS(FPSType fps) {
 FPSType Graphics::FPS() const {
     return _currentFPS;
 }
+
+
+float Graphics::Width() const {
+    return _window->Width();
+}
+float Graphics::Height() const {
+    return _window->Height();
+}
