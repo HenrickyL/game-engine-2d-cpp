@@ -21,6 +21,7 @@ using std::stringstream;
 
 class MyGame : public Game {
 private:
+	bool useVertexBuffer = false;
 	GLCamera* currentCam = nullptr;
 	Vector globalRotation = Vector::Zero;
 	GLCamera cam = GLCamera(graphics, Position(0, 0.5f, 5));

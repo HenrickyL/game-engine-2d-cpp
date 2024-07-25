@@ -1,7 +1,7 @@
 #include "GLRenderer3D.h"
 #include "GLVertexBufferID.h"
 
-
+/// TODO: Ver a parte de shader
 GLuint CompileShader(const char* shaderSource, GLenum shaderType) {
     GLuint shader = glCreateShader(shaderType);
     glShaderSource(shader, 1, &shaderSource, nullptr);
@@ -189,12 +189,17 @@ void GLRenderer3D::Pipeline(Shape3D& shape) {
         break;
     }
 
-    if (!IsValidToDraw(shape)) {
-        shape.SetColor(Color::RED);
+    // TODO: Remove - Test use Frustum
+
+    if (_camera && _camera->useFrustum()) {
+        if (!IsValidToDraw(shape)) {
+            shape.SetColor(Color::RED);
+        }
+        else {
+            shape.SetColor(Color::YELLOW);
+        }
     }
-    else {
-        shape.SetColor(Color::YELLOW);
-    }
+   
 
     if (_useVertexBuffer) {
         Render(shape);

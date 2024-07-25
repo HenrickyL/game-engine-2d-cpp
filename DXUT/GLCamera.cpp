@@ -24,7 +24,7 @@ void GLCamera::UpdateFrustum() {
 	_frustum.Update(projectionMatrix, viewMatrix);
 }
 
-void GLCamera::UpdateProjection()const {
+void GLCamera::UpdateProjection() const {
 }
 
 
@@ -35,7 +35,7 @@ void GLCamera::Update() {
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
 	if (_graphics->type() == T_3D) {
-		UpdateFrustum();
+		if(_useFrustum)UpdateFrustum();
 		gluLookAt(
 			pos.x(), pos.y(), pos.z(),
 			_pointOfView.x(), _pointOfView.y(), _pointOfView.z(),
@@ -173,7 +173,7 @@ void GLCamera::Draw() {
 		glVertex3fv(origin.p3f());
 		glVertex3fv((origin + _left).p3f());
 	glEnd();
-	DrawFrustum();
+	if(_useFrustum)DrawFrustum();
 }
 
 
@@ -183,7 +183,7 @@ bool GLCamera::IsInFrustum(const Position& position, float radius) const {
 }
 
 
-void GLCamera::DrawFrustum() {
+void GLCamera::DrawFrustum() const {
 	const glm::vec3* nearVerts = _frustum.nearPlaneVertices();
 	const glm::vec3* farVerts = _frustum.farPlaneVertices();
 

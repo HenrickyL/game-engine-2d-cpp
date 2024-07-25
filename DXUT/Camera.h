@@ -13,6 +13,7 @@ private:
 	float _aspect;
 	float _near =0.1f;
 	float _far = 10.0f;
+
 	void UpdateAspect();
 protected:
 	Vector _pointOfView = Vector::Zero;
@@ -20,6 +21,7 @@ protected:
 	Vector _direction = Vector::Backward;
 	Vector _left = Vector::Left;
 	const Graphics* _graphics = nullptr;
+	bool _useFrustum = false;
 
 	virtual void UpdateProjection() const;
 
@@ -28,6 +30,8 @@ public:
 	Camera(const Graphics* graphic);
 	Camera(const Graphics* graphic, const Position& pos);
 
+	bool useFrustum() const;
+	void SetUseFrustum(bool value);
 
 	virtual void LookAt(const Vector& pos);
 	virtual void TranslateLookAt(const Vector& delta);

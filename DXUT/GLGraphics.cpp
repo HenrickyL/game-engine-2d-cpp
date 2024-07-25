@@ -20,7 +20,6 @@ bool GLGraphics::Initialize() {
 
     _viewportWidth = float(_window->Width());
     _viewportHeight = float(_window->Height());
-    glViewport(0, 0, _viewportWidth, _viewportHeight); // Configura a viewport
 
     // Configuração do OpenGL
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Cor de fundo preta
@@ -33,6 +32,7 @@ bool GLGraphics::Initialize() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_CULL_FACE);
+
     //antialising GL_MULTISAMPLE
     glEnable(GL_LINE_SMOOTH);
     /*glEnable(GL_MULTISAMPLE);
@@ -48,6 +48,7 @@ bool GLGraphics::Initialize() {
 void GLGraphics::setupPerspectiveContext() const {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+    glViewport(0, 0, _viewportWidth, _viewportHeight); // Configura a viewport
     if (_type == T_3D) {
         set3DRenderContext();
     }
@@ -73,7 +74,10 @@ void GLGraphics::Clear() {
 }
 
 void GLGraphics::Present() {
-    glfwSwapBuffers(dynamic_cast<GLWindow*>(_window)->GetWindow()); // Troca os buffers de framebuffer
+    if (_glfwWindow == nullptr) {
+        _glfwWindow = dynamic_cast<GLWindow*>(_window)->GetWindow();
+    }
+    glfwSwapBuffers(_glfwWindow); // Troca os buffers de framebuffer
 }
 
 

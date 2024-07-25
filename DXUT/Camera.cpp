@@ -55,3 +55,6 @@ void Camera::SetFar(float value){ _far = value;}
 void Camera::UpdateAspect() { _aspect = static_cast<float>(_graphics->Width() / (float)_graphics->Height()); }
 
 void Camera::UpdateProjection() const {}
+
+bool Camera::useFrustum() const { return _useFrustum; }
+void Camera::SetUseFrustum(bool value) { _useFrustum = value; }

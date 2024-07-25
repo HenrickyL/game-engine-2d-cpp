@@ -11,7 +11,7 @@ void Test2D::Reset() {
 
 void Test2D::Init() {
 	window->SetColor(Color::GRAY);
-	geo = new Rect(Position(0,0,0), 0.2,0.2, Color::RED);
+	geo = new Rect(Position(0,0,-1), 0.2,0.2, Color::RED);
 	geo->setFilled(false);
 	geometries.push_back(geo);
 }
@@ -43,6 +43,23 @@ void Test2D::Update(double frameTime) {
 
 	if (Input::KeyDown(KEY_R)) {
 		Reset();
+	}
+
+	if (Input::OnWheel()) {
+		int orientation = Input::MouseWheelDirection();
+		float delta = 3;
+		Vector dir = Vector::Forward;
+		if (orientation != 0) {
+			geo->RotateBy(dir* delta* orientation);
+		}
+	}
+
+	if (Input::KeyDown(KEY_W)) {
+		Color c = geo->color();
+		geo->SetColor(Color(c.r(), c.g(), c.b(), c.a() + 0.1));
+	}else if (Input::KeyDown(KEY_S)) {
+		Color c = geo->color();
+		geo->SetColor(Color(c.r(), c.g(), c.b(), c.a() - 0.1));
 	}
 }
 

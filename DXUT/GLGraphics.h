@@ -7,6 +7,7 @@
 
 class GLGraphics : public Graphics {
 private:
+    GLFWwindow* _glfwWindow = nullptr;
     void set3DRenderContext() const;
     void set2DRenderContext() const;
     void setupPerspectiveContext() const;
