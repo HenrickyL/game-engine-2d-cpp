@@ -37,6 +37,18 @@ Shape3DType Shape3D::type() const {
 const vector<Vertex> Shape3D::vertices() const { return _vertices; }
 //const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
 const vector<uint> Shape3D::indices() const { return  _indices; }
+float Shape3D::boundingRadius() const { return _boundingRadius; }
+
+void Shape3D::UpdateBoundingRadius() { 
+    float distance ;
+    for (const auto& vertex : _vertices) {
+        const Position p = vertex.position;
+        distance = position().Distance(p);
+        if (distance > _boundingRadius) {
+            _boundingRadius = distance;
+        }
+    }
+}
 
 
 void Shape3D::StartGenerate() {
@@ -46,6 +58,7 @@ void Shape3D::StartGenerate() {
 }
 
 void Shape3D::EndGenerate() {
+    UpdateBoundingRadius();
     NotifyChange();
 }
 

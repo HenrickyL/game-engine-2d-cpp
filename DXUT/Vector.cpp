@@ -26,7 +26,7 @@ Vector::Vector(float x, float y, float z)
 
 // ---------------------------------------------------------------------------------
 
-float Vector::Magnitude() const
+float Vector::Module() const
 {
 	float x = this->_x;
 	float y = this->_y;
@@ -38,9 +38,9 @@ float Vector::Magnitude() const
  * \brief Retorna o Vetor uniário
  * \return Vector
  */
-Vector Vector::Unit() const
+Vector Vector::Unitary() const
 {
-	return *this / this->Magnitude();
+	return *this / this->Module();
 }
 
 Vector Vector::Inverte() const {
@@ -57,7 +57,7 @@ Vector Vector::Inverte() const {
  */
 bool	Vector::operator<=>(const Vector& other) const
 {
-	return this->Unit() == other.Unit();
+	return this->Unitary() == other.Unitary();
 }
 // ---------------------------------------------------------------------------------
 
@@ -96,6 +96,28 @@ bool	Vector::operator!=(const Vector& other) const
 	return ! (*this == other);
 }
 
+
+/// <summary>
+/// Computes the dot product of two vectors
+/// </summary>
+/// <param name="A">A The first vector</param>
+/// <param name="B">B The second vector</param>
+/// <returns>The dot product of vectors A and B</returns>
+float Vector::DotProduct(const Vector& A, const Vector& B) {
+	return A.x() * B.x() + A.y() * B.y() + A.z() * B.z();
+}
+
+
+/// <summary>
+/// Projects vector A onto vector B
+/// </summary>
+/// <param name="A">The vector to be projected</param>
+/// <param name="B">The vector onto which A is projected</param>
+/// <returns>The projection of vector A onto vector B</returns>
+Vector Vector::Project(const Vector& A, const Vector& B) {
+	float mag = B.Module();
+	return  B * (Vector::DotProduct(A, B) / (mag * mag));
+}
 
 
 Vector Vector::CrossProduct(const Vector& A, const Vector& B) {

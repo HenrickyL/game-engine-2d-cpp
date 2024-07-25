@@ -7,8 +7,10 @@
 
 class GLGraphics : public Graphics {
 private:
+    GLFWwindow* _glfwWindow = nullptr;
     void set3DRenderContext() const;
     void set2DRenderContext() const;
+    void setupPerspectiveContext() const;
 public:
     GLGraphics(GLWindow* window);
     ~GLGraphics();
@@ -17,7 +19,6 @@ public:
     void Clear() override;
     void Present() override;
     bool Initialize() override;
-    
 };
 
 #endif // GLGRAPHICS_H
