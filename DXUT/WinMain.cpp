@@ -13,7 +13,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 	try {
 
-		bool isTest2d = false;
+		bool isTest2d = true;
 
 		// cria motor e configura a janela
 		Engine* engine = Engine::Instance();
@@ -56,147 +56,77 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	}
 }
 
+void redimensiona(int w, int h)
+{
+	glViewport(0, 0, w, h);
 
+	float aspect = (float)w / (float)h;
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <gl/GLU.h>
-
-// Função para inicializar o GLFW
-bool initGLFW() {
-    if (!glfwInit()) {
-        return false;
-    }
-    return true;
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	if (w >= h)
+		glOrtho(-10.0 * aspect, 10.0 * aspect, -10.0, 10.0, 1.0, -1.0);
+	else
+		glOrtho(-10.0, 10.0, -10.0 / aspect, 10.0 / aspect, 1.0, -1.0);
 }
 
-// Função para inicializar o GLEW
-bool initGLEW() {
-    glewExperimental = GL_TRUE; // Para usar as funcionalidades modernas do GLEW
-    GLenum err = glewInit();
-    if (err != GLEW_OK) {
-        return false;
-    }
-    return true;
+
+void desenha()
+{
+	glColor3f(1.0, 0.0, 0.0);
+	glBegin(GL_QUADS);
+	glVertex3f(-2.5, -2.5, 0.0);
+	glVertex3f(2.5, -2.5, 0.0);
+	glVertex3f(2.5, 2.5, 0.0);
+	glVertex3f(-2.5, 2.5, 0.0);
+	glEnd();
 }
 
-// Função para desenhar o cubo
-void drawCube() {
-    glBegin(GL_QUADS);
-
-    // Face frontal
-    glColor3f(1.0f, 0.0f, 0.0f); // Vermelho
-    glVertex3f(-0.5f, -0.5f, 0.5f);
-    glVertex3f(0.5f, -0.5f, 0.5f);
-    glVertex3f(0.5f, 0.5f, 0.5f);
-    glVertex3f(-0.5f, 0.5f, 0.5f);
-
-    // Face traseira
-    glColor3f(0.0f, 1.0f, 0.0f); // Verde
-    glVertex3f(-0.5f, -0.5f, -0.5f);
-    glVertex3f(0.5f, -0.5f, -0.5f);
-    glVertex3f(0.5f, 0.5f, -0.5f);
-    glVertex3f(-0.5f, 0.5f, -0.5f);
-
-    // Face esquerda
-    glColor3f(0.0f, 0.0f, 1.0f); // Azul
-    glVertex3f(-0.5f, -0.5f, -0.5f);
-    glVertex3f(-0.5f, -0.5f, 0.5f);
-    glVertex3f(-0.5f, 0.5f, 0.5f);
-    glVertex3f(-0.5f, 0.5f, -0.5f);
-
-    // Face direita
-    glColor3f(1.0f, 1.0f, 0.0f); // Amarelo
-    glVertex3f(0.5f, -0.5f, -0.5f);
-    glVertex3f(0.5f, -0.5f, 0.5f);
-    glVertex3f(0.5f, 0.5f, 0.5f);
-    glVertex3f(0.5f, 0.5f, -0.5f);
-
-    // Face superior
-    glColor3f(1.0f, 0.0f, 1.0f); // Magenta
-    glVertex3f(-0.5f, 0.5f, 0.5f);
-    glVertex3f(0.5f, 0.5f, 0.5f);
-    glVertex3f(0.5f, 0.5f, -0.5f);
-    glVertex3f(-0.5f, 0.5f, -0.5f);
-
-    // Face inferior
-    glColor3f(0.0f, 1.0f, 1.0f); // Ciano
-    glVertex3f(-0.5f, -0.5f, 0.5f);
-    glVertex3f(0.5f, -0.5f, 0.5f);
-    glVertex3f(0.5f, -0.5f, -0.5f);
-    glVertex3f(-0.5f, -0.5f, -0.5f);
-
-    glEnd();
-}
 
 int test() {
-    if (!initGLFW()) return -1;
+	const int LARGURA = 800;
+	const int ALTURA = 600;
 
-    float w = 1024;
-    float h = 768;
+	/* Initialize the library */
+	glfwInit();
 
-    GLFWwindow* window = glfwCreateWindow(w, h, "Cubo 3D com OpenGL", nullptr, nullptr);
-    if (!window) {
-        glfwTerminate();
-        return -1;
-    }
+	/* Create a windowed mode window and its OpenGL context */
+	GLFWwindow* window = glfwCreateWindow(LARGURA, ALTURA, "Desenha Quadrado", NULL, NULL);
 
+	/* Make the window's context current */
+	glfwMakeContextCurrent(window);
 
-    glfwMakeContextCurrent(window);
-    glViewport(0, 0, w, h);
-
-    glOrtho(0, w, 0, h,0.1, 100);
-
-    if (!initGLEW()) return -1;
-
-    glEnable(GL_DEPTH_TEST); // Habilita o teste de profundidade
-
-    glfwSwapInterval(1); // Habilita v-sync para limitar a taxa de quadros
-
-    // Definir a matriz de projeção
- /*   glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(45.0, w / h, 0.1, 100.0);
-    glMatrixMode(GL_MODELVIEW);*/
-
-    float x = 0;
-    float z = 1.5;
+	// -- inicio
+	glClearColor(0.0, 0.15, 0.25, 1.0); // cor de fundo
 
 
-    while (!glfwWindowShouldClose(window)) {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	/* Loop until the user closes the window */
+	while (!glfwWindowShouldClose(window))
+	{
+		/* Poll for and process events */
+		glfwPollEvents();
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		{
+			glfwSetWindowShouldClose(window, GLFW_TRUE);
+		}
 
-        x += 0.01;
-        z += 0.005;
+		/* Render here */
+		glClear(GL_COLOR_BUFFER_BIT);
 
+		int largura, altura;
+		glfwGetFramebufferSize(window, &largura, &altura);
 
-        // Definir a matriz de visualização
-        glLoadIdentity();
-        gluLookAt(x, 0.0, z,  // Posição da câmera
-            0.0, 0.0, 0.0,  // Ponto de observação
-            0.0, 1.0, 0.0); // Vetor "up"
+		redimensiona(largura, altura);
 
-        drawCube();
+		desenha();
 
+		/* Swap front and back buffers */
+		glfwSwapBuffers(window);
+	}
 
-        glBegin(GL_QUADS);
-            glColor3f(1.0f, 1.0f, 1.0f); // Vermelho
-            glVertex3f(0.5f, -0.5f, 0.1);
-            glVertex3f(0.5f, -0.5f, 0);
-            glVertex3f(0.5f, 0.5f, 0);
-            glVertex3f(0.5f, 0.5f, 0);
-        glEnd();
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
-    return 0;
+	glfwTerminate();
+	return 0;
 }
-
-
 
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     _In_ LPSTR lpCmdLine, _In_ int nCmdShow) {

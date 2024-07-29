@@ -28,7 +28,7 @@ void GLCamera::UpdateProjection() {
 void GLCamera::Update() {
 	Position pos = position();
 	_pointOfView = (pos + _direction);
-	// Atualizar a projeção e a matriz de visualização com base no tipo de gráfico
+	// Atualizar a projeï¿½ï¿½o e a matriz de visualizaï¿½ï¿½o com base no tipo de grï¿½fico
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
 	if (_graphics->type() == T_3D) {
@@ -40,8 +40,9 @@ void GLCamera::Update() {
 		);
 	}
 	else {
-		// Para 2D, definimos uma transformação simples
-		gluOrtho2D(0, _graphics->Width(), 0, _graphics->Height());
+		// Para 2D, definimos uma transformaï¿½ï¿½o simples
+		/*float aspect = this->aspect();
+		gluOrtho2D(-aspect, aspect, -aspect, aspect);*/
 	}
 }
 
@@ -56,23 +57,23 @@ void GLCamera::LookAt(const Vector& pos) {
 void GLCamera::CalculeDirection() {
 	this->rotations();
 	//Vector adjust = Vector(rotations().y(), rotations().x(), rotations().z());
-	// Criação do vetor de ajuste para os ângulos de rotação
+	// Criaï¿½ï¿½o do vetor de ajuste para os ï¿½ngulos de rotaï¿½ï¿½o
 	Vector adjust = Vector(
 		fmod(rotations().x(), 360.0f),
 		fmod(rotations().y(), 360.0f),
 		fmod(rotations().z(), 360.0f)
 	);
-	// Normalização dos ângulos negativos para o intervalo de 0 a 360 graus
+	// Normalizaï¿½ï¿½o dos ï¿½ngulos negativos para o intervalo de 0 a 360 graus
 	if (adjust.x() < 0) adjust.SetX(adjust.x() + 360.0f);
 	if (adjust.y() < 0) adjust.SetY(adjust.y() + 360.0f);
 	if (adjust.z() < 0) adjust.SetZ(adjust.z() + 360.0f);
 
-	// Conversão dos ângulos de rotação de graus para radianos
-	float yaw = adjust.y() * M_PI / 180.0f;   // Rotação em torno do eixo Y
-	float pitch = adjust.x() * M_PI / 180.0f; // Rotação em torno do eixo X
-	float roll = adjust.z() * M_PI / 180.0f;  // Rotação em torno do eixo Z
+	// Conversï¿½o dos ï¿½ngulos de rotaï¿½ï¿½o de graus para radianos
+	float yaw = adjust.y() * M_PI / 180.0f;   // Rotaï¿½ï¿½o em torno do eixo Y
+	float pitch = adjust.x() * M_PI / 180.0f; // Rotaï¿½ï¿½o em torno do eixo X
+	float roll = adjust.z() * M_PI / 180.0f;  // Rotaï¿½ï¿½o em torno do eixo Z
 
-	// Cálculo dos componentes da direção da câmera após rotação
+	// Cï¿½lculo dos componentes da direï¿½ï¿½o da cï¿½mera apï¿½s rotaï¿½ï¿½o
 	_direction.SetX(cos(pitch) * cos(yaw));
 	_direction.SetY(sin(pitch));
 	_direction.SetZ(cos(pitch) * sin(yaw));
@@ -80,14 +81,14 @@ void GLCamera::CalculeDirection() {
 		sin(pitch),
 		cos(pitch) * sin(yaw)));*/
 
-	// Aplicar rotação em torno do eixo Z (roll)
+	// Aplicar rotaï¿½ï¿½o em torno do eixo Z (roll)
 	float tempX = _direction.x() * cos(roll) - _direction.y() * sin(roll);
 	float tempY = _direction.x() * sin(roll) + _direction.y() * cos(roll);
 
 	_direction.SetX(tempX);
 	_direction.SetY(tempY);
 
-	// Normalização da direção da câmera para garantir um vetor unitário
+	// Normalizaï¿½ï¿½o da direï¿½ï¿½o da cï¿½mera para garantir um vetor unitï¿½rio
 	_direction = _direction.Unitary();
 
 	_left = _orientation.CrossProduct(_direction).Unitary();
@@ -185,7 +186,7 @@ void GLCamera::DrawFrustum() const {
 	const glm::vec3* farVerts = _frustum.farPlaneVertices();
 
 
-	// Desenha as linhas da pirâmide truncada
+	// Desenha as linhas da pirï¿½mide truncada
 	glBegin(GL_LINES);
 	glColor3fv(Color::RED.c4f()); // Amarelo
 	// Linhas do plano far

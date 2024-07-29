@@ -4,7 +4,7 @@
 
 // GLWindow.cpp
 
-GLFWwindow* GLWindow::window = nullptr;// Ponteiro para a janela GLFW
+GLFWwindow* GLWindow::_window = nullptr;// Ponteiro para a janela GLFW
 double GLWindow::_fovy = 45.0f ; //angle degree
 double GLWindow::_aspect = 0; //proporsion
 double GLWindow::_zNear = 0.1f;
@@ -15,8 +15,8 @@ GLWindow::GLWindow(){
 }
 
 GLWindow::~GLWindow() {
-    if (window) {
-        glfwDestroyWindow(window);
+    if (_window) {
+        glfwDestroyWindow(_window);
         glfwTerminate();
     }
 }
@@ -28,22 +28,24 @@ void GLWindow::windowSizeCallback(GLFWwindow* window, int width, int height) {
     _aspect = (double)width / (double)height;
 
     glViewport(0, 0, width, height);
+
+    const int baseDimension = 1;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-
-    gluOrtho2D(0, width, 0, height);
-
-    glMatrixMode(GL_MODELVIEW);
+    if (width >= height)
+        glOrtho(-baseDimension * _aspect, baseDimension * _aspect, -baseDimension, baseDimension, 1.0, -1.0);
+    else
+        glOrtho(-baseDimension, baseDimension, -baseDimension / _aspect, baseDimension / _aspect, 1.0, -1.0);
 }
 
 void GLWindow::setupWindowCallbacks() {
-    if (window) {
-        glfwSetKeyCallback(window, GLInput::InputKeysCallback);
-        glfwSetMouseButtonCallback(window, GLInput::InputMouseClickCallback);
-        glfwSetCursorPosCallback(window, GLInput::InputMousePositionCallback);
-        glfwSetScrollCallback(window, GLInput::InputMouseScrollCallback);
+    if (_window) {
+        glfwSetKeyCallback(_window, GLInput::InputKeysCallback);
+        glfwSetMouseButtonCallback(_window, GLInput::InputMouseClickCallback);
+        glfwSetCursorPosCallback(_window, GLInput::InputMousePositionCallback);
+        glfwSetScrollCallback(_window, GLInput::InputMouseScrollCallback);
         // Verifica se o redimensionamento da janela é permitido - use null para não fazer ajustes
-        glfwSetWindowSizeCallback(window, GLWindow::windowSizeCallback);
+        glfwSetWindowSizeCallback(_window, GLWindow::windowSizeCallback);
     }
 }
 
@@ -65,14 +67,15 @@ void GLWindow::Cursor(const uint cursor) {
 
 void GLWindow::SetTitle(const std::string title) {
     this->_title = title;
-    glfwSetWindowTitle(window, this->_title.c_str());
+    glfwSetWindowTitle(_window, this->_title.c_str());
     resetApplyUpdate();
 }
 
 void GLWindow::Size(int width, int height) {
     _width = width;
     _height = height;
-    glfwSetWindowSize(window, _width, _height);
+    _aspect = _width / _height;
+    glfwSetWindowSize(_window, _width, _height);
 }
 
 void GLWindow::Mode(WindowModes mode) {
@@ -86,7 +89,7 @@ void GLWindow::HideCursor(bool hide) {
 }
 
 GLFWwindow* GLWindow::GetWindow()const {
-    return window;
+    return _window;
 }
 
 double GLWindow::Aspect() const {
@@ -151,19 +154,20 @@ bool GLWindow::Create() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);*/
     // Crie uma janela GLFW
-    window = CreateWindowByMode();
+    _window = CreateWindowByMode();
     onWindowCreate();
+
+    // Tornar o contexto da janela atual - mudar se for trabalhar com mais janelas
+    glfwMakeContextCurrent(_window);
+
     setupWindowCallbacks();
     Size(_width, _height);
 
-   /* glViewport(0, 0, _width, _height);
-
-    gluOrtho2D(0, _width, 0, _height);
-
+    /*glViewport(0, 0, _width, _height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-1, 1, -1, 1, 1, -1);
     glMatrixMode(GL_MODELVIEW);*/
-
-    // Tornar o contexto da janela atual - mudar se for trabalhar com mais janelas
-    glfwMakeContextCurrent(window);
     
     _onCreate = true;
     return true;
@@ -171,7 +175,7 @@ bool GLWindow::Create() {
 
 
 bool GLWindow::onWindowCreate(const string message) const {
-    if (!window) {
+    if (!_window) {
         // Se a criação da janela falhar, exibir uma mensagem de erro e encerrar
         MessageBox(nullptr, message.c_str(),"Error", MB_OK | MB_ICONERROR);
         glfwTerminate();
@@ -180,15 +184,15 @@ bool GLWindow::onWindowCreate(const string message) const {
 }
 
 void GLWindow::Close() {
-    glfwSetWindowShouldClose(GLWindow::window, GLFW_TRUE);
+    glfwSetWindowShouldClose(GLWindow::_window, GLFW_TRUE);
     //glfwTerminate();
 }
 
 bool GLWindow::ShouldClose() const {
-    return glfwWindowShouldClose(GLWindow::window);
+    return glfwWindowShouldClose(GLWindow::_window);
 }
 void GLWindow::SwapBuffers() const {
-    glfwSwapBuffers(GLWindow::window);
+    glfwSwapBuffers(GLWindow::_window);
 }
  void GLWindow::PollEvents() {
     glfwPollEvents();
@@ -205,7 +209,7 @@ void GLWindow::isResizeable(bool value) {
 
 void GLWindow::SetCursorDisable(bool value) {
     Window::SetCursorDisable(value);
-    glfwSetInputMode(GLWindow::window, GLFW_CURSOR, isCursorDisable() ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+    glfwSetInputMode(GLWindow::_window, GLFW_CURSOR, isCursorDisable() ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
 
 void GLWindow::updateValues() {

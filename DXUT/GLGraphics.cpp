@@ -46,6 +46,7 @@ bool GLGraphics::Initialize() {
 
 
 void GLGraphics::setupPerspectiveContext() const {
+    glViewport(0, 0, _viewportWidth, _viewportHeight);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, _viewportWidth, _viewportHeight); // Configura a viewport
@@ -53,7 +54,7 @@ void GLGraphics::setupPerspectiveContext() const {
         set3DRenderContext();
     }
     else {
-        //set2DRenderContext();
+        set2DRenderContext();
     }
     glMatrixMode(GL_MODELVIEW);
 }
@@ -89,5 +90,14 @@ void GLGraphics::set3DRenderContext() const {
 
 void GLGraphics::set2DRenderContext() const {
     // Configura o contexto de renderização para 2D
-    gluOrtho2D(0, _viewportWidth, 0, _viewportHeight);
+    _aspect = (double)_viewportWidth / (double)_viewportHeight;
+
+    glViewport(0, 0, _viewportWidth, _viewportHeight);
+    const int baseDimension = 1;
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    if (_viewportWidth >= _viewportHeight)
+        glOrtho(-baseDimension * _aspect, baseDimension * _aspect, -baseDimension, baseDimension, 1.0, -1.0);
+    else
+        glOrtho(-baseDimension, baseDimension, -baseDimension / _aspect, baseDimension / _aspect, 1.0, -1.0);
 }

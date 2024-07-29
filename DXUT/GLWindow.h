@@ -9,7 +9,7 @@
 
 class GLWindow : public Window {
 public:
-    static GLFWwindow* window;// Ponteiro para a janela GLFW
+    static GLFWwindow* _window;// Ponteiro para a janela GLFW
 
 private:
     bool _onUpdate = true;
