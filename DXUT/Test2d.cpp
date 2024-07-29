@@ -11,8 +11,8 @@ void Test2D::Reset() {
 
 void Test2D::Init() {
 	window->SetColor(Color::GRAY);
-	geo = new Rect(Position(0,0,-1), 0.2,0.2, Color::RED);
-	geo->setFilled(false);
+	geo = new Rect(Position(0,0,-1), 0.5,0.5, Color::RED);
+	//geo->setFilled(false);
 	geometries.push_back(geo);
 }
 void Test2D::Update(double frameTime) {

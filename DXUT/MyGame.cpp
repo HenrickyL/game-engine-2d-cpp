@@ -9,7 +9,9 @@ void MyGame::Init() {
 	
 	this->InitCircularObjects();
 
-	shapes.push_back(new Cube(0.3, Color::GRAY));
+	Cube* cube = new Cube(0.3);
+	cube->SetIsFlatColor(false);
+	shapes.push_back(cube);
 
 	currentIndex = 0;
 	current = shapes[currentIndex];
@@ -64,9 +66,6 @@ void MyGame::Update(double dt){
 	glLoadIdentity();
 	
 	currentCam->Update();
-	
-
-
 
 	glTranslatef(0, 0, 0);
 	glRotatef(globalRotation.x(), 1, 0, 0);

@@ -18,7 +18,7 @@ Shape3D::~Shape3D() {
 }
 
 bool Shape3D::isFlatColor() const { return _isFlatColor; }
-void Shape3D::SetIsFlatColor(bool value) { _isFlatColor = value; }
+void Shape3D::SetIsFlatColor(bool value) { _isFlatColor = value; this->generate(); }
 void Shape3D::SetCallback(std::function<void()> callback) {
     _callback = callback;
 }

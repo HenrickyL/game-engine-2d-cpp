@@ -23,7 +23,7 @@ protected:
 	const Graphics* _graphics = nullptr;
 	bool _useFrustum = false;
 
-	virtual void UpdateProjection() const;
+	virtual void UpdateProjection();
 
 	
 public:

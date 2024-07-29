@@ -215,6 +215,7 @@
     <ClInclude Include="GLGroundUI.h" />
     <ClInclude Include="GLOriginGizmoUI.h" />
     <ClInclude Include="GLRenderer3D.h" />
+    <ClInclude Include="GLShader.h" />
     <ClInclude Include="GLVertexBufferID.h" />
     <ClInclude Include="GL_methods.h" />
     <ClInclude Include="GraphicType.h" />
