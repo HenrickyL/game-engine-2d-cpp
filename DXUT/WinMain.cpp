@@ -56,77 +56,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	}
 }
 
-void redimensiona(int w, int h)
-{
-	glViewport(0, 0, w, h);
 
-	float aspect = (float)w / (float)h;
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	if (w >= h)
-		glOrtho(-10.0 * aspect, 10.0 * aspect, -10.0, 10.0, 1.0, -1.0);
-	else
-		glOrtho(-10.0, 10.0, -10.0 / aspect, 10.0 / aspect, 1.0, -1.0);
-}
-
-
-void desenha()
-{
-	glColor3f(1.0, 0.0, 0.0);
-	glBegin(GL_QUADS);
-	glVertex3f(-2.5, -2.5, 0.0);
-	glVertex3f(2.5, -2.5, 0.0);
-	glVertex3f(2.5, 2.5, 0.0);
-	glVertex3f(-2.5, 2.5, 0.0);
-	glEnd();
-}
-
-
-int test() {
-	const int LARGURA = 800;
-	const int ALTURA = 600;
-
-	/* Initialize the library */
-	glfwInit();
-
-	/* Create a windowed mode window and its OpenGL context */
-	GLFWwindow* window = glfwCreateWindow(LARGURA, ALTURA, "Desenha Quadrado", NULL, NULL);
-
-	/* Make the window's context current */
-	glfwMakeContextCurrent(window);
-
-	// -- inicio
-	glClearColor(0.0, 0.15, 0.25, 1.0); // cor de fundo
-
-
-	/* Loop until the user closes the window */
-	while (!glfwWindowShouldClose(window))
-	{
-		/* Poll for and process events */
-		glfwPollEvents();
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		{
-			glfwSetWindowShouldClose(window, GLFW_TRUE);
-		}
-
-		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		int largura, altura;
-		glfwGetFramebufferSize(window, &largura, &altura);
-
-		redimensiona(largura, altura);
-
-		desenha();
-
-		/* Swap front and back buffers */
-		glfwSwapBuffers(window);
-	}
-
-	glfwTerminate();
-	return 0;
-}
 
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     _In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
