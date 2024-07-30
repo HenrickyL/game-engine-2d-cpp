@@ -20,6 +20,9 @@ private:
 	// --------------------------
 	DXImage* imgPlayer = nullptr;
 	DXImage* imgResult = nullptr;
+	DXImage* imgPause = nullptr;
+	DXImage* imgBG = nullptr;
+
 	// --------------------------
 
 

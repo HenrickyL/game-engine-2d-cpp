@@ -13,8 +13,10 @@ public:
     DXImage(const string& filename);
     ~DXImage();
 
+    ID3D11ShaderResourceView* textureView() const;
+    void SetView(ID3D11ShaderResourceView* value);
+
     void Load(const string& filename) override;
     void Release() override;
-    ID3D11ShaderResourceView* View() const;
 };
 #endif

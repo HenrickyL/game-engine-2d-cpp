@@ -21,6 +21,9 @@ void ShortPathProblem::Init()
 
     imgPlayer = new DXImage("Resources/player.png");
     imgResult = new DXImage("Resources/x.png");
+    imgPause = new DXImage("Resources/pause_screen.png");
+    imgBG = new DXImage("Resources/Background.jpg");
+
 
     ///TODO: Delete Player
     Position initial(100, 100);
@@ -94,6 +97,9 @@ void ShortPathProblem::Finalize()
     //delete imgs
     if (imgPlayer)delete imgPlayer;
     if (imgResult)delete imgResult;
+    if (imgPause)delete imgPause;
+    if (imgBG)delete imgBG;
+
     // apaga sprites
     if (backg)delete backg;
     // apaga cena do jogo
@@ -113,11 +119,11 @@ void ShortPathProblem::OnPause() {
 void ShortPathProblem::Reset() {
     Finalize();
 
-    pause = new Sprite("Resources/pause_screen.png");
+    pause = new Sprite(imgPause);
     pause->SetScale(0.6f);
     pause->MoveTo(window->Center());
 
-    backg = new Sprite("Resources/Background.jpg");
+    backg = new Sprite(imgBG);
     backg->MoveTo(window->Center());
     backg->SetLayer(Layer::BACK);
 

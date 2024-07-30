@@ -35,4 +35,6 @@ void DXImage::Release() {
     }
 }
 
-ID3D11ShaderResourceView* DXImage::View() const { return _textureView; }
+ID3D11ShaderResourceView* DXImage::textureView() const { return _textureView; }
+
+void DXImage::SetView(ID3D11ShaderResourceView* value) { _textureView = value; }

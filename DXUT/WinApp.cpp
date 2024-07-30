@@ -17,7 +17,8 @@ WinApp::WinApp()
 
 void WinApp::Init()
 {
-    pause = new Sprite("Resources/pause_screen.png");
+    imgPause = new DXImage("Resources/pause_screen.png");
+    pause = new Sprite(imgPause);
     pause->SetScale(0.6f);
     pause->MoveTo(window->Center());
 ;}
@@ -33,7 +34,7 @@ void WinApp::InputVerifyExit()
 }
 // ------------------------------------------------------------------------------
 
-void WinApp::Update()
+void WinApp::Update(double delta)
 {
     InputVerifyExit();
 }
@@ -49,6 +50,8 @@ void WinApp::Draw()
 
 void WinApp::Finalize()
 {
+    if(imgPause) delete imgPause;
+    if (pause)delete pause;
 }
 
 // ------------------------------------------------------------------------------

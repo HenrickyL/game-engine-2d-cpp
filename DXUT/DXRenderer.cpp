@@ -4,6 +4,8 @@
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include "Color.h"
+#include "DXImage.h"
+
 using namespace DirectX;
 // ---------------------------------------------------------------------------------
 
@@ -982,7 +984,8 @@ bool DXRenderer::Initialize(Window* window, Graphics* graphics)
     pixelPlotSprite.rotation = 0.0f;
     pixelPlotSprite.width = window->Width();
     pixelPlotSprite.height = window->Height();
-    pixelPlotSprite.texture = pixelPlotView;
+    DXImage* img = dynamic_cast<DXImage*>(pixelPlotSprite.image);
+    img->SetView(pixelPlotView);
 
     // inicialização bem sucedida
     return true;
@@ -1191,8 +1194,9 @@ void DXRenderer::Render()
     for (uint pos = 0; pos < spriteVectorSize; ++pos)
     {
         SpriteData* spriteData = spriteVector[pos];
-        if (spriteData == nullptr) continue;
-        ID3D11ShaderResourceView* texture = spriteData->texture;
+        if (spriteData == nullptr) continue;\
+        //TODO: Performe without dinamic_cast
+        ID3D11ShaderResourceView* texture = dynamic_cast<DXImage*>(spriteData->image)->textureView();
 
         if (texture != batchTexture)
         {
