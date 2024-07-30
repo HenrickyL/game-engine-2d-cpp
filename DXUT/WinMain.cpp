@@ -3,7 +3,6 @@ using std::stringstream;
 #include "DXUT.h"
 #include "MyGame.h"
 #include "Test2d.h"
-#include "ShortPathProblem.h"
 // ------------------------------------------------------------------------------
 //                                  WinMain                                      
 // ------------------------------------------------------------------------------
@@ -16,7 +15,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		bool isTest2d = true;
 
 		// cria motor e configura a janela
-		Engine* engine = Engine::Instance(E_DirectX);
+		Engine* engine = Engine::Instance();
 		engine->SetType(isTest2d ? T_2D : T_3D);
 		// configura a janela
 		engine->window->Mode(WINDOWED);
@@ -39,7 +38,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		Game* g;
 
 		if (isTest2d) {
-			g = new ShortPathProblem();
+			g = new Test2D();
 		}
 		else {
 			g = new MyGame();

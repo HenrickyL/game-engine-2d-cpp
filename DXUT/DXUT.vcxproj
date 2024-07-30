@@ -158,6 +158,7 @@
     <ClCompile Include="GLCamera.cpp" />
     <ClCompile Include="GLDrawableBase.cpp" />
     <ClCompile Include="GLGroundUI.cpp" />
+    <ClCompile Include="GLImage.cpp" />
     <ClCompile Include="GLOriginGizmoUI.cpp" />
     <ClCompile Include="GLRenderer.cpp" />
     <ClCompile Include="GLGraphics.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="FrustumPlane.h" />
     <ClInclude Include="GLDrawableBase.h" />
     <ClInclude Include="GLGroundUI.h" />
+    <ClInclude Include="GLImage.h" />
     <ClInclude Include="GLOriginGizmoUI.h" />
     <ClInclude Include="GLRenderer3D.h" />
     <ClInclude Include="GLShader.h" />
