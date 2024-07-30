@@ -14,6 +14,9 @@ void Test2D::Init() {
 	geo = new Rect(Position(0,0,-1), 0.5,0.5, Color::RED);
 	//geo->setFilled(false);
 	geometries.push_back(geo);
+
+	img = new GLImage("Resources/player.png");
+	sprite = new Sprite(img);
 }
 void Test2D::Update(double frameTime) {
 	glLoadIdentity();
@@ -65,13 +68,16 @@ void Test2D::Update(double frameTime) {
 
 
 void Test2D::Draw() {
-	for (Geometry* g : geometries) {
+	/*for (Geometry* g : geometries) {
 		_drawnner.Draw(*g);
-	}
+	}*/
+	SpriteData* data = sprite->data();
+	_drawnner.Draw(*data);
 	
 }
 void Test2D::Finalize() {
 	for (Geometry* g : geometries) {
 		delete g;
 	}
+	if (img) delete img;
 }

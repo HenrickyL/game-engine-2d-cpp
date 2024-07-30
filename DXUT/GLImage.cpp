@@ -29,7 +29,7 @@ void GLImage::Release() {
 GLuint GLImage::TextureID() const { return _textureID; }
 
 
-void GLImage::LoadTexture(GLuint tex_id, std::string filePath) const {
+void GLImage::LoadTexture(GLuint tex_id, std::string filePath) {
 
     unsigned char* imgData;
     int w, h, channels;
@@ -48,6 +48,10 @@ void GLImage::LoadTexture(GLuint tex_id, std::string filePath) const {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
         stbi_image_free(imgData);
+
+        _width =static_cast<uint>(w);
+        _height = static_cast<uint>(h);
+        _channels = static_cast<uint>(channels);
     }
     else {
         throw std::runtime_error("Fail to Load Texture");

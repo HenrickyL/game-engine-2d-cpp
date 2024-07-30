@@ -3,6 +3,7 @@
 
 #include "Renderer.h"
 #include "GLIncludes.h"
+#include "GLImage.h"
 
 class GLRenderer : public Renderer {
 private:
@@ -15,6 +16,8 @@ private:
 
 public:
 	void Draw(const Geometry& g) override;
+	void Draw(SpriteData& sprite) override;
+
 };
 
 #endif

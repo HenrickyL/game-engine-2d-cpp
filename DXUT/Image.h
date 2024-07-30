@@ -7,8 +7,8 @@ using std::string;
 
 class Image {
 protected:
-    uint _width;
-    uint _height;
+    uint _width = 0;
+    uint _height = 0;
     std::string _filename;
 
 public:

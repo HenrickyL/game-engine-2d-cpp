@@ -120,3 +120,5 @@ void Sprite::SetFilterColor(Color color) { _sprite->color = color; }
 
 float Sprite::Rotation() const { return _sprite->rotation; }
 float Sprite::Scale() const { return _sprite->scale; }
+
+SpriteData* Sprite::data() const { return _sprite; }

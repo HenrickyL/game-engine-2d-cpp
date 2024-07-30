@@ -22,9 +22,7 @@ private:
 public:
 	virtual void Draw(const Geometry& g) = 0;
 
-	virtual void Draw(SpriteData& sprite);						// adiciona _sprite na lista
-
+	virtual void Draw(SpriteData& sprite) = 0;
 };
 // ---------------------------------------------------------------------------
-inline void Renderer::Draw(SpriteData& sprite) {}
 #endif

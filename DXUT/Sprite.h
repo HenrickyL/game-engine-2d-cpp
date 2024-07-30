@@ -70,6 +70,7 @@ public:
     Rect*    GetRect() const;
     Circle*  GetCircle() const;
     Color   GetFilterColor() const;
+    SpriteData* data() const;
 
     void MoveTo(const Position& position) override;
     void MoveTo(Position* position) override;

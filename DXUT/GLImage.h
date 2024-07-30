@@ -10,7 +10,7 @@ private:
     GLuint _textureID;
     int _channels = 0;
 
-    void LoadTexture(GLuint tex_id, std::string filePath) const;
+    void LoadTexture(GLuint tex_id, std::string filePath);
 
 public:
     GLImage(const string& filename);
