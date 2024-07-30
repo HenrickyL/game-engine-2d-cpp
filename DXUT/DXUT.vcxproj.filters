@@ -148,6 +148,15 @@
     <Filter Include="Develop\Games\Test2D\Source Files">
       <UniqueIdentifier>{01124b99-2000-4e69-8de8-bc2eebe6e7a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Develop\Games\MazeProblem">
+      <UniqueIdentifier>{57804abb-3b66-4fc2-912c-85e60790a78a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Develop\Games\MazeProblem\Header Files">
+      <UniqueIdentifier>{230199ec-f4fa-4f69-a624-0aa00080c8af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Develop\Games\MazeProblem\Source Files">
+      <UniqueIdentifier>{fe240c36-7d85-41f3-a380-f48bcf26f4a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input.cpp">
@@ -315,6 +324,9 @@
     </ClCompile>
     <ClCompile Include="Test2d.cpp">
       <Filter>Develop\Games\Test2D\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MazeProblem.cpp">
+      <Filter>Develop\Games\MazeProblem\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -605,6 +617,9 @@
     </ClInclude>
     <ClInclude Include="GLShader.h">
       <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeProblem.h">
+      <Filter>Develop\Games\MazeProblem\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

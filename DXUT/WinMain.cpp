@@ -1,8 +1,7 @@
 #include <sstream>
 using std::stringstream;
 #include "DXUT.h"
-#include "MyGame.h"
-#include "Test2d.h"
+#include "MazeProblem.h"
 
 // ------------------------------------------------------------------------------
 //                                  WinMain                                      
@@ -13,11 +12,10 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 	try {
 
-		bool isTest2d = true;
 
 		// cria motor e configura a janela
 		Engine* engine = Engine::Instance();
-		engine->SetType(isTest2d ? T_2D : T_3D);
+		engine->SetType(T_2D);
 		// configura a janela
 		engine->window->Mode(WINDOWED);
 
@@ -27,7 +25,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		//engine->window->Size(800, 600);
 
 		engine->window->SetColor(Color(0.0, 0.15, 0.35));
-		engine->window->SetTitle(isTest2d ? "test 2d" : "My Game");
+		engine->window->SetTitle("Maze Problem - AI");
 		engine->window->Icon(IDI_ICON);
 		//engine->window->Cursor(IDC_CURSOR);	
 		//engine->SetGraphicsFPS(FPS_MONITOR);
@@ -36,15 +34,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		engine->window->InFocus(Engine::Resume);
 		// cria e executa a aplica��o
 
-		Game* g;
-
-		if (isTest2d) {
-			g = new Test2D();
-		}
-		else {
-			g = new MyGame();
-		}
-		int exitCode = engine->Start(g);
+		int exitCode = engine->Start(new MazeProblem());
 
 		// finaliza execu��o
 		delete engine;
