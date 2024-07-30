@@ -20,9 +20,9 @@ MissionariesCannibalsProblem::MissionariesCannibalsProblem()
 
 void MissionariesCannibalsProblem::Init()
 {
-    imgMissionary = new Image("Resources/missionary.png");
-    imgCannibal = new Image("Resources/cannibal.png");
-    imgBoat = new Image("Resources/boat.png");
+    imgMissionary = new DXImage("Resources/missionary.png");
+    imgCannibal = new DXImage("Resources/cannibal.png");
+    imgBoat = new DXImage("Resources/boat.png");
 
     //---------------
     MCAction* MoveMissionary= new MCAction(1, 0);

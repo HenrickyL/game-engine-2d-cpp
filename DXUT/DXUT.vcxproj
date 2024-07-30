@@ -147,6 +147,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Colored.cpp" />
     <ClCompile Include="DirectionConverter.cpp" />
+    <ClCompile Include="DXImage.cpp" />
     <ClCompile Include="DXRenderer.cpp" />
     <ClCompile Include="DXGraphics.cpp" />
     <ClCompile Include="DXWindow.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="Scene.h" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StatePosition.cpp" />
+    <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="Test2d.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -209,6 +211,7 @@
     <ClInclude Include="Colored.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="Dirtyable.h" />
+    <ClInclude Include="DXImage.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="FrustumPlane.h" />
     <ClInclude Include="GLDrawableBase.h" />
@@ -277,6 +280,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StackSearch.h" />
     <ClInclude Include="StatePosition.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="SubjectNotification.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="Perception.h" />

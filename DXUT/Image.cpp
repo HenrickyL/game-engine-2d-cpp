@@ -1,44 +1,9 @@
 #include "Image.h"
-#include "DXGraphics.h"
 
-// -------------------------------------------------------------------------------
-
-Image::Image(string _filename) : textureView(nullptr), width(0), height(0)
-{
-    filename = _filename;
-    // cria sharer resource view da imagem em disco
-    D3D11CreateTextureFromFile(
-        DXGraphics::device,               // dispositivo Direct3D
-        DXGraphics::context,              // contexto do dispositivo
-        _filename.c_str(),               // nome do arquivo de imagem
-        nullptr,                        // retorna textura 
-        &textureView,                   // retorna view da textura
-        width,                          // retorna largura da imagem
-        height);                        // retorna altura da imagem
-}
-
-// -------------------------------------------------------------------------------
-
-Image::~Image()
-{
-    // libera memória ocupada pela texture view
-    if (textureView)
-    {
-        // pega ponteiro para recurso
-        ID3D11Resource* resource = nullptr;
-        textureView->GetResource(&resource);
-
-        // liberando a view não libera automaticamente
-        // o recurso que foi criado junto com a view
-        if (resource)
-        {
-            resource->Release();
-            resource = nullptr;
-        }
-
-        textureView->Release();
-        textureView = nullptr;
-    }
-}
-
-// -------------------------------------------------------------------------------
+Image::Image(const string& _filename_) : _width(0), _height(0), _filename(_filename_) {}
+Image::~Image() {}
+// retorna largura da imagem
+uint Image::width() const { return _width; }
+// retorna altura da imagem
+uint Image::height() const { return _height; }
+std::string Image::filename() const { return _filename; }

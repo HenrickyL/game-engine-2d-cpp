@@ -1,7 +1,7 @@
 #ifndef DXUT_SPRITE_H
 #define DXUT_SPRITE_H
 // ---------------------------------------------------------------------------------
-#include "Image.h"
+#include "DXImage.h"
 #include "DXUT_Utils_Direction_.h"
 #include "Position.h"
 #include "Geometry.h"
@@ -36,7 +36,7 @@ class Sprite : public Movable
 private:
     SpriteData* _sprite;              // dados do _sprite
     bool _localImage;                // imagem local ou externa
-    Image* _image;                   // ponteiro para uma imagem
+    DXImage* _image;                   // ponteiro para uma imagem
 
     const float _scaleDefault = 1.0f,
 				_rotationDefault = 0.0f;
@@ -82,8 +82,8 @@ public:
 // ---------------------------------------------------------------------------------
 // Funções Inline
 
-inline float    Sprite::Width() const { return _image->Width() * _sprite->scale;}
-inline float    Sprite::Height() const { return _image->Height() * _sprite->scale;}
+inline float    Sprite::Width() const { return _image->width() * _sprite->scale;}
+inline float    Sprite::Height() const { return _image->height() * _sprite->scale;}
 inline float    Sprite::HalfWidth() const { return Width() / 2.0f; }
 inline float    Sprite::HalfHeight() const { return Height() / 2.0f; }
 inline Color    Sprite::GetFilterColor() const { return _sprite->color; };

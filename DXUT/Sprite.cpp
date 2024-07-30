@@ -12,7 +12,7 @@ const float Layer::BACK     = 0.99f;
 Sprite::Sprite(string filename): Movable(Position::Zero)
 {
     // carrega imagem
-    _image = new Image(filename);
+    _image = new DXImage(filename);
     _localImage = true;
     // configura registro sprite
     ResetSprite();
@@ -23,7 +23,7 @@ Sprite::Sprite(string filename): Movable(Position::Zero)
 Sprite::Sprite(Image* img): Movable(Position::Zero)
 {
     // aponta para imagem externa
-    _image = img;
+    _image = dynamic_cast<DXImage*>(img);
     _localImage = false;
     // configura registro sprite
     ResetSprite();
@@ -49,8 +49,8 @@ void Sprite::ResetSprite()
         _sprite = new SpriteData();
     }
     _sprite->texture = _image->View();
-    _sprite->width = _image->Width();
-    _sprite->height = _image->Height();
+    _sprite->width = _image->width();
+    _sprite->height = _image->height();
     _sprite->scale = _scaleDefault;
     _sprite->depth = Layer::MIDDLE;
     _sprite->rotation = _rotationDefault;
@@ -72,11 +72,11 @@ void Sprite::Draw()
 
 void Sprite::SetImage(Image* img)
 {
-    if (img->Filename() != _image->Filename()) {
-        _image = img;
+    if (img->filename() != _image->filename()) {
+        _image = dynamic_cast<DXImage*>(img);
         _sprite->texture = _image->View();
-        _sprite->width = _image->Width();
-        _sprite->height = _image->Height();
+        _sprite->width = _image->width();
+        _sprite->height = _image->height();
     }
 }
 
@@ -84,11 +84,11 @@ void Sprite::SetImage(Image* img)
 
 void Sprite::SetImage(const std::string _filename)
 {
-    if (_filename != _image->Filename()) {
-        _image = new Image(_filename);
+    if (_filename != _image->filename()) {
+        _image = new DXImage(_filename);
         _sprite->texture = _image->View();
-        _sprite->width = _image->Width();
-        _sprite->height = _image->Height();
+        _sprite->width = _image->width();
+        _sprite->height = _image->height();
     }
 }
 

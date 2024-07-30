@@ -19,8 +19,8 @@ void ShortPathProblem::Init()
     Reset();
 
 
-    imgPlayer = new Image("Resources/player.png");
-    imgResult = new Image("Resources/x.png");
+    imgPlayer = new DXImage("Resources/player.png");
+    imgResult = new DXImage("Resources/x.png");
 
     ///TODO: Delete Player
     Position initial(100, 100);
