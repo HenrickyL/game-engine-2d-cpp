@@ -30,10 +30,10 @@ public:
 	static Scene* scene;
 	ShortPathProblem();
 
-	void Init();
-	void Update();
-	void Draw();
-	void Finalize();
+	void Init() override;
+	void Update(double frameTime) override;
+	void Draw() override;
+	void Finalize() override;
 	void Reset();
 };
 #endif

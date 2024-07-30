@@ -46,7 +46,7 @@ void ShortPathProblem::InputVerifyExit()
 }
 // ------------------------------------------------------------------------------
 
-void ShortPathProblem::Update()
+void ShortPathProblem::Update(double frameTime)
 {
     InputVerifyExit();
     //BoundingBox
