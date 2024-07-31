@@ -17,7 +17,6 @@ private:
 public:
 	void Draw(const Geometry& g) override;
 	void Draw(SpriteData& sprite) override;
-
 };
 
 #endif

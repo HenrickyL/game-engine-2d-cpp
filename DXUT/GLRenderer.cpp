@@ -113,31 +113,54 @@ void GLRenderer::Draw(const Geometry& geometry){
         SwitchTypeGeometryToDraw(geometry);
 	    
     glPopMatrix();
+
+
 }
 
 
 //TODO - Ver a diferença do pipeline com o GLRenderer (RenderBase::Render)
 void GLRenderer::Draw(SpriteData& sprite) {
+    if (!sprite.image) return;
     GLImage* image = dynamic_cast<GLImage*>(sprite.image);
+    if (!image) return;
+    /// TODO: Não está desenhando o Sprite
+    GLuint textureID = image->TextureID();
+    if (textureID == 0) return;
+
     float x = sprite.position.x();
     float y = sprite.position.y();
-    float width = image->width();
-    float height = image->height();
+    float halfWidth  = sprite.width/2;
+    float halfHeight = sprite.height/2;
 
-    if (!image) return;
-
-    GLuint textureID = image->TextureID();
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
-    glBegin(GL_QUADS);
-    glTexCoord2f(0.0f, 0.0f); glVertex2f(x, y);
-    glTexCoord2f(1.0f, 0.0f); glVertex2f(x + width, y);
-    glTexCoord2f(1.0f, 1.0f); glVertex2f(x + width, y + height);
-    glTexCoord2f(0.0f, 1.0f); glVertex2f(x, y + height);
-    glEnd();
+    // Verificar erros do OpenGL antes de desenhar
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR) {
+        throw std::runtime_error("Any Error");
+    }
+    const float SIZE = 0.5f;
+    glColor4fv(sprite.color.c4f());
+
+    glPushMatrix(); // Save the current matrix
+        // Apply transformations
+        glTranslatef(x, y, sprite.depth);
+        glRotatef(sprite.rotation.x(), 1, 0, 0);
+        glRotatef(sprite.rotation.y(), 0, 1, 0);
+        glRotatef(sprite.rotation.z(), 0, 0, 1);
+        glScalef(sprite.scales.x(), sprite.scales.y(), 1.0f);
+
+        glBegin(GL_QUADS);
+            glTexCoord2f(0.0f, 0.0f); glVertex2f(-halfWidth, -halfHeight);
+            glTexCoord2f(1.0f, 0.0f); glVertex2f(halfWidth, -halfHeight);
+            glTexCoord2f(1.0f, 1.0f); glVertex2f(halfWidth, halfHeight);
+            glTexCoord2f(0.0f, 1.0f); glVertex2f(-halfWidth, halfHeight);
+        glEnd();
+    glPopMatrix(); // Restore the matrix
 
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
 }
+

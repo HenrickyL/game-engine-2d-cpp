@@ -979,9 +979,9 @@ bool DXRenderer::Initialize(Window* window, Graphics* graphics)
     // Sprite 
     // ---------------------------------------------
     pixelPlotSprite.position.MoveTo(Position(0, 0));
-    pixelPlotSprite.scale = 1.0f;
+    pixelPlotSprite.scales = Vector::One;
     pixelPlotSprite.depth = 0.0f;
-    pixelPlotSprite.rotation = 0.0f;
+    pixelPlotSprite.rotation = Vector::Zero;
     pixelPlotSprite.width = window->Width();
     pixelPlotSprite.height = window->Height();
     DXImage* img = dynamic_cast<DXImage*>(pixelPlotSprite.image);
@@ -1037,7 +1037,7 @@ void DXRenderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** spr
             SpriteData* spriteData = sprites[i];
             if (spriteData == nullptr) continue;
             // pega tamanho da textura
-            XMVECTOR size = XMVectorMergeXY(XMLoadInt(&spriteData->width), XMLoadInt(&spriteData->height));
+            XMVECTOR size = XMVectorSet(spriteData->width, spriteData->height, 0.0f, 0.0f);
             XMVECTOR textureSize = XMConvertVectorUIntToFloat(size, 0);
             XMVECTOR inverseTextureSize = XMVectorReciprocal(textureSize);
 
@@ -1045,11 +1045,10 @@ void DXRenderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** spr
             XMFLOAT2 positionxy(spriteData->position.x(), spriteData->position.y());
             float scale = spriteData->scale;
             XMFLOAT2 center(0.0f, 0.0f);
-            float rotation = spriteData->rotation;
+            Vector rotation = spriteData->rotation;
             float layerDepth = spriteData->depth;
             ///TODO: See Anchor ist ok
-            float anchorX = spriteData->anchorX;
-            float anchorY = spriteData->anchorY;
+            Position anchor = spriteData->anchor;
             Color filterColor = spriteData->color;
 
             // carrega informações do sprite em registros SIMD
@@ -1068,7 +1067,7 @@ void DXRenderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** spr
             #endif*/
             XMVECTOR color = XMVectorSet(r, g, b, a);
 
-            XMVECTOR originRotationDepth = XMVectorSet(center.x + anchorX, center.y + anchorY, rotation, layerDepth);
+            XMVECTOR originRotationDepth = XMVectorSet(center.x + anchor.x(), center.y + anchor.y(), rotation.z(), layerDepth);
 
             // extrai os tamanhos de origem e destino em vetores separados
             XMVECTOR sourceSize = XMVectorSwizzle<2, 3, 2, 3>(source);
@@ -1090,11 +1089,11 @@ void DXRenderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** spr
             XMVECTOR rotationMatrix1;
             XMVECTOR rotationMatrix2;
 
-            if (rotation != 0)
+            if (rotation != Vector::Zero)
             {
                 float sin, cos;
 
-                XMScalarSinCos(&sin, &cos, rotation);
+                XMScalarSinCos(&sin, &cos, rotation.z());
 
                 XMVECTOR sinV = XMLoadFloat(&sin);
                 XMVECTOR cosV = XMLoadFloat(&cos);

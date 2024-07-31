@@ -10,15 +10,16 @@
 // ---------------------------------------------------------------------------------
 struct SpriteData
 {
-    Position position;
-    float scale;
+    Position position = Position::Zero;
+    Vector scales = Vector::One;
+    float scale = 1.0f;
     float depth;
-    float rotation;
-    float anchorX = 0, anchorY = 0;
+    Vector rotation = Vector::Zero;
+    Position anchor = Position::Zero;
     Color color;
-    uint  width;
-    uint  height;
     Image* image;
+    float width = 1.0f;
+    float height = 1.0f;
 };
 // ---------------------------------------------------------------------------------
 struct Layer
@@ -38,8 +39,7 @@ private:
     bool _localImage;                // imagem local ou externa
     Image* _image;                   // ponteiro para uma imagem
 
-    const float _scaleDefault = 1.0f,
-				_rotationDefault = 0.0f;
+    const Vector _scaleDefault = Vector::One;
 
 public:
     Sprite(Image* img);             // constroi _sprite a partir de imagem existente
@@ -52,17 +52,19 @@ public:
 
     void    ResetSprite();
 
-    void    SetRotation(Direction rotation);
-    void    SetRotation(float rotation);
+    void    SetRotationZ(Direction rotation);
+    void    SetRotation(Vector rotation);
+    void    SetScales(Vector scale);
     void    SetScale(float scale);
+
     void    SetImage(Image* img);
     void    SetLayer(float layer);
     void    SetOpacity(float value);
     void    SetFilterColor(Color color);
 
 
-    float   Rotation() const;
-    float   Scale() const;
+    Vector   Rotation() const;
+    Vector   Scale() const;
     float   Width() const;                    // largura do _sprite
     float   Height() const;                   // altura do sprite
     float   HalfWidth() const;
