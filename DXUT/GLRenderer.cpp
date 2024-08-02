@@ -2,11 +2,14 @@
 #include <iostream>
 
 void GLRenderer::DrawRect(const Rect& rect) const {
+    float halfWidth = rect.Width() / 2;
+    float halfHeight = rect.Height() / 2;
+
     glBegin(GL_QUADS);
-        glVertex3f(rect.Left(), rect.Top(), 0.0f); 
-        glVertex3f(rect.Right(), rect.Top(), 0.0f);
-        glVertex3f(rect.Right(), rect.Bottom(), 0.0f);
-        glVertex3f(rect.Left(), rect.Bottom(), 0.0f);
+        glVertex2f(-halfWidth, -halfHeight);
+        glVertex2f(halfWidth, -halfHeight);
+        glVertex2f(halfWidth, halfHeight);
+        glVertex2f(-halfWidth, halfHeight);
     glEnd();
 }
 
@@ -106,15 +109,13 @@ void GLRenderer::Draw(const Geometry& geometry){
         Color c = geometry.color();
         glColor3f(c.r(), c.g(), c.b());
         glTranslatef(geometry.x(), geometry.y(), geometry.z());
-        glRotatef(geometry.xRot(), 1,0,0);
+        glRotatef(geometry.xRot(), 1, 0, 0);
         glRotatef(geometry.yRot(), 0, 1, 0);
         glRotatef(geometry.zRot(), 0, 0, 1);
 
         SwitchTypeGeometryToDraw(geometry);
 	    
     glPopMatrix();
-
-
 }
 
 
@@ -159,7 +160,7 @@ void GLRenderer::ApplyTransformations(const SpriteData& sprite) {
     float value = 1 - sprite.position.z();
     float scale = value < 0 ? 0 : value;
 
-    glTranslatef(x + sprite.width / 2, y + sprite.height / 2, sprite.depth);
+    glTranslatef(x, y, sprite.depth);
     glRotatef(sprite.rotation.z(), 0, 0, 1);
     glScalef(scale*sprite.scales.x(), scale*sprite.scales.y(), 1.0f);
 }
