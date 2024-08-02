@@ -105,6 +105,16 @@ void Sprite::TranslateTo(const Vector& delta) {
     this->_sprite->position.TranslateTo(delta);
 }
 
+void Sprite::RotateTo(const Vector& value) {
+    Movable::RotateTo(value);
+    this->_sprite->rotation = value;
+
+}
+void Sprite::RotateBy(const Vector& delta) {
+    Movable::RotateBy(delta);
+    this->_sprite->rotation.TranslateTo(delta);
+}
+
 float    Sprite::Width() const { return _sprite->width; }
 float    Sprite::Height() const { return _sprite->height; }
 float    Sprite::HalfWidth() const { return Width() / 2.0f; }

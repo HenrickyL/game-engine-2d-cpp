@@ -10,16 +10,6 @@ GLImage::~GLImage() {
     Release();
 }
 
-
-
-void GLImage::Load(const string& filename) {
-    glEnable(GL_TEXTURE_2D);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-    glGenTextures(1, &_textureID);
-    LoadTexture(_textureID, filename);
-    glBindTexture(GL_TEXTURE_2D, 0); // Unbind the texture
-}
-
 void GLImage::Release() {
     if (_textureID) {
         glDeleteTextures(1, &_textureID);
@@ -29,6 +19,14 @@ void GLImage::Release() {
 
 
 GLuint GLImage::TextureID() const { return _textureID; }
+
+void GLImage::Load(const string& filename) {
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    glGenTextures(1, &_textureID);
+    LoadTexture(_textureID, filename);
+    glBindTexture(GL_TEXTURE_2D, 0); // Unbind the texture
+}
 
 
 void GLImage::LoadTexture(GLuint tex_id, std::string filePath) {

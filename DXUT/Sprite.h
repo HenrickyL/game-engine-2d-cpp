@@ -78,6 +78,8 @@ public:
     void MoveTo(Position* position) override;
     void TranslateTo(const Vector& delta) override;
 
+    void RotateTo(const Vector& value) override;
+    void RotateBy(const Vector& delta) override;
 };
 
 #endif

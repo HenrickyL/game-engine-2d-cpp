@@ -169,9 +169,12 @@ void GLRenderer::ApplyTextureTransformations(const SpriteData& sprite) {
     glPushMatrix();
     glLoadIdentity();
 
-    glTranslatef(0.5f, 0.5f, 0.0f); // Move to the center of the texture
-    glRotatef(sprite.rotation.z(), 0.0f, 0.0f, 1.0f); // Rotate around the z-axis
-    glTranslatef(-0.5f, -0.5f, 0.0f); // Move back
+    //// Mova o centro da textura para (0.5, 0.5)
+    //glTranslatef(0.5f, 0.5f, 0.0f);
+    //// Aplique a rotação em torno do eixo z
+    ////glRotatef(sprite.rotation.z(), 0.0f, 0.0f, 1.0f);
+    //// Mova de volta para a posição original
+    //glTranslatef(-0.5f, -0.5f, 0.0f);
 
     glMatrixMode(GL_MODELVIEW);
 }

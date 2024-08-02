@@ -60,7 +60,10 @@ void Test2D::Update(double frameTime) {
 		float delta = 3;
 		Vector dir = Vector::Forward;
 		if (orientation != 0) {
-			geo->RotateBy(dir* delta* orientation);
+			Vector v = dir * delta * orientation;
+			geo->RotateBy(v);
+			sprite->RotateBy(v);
+
 			if(Input::KeyDown(SHIFT_LEFT))
 				sprite->TranslateTo(dir * 0.1 * orientation);
 		}

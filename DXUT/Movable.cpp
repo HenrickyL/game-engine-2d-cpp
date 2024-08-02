@@ -117,7 +117,6 @@ void Movable::RotateBy(const Vector& delta) {
 }
 
 
-
 void Movable::SetRotationZ(const float value) {
     this->_rotations.SetZ(value);
     this->SetDirt();
