@@ -14,6 +14,11 @@ private:
 	void DrawPolygon(const Poly& polygon)const override;
 	void SwitchTypeGeometryToDraw(const Geometry& geometry)const override;
 
+	void ApplyTransformations(const SpriteData& sprite);
+	void ApplyTextureTransformations(const SpriteData& sprite);
+	void ResetTextureTransformations();
+	void DrawQuad(const SpriteData& sprite);
+
 public:
 	void Draw(const Geometry& g) override;
 	void Draw(SpriteData& sprite) override;

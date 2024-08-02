@@ -19,6 +19,7 @@ private:
 	GLImage* img = nullptr;
 	Sprite* sprite = nullptr;
 	vector<Geometry*> geometries;
+	Vector globalRotation = Vector::Zero;
 	Geometry* geo = nullptr;
 
 	void Reset();

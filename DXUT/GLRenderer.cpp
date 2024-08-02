@@ -118,20 +118,14 @@ void GLRenderer::Draw(const Geometry& geometry){
 }
 
 
+
 //TODO - Ver a diferença do pipeline com o GLRenderer (RenderBase::Render)
 void GLRenderer::Draw(SpriteData& sprite) {
     if (!sprite.image) return;
     GLImage* image = dynamic_cast<GLImage*>(sprite.image);
     if (!image) return;
-    /// TODO: Não está desenhando o Sprite
     GLuint textureID = image->TextureID();
     if (textureID == 0) return;
-
-    float x = sprite.position.x();
-    float y = sprite.position.y();
-    float halfWidth  = sprite.width/2;
-    float halfHeight = sprite.height/2;
-
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -141,26 +135,61 @@ void GLRenderer::Draw(SpriteData& sprite) {
     if (error != GL_NO_ERROR) {
         throw std::runtime_error("Any Error");
     }
-    const float SIZE = 0.5f;
+
     glColor4fv(sprite.color.c4f());
 
     glPushMatrix(); // Save the current matrix
-        // Apply transformations
-        glTranslatef(x, y, sprite.depth);
-        glRotatef(sprite.rotation.x(), 1, 0, 0);
-        glRotatef(sprite.rotation.y(), 0, 1, 0);
-        glRotatef(sprite.rotation.z(), 0, 0, 1);
-        glScalef(sprite.scales.x(), sprite.scales.y(), 1.0f);
 
-        glBegin(GL_QUADS);
-            glTexCoord2f(0.0f, 0.0f); glVertex2f(-halfWidth, -halfHeight);
-            glTexCoord2f(1.0f, 0.0f); glVertex2f(halfWidth, -halfHeight);
-            glTexCoord2f(1.0f, 1.0f); glVertex2f(halfWidth, halfHeight);
-            glTexCoord2f(0.0f, 1.0f); glVertex2f(-halfWidth, halfHeight);
-        glEnd();
+    ApplyTransformations(sprite);
+    ApplyTextureTransformations(sprite);
+
+    DrawQuad(sprite);
+
+    ResetTextureTransformations();
+
     glPopMatrix(); // Restore the matrix
 
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
 }
 
+void GLRenderer::ApplyTransformations(const SpriteData& sprite) {
+    float x = sprite.position.x();
+    float y = sprite.position.y();
+    float value = 1 - sprite.position.z();
+    float scale = value < 0 ? 0 : value;
+
+    glTranslatef(x + sprite.width / 2, y + sprite.height / 2, sprite.depth);
+    glRotatef(sprite.rotation.z(), 0, 0, 1);
+    glScalef(scale*sprite.scales.x(), scale*sprite.scales.y(), 1.0f);
+}
+
+void GLRenderer::ApplyTextureTransformations(const SpriteData& sprite) {
+    glMatrixMode(GL_TEXTURE);
+    glPushMatrix();
+    glLoadIdentity();
+
+    glTranslatef(0.5f, 0.5f, 0.0f); // Move to the center of the texture
+    glRotatef(sprite.rotation.z(), 0.0f, 0.0f, 1.0f); // Rotate around the z-axis
+    glTranslatef(-0.5f, -0.5f, 0.0f); // Move back
+
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void GLRenderer::ResetTextureTransformations() {
+    glMatrixMode(GL_TEXTURE);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void GLRenderer::DrawQuad(const SpriteData& sprite) {
+    float halfWidth = sprite.width / 2;
+    float halfHeight = sprite.height / 2;
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f); glVertex2f(-halfWidth, -halfHeight);
+    glTexCoord2f(1.0f, 0.0f); glVertex2f(halfWidth, -halfHeight);
+    glTexCoord2f(1.0f, 1.0f); glVertex2f(halfWidth, halfHeight);
+    glTexCoord2f(0.0f, 1.0f); glVertex2f(-halfWidth, halfHeight);
+    glEnd();
+}
