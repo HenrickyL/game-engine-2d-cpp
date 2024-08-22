@@ -325,6 +325,9 @@
     <ClCompile Include="DX_Texture_Util.cpp">
       <Filter>Engine\Source Files\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -623,6 +626,9 @@
     </ClInclude>
     <ClInclude Include="DX_Texture_Util.h">
       <Filter>Engine\Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

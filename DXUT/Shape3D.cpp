@@ -1,14 +1,14 @@
 ﻿#include "Shape3D.h"
 
-Shape3D::Shape3D() : Movable(Position::Zero), Colored(Color::GREEN){
+Shape3D::Shape3D() : Mesh(){
     _type = S_UNKNOWN;
 }
-Shape3D::Shape3D(const Position& position, const Color color) : Movable(position), Colored(color)
+Shape3D::Shape3D(const Position& position, const Color color) : Mesh(position, color)
 {
     _type = S_UNKNOWN;
 }
 
-Shape3D::Shape3D(const Color color) : Movable(Position::Zero), Colored(color)
+Shape3D::Shape3D(const Color color) : Mesh(color)
 {
     _type = S_UNKNOWN;
 }
@@ -34,10 +34,7 @@ Shape3DType Shape3D::type() const {
     return _type;
 }
 
-const vector<Vertex> Shape3D::vertices() const { return _vertices; }
-//const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
-const vector<uint> Shape3D::indices() const { return  _indices; }
-float Shape3D::boundingRadius() const { return _boundingRadius; }
+
 
 void Shape3D::UpdateBoundingRadius() { 
     float distance ;

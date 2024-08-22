@@ -171,6 +171,7 @@
     <ClCompile Include="MCObj.cpp" />
     <ClCompile Include="MCS.cpp" />
     <ClCompile Include="MCState.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MissionariesCannibalsProblem.cpp" />
     <ClCompile Include="Movable.cpp" />
     <ClCompile Include="MyGame.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="GraphicType.h" />
     <ClInclude Include="GroundUI.h" />
     <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="OriginGizmoUI.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="DXRenderer.h" />
