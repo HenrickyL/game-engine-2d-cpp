@@ -3,7 +3,7 @@
 
 #include "Image.h"
 #include <d3d11.h>
-#include "Texture.h"
+#include "DX_Texture_Util.h"
 
 class DXImage : public Image {
 private:

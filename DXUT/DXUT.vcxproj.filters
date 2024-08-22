@@ -178,9 +178,6 @@
     <ClCompile Include="Image.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Engine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
@@ -324,6 +321,9 @@
     </ClCompile>
     <ClCompile Include="GLImage.cpp">
       <Filter>Engine\Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="DX_Texture_Util.cpp">
+      <Filter>Engine\Source Files\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

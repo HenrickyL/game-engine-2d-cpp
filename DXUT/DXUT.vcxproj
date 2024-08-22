@@ -195,7 +195,7 @@
     <ClCompile Include="StatePosition.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="Test2d.cpp" />
-    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="DX_Texture_Util.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UT_Utils.cpp" />
     <ClCompile Include="Vector.cpp" />
