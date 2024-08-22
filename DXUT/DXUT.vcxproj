@@ -291,7 +291,7 @@
     <ClInclude Include="State.h" />
     <ClInclude Include="ISubject.h" />
     <ClInclude Include="Test2d.h" />
-    <ClInclude Include="Texture.h" />
+    <ClInclude Include="DX_Texture_Util.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transition.h" />
     <ClInclude Include="Triangle.h" />

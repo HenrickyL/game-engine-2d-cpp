@@ -402,9 +402,6 @@
     <ClInclude Include="Image.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Engine\Header Files</Filter>
     </ClInclude>
@@ -623,6 +620,9 @@
     </ClInclude>
     <ClInclude Include="VertexBufferID.h">
       <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="DX_Texture_Util.h">
+      <Filter>Engine\Header Files\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
