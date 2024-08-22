@@ -9,16 +9,6 @@ const float Layer::LOWER    = 0.75f;
 const float Layer::BACK     = 0.99f;
 // ---------------------------------------------------------------------------------
 
-Sprite::Sprite(string filename): Movable(Position::Zero)
-{
-    // carrega imagem
-    _image = new Image(filename);
-    _localImage = true;
-    // configura registro sprite
-    ResetSprite();
-}
-
-// ---------------------------------------------------------------------------------
 
 Sprite::Sprite(Image* img): Movable(Position::Zero)
 {
@@ -48,14 +38,14 @@ void Sprite::ResetSprite()
     if (_sprite == nullptr) {
         _sprite = new SpriteData();
     }
-    _sprite->texture = _image->View();
-    _sprite->width = _image->Width();
-    _sprite->height = _image->Height();
-    _sprite->scale = _scaleDefault;
+    _sprite->image = _image;
+    _sprite->width = Width();
+    _sprite->height = Height();
+    _sprite->scales = _scaleDefault;
+    _sprite->scale = 1.0f;
     _sprite->depth = Layer::MIDDLE;
-    _sprite->rotation = _rotationDefault;
-    _sprite->anchorX = Width() / 2;
-    _sprite->anchorY = Height() / 2;
+    _sprite->rotation = this->Rotation();
+    _sprite->anchor = Position(Width() / 2, Height() / 2);
     _sprite->color = Color();
     _sprite->position = position();
 }
@@ -72,23 +62,11 @@ void Sprite::Draw()
 
 void Sprite::SetImage(Image* img)
 {
-    if (img->Filename() != _image->Filename()) {
+    if (img->filename() != _image->filename()) {
         _image = img;
-        _sprite->texture = _image->View();
-        _sprite->width = _image->Width();
-        _sprite->height = _image->Height();
-    }
-}
-
-// ---------------------------------------------------------------------------------
-
-void Sprite::SetImage(const std::string _filename)
-{
-    if (_filename != _image->Filename()) {
-        _image = new Image(_filename);
-        _sprite->texture = _image->View();
-        _sprite->width = _image->Width();
-        _sprite->height = _image->Height();
+        _sprite->image = _image;
+        _sprite->width = _image->width();
+        _sprite->height = _image->height();
     }
 }
 
@@ -114,12 +92,44 @@ Circle*  Sprite::GetCircle() const
 // ---------------------------------------------------------------------------------
 
 void Sprite::MoveTo(const Position& position) {
+    Movable::MoveTo(position);
     this->_sprite->position.MoveTo(position);
 }
 void Sprite::MoveTo(Position* position) {
+    Movable::MoveTo(position);
     this->_sprite->position.MoveTo(position);
 
 }
 void Sprite::TranslateTo(const Vector& delta) {
+    Movable::TranslateTo(delta);
     this->_sprite->position.TranslateTo(delta);
 }
+
+void Sprite::RotateTo(const Vector& value) {
+    Movable::RotateTo(value);
+    this->_sprite->rotation = value;
+
+}
+void Sprite::RotateBy(const Vector& delta) {
+    Movable::RotateBy(delta);
+    this->_sprite->rotation.TranslateTo(delta);
+}
+
+float    Sprite::Width() const { return _sprite->width; }
+float    Sprite::Height() const { return _sprite->height; }
+float    Sprite::HalfWidth() const { return Width() / 2.0f; }
+float    Sprite::HalfHeight() const { return Height() / 2.0f; }
+Color    Sprite::GetFilterColor() const { return _sprite->color; };
+
+void Sprite::SetRotationZ(Direction rotation) { _sprite->rotation.SetZ(DirectionConverter::GetRadians(rotation)); }
+void Sprite::SetRotation(Vector rotation) { _sprite->rotation = rotation; }
+void Sprite::SetScales(Vector scale) { _sprite->scales = scale; }
+void Sprite::SetScale(float scale) { _sprite->scale = scale; }
+void Sprite::SetLayer(float layer) { _sprite->depth = layer; }
+void Sprite::SetOpacity(float value) { _sprite->color.setAlpha(value); }
+void Sprite::SetFilterColor(Color color) { _sprite->color = color; }
+
+Vector Sprite::Rotation() const { return _sprite->rotation; }
+Vector Sprite::Scale() const { return _sprite->scales; }
+
+SpriteData* Sprite::data() const { return _sprite; }

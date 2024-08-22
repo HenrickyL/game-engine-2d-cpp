@@ -5,6 +5,7 @@
 #include "DXUT_IA.h"
 
 #include "MCS.h"
+#include "DXImage.h"
 
 class MissionariesCannibalsProblem : public Game, private Agent<MCS>{
 private:
@@ -15,9 +16,9 @@ private:
 	Sprite* pause = nullptr;
 	Sprite* backg = nullptr;
 	// --------------------------
-	Image* imgMissionary = nullptr;
-	Image* imgCannibal = nullptr;
-	Image* imgBoat = nullptr;
+	DXImage* imgMissionary = nullptr;
+	DXImage* imgCannibal = nullptr;
+	DXImage* imgBoat = nullptr;
 
 	// --------------------------
 

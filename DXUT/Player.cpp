@@ -7,9 +7,8 @@
 
 
 Player::Player(Image* img, const Position& p) {
-    this->MoveTo(Position::Zero);
+    this->SetPosition(Position::Zero);
 	this->SetSprite(new Sprite(img));
-    this->SetMagnitude(100);
 	_sprite->SetLayer(Layer::MIDDLE);
     _sprite->SetScale(0.01f);
     _sprite->SetFilterColor(Color(255,0,255));
@@ -19,8 +18,8 @@ Player::Player(Image* img, const Position& p) {
     interTimer = new Timer();
     dictionary = new Dictionary<Position>();
 
-    MovimentAction* N = new MovimentAction(Vector::Up);
-    MovimentAction* S = new MovimentAction(Vector::Down);
+    MovimentAction* N = new MovimentAction(Vector::Up*-1);
+    MovimentAction* S = new MovimentAction(Vector::Down*-1);
     MovimentAction* W = new MovimentAction(Vector::Left);
     MovimentAction* E = new MovimentAction(Vector::Right);
 
@@ -107,7 +106,7 @@ void Player::Update() {
     }
 
 
-    if (run && interTimer->Elapsed(animationTime / ( pathLength != 0 ? pathLength : 1))) {
+    if (run && interTimer->ElapsedSec(animationTime / ( pathLength != 0 ? pathLength : 1))) {
         interTimer->Reset();
         if (pivot != nullptr) {
             _sprite->SetFilterColor(Color(255, 255, 255));

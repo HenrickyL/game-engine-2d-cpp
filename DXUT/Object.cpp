@@ -77,7 +77,7 @@ void Object::MoveTo(Position* pos)
 
 void Object::MoveTo(const Position& pos)
 {
-	this->MoveTo(pos);
+	Movable::MoveTo(pos);
 	if (_sprite)
 		_sprite->MoveTo(pos);
 	if (_bbox)

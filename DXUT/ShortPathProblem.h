@@ -3,6 +3,7 @@
 
 #include "DXUT_2D.h"
 #include "DXUT_IA.h"
+#include "DXImage.h"
 #include <vector>
 using std::vector;
 class ShortPathProblem : public Game
@@ -17,8 +18,10 @@ private:
 
 	vector<State<Position>*> states;
 	// --------------------------
-	Image* imgPlayer = nullptr;
-	Image* imgResult = nullptr;
+	DXImage* imgPlayer = nullptr;
+	DXImage* imgResult = nullptr;
+	DXImage* imgPause = nullptr;
+	DXImage* imgBG = nullptr;
 
 	// --------------------------
 
@@ -30,10 +33,10 @@ public:
 	static Scene* scene;
 	ShortPathProblem();
 
-	void Init();
-	void Update();
-	void Draw();
-	void Finalize();
+	void Init() override;
+	void Update(double frameTime) override;
+	void Draw() override;
+	void Finalize() override;
 	void Reset();
 };
 #endif
