@@ -15,6 +15,8 @@
 #include "GLOriginGizmoUI.h"
 #include <vector>
 
+#include "Shape3d.h"
+
 using std::vector;
 using std::stringstream;
 

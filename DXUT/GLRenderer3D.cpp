@@ -56,7 +56,7 @@ GLRenderer3D::~GLRenderer3D() {
 
 
 
-void GLRenderer3D::Draw(Shape3D& shape) {
+void GLRenderer3D::Draw(Mesh& shape) {
     glPushMatrix(); // Save the current matrix
         glTranslatef(shape.x(), shape.y(), shape.z());
         glRotatef(shape.xRot(), 1,0,0);
@@ -70,7 +70,7 @@ void GLRenderer3D::Draw(Shape3D& shape) {
 }
 
 
-void GLRenderer3D::UpdateShape(Shape3D& shape) {
+void GLRenderer3D::UpdateShape(Mesh& shape) {
     if (shape.isDirty()) {
         this->Initialize(shape);
         shape.Clear(); // Limpa o estado sujo após a atualização
@@ -78,7 +78,7 @@ void GLRenderer3D::UpdateShape(Shape3D& shape) {
 }
 
 
-void GLRenderer3D::Render(Shape3D& shape) {
+void GLRenderer3D::Render(Mesh& shape) {
     this->UpdateShape(shape);
     GLVertexBufferID* glId = dynamic_cast<GLVertexBufferID*>(shape.id());
     if (glId == nullptr)
@@ -106,11 +106,11 @@ void GLRenderer3D::Render(Shape3D& shape) {
     glBindVertexArray(0);
 }
 
-bool GLRenderer3D::IsValidToDraw(Shape3D& shape) const {
+bool GLRenderer3D::IsValidToDraw(Mesh& shape) const {
     return !_camera || !_camera->IsInFrustum(shape.position(), shape.boundingRadius());
 }
 
-void GLRenderer3D::Pipeline(Shape3D& shape) {
+void GLRenderer3D::Pipeline(Mesh& shape) {
     switch (_fillMode)
     {
     case F_WIREFRAME:
@@ -147,7 +147,7 @@ void GLRenderer3D::Pipeline(Shape3D& shape) {
    
 }
 
-void GLRenderer3D::DrawVertex(const Shape3D& shape, const Vertex& vertex)const {
+void GLRenderer3D::DrawVertex(const Mesh& shape, const Vertex& vertex)const {
     
     if (!shape.isFlatColor()) {
         glColor4fv(vertex.color.c4f());
@@ -156,7 +156,7 @@ void GLRenderer3D::DrawVertex(const Shape3D& shape, const Vertex& vertex)const {
 }
 
 
-void GLRenderer3D::DrawShape(const Shape3D& shape) const {
+void GLRenderer3D::DrawShape(const Mesh& shape) const {
     const vector<Vertex> vertices = shape.vertices();
     //vector<Triangle> triangles = shape.triangles();
     const vector<uint>& indices = shape.indices();
@@ -217,7 +217,7 @@ void GLRenderer3D::DrawDisplayList() const{
     }
 }
 
-void GLRenderer3D::DeleteVS(Shape3D& shape) {
+void GLRenderer3D::DeleteVS(Mesh& shape) {
     GLVertexBufferID* glId = dynamic_cast<GLVertexBufferID*>(shape.id());
     if (glId != nullptr) {
         uint _vao = glId->vao();
@@ -241,7 +241,7 @@ void GLRenderer3D::DeleteVS(Shape3D& shape) {
 
 
 
-void GLRenderer3D::Initialize(Shape3D& shape){
+void GLRenderer3D::Initialize(Mesh& shape){
     // Inicializa os shaders
     InitializeShader();
 

@@ -1029,7 +1029,7 @@ void DXRenderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** spr
         _graphics->context->Map(vertexBuffer, 0, mapType, 0, &mappedBuffer);
 
         // se posiciona dentro do vertex buffer
-        Vertex* vertices = (Vertex*)mappedBuffer.pData + vertexBufferPosition * VerticesPerSprite;
+        DXVertex* vertices = (DXVertex*)mappedBuffer.pData + vertexBufferPosition * VerticesPerSprite;
 
         // gera posições dos vértices de cada sprite que será desenhado nesse lote
         for (uint i = 0; i < batchSize; ++i)

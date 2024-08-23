@@ -3,7 +3,6 @@
 
 #include "Mesh.h"
 #include "Vertex.h" 
-#include "VertexBufferID.h"
 //#include "Triangle.h" 
 #include "types.h"
 #include <vector>
@@ -21,10 +20,8 @@ enum Shape3DType {
 
 class Shape3D : public Mesh {
 protected:
-    VertexBufferID* _id = nullptr;
     Shape3DType _type = S_UNKNOWN;  // Tipo da forma 3D
     Color _color = Color::MAGENTA;
-    bool _isFlatColor = true;
     std::function<void()> _callback;
 
     void StartGenerate();
@@ -38,14 +35,8 @@ public:
     Shape3D(const Position& position, const Color color);
     virtual ~Shape3D();
 
-    VertexBufferID* id()const;
-    void SetId(VertexBufferID*);
-
-
     Shape3DType type() const;
-    bool isFlatColor() const;
 
-    void SetIsFlatColor(bool value);
     void SetCallback(std::function<void()> callback);
 
 
@@ -53,11 +44,6 @@ public:
     //virtual void generate() = 0;
     virtual float Volume() const = 0;
     virtual float SurfaceArea() const = 0;
-
-    bool isDirty()const;
-    void Clear();
-    void SetDirt();
-
 };
 
 // ---------------------------------------------------------------------------

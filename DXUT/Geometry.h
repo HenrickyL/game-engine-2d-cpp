@@ -5,8 +5,7 @@
 #include "Types.h"                                  // tipos da engine
 #include <list>                                     // lista da STL
 #include "Position.h"
-#include "Movable.h"
-#include "Colored.h"
+#include "Mesh.h"
 using std::list;                                    // usar list sem std::
 // ---------------------------------------------------------------------------
 
@@ -26,52 +25,51 @@ enum GeometryTypes
 // Geometry
 // ---------------------------------------------------------------------------
 
-class Geometry : public Movable, public Colored
-{
-protected:
-    uint _type;                                      // tipo da geometria
-    Color _color = Color::GREEN;
-    bool _filled = true;
-    float _stroke = 1.0f;
-    float _offset = 0.1f;
+    class Geometry : public Mesh {
+    protected:
+        uint _type;                                      // tipo da geometria
+        Color _color = Color::GREEN;
+        bool _filled = true;
+        float _stroke = 1.0f;
+        float _offset = 0.1f;
 
-public:
-    Geometry();// construtor
-    Geometry(const Position& position, const Color color);// construtor
-    virtual ~Geometry();                            // destrutor
+    public:
+        Geometry();// construtor
+        Geometry(const Position& position, const Color color);// construtor
+        virtual ~Geometry();                            // destrutor
 
-    virtual uint type() const;                       // retorna tipo
-    virtual bool isFilled() const;
-    virtual void setFilled(bool isFilled);
+        virtual uint type() const;                       // retorna tipo
+        virtual bool isFilled() const;
+        virtual void setFilled(bool isFilled);
 
-    float Stroke() const;
+        float Stroke() const;
 
-    void setStroke(float value);
+        void setStroke(float value);
 
+        virtual void generate() = 0;
+    };
 
-    /*virtual void MoveTo(const Position& position) override;
-    virtual void MoveTo(Position* position) override;
-    virtual void TranslateTo(const Vector& delta) override;*/
-};
+    // --------------------------------------------------------------------------
+    // Point
+    // --------------------------------------------------------------------------
 
-// --------------------------------------------------------------------------
-// Point
-// --------------------------------------------------------------------------
+    class Point : public Geometry
+    {
+    private:
+        float _size = 1.0f;
+    public:
+        Point();                                                    // construtor padrão
+        Point(float x, float y, Color color = Color::RED);                       // construtor usando float
+        Point(const Position& position, Color color = Color::RED);  // construtor usando pontos-flutuantes
 
-class Point : public Geometry
-{
-private:
-    float _size = 1.0f;
-public:
-    Point();                                                    // construtor padrão
-    Point(float x, float y, Color color = Color::RED);                       // construtor usando float
-    Point(const Position& position, Color color = Color::RED);  // construtor usando pontos-flutuantes
+        float Distance(const Point& p) const;                       // calcula a distância até outro ponto
+        float Size() const;
 
-    float Distance(const Point& p) const;                       // calcula a distância até outro ponto
-    float Size() const;
+        void setSize(float value);
 
-    void setSize(float value);
-};
+        void generate() override;
+
+    };
 
 // --------------------------------------------------------------------------
 // Line
@@ -91,6 +89,9 @@ public:
 
     Point A() const;          // Point A
     Point B() const;          // Point B
+
+    void generate() override;
+
 };
 
 // --------------------------------------------------------------------------
@@ -114,6 +115,10 @@ public:
     Rect(const Position& pa, const Position& pb);   // construtor usando pontos-flutuantes
     Rect(const Point& a, const Point& b);                       // construtor usando pontos
     Rect(const Position& center, float width, float height, Color color = Color::GREEN);
+
+
+    void generate() override;
+
 
     float Left() const { return position().x() + left; }       // coordenadas do mundo do menor valor do eixo x
     float Top() const { return position().y() + top; }        // coordenadas do mundo do menor valor do eixo y
@@ -143,6 +148,7 @@ public:
 
     void setRadius(float value);
 
+    void generate() override;
 };
 
 // --------------------------------------------------------------------------

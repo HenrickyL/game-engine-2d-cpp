@@ -25,29 +25,29 @@ private:
     //uint _vao = 0; // Vertex Array Object
     //uint _vbo = 0; // Vertex Buffer Object
     //uint _ebo = 0; // Element Buffer Object
-    void DrawShape(const Shape3D& shape) const override;
-    void Pipeline(Shape3D& shape);
-    void DrawVertex(const Shape3D& shape, const Vertex& vertex)const;
-    void DeleteVS(Shape3D& shape);
-    void UpdateShape(Shape3D& shape);
+    void DrawShape(const Mesh& shape) const override;
+    void Pipeline(Mesh& shape);
+    void DrawVertex(const Mesh& shape, const Vertex& vertex)const;
+    void DeleteVS(Mesh& shape);
+    void UpdateShape(Mesh& shape);
 
 
     void EnableCulling();
     void DisableCulling();
     void SetPolygonModeFill(bool value);
 
-    bool IsValidToDraw(Shape3D& shape) const;
+    bool IsValidToDraw(Mesh& shape) const;
     void InitializeShader();
 
 public:
     GLRenderer3D(const GLCamera* camera);
     ~GLRenderer3D();
-    void Draw(Shape3D& shape) override;
+    void Draw(Mesh& shape) override;
 
 
     //vertexBuffer
-    void Initialize(Shape3D& shape);
-    void Render(Shape3D& shape);
+    void Initialize(Mesh& shape);
+    void Render(Mesh& shape);
 
 
     //DisplayList

@@ -2,14 +2,14 @@
 #define UT_RENDERER_3D_H
 
 #include "RendererBase.h"
-#include "Shape3D.h"
+#include "Mesh.h"
 
 class Renderer3D : public RendererBase {
 private:
-	virtual void DrawShape(const Shape3D& shape) const =0;
+	virtual void DrawShape(const Mesh& shape) const =0;
 
 public:
-	virtual void Draw(Shape3D& shape) = 0;
+	virtual void Draw(Mesh& shape) = 0;
 };
 
 #endif

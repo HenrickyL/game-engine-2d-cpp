@@ -6,13 +6,12 @@
 // --------------------------------------------------------------------------
 // Geometry
 // --------------------------------------------------------------------------
-Geometry::Geometry() : Movable(Position::Zero){
+Geometry::Geometry() : Mesh(){
     _color = Color::GREEN;
     _type = UNKNOWN_T;
 }
-Geometry::Geometry(const Position& position, const Color color) : Movable(position)
+Geometry::Geometry(const Position& position, const Color color) : Mesh(position, color)
 {
-    _color = color;
     _type = UNKNOWN_T;
 }
 
@@ -98,6 +97,12 @@ void Point::setSize(float value) {
     this->_size = value;
 }
 
+void Point::generate() {
+    Mesh::generate();
+    _vertices.push_back(Vertex(position(), _color));
+}
+
+
 // --------------------------------------------------------------------------
 // Line
 // --------------------------------------------------------------------------
@@ -142,6 +147,17 @@ Point Line::A() const {
 }
 Point Line::B() const {
     return _b;
+}
+
+
+void Line::generate() {
+    Mesh::generate();
+
+    _vertices.push_back(Vertex(_a.position(), _color));
+    _vertices.push_back(Vertex(_b.position(), _color));
+
+    _indices.push_back(0);
+    _indices.push_back(1);
 }
 
 
@@ -208,6 +224,22 @@ Rect::Rect(const Position& center, float width, float height, Color color) : Geo
 }
 
 
+void Rect::generate() {
+    // Limpa os vértices e índices existentes
+    _vertices.clear();
+    _indices.clear();
+
+    // Define os vértices do retângulo
+    _vertices.push_back(Vertex(Position(left, top, 0.0f), _color));    // v1
+    _vertices.push_back(Vertex(Position(right, top, 0.0f), _color));   // v2
+    _vertices.push_back(Vertex(Position(right, bottom, 0.0f), _color));// v3
+    _vertices.push_back(Vertex(Position(left, bottom, 0.0f), _color)); // v4
+
+    _indices.push_back(0); _indices.push_back(1); _indices.push_back(2);
+    _indices.push_back(2); _indices.push_back(3); _indices.push_back(0);
+}
+
+
 // --------------------------------------------------------------------------
 // Circle  
 // --------------------------------------------------------------------------
@@ -237,6 +269,38 @@ void Circle::setRadius(float value) {
 
 float Circle::OffSet() const {
     return _offset;
+}
+
+
+
+void Circle::generate() {
+    Mesh::generate();
+
+    const int numSegments = 36; // Número de segmentos para aproximar o círculo
+    const float PI = 3.14159265359;
+    float angleStep = 2.0f * PI / numSegments;
+
+    // Limpa os vértices e índices existentes
+    _vertices.clear();
+    _indices.clear();
+
+    // Adiciona o vértice central do círculo
+    _vertices.push_back(Vertex(Position(0.0f, 0.0f, 0.0f), _color));
+
+    // Geração dos vértices ao redor do círculo
+    for (int i = 0; i <= numSegments; ++i) {
+        float angle = i * angleStep;
+        float x = _radius * cos(angle);
+        float y = _radius * sin(angle);
+        _vertices.push_back(Vertex(Position(x, y, 0.0f), _color));
+    }
+
+    // Geração dos índices para desenhar os triângulos
+    for (int i = 1; i <= numSegments; ++i) {
+        _indices.push_back(0); // Centro do círculo
+        _indices.push_back(i);
+        _indices.push_back(i + 1);
+    }
 }
 
 

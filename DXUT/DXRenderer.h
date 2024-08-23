@@ -10,7 +10,7 @@
 using namespace DirectX;
 
 // definição de um vértice para o D3D
-struct Vertex
+struct DXVertex
 {
 	XMFLOAT3 pos;
 	XMFLOAT4 color;

@@ -17,8 +17,7 @@ Shape3D::~Shape3D() {
     delete _id;
 }
 
-bool Shape3D::isFlatColor() const { return _isFlatColor; }
-void Shape3D::SetIsFlatColor(bool value) { _isFlatColor = value; this->generate(); }
+
 void Shape3D::SetCallback(std::function<void()> callback) {
     _callback = callback;
 }
@@ -58,28 +57,6 @@ void Shape3D::EndGenerate() {
     UpdateBoundingRadius();
     NotifyChange();
 }
-
-
-bool Shape3D::isDirty()const {
-    return Colored::isDirty() || Movable::isDirty();
-}
-void Shape3D::Clear() {
-    Colored::Clear(); 
-    Movable::Clear();
-}
-
-void Shape3D::SetDirt() {
-    Colored::SetDirt();
-    Movable::SetDirt();
-}
-
-
-VertexBufferID* Shape3D::id()const { return _id; }
-void Shape3D::SetId(VertexBufferID* value) {
-    if(_id)delete _id;
-    _id = value;
-}
-
 
 // ---------------------------------------------------------------------------
 
