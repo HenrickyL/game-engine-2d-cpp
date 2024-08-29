@@ -59,7 +59,7 @@ GLRenderer3D::~GLRenderer3D() {
 
 void GLRenderer3D::Draw(Mesh& shape) {
     glPushMatrix(); // Save the current matrix
-        glTranslatef(shape.x(), shape.y(), shape.is3D()? shape.z(): 0);
+        glTranslatef(shape.x(), shape.y(), shape.z());
         glRotatef(shape.xRot(), 1,0,0);
         glRotatef(shape.yRot(), 0,1,0);
         glRotatef(shape.zRot(), 0,0,1);
