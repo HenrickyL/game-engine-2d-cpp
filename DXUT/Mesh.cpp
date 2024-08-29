@@ -42,3 +42,6 @@ void Mesh::SetId(VertexBufferID* value) {
     if (_id)delete _id;
     _id = value;
 }
+
+bool Mesh::is3D()const { return _is3D; }
+void Mesh::SetIs3D(bool value) { _is3D = value; }

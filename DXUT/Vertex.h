@@ -8,6 +8,8 @@ struct Vertex {
     // Construtores
     Vertex() : position(), color() {}
     Vertex(const Position& pos, const Color& col) : position(pos), color(col) {}
+    Vertex(const Color& col) : position(Position::Zero), color(col) {}
+
 
     float x()const { return position.x(); }
     float y()const { return position.y(); }

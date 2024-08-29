@@ -16,6 +16,7 @@ protected:
     std::vector<uint> _indices;
     float _boundingRadius = 0.0f;
     bool _isFlatColor = true;
+    bool _is3D = false;
 
     void _Clear();
 
@@ -32,6 +33,8 @@ public:
     void SetIsFlatColor(bool value);
     VertexBufferID* id()const;
     void SetId(VertexBufferID*);
+    bool is3D()const;
+    void SetIs3D(bool value);
 
     virtual void generate();
 

@@ -3,6 +3,8 @@
 
 #include "RendererBase.h"
 #include "Mesh.h"
+#include "Sprite.h"
+
 
 class Renderer3D : public RendererBase {
 private:
@@ -10,6 +12,8 @@ private:
 
 public:
 	virtual void Draw(Mesh& shape) = 0;
+	virtual void Draw(SpriteData& sprite) = 0;
+
 };
 
 #endif

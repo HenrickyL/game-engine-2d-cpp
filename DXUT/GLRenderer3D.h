@@ -39,10 +39,17 @@ private:
     bool IsValidToDraw(Mesh& shape) const;
     void InitializeShader();
 
+    //sprites
+    void ApplyTransformations(const SpriteData& sprite);
+    void ApplyTextureTransformations(const SpriteData& sprite);
+    void ResetTextureTransformations();
+    void DrawQuad(const SpriteData& sprite);
+
 public:
     GLRenderer3D(const GLCamera* camera);
     ~GLRenderer3D();
     void Draw(Mesh& shape) override;
+    void Draw(SpriteData& sprite) override;
 
 
     //vertexBuffer

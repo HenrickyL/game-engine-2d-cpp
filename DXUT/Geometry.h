@@ -163,6 +163,8 @@ public:
     Poly();                                                              // construtor padrão
     Poly(const Position& pos, Color color = Color::GRAY);                // construtor
 
+    void generate() override;
+
 
     const list<Point> vertexList() const;
     void setVertex(list<Point> vertices);
@@ -186,6 +188,8 @@ public:
 
     Mixed();                                        // construtor padrão
     ~Mixed();                                       // destructor
+
+    void generate() override;
 
     void Insert(Geometry* s);                      // insere geometria na lista
     void Remove(Geometry* s);                      // remove geometria da lista
