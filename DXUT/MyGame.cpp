@@ -13,6 +13,9 @@ void MyGame::Init() {
 	cube->SetIsFlatColor(false);
 	shapes.push_back(cube);
 
+	light = new GLLight(1.0f);
+	light->Enable();
+
 	currentIndex = 0;
 	current = shapes[currentIndex];
 	current->SetColor(Color::MAGENTA);
@@ -20,7 +23,7 @@ void MyGame::Init() {
 	currentCam = &cam;
 
 	_drawnner3D = new GLRenderer(&cam);
-	_drawnner3D->SetFillMode(F_WIREFRAME_SOLID);
+	//_drawnner3D->SetFillMode(F_WIREFRAME_SOLID);
 	//_drawnner3D->InitializeShader();
 	for (Shape3D* s : shapes) {
 		_drawnner3D->Initialize(*s);

@@ -1,6 +1,15 @@
 #include "Light.h"
 
+bool Light::_lightingEnabled = false;
 
+void Light::_EnableLighting() {
+	Light::_lightingEnabled = true;
+}
+
+
+Light::Light(float intensity, LightType type)
+	: Movable(Vector::Zero), Colored(Color::WHITE), _intensity(intensity), _type(type)
+{}
 Light::Light(const Vector& position, float intensity, LightType type) 
 	: Movable(position), Colored(Color::WHITE), _intensity(intensity), _type(type)
 {}

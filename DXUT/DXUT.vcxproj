@@ -159,6 +159,7 @@
     <ClCompile Include="GLDrawableBase.cpp" />
     <ClCompile Include="GLGroundUI.cpp" />
     <ClCompile Include="GLImage.cpp" />
+    <ClCompile Include="GLLight.cpp" />
     <ClCompile Include="GLOriginGizmoUI.cpp" />
     <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="GLInput.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="GLDrawableBase.h" />
     <ClInclude Include="GLGroundUI.h" />
     <ClInclude Include="GLImage.h" />
+    <ClInclude Include="GLLight.h" />
     <ClInclude Include="GLOriginGizmoUI.h" />
     <ClInclude Include="GLRenderer.h" />
     <ClInclude Include="GLShader.h" />
