@@ -17,6 +17,8 @@ void Test2D::Init() {
 	sprite->MoveTo(Position(0,0));
 	sprite->SetScales(Vector::One*0.3);
 
+	_drawnner = new GLRenderer();
+
 	float value = 0.3;
 	geo = new Rect(Position(0.2, 0, -1), value, value, Color::RED);
 	//geo->setFilled(false);
@@ -90,10 +92,10 @@ void Test2D::Update(double frameTime) {
 
 void Test2D::Draw() {
 	for (Geometry* g : geometries) {
-		_drawnner.Draw(*g);
+		_drawnner->Draw(*g);
 	}
 	SpriteData* data = sprite->data();
-	_drawnner.Draw(*data);
+	_drawnner->Draw(*data);
 	
 }
 void Test2D::Finalize() {

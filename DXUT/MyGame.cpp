@@ -19,7 +19,7 @@ void MyGame::Init() {
 
 	currentCam = &cam;
 
-	_drawnner3D = new GLRenderer3D(&cam);
+	_drawnner3D = new GLRenderer(&cam);
 	_drawnner3D->SetFillMode(F_WIREFRAME_SOLID);
 	//_drawnner3D->InitializeShader();
 	for (Shape3D* s : shapes) {
@@ -84,7 +84,7 @@ void MyGame::Draw(){
 		}
 	}
 	for (Geometry* g : geometries) {
-		_drawnner.Draw(*g);
+		_drawnner3D->Draw(*g);
 	}
 	//cam2.Draw();
 	cam.Draw();

@@ -1,7 +1,7 @@
 #include "GLCamera.h"
 #include <cmath>
 #include "Shape3d.h"
-#include "GLRenderer3D.h"
+#include "GLRenderer.h"
 
 GLCamera::GLCamera(const Graphics* graphic) : Camera(graphic){
 	Reset();

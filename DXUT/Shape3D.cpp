@@ -1,14 +1,14 @@
 ﻿#include "Shape3D.h"
 
-Shape3D::Shape3D() : Movable(Position::Zero), Colored(Color::GREEN){
+Shape3D::Shape3D() : Mesh(){
     _type = S_UNKNOWN;
 }
-Shape3D::Shape3D(const Position& position, const Color color) : Movable(position), Colored(color)
+Shape3D::Shape3D(const Position& position, const Color color) : Mesh(position, color)
 {
     _type = S_UNKNOWN;
 }
 
-Shape3D::Shape3D(const Color color) : Movable(Position::Zero), Colored(color)
+Shape3D::Shape3D(const Color color) : Mesh(color)
 {
     _type = S_UNKNOWN;
 }
@@ -17,8 +17,7 @@ Shape3D::~Shape3D() {
     delete _id;
 }
 
-bool Shape3D::isFlatColor() const { return _isFlatColor; }
-void Shape3D::SetIsFlatColor(bool value) { _isFlatColor = value; this->generate(); }
+
 void Shape3D::SetCallback(std::function<void()> callback) {
     _callback = callback;
 }
@@ -34,10 +33,7 @@ Shape3DType Shape3D::type() const {
     return _type;
 }
 
-const vector<Vertex> Shape3D::vertices() const { return _vertices; }
-//const vector<Triangle> Shape3D::triangles() const { return  _triangles; }
-const vector<uint> Shape3D::indices() const { return  _indices; }
-float Shape3D::boundingRadius() const { return _boundingRadius; }
+
 
 void Shape3D::UpdateBoundingRadius() { 
     float distance ;
@@ -61,28 +57,6 @@ void Shape3D::EndGenerate() {
     UpdateBoundingRadius();
     NotifyChange();
 }
-
-
-bool Shape3D::isDirty()const {
-    return Colored::isDirty() || Movable::isDirty();
-}
-void Shape3D::Clear() {
-    Colored::Clear(); 
-    Movable::Clear();
-}
-
-void Shape3D::SetDirt() {
-    Colored::SetDirt();
-    Movable::SetDirt();
-}
-
-
-VertexBufferID* Shape3D::id()const { return _id; }
-void Shape3D::SetId(VertexBufferID* value) {
-    if(_id)delete _id;
-    _id = value;
-}
-
 
 // ---------------------------------------------------------------------------
 

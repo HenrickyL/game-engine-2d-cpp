@@ -5,6 +5,8 @@
 #include <DirectXMath.h>
 #include "Color.h"
 #include "DXImage.h"
+#include <typeinfo> //dinamic_cast ?
+
 
 using namespace DirectX;
 // ---------------------------------------------------------------------------------
@@ -136,9 +138,10 @@ void DXRenderer::BeginPixels()
 
 // -----------------------------------------------------------------------------
 
-void DXRenderer::Draw(const Geometry& geometry)
+void DXRenderer::Draw(Mesh& shape)
 {
-    SwitchTypeGeometryToDraw(geometry);
+    Geometry* geometry = dynamic_cast<Geometry*>(&shape);
+    SwitchTypeGeometryToDraw(*geometry);
 }
 
 void DXRenderer::SwitchTypeGeometryToDraw(const Geometry& geometry) const {
@@ -984,8 +987,10 @@ bool DXRenderer::Initialize(Window* window, Graphics* graphics)
     pixelPlotSprite.rotation = Vector::Zero;
     pixelPlotSprite.width = window->Width();
     pixelPlotSprite.height = window->Height();
-    DXImage* img = dynamic_cast<DXImage*>(pixelPlotSprite.image);
-    img->SetView(pixelPlotView);
+    if (pixelPlotSprite.image != nullptr){
+        DXImage* img = dynamic_cast<DXImage*>(pixelPlotSprite.image);
+        img->SetView(pixelPlotView);
+    }
 
     // inicialização bem sucedida
     return true;
@@ -1029,7 +1034,7 @@ void DXRenderer::RenderBatch(ID3D11ShaderResourceView* texture, SpriteData** spr
         _graphics->context->Map(vertexBuffer, 0, mapType, 0, &mappedBuffer);
 
         // se posiciona dentro do vertex buffer
-        Vertex* vertices = (Vertex*)mappedBuffer.pData + vertexBufferPosition * VerticesPerSprite;
+        DXVertex* vertices = (DXVertex*)mappedBuffer.pData + vertexBufferPosition * VerticesPerSprite;
 
         // gera posições dos vértices de cada sprite que será desenhado nesse lote
         for (uint i = 0; i < batchSize; ++i)
@@ -1193,9 +1198,10 @@ void DXRenderer::Render()
     for (uint pos = 0; pos < spriteVectorSize; ++pos)
     {
         SpriteData* spriteData = spriteVector[pos];
-        if (spriteData == nullptr) continue;\
+        if (spriteData == nullptr) continue;
         //TODO: Performe without dinamic_cast
-        ID3D11ShaderResourceView* texture = dynamic_cast<DXImage*>(spriteData->image)->textureView();
+        DXImage* imgg = dynamic_cast<DXImage*>(spriteData->image);
+        ID3D11ShaderResourceView* texture = imgg->textureView();
 
         if (texture != batchTexture)
         {

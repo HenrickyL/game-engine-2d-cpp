@@ -12,7 +12,7 @@ int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 	try {
 
-		bool isTest2d = false;
+		bool isTest2d = true;
 
 		// cria motor e configura a janela
 		Engine* engine = Engine::Instance();

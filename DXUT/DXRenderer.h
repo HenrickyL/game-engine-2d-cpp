@@ -10,7 +10,7 @@
 using namespace DirectX;
 
 // definição de um vértice para o D3D
-struct Vertex
+struct DXVertex
 {
 	XMFLOAT3 pos;
 	XMFLOAT4 color;
@@ -22,7 +22,8 @@ class DXRenderer : public Renderer {
 public:
     DXRenderer();
     ~DXRenderer();
-	void Draw(const Geometry& g) override;
+    void Draw(Mesh& shape) override;
+
 
     bool Initialize(Window* window, Graphics* graphics) override;
     void Draw(SpriteData& sprite) override;
@@ -32,6 +33,8 @@ public:
     void EndPixels();                                           // destrava a textura de plotagem de pixels
 
 private:
+    vector<SpriteData*> spriteVector;
+
     DXWindow* _window;                          // ponteiro para janela do jogo
     DXGraphics* _graphics;                        // ponteiro para dispositivo gráfico
 
@@ -71,12 +74,12 @@ private:
 
 
 	//--------------------------------------------------
-	void DrawRect(const Rect& rect) const override;
-	void DrawPoint(const Point& point)const override;
-	void DrawLine(const Line& line)const override;
-	void DrawCircle(const Circle& circle)const override;
-	void DrawPolygon(const Poly& polygon)const override;
-    void SwitchTypeGeometryToDraw(const Geometry& geometry) const override;
+	void DrawRect(const Rect& rect) const;
+	void DrawPoint(const Point& point)const;
+	void DrawLine(const Line& line)const ;
+	void DrawCircle(const Circle& circle)const;
+	void DrawPolygon(const Poly& polygon)const;
+    void SwitchTypeGeometryToDraw(const Geometry& geometry) const;
 	//--------------------------------------------------
 	
 };

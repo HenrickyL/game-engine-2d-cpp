@@ -1,10 +1,8 @@
 #ifndef UT_SHAPE_3D_H
 #define UT_SHAPE_3D_H
 
-#include "Movable.h"
-#include "Colored.h"
+#include "Mesh.h"
 #include "Vertex.h" 
-#include "VertexBufferID.h"
 //#include "Triangle.h" 
 #include "types.h"
 #include <vector>
@@ -20,17 +18,11 @@ enum Shape3DType {
 };
 
 
-class Shape3D : public Movable, public Colored {
+class Shape3D : public Mesh {
 protected:
-    VertexBufferID* _id = nullptr;
     Shape3DType _type = S_UNKNOWN;  // Tipo da forma 3D
     Color _color = Color::MAGENTA;
-    bool _isFlatColor = true;
-    vector<Vertex> _vertices;
-    //vector<Triangle> _triangles;
-    vector<uint> _indices;
     std::function<void()> _callback;
-    float _boundingRadius = 0.0f;
 
     void StartGenerate();
     void EndGenerate();
@@ -43,31 +35,15 @@ public:
     Shape3D(const Position& position, const Color color);
     virtual ~Shape3D();
 
-    VertexBufferID* id()const;
-    void SetId(VertexBufferID*);
-
-
     Shape3DType type() const;
-    bool isFlatColor() const;
 
-    void SetIsFlatColor(bool value);
     void SetCallback(std::function<void()> callback);
 
 
-    const vector<Vertex> vertices() const;
-    const vector<uint> indices() const;
-
-
     // Métodos adicionais específicos para formas 3D
-    virtual void generate() = 0;
+    //virtual void generate() = 0;
     virtual float Volume() const = 0;
     virtual float SurfaceArea() const = 0;
-
-    bool isDirty()const;
-    void Clear();
-    void SetDirt();
-
-    float boundingRadius() const;
 };
 
 // ---------------------------------------------------------------------------

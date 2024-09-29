@@ -15,7 +15,7 @@ using std::stringstream;
 
 class Test2D : public Game {
 private:
-	GLRenderer _drawnner;
+	GLRenderer* _drawnner;
 	GLImage* img = nullptr;
 	Sprite* sprite = nullptr;
 	vector<Geometry*> geometries;

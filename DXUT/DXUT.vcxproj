@@ -160,10 +160,9 @@
     <ClCompile Include="GLGroundUI.cpp" />
     <ClCompile Include="GLImage.cpp" />
     <ClCompile Include="GLOriginGizmoUI.cpp" />
-    <ClCompile Include="GLRenderer.cpp" />
     <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="GLInput.cpp" />
-    <ClCompile Include="GLRenderer3D.cpp" />
+    <ClCompile Include="GLRenderer.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="GroundUI.cpp" />
@@ -171,6 +170,7 @@
     <ClCompile Include="MCObj.cpp" />
     <ClCompile Include="MCS.cpp" />
     <ClCompile Include="MCState.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MissionariesCannibalsProblem.cpp" />
     <ClCompile Include="Movable.cpp" />
     <ClCompile Include="MyGame.cpp" />
@@ -219,15 +219,15 @@
     <ClInclude Include="GLGroundUI.h" />
     <ClInclude Include="GLImage.h" />
     <ClInclude Include="GLOriginGizmoUI.h" />
-    <ClInclude Include="GLRenderer3D.h" />
+    <ClInclude Include="GLRenderer.h" />
     <ClInclude Include="GLShader.h" />
     <ClInclude Include="GLVertexBufferID.h" />
     <ClInclude Include="GL_methods.h" />
     <ClInclude Include="GraphicType.h" />
     <ClInclude Include="GroundUI.h" />
     <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="OriginGizmoUI.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="DXRenderer.h" />
     <ClInclude Include="DXGraphics.h" />
     <ClInclude Include="DXInput.h" />
@@ -241,7 +241,6 @@
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="GLCamera.h" />
-    <ClInclude Include="GLRenderer.h" />
     <ClInclude Include="GLGraphics.h" />
     <ClInclude Include="GLIncludes.h" />
     <ClInclude Include="GLInput.h" />
@@ -255,7 +254,7 @@
     <ClInclude Include="MissionariesCannibalsProblem.h" />
     <ClInclude Include="Movable.h" />
     <ClInclude Include="MyGame.h" />
-    <ClInclude Include="Renderer3D.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererBase.h" />
     <ClInclude Include="Shape3D.h" />
     <ClInclude Include="ShortPathProblem.h" />

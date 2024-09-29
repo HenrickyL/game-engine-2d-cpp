@@ -6,13 +6,12 @@
 // --------------------------------------------------------------------------
 // Geometry
 // --------------------------------------------------------------------------
-Geometry::Geometry() : Movable(Position::Zero){
+Geometry::Geometry() : Mesh(){
     _color = Color::GREEN;
     _type = UNKNOWN_T;
 }
-Geometry::Geometry(const Position& position, const Color color) : Movable(position)
+Geometry::Geometry(const Position& position, const Color color) : Mesh(position, color)
 {
-    _color = color;
     _type = UNKNOWN_T;
 }
 
@@ -68,6 +67,7 @@ bool Geometry::isFilled() const {
 Point::Point(): Geometry(Position::Zero, Color::RED)
 {
     _type = POINT_T;
+    this->generate();
 }
 
 // --------------------------------------------------------------------------
@@ -75,12 +75,14 @@ Point::Point(): Geometry(Position::Zero, Color::RED)
 Point::Point(const Position& position, Color color): Geometry(position, color)
 {
     _type = POINT_T;
+    this->generate();
 }
 
 // --------------------------------------------------------------------------
 Point::Point(float x, float y, Color color): Geometry(Position(x,y), color)
 {
     _type = POINT_T;
+    this->generate();
 }
 
 // --------------------------------------------------------------------------
@@ -98,6 +100,12 @@ void Point::setSize(float value) {
     this->_size = value;
 }
 
+void Point::generate() {
+    Mesh::generate();
+    _vertices.push_back(Vertex(_color));
+}
+
+
 // --------------------------------------------------------------------------
 // Line
 // --------------------------------------------------------------------------
@@ -108,6 +116,7 @@ Line::Line() : Geometry(Position::Zero, Color::YELLOW)
     _a = Point();
     _b = Point();
     _type = LINE_T;
+    this->generate();
 }
 
 // --------------------------------------------------------------------------
@@ -118,6 +127,7 @@ Line::Line(const Position& pa, const Position& pb, Color color) : Geometry(Posit
     _a = Point(pa);
     _b = Point(pb);
     _type = LINE_T;
+    this->generate();
 }
 // --------------------------------------------------------------------------
 Line::Line(float x1, float y1, float x2, float y2, Color color): Geometry(Position::CenterTo(Position(x1,y1), Position(x2, y2)), color)
@@ -126,6 +136,7 @@ Line::Line(float x1, float y1, float x2, float y2, Color color): Geometry(Positi
     _a = Point(x1, y1);
     _b = Point(x2, y2);
     _type = LINE_T;
+    this->generate();
 }
 // --------------------------------------------------------------------------
 
@@ -135,6 +146,7 @@ Line::Line(const Point& pa, const Point& pb, Color color): Geometry(Position::Ce
     _a = pa;
     _b = pb;
     _type = LINE_T;
+    this->generate();
 }
 
 Point Line::A() const {
@@ -142,6 +154,17 @@ Point Line::A() const {
 }
 Point Line::B() const {
     return _b;
+}
+
+
+void Line::generate() {
+    Mesh::generate();
+
+    _vertices.push_back(Vertex(_a.position(), _color));
+    _vertices.push_back(Vertex(_b.position(), _color));
+
+    _indices.push_back(0);
+    _indices.push_back(1);
 }
 
 
@@ -156,6 +179,7 @@ Rect::Rect(): Geometry(Position::Zero, Color::GREEN), _width(1), _height(1)
     left = right = 0.0f;
     top = bottom = 0.0f;
     _type = RECTANGLE_T;
+    this->generate();
 }
 
 // --------------------------------------------------------------------------
@@ -175,6 +199,7 @@ Rect::Rect(const Position& pa, const Position& pb) : Geometry(Position::CenterTo
     _height = std::abs(yB - yA);
 
     _type = RECTANGLE_T;
+    this->generate();
 }
 
 // --------------------------------------------------------------------------
@@ -193,6 +218,7 @@ Rect::Rect(const Point& a, const Point& b)
     _width = std::abs(xB - xA);
     _height = std::abs(yB - yA);
     _type = RECTANGLE_T;
+    this->generate();
 }
 
 Rect::Rect(const Position& center, float width, float height, Color color) : Geometry(center, color) {
@@ -205,6 +231,27 @@ Rect::Rect(const Position& center, float width, float height, Color color) : Geo
     right = center.x() + halfWidth;
     bottom = center.y() + halfHeight;
     _type = RECTANGLE_T;
+    this->generate();
+}
+
+
+void Rect::generate() {
+    // Limpa os vértices e índices existentes
+    _vertices.clear();
+    _indices.clear();
+
+    float halfWidth = Width()/2;
+    float halfHeight = Height()/2;
+
+
+    // Define os vértices do retângulo
+    _vertices.push_back(Vertex(Position(-halfWidth, -halfHeight, 0.0f), _color));    // v1
+    _vertices.push_back(Vertex(Position(halfWidth, -halfHeight, 0.0f), _color));   // v2
+    _vertices.push_back(Vertex(Position(halfWidth, halfHeight, 0.0f), _color));// v3
+    _vertices.push_back(Vertex(Position(-halfWidth, halfHeight, 0.0f), _color)); // v4
+
+    _indices.push_back(0); _indices.push_back(1); _indices.push_back(2);
+    _indices.push_back(2); _indices.push_back(3); _indices.push_back(0);
 }
 
 
@@ -217,6 +264,7 @@ Circle::Circle() : Geometry(Position::Zero, Color::MAGENTA)
     // círculo padrão tem raio nulo
     _radius = 0;
     _type = CIRCLE_T;
+    this->generate();
 }
 
 // --------------------------------------------------------------------------
@@ -225,6 +273,7 @@ Circle::Circle(const Position& p, float r, Color color) : Geometry(p, color)
 {
     _radius = r;
     _type = CIRCLE_T;
+    this->generate();
 }
 
 float Circle::Radius() const {
@@ -241,6 +290,38 @@ float Circle::OffSet() const {
 
 
 
+void Circle::generate() {
+    Mesh::generate();
+
+    const int numSegments = 36; // Número de segmentos para aproximar o círculo
+    const float PI = 3.14159265359;
+    float angleStep = 2.0f * PI / numSegments;
+
+    // Limpa os vértices e índices existentes
+    _vertices.clear();
+    _indices.clear();
+
+    // Adiciona o vértice central do círculo
+    _vertices.push_back(Vertex(Position::Zero, _color));
+
+    // Geração dos vértices ao redor do círculo
+    for (int i = 0; i <= numSegments; ++i) {
+        float angle = i * angleStep;
+        float x = _radius * cos(angle);
+        float y = _radius * sin(angle);
+        _vertices.push_back(Vertex(Position(x, y, 0.0f), _color));
+    }
+
+    // Geração dos índices para desenhar os triângulos
+    for (int i = 1; i <= numSegments; ++i) {
+        _indices.push_back(0); // Centro do círculo
+        _indices.push_back(i);
+        _indices.push_back(i + 1);
+    }
+}
+
+
+
 // --------------------------------------------------------------------------
 // Poly 
 // --------------------------------------------------------------------------
@@ -248,6 +329,7 @@ float Circle::OffSet() const {
 Poly::Poly() : Geometry(Position::Zero, Color::GRAY)
 {
     _type = POLYGON_T;
+    this->generate();
 }
 
 // --------------------------------------------------------------------------
@@ -255,6 +337,7 @@ Poly::Poly() : Geometry(Position::Zero, Color::GRAY)
 Poly::Poly(const Position& pos, Color color ) : Geometry(pos, color)
 {
     _type = POLYGON_T;
+    this->generate();
 }
 
 const list<Point> Poly::vertexList() const {
@@ -294,6 +377,9 @@ void Poly::TranslateTo(const Vector& delta) {
         point.TranslateTo(delta);
     }
 }
+
+void Poly::generate() {}
+
 
 
 // --------------------------------------------------------------------------
@@ -358,5 +444,8 @@ void Mixed::MoveTo(Position* pos)
     }
     this->MoveTo(pos);
 }
+
+void Mixed::generate() {}
+
 
 // --------------------------------------------------------------------------
