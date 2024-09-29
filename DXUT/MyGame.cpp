@@ -13,7 +13,7 @@ void MyGame::Init() {
 	cube->SetIsFlatColor(false);
 	shapes.push_back(cube);
 
-	light = new GLLight(1.0f);
+	light = new GLLight(1.0f,L_POINT);
 	light->Enable();
 
 	currentIndex = 0;
@@ -38,6 +38,9 @@ void MyGame::Update(double dt){
 	static double frameTime = 0.01;
 	static bool isDt = true;
 	static bool isConstant = true;
+
+	light->TranslateTo(Vector::Right*0.01);
+
 	
 
 	if (Input::KeyPress(KEY_R)) {
@@ -263,6 +266,7 @@ void MyGame::Reset()
 	cam.MoveTo(Position(0, 0.5f, 4));
 	cam2.MoveTo(Position(0,1.0f, 3));
 	currentCam->Reset();
+	light->MoveTo(Vector::Zero);
 }
 
 

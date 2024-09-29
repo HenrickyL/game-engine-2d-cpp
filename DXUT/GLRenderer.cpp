@@ -156,11 +156,23 @@ void GLRenderer::DrawVertex(const Mesh& shape, const Vertex& vertex)const {
     glVertex3fv(vertex.position.p3f());
 }
 
+void GLRenderer::SetupIlumination() const{ //TODO: Use Material
+    // Defina as propriedades do material
+    GLfloat matSpecular[] = { 1.0, 1.0, 1.0, 1.0 };  // Exemplo de cor especular branca
+    GLfloat shininess = 50.0f;  // Exemplo de valor de brilho
+
+    // Define a cor especular e brilho do material
+    glMaterialfv(GL_FRONT, GL_SPECULAR, matSpecular);
+    glMaterialf(GL_FRONT, GL_SHININESS, shininess);
+}
+
 
 void GLRenderer::DrawShape(const Mesh& shape) const {
     const vector<Vertex> vertices = shape.vertices();
-    //vector<Triangle> triangles = shape.triangles();
     const vector<uint>& indices = shape.indices();
+    const vector<Vector>& normals = shape.normals();
+
+    this->SetupIlumination();
 
     const float* c = shape.color().c4f();
     
@@ -170,14 +182,22 @@ void GLRenderer::DrawShape(const Mesh& shape) const {
 
     glBegin(GL_TRIANGLES);
         for (size_t i = 0; i < indices.size(); i += 3) {
+            if (normals.size() > 0) {
+                const Vector& normal = normals[i / 3];
+                glNormal3f(normal.x(), normal.y(), normal.z());
+            }
             DrawVertex(shape, vertices[indices[i]]);
             DrawVertex(shape, vertices[indices[i+1]]);
             DrawVertex(shape, vertices[indices[i+2]]);
         }
     glEnd();
 
+    this->_DrawWireframe(vertices, indices, c);
+}
+
+void GLRenderer::_DrawWireframe(const vector<Vertex> vertices, const vector<uint>& indices, const float* color) const {
     if (_fillMode == F_WIREFRAME_SOLID) {
-        glColor4fv(c);
+        glColor4fv(color);
         glLineWidth(1.2f);
         for (size_t i = 0; i < indices.size(); i += 3) {
             glBegin(GL_LINE_LOOP);
@@ -194,6 +214,7 @@ void GLRenderer::DrawShape(const Mesh& shape) const {
         }
     }
 }
+
 
 
 void GLRenderer::AddToDisplayList(GLDrawableBase* item) {

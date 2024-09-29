@@ -2,7 +2,8 @@
 // ---------------------------------------------------------------------------------
 #include "Position.h"
 #include <cmath>
-#include "Error.h"
+#include <stdexcept>
+//#include "Error.h"
 // ---------------------------------------------------------------------------------
 Vector Vector::Forward = Vector(0,0,1);
 Vector Vector::Backward = Vector(0,0,-1);
@@ -40,7 +41,10 @@ float Vector::Module() const
  */
 Vector Vector::Unitary() const
 {
-	return *this / this->Module();
+	float module = this->Module();
+	if(module == 0)
+		throw std::runtime_error("E_DIVISION_BY_ZERO");
+	return *this / module;
 }
 
 Vector Vector::Inverte() const {
@@ -79,7 +83,7 @@ Vector	Vector::operator*(const Vector& other) const
 Vector	Vector::operator/(const float value) const
 {
 	if (value == 0)
-		throw Error(E_DIVISION_BY_ZERO);
+		throw std::runtime_error("E_DIVISION_BY_ZERO");
 	return Vector(_x / value, _y / value, _z / value);
 }
 Vector	Vector::operator-(const Vector& other) const

@@ -13,7 +13,9 @@ class Mesh : public Movable, public Colored {
 protected:
     VertexBufferID* _id = nullptr;
     std::vector<Vertex> _vertices;
+    std::vector<Vector> _normals;
     std::vector<uint> _indices;
+
     float _boundingRadius = 0.0f;
     bool _isFlatColor = true;
     bool _is3D = false;
@@ -27,7 +29,9 @@ public:
     virtual ~Mesh() = default;
 
     const std::vector<Vertex>& vertices() const;
+    const std::vector<Vector>& normals() const;
     const std::vector<uint>& indices() const;
+
     float boundingRadius() const;
     bool isFlatColor() const;
     void SetIsFlatColor(bool value);
