@@ -245,10 +245,10 @@ void Rect::generate() {
 
 
     // Define os vértices do retângulo
-    _vertices.push_back(Vertex(Position(-halfWidth, -halfHeight, 0.0f), _color));    // v1
-    _vertices.push_back(Vertex(Position(halfWidth, -halfHeight, 0.0f), _color));   // v2
-    _vertices.push_back(Vertex(Position(halfWidth, halfHeight, 0.0f), _color));// v3
-    _vertices.push_back(Vertex(Position(-halfWidth, halfHeight, 0.0f), _color)); // v4
+    _vertices.push_back(Vertex(Vector(-halfWidth, -halfHeight, 0.0f), _color));    // v1
+    _vertices.push_back(Vertex(Vector(halfWidth, -halfHeight, 0.0f), _color));   // v2
+    _vertices.push_back(Vertex(Vector(halfWidth, halfHeight, 0.0f), _color));// v3
+    _vertices.push_back(Vertex(Vector(-halfWidth, halfHeight, 0.0f), _color)); // v4
 
     _indices.push_back(0); _indices.push_back(1); _indices.push_back(2);
     _indices.push_back(2); _indices.push_back(3); _indices.push_back(0);
@@ -302,14 +302,14 @@ void Circle::generate() {
     _indices.clear();
 
     // Adiciona o vértice central do círculo
-    _vertices.push_back(Vertex(Position::Zero, _color));
+    _vertices.push_back(Vertex(Vector::Zero, _color));
 
     // Geração dos vértices ao redor do círculo
     for (int i = 0; i <= numSegments; ++i) {
         float angle = i * angleStep;
         float x = _radius * cos(angle);
         float y = _radius * sin(angle);
-        _vertices.push_back(Vertex(Position(x, y, 0.0f), _color));
+        _vertices.push_back(Vertex(Vector(x, y, 0.0f), _color));
     }
 
     // Geração dos índices para desenhar os triângulos

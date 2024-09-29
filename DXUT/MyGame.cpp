@@ -7,11 +7,14 @@
 void MyGame::Init() {
 	window = Engine::window;
 	
-	this->InitCircularObjects();
+	//this->InitCircularObjects();
 
-	Cube* cube = new Cube(0.3);
-	cube->SetIsFlatColor(false);
-	shapes.push_back(cube);
+	currentObj = new Sphere(0.5);
+	currentObj->SetIsFlatColor(true);
+	shapes.push_back(currentObj);
+
+	light = new GLLight(1.0f, LightType::L_AMBIENT);
+	light->Enable();
 
 	currentIndex = 0;
 	current = shapes[currentIndex];
@@ -20,7 +23,7 @@ void MyGame::Init() {
 	currentCam = &cam;
 
 	_drawnner3D = new GLRenderer(&cam);
-	_drawnner3D->SetFillMode(F_WIREFRAME_SOLID);
+	//_drawnner3D->SetFillMode(F_WIREFRAME_SOLID);
 	//_drawnner3D->InitializeShader();
 	for (Shape3D* s : shapes) {
 		_drawnner3D->Initialize(*s);
@@ -35,6 +38,22 @@ void MyGame::Update(double dt){
 	static double frameTime = 0.01;
 	static bool isDt = true;
 	static bool isConstant = true;
+	static float theta = 0.0f;
+	static float beta = 0.0f;
+
+	static const float R = 2.0f;
+	light->MoveTo(Vector(R*std::cos(theta),R*cos(beta), R * std::sin(theta+beta)));
+	theta += 0.01;
+	beta += 0.02;
+
+	if (beta > 360) beta = 0;
+	if (theta > 360) theta = 0;
+
+
+	
+	light->Update();
+
+	currentObj->RotateBy(Vector(0.1,0.12));
 	
 
 	if (Input::KeyPress(KEY_R)) {
@@ -88,6 +107,7 @@ void MyGame::Draw(){
 	}
 	//cam2.Draw();
 	cam.Draw();
+	_drawnner3D->Draw(*light);
 }
 
 void MyGame::Finalize(){
@@ -97,6 +117,7 @@ void MyGame::Finalize(){
 	for (Geometry* g : geometries) {
 		delete g;
 	}
+	delete light;
 	delete _drawnner3D;
 }
 
@@ -260,6 +281,7 @@ void MyGame::Reset()
 	cam.MoveTo(Position(0, 0.5f, 4));
 	cam2.MoveTo(Position(0,1.0f, 3));
 	currentCam->Reset();
+	light->MoveTo(Vector::Zero);
 }
 
 
@@ -310,7 +332,7 @@ void MyGame::InitCircularObjects() {
 	float theta = 0;
 	float y = 1;
 	Shape3D* s;
-	float dist = RandomUtils::GetRandomFloat(0.5f, 16.0f);
+	float dist = RandomUtils::GetRandomFloat(0.8f, 5.0f);
 	for (int i = 0; i < qtd; i++) {
 
 		float x = dist*std::cos(theta);
@@ -324,9 +346,9 @@ void MyGame::InitCircularObjects() {
 		if (value % 2 == 0) {
 			s = new Cube(p, size, color);
 		}
-		/*else if (value % 3 == 0){
+		else if (value % 3 == 0){
 			s = new Plane(p, size, color);
-		}*/
+		}
 		else {
 			s = new Sphere(p, size*0.6, color);
 		}

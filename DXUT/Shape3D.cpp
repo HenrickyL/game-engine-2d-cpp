@@ -58,6 +58,27 @@ void Shape3D::EndGenerate() {
     NotifyChange();
 }
 
+
+void Shape3D::_AddFace(int i1, int i2, int i3) {
+    _indices.push_back(i1); _indices.push_back(i2); _indices.push_back(i3);
+
+    // Calcular normal da face
+    Vector v1 = _vertices[i1].position;
+    Vector v2 = _vertices[i2].position;
+    Vector v3 = _vertices[i3].position;
+    
+    Vector normal = Vector::CrossProduct(v2 - v1, v3 - v1); // Normalizada
+
+    if (normal.Module() > 0) {  // Módulo maior que zero significa que a normal é válida
+        _normals.push_back(normal.Unitary());
+    }
+    else {
+        // Lidar com a situação em que a normal não é válida (opcional)
+        _normals.push_back(Vector::Zero);  // Por exemplo, adicionar uma normal padrão
+    }
+}
+
+
 // ---------------------------------------------------------------------------
 
 
@@ -124,42 +145,43 @@ void Cube::generate() {
     
     Color c = this->color();
     this->_vertices.push_back(Vertex(
-        Position(-halfWidth, halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));   // v1
+        Vector(-halfWidth, halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));   // v1
     this->_vertices.push_back(Vertex(
-        Position(-halfWidth, -halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));  // v2
+        Vector(-halfWidth, -halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));  // v2
     this->_vertices.push_back(Vertex(
-        Position(halfWidth, -halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));   // v3
+        Vector(halfWidth, -halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));   // v3
     this->_vertices.push_back(Vertex(
-        Position(halfWidth, halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));    // v4
+        Vector(halfWidth, halfHeight, halfDepth), isFlatColor()? c: Color::RandomColor()));    // v4
     this->_vertices.push_back(Vertex(
-        Position(halfWidth, halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));   // v5
+        Vector(halfWidth, halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));   // v5
     this->_vertices.push_back(Vertex(
-        Position(halfWidth, -halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));  // v6
+        Vector(halfWidth, -halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));  // v6
     this->_vertices.push_back(Vertex(
-        Position(-halfWidth, -halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor())); // v7
+        Vector(-halfWidth, -halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor())); // v7
     this->_vertices.push_back(Vertex(
-        Position(-halfWidth, halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));  // v8
+        Vector(-halfWidth, halfHeight, -halfDepth), isFlatColor()? c: Color::RandomColor()));  // v8
 
 
-    // Definir os índices dos triângulos
+    // Definir os índices e calcular normais
     // Frente
-    _indices.push_back(0); _indices.push_back(1); _indices.push_back(2);
-    _indices.push_back(2); _indices.push_back(3); _indices.push_back(0);
+    _AddFace(0, 1, 2);
+    _AddFace(2, 3, 0);
     // Direita
-    _indices.push_back(3); _indices.push_back(2); _indices.push_back(5);
-    _indices.push_back(5); _indices.push_back(4); _indices.push_back(3);
+    _AddFace(3, 2, 5);
+    _AddFace(5, 4, 3);
     // Traseira
-    _indices.push_back(4); _indices.push_back(5); _indices.push_back(6);
-    _indices.push_back(6); _indices.push_back(7); _indices.push_back(4);
+    _AddFace(4, 5, 6);
+    _AddFace(6, 7, 4);
     // Esquerda
-    _indices.push_back(7); _indices.push_back(6); _indices.push_back(1);
-    _indices.push_back(1); _indices.push_back(0); _indices.push_back(7);
+    _AddFace(7, 6, 1);
+    _AddFace(1, 0, 7);
     // Inferior
-    _indices.push_back(1); _indices.push_back(6); _indices.push_back(5);
-    _indices.push_back(5); _indices.push_back(2); _indices.push_back(1);
+    _AddFace(1, 6, 5);
+    _AddFace(5, 2, 1);
     // Superior
-    _indices.push_back(0); _indices.push_back(3); _indices.push_back(4);
-    _indices.push_back(4); _indices.push_back(7); _indices.push_back(0);
+    _AddFace(0, 3, 4);
+    _AddFace(4, 7, 0);
+
     EndGenerate();
 }
 
@@ -226,7 +248,7 @@ void Sphere::generate() {
             float x = cos(theta) * cosPhi;
             float y = sinPhi;
             float z = sin(theta) * cosPhi;
-            _vertices.push_back(Vertex(Position(x, y, z) * _radius, isFlatColor() ? color() : Color::RandomColor()));
+            _vertices.push_back(Vertex(Vector(x, y, z) * _radius, isFlatColor() ? color() : Color::RandomColor()));
         }
     }
 
@@ -237,16 +259,18 @@ void Sphere::generate() {
             int bottomRight = topRight + 1;
             int topLeft = topRight + _sectors + 1;
             int bottomLeft = topLeft + 1;
-
-            // Primeiro triângulo
-            _indices.push_back(topRight);
-            _indices.push_back(bottomRight);
-            _indices.push_back(bottomLeft);
-
-            // Segundo triângulo
-            _indices.push_back(topRight);
-            _indices.push_back(bottomLeft);
-            _indices.push_back(topLeft);
+            try
+            {
+                _AddFace(topRight, bottomRight, bottomLeft);
+                _AddFace(topRight, bottomLeft, topLeft);
+            }
+            catch (const std::exception&)
+            {
+                int x = 0;
+                _AddFace(topRight, bottomRight, bottomLeft);
+                _AddFace(topRight, bottomLeft, topLeft);
+            }
+            
         }
     }
     EndGenerate();
@@ -320,7 +344,7 @@ void Plane::generate() {
         for (int j = 0; j <= _cols; j++) {
             float x = j * colIncrement - halfWidth;
             float y = 0;
-            _vertices.push_back(Vertex(Position(x, y, z), isFlatColor() ? c : Color::RandomColor()));
+            _vertices.push_back(Vertex(Vector(x, y, z), isFlatColor() ? c : Color::RandomColor()));
         }
     }
     //generate triangles 
@@ -331,17 +355,8 @@ void Plane::generate() {
             int bottomLeft = topLeft + (_cols + 1);
             int bottomRight = bottomLeft + 1;
 
-            /*_triangles.push_back(Triangle(_vertices[topLeft], _vertices[bottomLeft], _vertices[topRight]));
-            _triangles.push_back(Triangle(_vertices[topRight], _vertices[bottomLeft], _vertices[bottomRight]));*/
-            // Primeiro triângulo
-            _indices.push_back(topLeft);
-            _indices.push_back(bottomLeft);
-            _indices.push_back(topRight);
-
-            // Segundo triângulo
-            _indices.push_back(topRight);
-            _indices.push_back(bottomLeft);
-            _indices.push_back(bottomRight);
+            _AddFace(topLeft, bottomLeft, topRight);
+            _AddFace(topRight, bottomLeft, bottomRight);
         }
     }
     EndGenerate();

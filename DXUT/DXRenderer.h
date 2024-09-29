@@ -23,6 +23,7 @@ public:
     DXRenderer();
     ~DXRenderer();
     void Draw(Mesh& shape) override;
+    void Draw(Light& light) override {}
 
 
     bool Initialize(Window* window, Graphics* graphics) override;

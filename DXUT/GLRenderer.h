@@ -30,6 +30,8 @@ private:
     void DrawVertex(const Mesh& shape, const Vertex& vertex)const;
     void DeleteVS(Mesh& shape);
     void UpdateShape(Mesh& shape);
+    void SetupIlumination() const;
+    void _DrawWireframe(const vector<Vertex> vertices, const vector<uint>& indices, const float* color) const;
 
 
     void EnableCulling();
@@ -50,6 +52,8 @@ public:
     ~GLRenderer();
     void Draw(Mesh& shape) override;
     void Draw(SpriteData& sprite) override;
+    void Draw(Light& light) override;
+
 
 
     //vertexBuffer

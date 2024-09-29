@@ -6,9 +6,9 @@
 
 struct Vertex {
     // Construtores
-    Vertex() : position(), color() {}
-    Vertex(const Position& pos, const Color& col) : position(pos), color(col) {}
-    Vertex(const Color& col) : position(Position::Zero), color(col) {}
+    Vertex() : position(Vector::Zero), color() {}
+    Vertex(const Vector& pos, const Color& col) : position(pos), color(col) {}
+    Vertex(const Color& col) : position(Vector::Zero), color(col) {}
 
 
     float x()const { return position.x(); }
@@ -19,7 +19,7 @@ struct Vertex {
     float g()const { return color.g(); }
     float b()const { return color.b(); }
 
-    Position position;
+    Vector position;
     Color color;
 };
 #endif

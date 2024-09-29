@@ -159,6 +159,7 @@
     <ClCompile Include="GLDrawableBase.cpp" />
     <ClCompile Include="GLGroundUI.cpp" />
     <ClCompile Include="GLImage.cpp" />
+    <ClCompile Include="GLLight.cpp" />
     <ClCompile Include="GLOriginGizmoUI.cpp" />
     <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="GLInput.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="GroundUI.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="MCAction.cpp" />
     <ClCompile Include="MCObj.cpp" />
     <ClCompile Include="MCS.cpp" />
@@ -218,6 +220,7 @@
     <ClInclude Include="GLDrawableBase.h" />
     <ClInclude Include="GLGroundUI.h" />
     <ClInclude Include="GLImage.h" />
+    <ClInclude Include="GLLight.h" />
     <ClInclude Include="GLOriginGizmoUI.h" />
     <ClInclude Include="GLRenderer.h" />
     <ClInclude Include="GLShader.h" />
@@ -226,6 +229,7 @@
     <ClInclude Include="GraphicType.h" />
     <ClInclude Include="GroundUI.h" />
     <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OriginGizmoUI.h" />
     <ClInclude Include="DXRenderer.h" />

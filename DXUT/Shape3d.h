@@ -28,6 +28,7 @@ protected:
     void EndGenerate();
     void NotifyChange();
     void UpdateBoundingRadius();
+    void _AddFace(int i1, int i2, int i3);
 
 public:
     Shape3D();

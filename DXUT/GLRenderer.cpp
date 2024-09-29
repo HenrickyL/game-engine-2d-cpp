@@ -156,11 +156,23 @@ void GLRenderer::DrawVertex(const Mesh& shape, const Vertex& vertex)const {
     glVertex3fv(vertex.position.p3f());
 }
 
+void GLRenderer::SetupIlumination() const{ //TODO: Use Material
+    // Defina as propriedades do material
+    GLfloat matSpecular[] = { 1.0, 1.0, 1.0, 1.0 };  // Exemplo de cor especular branca
+    GLfloat shininess = 50.0f;  // Exemplo de valor de brilho
+
+    // Define a cor especular e brilho do material
+    glMaterialfv(GL_FRONT, GL_SPECULAR, matSpecular);
+    glMaterialf(GL_FRONT, GL_SHININESS, shininess);
+}
+
 
 void GLRenderer::DrawShape(const Mesh& shape) const {
     const vector<Vertex> vertices = shape.vertices();
-    //vector<Triangle> triangles = shape.triangles();
     const vector<uint>& indices = shape.indices();
+    const vector<Vector>& normals = shape.normals();
+
+    this->SetupIlumination();
 
     const float* c = shape.color().c4f();
     
@@ -170,14 +182,22 @@ void GLRenderer::DrawShape(const Mesh& shape) const {
 
     glBegin(GL_TRIANGLES);
         for (size_t i = 0; i < indices.size(); i += 3) {
+            if (normals.size() > 0) {
+                const Vector& normal = normals[i / 3];
+                glNormal3f(normal.x(), normal.y(), normal.z());
+            }
             DrawVertex(shape, vertices[indices[i]]);
             DrawVertex(shape, vertices[indices[i+1]]);
             DrawVertex(shape, vertices[indices[i+2]]);
         }
     glEnd();
 
+    this->_DrawWireframe(vertices, indices, c);
+}
+
+void GLRenderer::_DrawWireframe(const vector<Vertex> vertices, const vector<uint>& indices, const float* color) const {
     if (_fillMode == F_WIREFRAME_SOLID) {
-        glColor4fv(c);
+        glColor4fv(color);
         glLineWidth(1.2f);
         for (size_t i = 0; i < indices.size(); i += 3) {
             glBegin(GL_LINE_LOOP);
@@ -194,6 +214,7 @@ void GLRenderer::DrawShape(const Mesh& shape) const {
         }
     }
 }
+
 
 
 void GLRenderer::AddToDisplayList(GLDrawableBase* item) {
@@ -448,4 +469,37 @@ void GLRenderer::DrawQuad(const SpriteData& sprite) {
     glTexCoord2f(1.0f, 1.0f); glVertex2f(halfWidth, halfHeight);
     glTexCoord2f(0.0f, 1.0f); glVertex2f(-halfWidth, halfHeight);
     glEnd();
+}
+
+void drawSphere(const Vector& position, float radius, const Color& color) {
+    glPushMatrix();
+    glTranslatef(position.x(), position.y(), position.z()); // Move para a posição da esfera
+
+    glColor4fv(color.c4f()); // Define a cor da esfera
+
+    // Desenhe a esfera - aqui você pode usar um método otimizado ou um algoritmo simples
+    GLUquadric* quadric = gluNewQuadric();
+    gluSphere(quadric, radius, 20, 20); // Ajuste a resolução conforme necessário
+    gluDeleteQuadric(quadric);
+
+    glPopMatrix();
+}
+
+void GLRenderer::Draw(Light& light) {
+    // Posição da luz
+    Vector position = light.position();
+    float intensity = light.intensity(); // Use essa intensidade para escalar o raio da esfera
+
+    // Defina a cor da luz (por exemplo, usando a cor base da luz)
+    Color lightColor = light.color(); // A cor da luz
+
+    // Desenhar a esfera da luz
+    drawSphere(position, 0.1f, lightColor); // Esfera pequena representando a luz
+
+    // Se a luz for do tipo point, desenhe uma esfera opaca ao redor
+    if (light.type() == LightType::L_POINT) {
+        Color opaqueColor = lightColor; // Pode ser a mesma cor ou diferente
+        opaqueColor.setAlpha( 0.3f); // Defina a opacidade
+        drawSphere(position, intensity * 0.5f, opaqueColor); // Esfera maior para a área de influência
+    }
 }

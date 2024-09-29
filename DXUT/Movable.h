@@ -20,8 +20,8 @@ public:
     Movable(Position position, Vector speed = Vector::Zero);
     ~Movable();
 
-    const Position position() const;
-    const Position initialPosition() const;
+    const Vector position() const;
+    const Vector initialPosition() const;
     float x() const;
     float y() const;
     float z() const;

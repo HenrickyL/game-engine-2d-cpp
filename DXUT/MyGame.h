@@ -7,6 +7,7 @@
 #include "UT_GL.h"
 #include "Scene.h"
 #include "GLRenderer.h"
+#include "GLLight.h"
 
 #include <string.h>
 #include <sstream>
@@ -27,7 +28,8 @@ private:
 	Vector globalRotation = Vector::Zero;
 	GLCamera cam = GLCamera(graphics, Position(0, 0.5f, 5));
 	GLCamera cam2 = GLCamera(graphics, Position(0, 1.0f, 3));
-
+	GLLight* light = nullptr;
+	Shape3D* currentObj = nullptr;
 	string s = "";
 	GLRenderer* _drawnner3D;
 	int onSolid = 0;

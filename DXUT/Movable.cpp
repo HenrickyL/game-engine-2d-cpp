@@ -31,11 +31,12 @@ void Movable::TranslateTo(const Vector& delta) {
 
 
 
-const Position Movable::position() const{
-    return this->_position;
+const Vector Movable::position() const{
+    return Vector(this->x(), this->y(), this->z());
 }
-const Position Movable::initialPosition() const{
-    return this->_positionInitial;
+const Vector Movable::initialPosition() const{
+    Position p = this->_positionInitial;
+    return Vector(p.x(), p.y(), p.z());
 }
 float Movable::x() const{
     return this->_position.x();
