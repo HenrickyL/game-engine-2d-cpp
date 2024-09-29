@@ -8,6 +8,8 @@ void GLLight::_EnableGlobalLighting() {
     if (!_lightingEnabled) {
         glEnable(GL_LIGHTING);  // Habilitar iluminação global
         glEnable(GL_COLOR_MATERIAL); // TODO: use texture to
+        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+        //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
         Light::_lightingEnabled = true;
     }
 }

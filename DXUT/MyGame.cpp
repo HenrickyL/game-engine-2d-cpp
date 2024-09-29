@@ -7,13 +7,13 @@
 void MyGame::Init() {
 	window = Engine::window;
 	
-	this->InitCircularObjects();
+	//this->InitCircularObjects();
 
-	currentObj = new Cube(0.5);
-	currentObj->SetIsFlatColor(false);
+	currentObj = new Sphere(0.5);
+	currentObj->SetIsFlatColor(true);
 	shapes.push_back(currentObj);
 
-	light = new GLLight(1.0f, LightType::L_DIRECTIONAL);
+	light = new GLLight(1.0f, LightType::L_AMBIENT);
 	light->Enable();
 
 	currentIndex = 0;
@@ -38,10 +38,19 @@ void MyGame::Update(double dt){
 	static double frameTime = 0.01;
 	static bool isDt = true;
 	static bool isConstant = true;
-	if (light->x() < 4) 
-		light->TranslateTo(Vector::Right*0.005);
-	else if (light->y() < 3)
-		light->TranslateTo(Vector::Up * 0.01);
+	static float theta = 0.0f;
+	static float beta = 0.0f;
+
+	static const float R = 2.0f;
+	light->MoveTo(Vector(R*std::cos(theta),R*cos(beta), R * std::sin(theta+beta)));
+	theta += 0.01;
+	beta += 0.02;
+
+	if (beta > 360) beta = 0;
+	if (theta > 360) theta = 0;
+
+
+	
 	light->Update();
 
 	currentObj->RotateBy(Vector(0.1,0.12));
@@ -337,9 +346,9 @@ void MyGame::InitCircularObjects() {
 		if (value % 2 == 0) {
 			s = new Cube(p, size, color);
 		}
-		/*else if (value % 3 == 0){
+		else if (value % 3 == 0){
 			s = new Plane(p, size, color);
-		}*/
+		}
 		else {
 			s = new Sphere(p, size*0.6, color);
 		}
