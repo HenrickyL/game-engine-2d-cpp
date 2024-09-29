@@ -6,6 +6,10 @@ void Light::_EnableLighting() {
 	Light::_lightingEnabled = true;
 }
 
+bool Light::isEnable() {
+	return Light::_lightingEnabled;
+}
+
 
 Light::Light(float intensity, LightType type)
 	: Movable(Vector::Zero), Colored(Color::WHITE), _intensity(intensity), _type(type)

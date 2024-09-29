@@ -79,9 +79,10 @@ void GLLight::Update() {
     float r = this->color().r();
     float g = this->color().g();
     float b = this->color().b();
+    //Phong Model
     GLfloat ambient[] = { r* factor, g*factor, b * factor, 1.0f };
-    GLfloat diffuse[] = { r * _intensity, g * _intensity, b * _intensity, 1.0f };
-    GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    GLfloat diffuse[] = { r * _intensity, g * _intensity, b * _intensity, 1.0f }; // L*M*cos
+    GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //shininess(0-128)  | L * M * cos^(shininess)
 
     glLightfv(_glLightId, GL_AMBIENT, ambient);
     glLightfv(_glLightId, GL_DIFFUSE, diffuse);

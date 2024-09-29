@@ -38,6 +38,8 @@ public:
     virtual void Enable() = 0;
     virtual void Disable() = 0;
     virtual void Update() = 0;
+
+    static bool isEnable();
 };
 
 #endif
