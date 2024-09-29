@@ -325,6 +325,9 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -619,6 +622,9 @@
       <Filter>Engine\Header Files\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
+      <Filter>Engine\Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
       <Filter>Engine\Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
