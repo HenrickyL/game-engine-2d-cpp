@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "Engine.h"
+#include <stdexcept>
 // -------------------------------------------------------------------------------
 // Inicialização de membros estáticos das classes
 const float Layer::FRONT    = 0.00f;
@@ -13,11 +14,12 @@ const float Layer::BACK     = 0.99f;
 Sprite::Sprite(Image* img): Movable(Position::Zero)
 {
     // aponta para imagem externa
+    if(img == nullptr)
+        throw std::runtime_error("Image cannot be null");
     _image = img;
     _localImage = false;
     // configura registro sprite
     ResetSprite();
-
 }
 
 // ---------------------------------------------------------------------------------

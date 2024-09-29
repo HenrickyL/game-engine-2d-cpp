@@ -6,7 +6,6 @@
 #include "Geometry.h"
 #include "UT_GL.h"
 #include "Scene.h"
-#include "GLRenderer3D.h"
 #include "GLRenderer.h"
 
 #include <string.h>
@@ -30,8 +29,7 @@ private:
 	GLCamera cam2 = GLCamera(graphics, Position(0, 1.0f, 3));
 
 	string s = "";
-	GLRenderer3D* _drawnner3D;
-	GLRenderer _drawnner;
+	GLRenderer* _drawnner3D;
 	int onSolid = 0;
 
 	GLGroundUI groundUi = GLGroundUI(100);

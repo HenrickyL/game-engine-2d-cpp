@@ -17,7 +17,7 @@ void Test2D::Init() {
 	sprite->MoveTo(Position(0,0));
 	sprite->SetScales(Vector::One*0.3);
 
-	_drawnner = new GLRenderer3D(nullptr);
+	_drawnner = new GLRenderer();
 
 	float value = 0.3;
 	geo = new Rect(Position(0.2, 0, -1), value, value, Color::RED);

@@ -5,7 +5,6 @@
 #include "Game.h"
 #include "Geometry.h"
 #include "GLRenderer.h" 
-#include "GLRenderer3D.h" 
 #include "GLImage.h"
 #include "Sprite.h"
 #include <vector>
@@ -16,8 +15,7 @@ using std::stringstream;
 
 class Test2D : public Game {
 private:
-	GLRenderer _drawnner2d;
-	GLRenderer3D* _drawnner;
+	GLRenderer* _drawnner;
 	GLImage* img = nullptr;
 	Sprite* sprite = nullptr;
 	vector<Geometry*> geometries;
