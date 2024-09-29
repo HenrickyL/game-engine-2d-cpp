@@ -24,29 +24,29 @@ GLenum GLLight::_GenerateLightId() {
 GLLight::GLLight(float intensity, LightType type)
     : Light(intensity, type)
 {
-    _EnableGlobalLighting();
     _glLightId = _GenerateLightId();
+    _EnableGlobalLighting();
 }
 
 GLLight::GLLight(const Vector& position, float intensity, LightType type)
     : Light(position, intensity, type)
 {
-    _EnableGlobalLighting();
     _glLightId = _GenerateLightId();
+    _EnableGlobalLighting();
 }
 
 GLLight::GLLight(const Color& color, float intensity, LightType type)
     : Light(color, intensity, type)
 {
-    _EnableGlobalLighting();
     _glLightId = _GenerateLightId();
+    _EnableGlobalLighting();
 }
 
 GLLight::GLLight(const Vector& position, const Color& color, float intensity, LightType type)
     : Light(position, color, intensity, type)
 {
-    _EnableGlobalLighting();
     _glLightId = _GenerateLightId();
+    _EnableGlobalLighting();
 }
 
 
@@ -62,10 +62,11 @@ void GLLight::Disable() {
 }
 
 void GLLight::Update() {
-    float x = this->x();
-    float y = this->y();
-    float z = this->z();
-    if (_type == L_POINT || _type == L_SPOTLIGHT) {
+    Vector dir = this->position();
+    float x = dir.x();
+    float y = dir.y();
+    float z = dir.z();
+    if (_type == L_POINT || _type == L_AMBIENT) {
         GLfloat position[] = { x, y, z, 1.0f};
         glLightfv(_glLightId, GL_POSITION, position);
     }
@@ -81,10 +82,12 @@ void GLLight::Update() {
     float b = this->color().b();
     //Phong Model
     GLfloat ambient[] = { r* factor, g*factor, b * factor, 1.0f };
-    GLfloat diffuse[] = { r * _intensity, g * _intensity, b * _intensity, 1.0f }; // L*M*cos
-    GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //shininess(0-128)  | L * M * cos^(shininess)
-
     glLightfv(_glLightId, GL_AMBIENT, ambient);
+    
+    GLfloat diffuse[] = { r * _intensity, g * _intensity, b * _intensity, 1.0f }; // L*M*cos
     glLightfv(_glLightId, GL_DIFFUSE, diffuse);
+    
+    GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //shininess(0-128)  | L * M * cos^(shininess)
     glLightfv(_glLightId, GL_SPECULAR, specular);
+
 }

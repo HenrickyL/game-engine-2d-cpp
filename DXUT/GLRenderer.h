@@ -52,6 +52,8 @@ public:
     ~GLRenderer();
     void Draw(Mesh& shape) override;
     void Draw(SpriteData& sprite) override;
+    void Draw(Light& light) override;
+
 
 
     //vertexBuffer

@@ -9,11 +9,11 @@ void MyGame::Init() {
 	
 	this->InitCircularObjects();
 
-	Cube* cube = new Cube(0.3);
-	cube->SetIsFlatColor(false);
-	shapes.push_back(cube);
+	currentObj = new Cube(0.5);
+	currentObj->SetIsFlatColor(false);
+	shapes.push_back(currentObj);
 
-	light = new GLLight(1.0f,L_POINT);
+	light = new GLLight(1.0f, LightType::L_DIRECTIONAL);
 	light->Enable();
 
 	currentIndex = 0;
@@ -38,9 +38,13 @@ void MyGame::Update(double dt){
 	static double frameTime = 0.01;
 	static bool isDt = true;
 	static bool isConstant = true;
+	if (light->x() < 4) 
+		light->TranslateTo(Vector::Right*0.005);
+	else if (light->y() < 3)
+		light->TranslateTo(Vector::Up * 0.01);
+	light->Update();
 
-	light->TranslateTo(Vector::Right*0.01);
-
+	currentObj->RotateBy(Vector(0.1,0.12));
 	
 
 	if (Input::KeyPress(KEY_R)) {
@@ -94,6 +98,7 @@ void MyGame::Draw(){
 	}
 	//cam2.Draw();
 	cam.Draw();
+	_drawnner3D->Draw(*light);
 }
 
 void MyGame::Finalize(){
@@ -103,6 +108,7 @@ void MyGame::Finalize(){
 	for (Geometry* g : geometries) {
 		delete g;
 	}
+	delete light;
 	delete _drawnner3D;
 }
 
@@ -317,7 +323,7 @@ void MyGame::InitCircularObjects() {
 	float theta = 0;
 	float y = 1;
 	Shape3D* s;
-	float dist = RandomUtils::GetRandomFloat(0.5f, 16.0f);
+	float dist = RandomUtils::GetRandomFloat(0.8f, 5.0f);
 	for (int i = 0; i < qtd; i++) {
 
 		float x = dist*std::cos(theta);
