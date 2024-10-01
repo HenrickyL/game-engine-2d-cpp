@@ -1,0 +1,3 @@
+[submodule "modules/IA"]
+	path = modules/IA
+	url = https://github.com/HenrickyL/AI-Planner
