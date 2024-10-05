@@ -3,6 +3,7 @@ using std::stringstream;
 #include "DXUT.h"
 #include "MyGame.h"
 #include "Test2d.h"
+
 // ------------------------------------------------------------------------------
 //                                  WinMain                                      
 // ------------------------------------------------------------------------------
@@ -10,6 +11,7 @@ using std::stringstream;
 
 int UseEngine(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
+
 
 	bool isTest2d = false;
 

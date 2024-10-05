@@ -4,6 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DXUT", "DXUT\DXUT.vcxproj", "{271D24A7-DF5E-4C56-9743-3B3162A20BEF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E1EA8EB1-9862-433C-ACD2-6750291C6B5C} = {E1EA8EB1-9862-433C-ACD2-6750291C6B5C}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{A37CC451-E0CF-4AD7-A3C8-C1B18D173E04}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AI-Planner", "modules\IA\AI-Planner.vcxproj", "{E1EA8EB1-9862-433C-ACD2-6750291C6B5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +28,20 @@ Global
 		{271D24A7-DF5E-4C56-9743-3B3162A20BEF}.Release|x64.Build.0 = Release|x64
 		{271D24A7-DF5E-4C56-9743-3B3162A20BEF}.Release|x86.ActiveCfg = Release|Win32
 		{271D24A7-DF5E-4C56-9743-3B3162A20BEF}.Release|x86.Build.0 = Release|Win32
+		{E1EA8EB1-9862-433C-ACD2-6750291C6B5C}.Debug|x64.ActiveCfg = Debug|x64
+		{E1EA8EB1-9862-433C-ACD2-6750291C6B5C}.Debug|x64.Build.0 = Debug|x64
+		{E1EA8EB1-9862-433C-ACD2-6750291C6B5C}.Debug|x86.ActiveCfg = Debug|Win32
+		{E1EA8EB1-9862-433C-ACD2-6750291C6B5C}.Debug|x86.Build.0 = Debug|Win32
+		{E1EA8EB1-9862-433C-ACD2-6750291C6B5C}.Release|x64.ActiveCfg = Release|x64
+		{E1EA8EB1-9862-433C-ACD2-6750291C6B5C}.Release|x64.Build.0 = Release|x64
+		{E1EA8EB1-9862-433C-ACD2-6750291C6B5C}.Release|x86.ActiveCfg = Release|Win32
+		{E1EA8EB1-9862-433C-ACD2-6750291C6B5C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E1EA8EB1-9862-433C-ACD2-6750291C6B5C} = {A37CC451-E0CF-4AD7-A3C8-C1B18D173E04}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4DBCA755-6708-467D-9723-ECFE21FAC3F1}

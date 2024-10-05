@@ -1,5 +1,12 @@
 # 2D Game Engine cpp
 
+This project uses submodules, so to download the project correctly use:
+```bash
+git clone --recurse-submodules https://github.com/HenrickyL/game-engine-2d-cpp
+git submodule init
+git submodule update --remote
+```
+
 * Engine
 
 * Direct3D - Sprites
